@@ -18,6 +18,10 @@ import {
   ControllerAbandonedPage,
 } from '@pages/Controller';
 
+import {
+  MachineListPage,
+} from '@pages/Machine';
+
 import { type Route } from './index';
 
 export const routes: Route[] = [
@@ -68,5 +72,10 @@ export const routes: Route[] = [
   {
     path: '/controllers/abandoned',
     component: <ControllerAbandonedPage />,
+  },
+  // Machine
+  {
+    path: '/machines',
+    component: <MachineListPage />,
   },
 ];

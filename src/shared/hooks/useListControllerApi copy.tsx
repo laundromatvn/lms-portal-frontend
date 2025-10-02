@@ -3,40 +3,37 @@ import { useCallback, useState } from 'react'
 import { getBackendUrl } from '@shared/utils/env'
 
 import { type ApiState } from '@shared/hooks/types';
-import { type Machine } from '@shared/types/machine';
 
 import axiosClient from '@core/axiosClient';
 
-export type ListMachineRequest = {
-  store_id?: string;
-  controller_id?: string;
+import { type Controller } from '@shared/types/Controller';
+
+export type ListControllerRequest = {
   page: number;
   page_size: number;
 }
 
-export type ListMachineResponse = {
-  data: Machine[];
+export type ListControllerResponse = {
   page: number;
   page_size: number;
   total: number;
   total_pages: number;
+  data: Controller[];
 }
 
-export const useListMachineApi = <T = ListMachineResponse>() => {
+export const useListControllerApi = <T = ListControllerResponse>() => {
   const [state, setState] = useState<ApiState<T>>({
     data: null,
     loading: false,
     error: null,
   });
 
-  const listMachine = useCallback(async ({ store_id, controller_id, page = 1, page_size = 10 }: ListMachineRequest) => {
-    setState(prevState => ({ ...prevState, loading: true, error: null }));
+  const listController = useCallback(async ({ page = 1, page_size = 10 }: ListControllerRequest) => {
+      setState(prevState => ({ ...prevState, loading: true, error: null }));
 
-    const url = `${getBackendUrl()}/api/v1/machine`
+    const url = `${getBackendUrl()}/api/v1/controller`
 
     const queryParams = {
-      store_id,
-      controller_id,
       page,
       page_size,
     }
@@ -55,5 +52,5 @@ export const useListMachineApi = <T = ListMachineResponse>() => {
     }
   }, [setState]);
 
-  return { ...state, listMachine };
+  return { ...state, listController };
 }
