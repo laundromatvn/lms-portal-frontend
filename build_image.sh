@@ -6,19 +6,19 @@ REGISTRY_PROJECT="devlaundromat"
 REGISTRY_USER="devlaundromat"
 
 if [ -z "$SERVICE" ]; then
-    SERVICE="frontend"
-    echo "No service specified, defaulting to backend."
+    SERVICE="portal-frontend"
+    echo "No service specified, defaulting to portal-frontend."
 fi
 
-if [ "$SERVICE" == "frontend" ]; then
-    SERVICE_NAME="lms-admin-frontend"
+if [ "$SERVICE" == "portal-frontend" ]; then
+    SERVICE_NAME="lms-portal-frontend"
 else
     echo "Invalid service: ${SERVICE}"
     exit 1
 fi
 
 # Select Dockerfile based on service
-if [ "$SERVICE" == "frontend" ]; then
+if [ "$SERVICE" == "portal-frontend" ]; then
     DOCKERFILE="Dockerfile"
 fi
 
