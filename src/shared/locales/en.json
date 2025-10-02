@@ -8,10 +8,30 @@
     "getLMSProfileFailed": "You do not have access to this application",
     "getMeFailed": "Failed to get user information"
   },
+  "controller": {
+    "abandonedController": "Abandoned Controller",
+    "registerAbandoned": "Register Abandoned",
+    "assign": "Assign",
+    "test": "Test",
+    "verifyAbandonedControllerSuccess": "Abandoned controller verified successfully",
+    "verifyAbandonedControllerError": "Failed to verify abandoned controller",
+    "sendTestSuccess": "Test sent successfully",
+    "assignToStore": "Assign to Store",
+    "assignToStoreSuccess": "Controller assigned to store successfully",
+    "assignToStoreError": "Failed to assign controller to store"
+  },
   "common": {
     "signIn": "Sign In",
     "password": "Password",
-    "email": "Email"
+    "email": "Email",
+    "add": "Add",
+    "totalRelays": "Total Relays",
+    "name": "Name",
+    "store": "Store",
+    "reload": "Reload",
+    "deviceId": "Device ID",
+    "assign": "Assign",
+    "detail": "Detail"
   },
   "navigation": {
     "overview": "Overview",
@@ -23,9 +43,14 @@
     "reports": "Reports",
     "settings": "Settings",
     "profile": "Profile",
-    "logout": "Logout"
+    "logout": "Logout",
+    "controllers": "Controllers",
+    "registerAbandonedControllers": "Register Abandoned"
   },
   "messages": {
-    "thisPageWillBeUpdatedSoon": "This page will be updated soon"
+    "thisPageWillBeUpdatedSoon": "This page will be updated soon",
+    "enterName": "Enter name",
+    "totalRelaysMustBeGreaterThanZero": "Total relays must be greater than zero",
+    "totalRelaysMustBeLessThanTwelve": "Total relays must be less than twelve"
   }
 }

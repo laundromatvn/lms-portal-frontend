@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Modal, type ModalProps } from 'antd';
 
-interface Props {
+interface Props extends ModalProps {
   children: React.ReactNode;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,6 +15,9 @@ export const BaseModal: React.FC<Props> = ({
   children,
   isModalOpen,
   setIsModalOpen,
+  closable = false,
+  maskClosable = false,
+  footer = null,
   modalStyles,
   stylesContent,
   stylesBody,
@@ -23,9 +26,9 @@ export const BaseModal: React.FC<Props> = ({
     <Modal
       open={isModalOpen}
       onCancel={() => setIsModalOpen(false)}
-      closable={false}
-      maskClosable={false}
-      footer={null}
+      closable={closable}
+      maskClosable={maskClosable}
+      footer={footer}
       width={1200}
       styles={{
         content: { height: 600, overflow: 'hidden', ...stylesContent },

@@ -6,7 +6,17 @@ import { VerifyOTPPage } from '@pages/Auth/VerifyOTPPage';
 
 import { OverviewPage } from '@pages/OverviewPage';
 
-import { StorePage } from '@pages/Store/StorePage';
+import {
+  StoreListPage,
+  StoreDetailPage,
+  StoreAddPage,
+  StoreEditPage,
+} from '@pages/Store';
+
+import {
+  ControllerListPage,
+  ControllerAbandonedPage,
+} from '@pages/Controller';
 
 import { type Route } from './index';
 
@@ -36,6 +46,27 @@ export const routes: Route[] = [
   // Store
   {
     path: '/stores',
-    component: <StorePage />,
+    component: <StoreListPage />,
+  },
+  {
+    path: '/stores/add',
+    component: <StoreAddPage />,
+  },
+  {
+    path: '/stores/edit/:id',
+    component: <StoreEditPage />,
+  },
+  {
+    path: '/stores/detail/:id',
+    component: <StoreDetailPage />,
+  },
+  // Controller
+  {
+    path: '/controllers',
+    component: <ControllerListPage />,
+  },
+  {
+    path: '/controllers/abandoned',
+    component: <ControllerAbandonedPage />,
   },
 ];

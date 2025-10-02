@@ -19,21 +19,20 @@ import {
   ArrowRight,
   Logout,
   Shop2,
+  WiFiRouter,
 } from '@solar-icons/react'
+import type { MenuProps } from 'antd';
 
 const { Sider: AntdSider } = Layout;
 const { Text } = Typography;
 
+type MenuItem = Required<MenuProps>['items'][number] & {
+  children?: MenuItem[];
+};
+
 interface Props {
   style?: React.CSSProperties;
   onCollapseChange?: (collapsed: boolean) => void;
-}
-
-interface MenuItem {
-  key: string;
-  icon: React.ReactNode;
-  label: string;
-  path?: string;
 }
 
 export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
@@ -41,45 +40,39 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+
   const [collapsed, setCollapsed] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+
+  const [selectedKey, setSelectedKey] = useState<string>('overview');
 
   const menuItems: MenuItem[] = [
     {
       key: 'overview',
       icon: <Widget />,
       label: t('navigation.overview'),
-      path: '/overview',
     },
     {
       key: 'stores',
       icon: <Shop2 />,
       label: t('navigation.stores'),
-      path: '/stores',
-    }
-  ];
-
-  const bottomMenuItems: MenuItem[] = [
-    {
-      key: 'settings',
-      icon: <Settings />,
-      label: t('navigation.settings'),
-      path: '/settings',
     },
     {
-      key: 'profile',
-      icon: <UserCircle />,
-      label: t('navigation.profile'),
-      path: '/profile',
+      key: 'controllers',
+      icon: <WiFiRouter />,
+      label: t('navigation.controllers'),
+      children: [
+        {
+          key: 'controllers',
+          label: t('navigation.controllers'),
+        },
+        {
+          key: 'controllers/abandoned',
+          label: t('navigation.registerAbandonedControllers'),
+        },
+      ],
     },
   ];
-
-  const handleMenuClick = ({ key }: { key: string }) => {
-    const item = [...menuItems, ...bottomMenuItems].find(item => item.key === key);
-    if (item?.path) {
-      navigate(item.path);
-    }
-  };
 
   useEffect(() => {
     const loadUserData = () => {
@@ -109,6 +102,12 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
     };
   }, []);
 
+  // Sync selectedKey with current location
+  useEffect(() => {
+    const pathname = location.pathname;
+    setSelectedKey(pathname.split('/')[1]);
+  }, [location.pathname]);
+
   const handleLogout = () => {
     userStorage.clear();
     navigate('/auth/sign-in');
@@ -126,12 +125,6 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
     const email = user.email;
     const name = email.split('@')[0];
     return name.charAt(0).toUpperCase() + name.slice(1);
-  };
-
-  const getSelectedKey = () => {
-    const currentPath = location.pathname;
-    const item = [...menuItems, ...bottomMenuItems].find(item => item.path === currentPath);
-    return item ? [item.key] : ['overview'];
   };
 
   return (
@@ -211,37 +204,19 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
         {/* Main Menu */}
         <div style={{ flex: 1, overflow: 'auto' }}>
           <Menu
+            selectedKeys={[selectedKey]}
             mode="inline"
-            selectedKeys={getSelectedKey()}
-            onClick={handleMenuClick}
+            onClick={(key) => {
+              setSelectedKey(key.key as string);
+              navigate(`/${key.key}`);
+            }}
             style={{
               backgroundColor: 'transparent',
               border: 'none',
             }}
-            items={menuItems.map(item => ({
-              key: item.key,
-              icon: item.icon,
-              label: item.label,
-            }))}
+            items={menuItems}
           />
         </div>
-
-        {/* <Divider style={{ margin: `${theme.custom.spacing.medium}px 0` }} />
-
-        <Menu
-          mode="inline"
-          selectedKeys={getSelectedKey()}
-          onClick={handleMenuClick}
-          style={{
-            backgroundColor: 'transparent',
-            border: 'none',
-          }}
-          items={bottomMenuItems.map(item => ({
-            key: item.key,
-            icon: item.icon,
-            label: item.label,
-          }))}
-        /> */}
 
         {/* User Admin Section */}
         <div

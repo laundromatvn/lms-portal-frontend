@@ -8,10 +8,30 @@
     "getLMSProfileFailed": "Bạn không có quyền truy cập vào ứng dụng này",
     "getMeFailed": "Không thể lấy thông tin người dùng"
   },
+  "controller": {
+    "abandonedController": "Controller Tự Do",
+    "registerAbandoned": "Đăng ký Controller",
+    "assign": "Gán",
+    "test": "Test",
+    "verifyAbandonedControllerSuccess": "Controller tự do đã được xác thực thành công",
+    "verifyAbandonedControllerError": "Không thể xác thực controller tự do",
+    "sendTestSuccess": "Test đã được gửi thành công",
+    "assignToStore": "Gán Controller tự do",
+    "assignToStoreSuccess": "Controller đã được gán thành công",
+    "assignToStoreError": "Không thể gán controller tự do"
+  },
   "common": {
     "signIn": "Đăng nhập",
     "password": "Mật khẩu",
-    "email": "Email"
+    "email": "Email",
+    "add": "Thêm",
+    "totalRelays": "Tổng Relay",
+    "name": "Tên",
+    "store": "Cửa hàng",
+    "reload": "Tải lại",
+    "deviceId": "ID Thiết bị",
+    "assign": "Gán",
+    "detail": "Chi tiết"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -23,9 +43,14 @@
     "reports": "Báo cáo",
     "settings": "Cài đặt",
     "profile": "Hồ sơ",
-    "logout": "Đăng xuất"
+    "logout": "Đăng xuất",
+    "controllers": "Controllers",
+    "registerAbandonedControllers": "Đăng ký"
   },
   "messages": {
-    "thisPageWillBeUpdatedSoon": "Trang này sẽ được cập nhật sớm"
+    "thisPageWillBeUpdatedSoon": "Trang này sẽ được cập nhật sớm",
+    "enterName": "Nhập tên",
+    "totalRelaysMustBeGreaterThanZero": "Tổng relay phải lớn hơn 0",
+    "totalRelaysMustBeLessThanTwelve": "Tổng relay phải nhỏ hơn 12"
   }
 }

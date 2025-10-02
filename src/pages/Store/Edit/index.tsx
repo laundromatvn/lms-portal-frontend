@@ -5,13 +5,13 @@ import { Flex, Typography } from 'antd';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 
-export const StorePage: React.FC = () => {
+export const StoreEditPage: React.FC = () => {
   const { t } = useTranslation();
 
   return (
     <PortalLayout>
       <Flex vertical justify="center" align="center" style={{ height: '100%' }}>
-        <Typography.Title level={2}>{t('navigation.stores')}</Typography.Title>
+        <Typography.Title level={2}>Store Edit</Typography.Title>
         <Typography.Text type="secondary">{t('messages.thisPageWillBeUpdatedSoon')}</Typography.Text>
       </Flex>
     </PortalLayout>

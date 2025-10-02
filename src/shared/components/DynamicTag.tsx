@@ -20,6 +20,7 @@ export const DynamicTag: React.FC<Props> = ({ value, color, style }) => {
         return theme.custom.colors.success.default;
       case 'inactive':
         return theme.custom.colors.neutral.default;
+      case 'abandoned':
       case 'pending':
       case 'pending_setup':
       case 'busy':
@@ -28,6 +29,8 @@ export const DynamicTag: React.FC<Props> = ({ value, color, style }) => {
         return theme.custom.colors.danger.default;
       case 'success':
         return theme.custom.colors.success.default;
+      case 'new':
+        return theme.custom.colors.info.default;
       default:
         return theme.custom.colors.neutral[400];
     }
