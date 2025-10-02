@@ -12,4 +12,6 @@ export type Machine = {
   details: Record<string, any>;
   base_price: string;
   status: string;
+  store_id: string | null;
+  store_name: string | null;
 }

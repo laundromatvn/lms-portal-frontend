@@ -24,6 +24,7 @@ export const MachineListPage: React.FC = () => {
   const [pageSize, setPageSize] = useState(10);
 
   const columns = [
+    { title: 'Store Name', dataIndex: 'store_name', width: 400 },
     { title: 'Machine ID', dataIndex: 'id', width: 200 },
     { title: 'Controller ID', dataIndex: 'controller_id', width: 200 },
     { title: 'Relay No', dataIndex: 'relay_no', width: 200 },
@@ -45,6 +46,7 @@ export const MachineListPage: React.FC = () => {
     if (listMachineData) {
       setTableData(listMachineData?.data.map((item) => ({
         id: item.id,
+        store_name: item.store_name || '-',
         controller_id: item.controller_id || '-',
         relay_no: item.relay_no,
         name: item.name || '-',
@@ -89,14 +91,7 @@ export const MachineListPage: React.FC = () => {
         <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
           <LeftRightSection
             left={null}
-            right={(<>
-              <Button
-                type="primary"
-                size="large"
-                onClick={() => navigate('/machines/create')}>
-                {t('machine.registerAbandoned')}
-              </Button>
-            </>)}
+            right={null}
           />
 
           {listMachineLoading && <Skeleton active />}
