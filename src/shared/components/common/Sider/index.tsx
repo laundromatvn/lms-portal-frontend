@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { useTheme } from '@shared/theme/useTheme';
-import { userStorage } from '@core/storage/userStorage';
-import { type User } from '@shared/types/user';
+import { Layout, Menu, Typography, Avatar, Button } from 'antd';
 
-import { Layout, Menu, Typography, Avatar, Button, Divider } from 'antd';
+import { useTheme } from '@shared/theme/useTheme';
+
+import { userStorage } from '@core/storage/userStorage';
+import { STORAGE_KEY as USER_STORAGE_KEY } from '@core/storage/userStorage';
+
+import { type User } from '@shared/types/user';
 
 import {
   Widget,
@@ -72,8 +75,31 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
   };
 
   useEffect(() => {
-    const userData = userStorage.load();
-    setUser(userData);
+    const loadUserData = () => {
+      const userData = userStorage.load();
+      setUser(userData);
+    };
+
+    loadUserData();
+
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === USER_STORAGE_KEY) {
+        loadUserData();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    const handleUserDataUpdate = () => {
+      loadUserData();
+    };
+
+    window.addEventListener('userDataUpdated', handleUserDataUpdate);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('userDataUpdated', handleUserDataUpdate);
+    };
   }, []);
 
   const handleLogout = () => {

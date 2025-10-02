@@ -1,6 +1,6 @@
 import { type Tenant } from '@shared/types/tenant'
 
-const STORAGE_KEY = 'lms.tenant.v1'
+export const STORAGE_KEY = 'lms_portal.tenant'
 
 export const tenantStorage = {
   save(tenant: Tenant): void {

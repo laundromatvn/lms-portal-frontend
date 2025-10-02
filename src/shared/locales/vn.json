@@ -5,7 +5,8 @@
     "verifyOTPDescription": "Nhập OTP đã được gửi đến email của bạn",
     "sendOTP": "Gửi OTP",
     "verifyOTP": "Xác thực OTP",
-    "getLMSProfileFailed": "Bạn không có quyền truy cập vào ứng dụng này"
+    "getLMSProfileFailed": "Bạn không có quyền truy cập vào ứng dụng này",
+    "getMeFailed": "Không thể lấy thông tin người dùng"
   },
   "common": {
     "signIn": "Đăng nhập",

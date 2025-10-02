@@ -8,6 +8,7 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import { useVerifyOTPApi } from '@shared/hooks/useVerifyOTPApi';
 import { useGetLMSProfileApi } from '@shared/hooks/useGetLMSProfile';
+import { useGetMeApi } from '@shared/hooks/useGetMe';
 import { userStorage } from '@core/storage/userStorage';
 import { tenantStorage } from '@core/storage/tenantStorage';
 
@@ -33,6 +34,12 @@ export const VerifyOTPPage: React.FC = () => {
     data: getLMSProfileData,
     error: getLMSProfileError,
   } = useGetLMSProfileApi();
+  const {
+    getMe,
+    loading: getMeLoading,
+    data: getMeData,
+    error: getMeError,
+  } = useGetMeApi();
 
   const [otp, setOtp] = useState('');
 
@@ -46,9 +53,16 @@ export const VerifyOTPPage: React.FC = () => {
     if (getLMSProfileData) {
       userStorage.save(getLMSProfileData.user);
       tenantStorage.save(getLMSProfileData.tenant);
-      navigate('/overview');
+      getMe();
     }
   }, [getLMSProfileData]);
+
+  useEffect(() => {
+    if (getMeData) {
+      userStorage.save(getMeData);
+      navigate('/overview');
+    }
+  }, [getMeData]);
 
   useEffect(() => {
     if (verifyOTPError) {
@@ -69,6 +83,17 @@ export const VerifyOTPPage: React.FC = () => {
     }
   }, [getLMSProfileError]);
 
+  useEffect(() => {
+    if (getMeError) {
+      api.error({
+        message: t('auth.getMeFailed'),
+      });
+      setTimeout(() => {
+        navigate('/auth/sign-in');
+      }, 3000);
+    }
+  }, [getMeError]);
+
   return (
     <AuthContainer>
       {contextHolder}
@@ -83,7 +108,7 @@ export const VerifyOTPPage: React.FC = () => {
           length={6}
           value={otp}
           onChange={(val) => setOtp(val.replace(/\D/g, ''))}
-          disabled={verifyOTPLoading || getLMSProfileLoading}
+          disabled={verifyOTPLoading || getLMSProfileLoading || getMeLoading}
           size="large"
           style={{ width: '100%' }}
         />
@@ -93,7 +118,7 @@ export const VerifyOTPPage: React.FC = () => {
         type="primary"
         size="large"
         onClick={() => verifyOTP({ otp })}
-        loading={verifyOTPLoading || getLMSProfileLoading}
+        loading={verifyOTPLoading || getLMSProfileLoading || getMeLoading}
         disabled={otp.length !== 6}
         style={{
           width: '100%',

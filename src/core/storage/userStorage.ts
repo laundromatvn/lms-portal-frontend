@@ -1,11 +1,13 @@
 import { type User } from '@shared/types/user'
 
-const STORAGE_KEY = 'lms.user.v1'
+export const STORAGE_KEY = 'lms_portal.user'
 
 export const userStorage = {
   save(user: User): void {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(user))
+      // Dispatch custom event to notify components of user data update
+      window.dispatchEvent(new CustomEvent('userDataUpdated'))
     } catch {
       // ignore storage errors
     }

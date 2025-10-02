@@ -5,7 +5,7 @@ export type TokenBundle = {
   refreshTokenExp: number; // epoch ms
 };
 
-const STORAGE_KEY = 'auth.tokens.v1';
+export const STORAGE_KEY = 'lms_portal.tokens';
 
 export const tokenStorage = {
   save(tokens: TokenBundle): void {

@@ -5,7 +5,8 @@
     "verifyOTPDescription": "Enter the OTP sent to your email",
     "sendOTP": "Send OTP",
     "verifyOTP": "Verify OTP",
-    "getLMSProfileFailed": "You do not have access to this application"
+    "getLMSProfileFailed": "You do not have access to this application",
+    "getMeFailed": "Failed to get user information"
   },
   "common": {
     "signIn": "Sign In",
