@@ -16,7 +16,7 @@ const App: React.FC = () => {
   useEffect(() => {
 
     const startIntervals = () => {
-      if (proactiveIdRef.current !== null) return; // already running
+      if (proactiveIdRef.current !== null) return;
       proactiveIdRef.current = window.setInterval(() => {
         tokenManager.proactiveRefresh();
       }, PROACTIVE_REFRESH_CHECK_INTERVAL_MS);

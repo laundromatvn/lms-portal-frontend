@@ -11,5 +11,20 @@
     "signIn": "Sign In",
     "password": "Password",
     "email": "Email"
+  },
+  "navigation": {
+    "overview": "Overview",
+    "dashboard": "Dashboard",
+    "machines": "Machines",
+    "orders": "Orders",
+    "payments": "Payments",
+    "stores": "Stores",
+    "reports": "Reports",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "messages": {
+    "thisPageWillBeUpdatedSoon": "This page will be updated soon"
   }
 }

@@ -11,5 +11,20 @@
     "signIn": "Đăng nhập",
     "password": "Mật khẩu",
     "email": "Email"
+  },
+  "navigation": {
+    "overview": "Tổng quan",
+    "dashboard": "Bảng điều khiển",
+    "machines": "Máy móc",
+    "orders": "Đơn hàng",
+    "payments": "Thanh toán",
+    "stores": "Cửa hàng",
+    "reports": "Báo cáo",
+    "settings": "Cài đặt",
+    "profile": "Hồ sơ",
+    "logout": "Đăng xuất"
+  },
+  "messages": {
+    "thisPageWillBeUpdatedSoon": "Trang này sẽ được cập nhật sớm"
   }
 }

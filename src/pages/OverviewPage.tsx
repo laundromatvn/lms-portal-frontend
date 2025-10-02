@@ -1,25 +1,18 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { Button } from 'antd';
+import { Flex, Typography } from 'antd';
 
-import { useTheme } from '@shared/theme/useTheme';
-
-import { Logo } from '@shared/components/common/Logo';
-import { CenteredLayout } from '@shared/components/layouts/CenteredLayout';
+import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 
 export const OverviewPage: React.FC = () => {
-  const theme = useTheme();
   const { t } = useTranslation();
 
-  const navigate = useNavigate();
-
   return (
-    <CenteredLayout>
-      <Logo size="xlarge" />
-
-      Overview
-    </CenteredLayout>
+    <PortalLayout>
+      <Flex vertical justify="center" align="center" style={{ height: '100%' }}>
+        <Typography.Text type="secondary">{t('messages.thisPageWillBeUpdatedSoon')}</Typography.Text>
+      </Flex>
+    </PortalLayout>
   );
 };
