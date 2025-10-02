@@ -1,0 +1,211 @@
+import { ConfigProvider } from "antd";
+import { type ReactNode } from "react";
+
+interface ThemeProviderProps {
+  children: ReactNode;
+}
+
+export const ThemeProvider = ({ children }: ThemeProviderProps) => {
+  // Note: Do not read token.custom here because it is not yet provided.
+
+  const customTheme: any = {
+    token: {
+      // Ant Design core colors
+      colorPrimary: "#1677ff", // AntD default primary (v5)
+      colorInfo: "#1677ff",
+      colorSuccess: "#52c41a",
+      colorWarning: "#faad14",
+      colorError: "#ff4d4f",
+
+      // Derived aliases to ensure components pick correct shades
+      colorPrimaryHover: "#4096ff",
+      colorPrimaryActive: "#0958d9",
+      colorInfoHover: "#4096ff",
+      colorInfoActive: "#0958d9",
+      colorSuccessHover: "#73d13d",
+      colorSuccessActive: "#389e0d",
+      colorWarningHover: "#ffc53d",
+      colorWarningActive: "#d48806",
+      colorErrorHover: "#ff7875",
+      colorErrorActive: "#d9363e",
+
+      // Background colors
+      colorBgLayout: "#f3f4f6",
+      colorBgContainer: "#f9fafb",
+      colorBgElevated: "#f3f4f6",
+
+      // Provide custom tokens under `custom`
+      custom: {
+        colors: {
+          primary: {
+            100: "#e6f7fb",
+            200: "#BFE9F5",
+            300: "#99DCEC",
+            400: "#66CBE4",
+            500: "#3BAFDA",
+            600: "#2C93BD",
+            700: "#21799F",
+            800: "#165F80",
+            900: "#0B3C54",
+            default: "#3BAFDA",
+            light: "#e6f7fb",
+            dark: "#0B3C54",
+          },
+          neutral: {
+            100: "#F3F4F6",
+            200: "#E5E7EB",
+            300: "#D1D5DB",
+            400: "#9CA3AF",
+            500: "#6B7280",
+            600: "#4B5563",
+            700: "#374151",
+            800: "#1F2937",
+            900: "#111827",
+            default: "#6B7280",
+            light: "#F9FAFB",
+            dark: "#111827",
+          },
+          danger: {
+            100: "#fff1f0",
+            200: "#ffccc7",
+            300: "#ffa39e",
+            400: "#ff7875",
+            500: "#ff4d4f",
+            600: "#f5222d",
+            700: "#cf1322",
+            800: "#a8071a",
+            900: "#820014",
+            default: "#ff4d4f",
+            light: "#fff1f0",
+            dark: "#820014",
+          },
+          warning: {
+            100: "#fff7e6",
+            200: "#ffe7ba",
+            300: "#ffd591",
+            400: "#ffc069",
+            500: "#ffa940",
+            600: "#fa8c16",
+            700: "#d46b08",
+            800: "#ad4e00",
+            900: "#873800",
+            default: "#faad14",
+            light: "#fff7e6",
+            dark: "#873800",
+          },
+          success: {
+            100: "#f6ffed",
+            200: "#d9f7be",
+            300: "#b7eb8f",
+            400: "#95de64",
+            500: "#73d13d",
+            600: "#52c41a",
+            700: "#389e0d",
+            800: "#237804",
+            900: "#135200",
+            default: "#52c41a",
+            light: "#f6ffed",
+            dark: "#135200",
+          },
+          info: {
+            100: "#e6f4ff",
+            200: "#bae0ff",
+            300: "#91caff",
+            400: "#69b1ff",
+            500: "#4096ff",
+            600: "#1677ff",
+            700: "#0958d9",
+            800: "#003eb3",
+            900: "#002c8c",
+            default: "#1677ff",
+            light: "#e6f4ff",
+            dark: "#002c8c",
+          },
+          background: {
+            light: "#ffffff",
+            dark: "#000000",
+            surface: "#f9fafb",
+            overlay: "#f3f4f6",
+          },
+          text: {
+            primary: "#111827",
+            secondary: "#374151",
+            tertiary: "#6B7280",
+            disabled: "#9CA3AF",
+            muted: "#9CA3AF",
+            inverted: "#ffffff",
+          },
+        },
+        spacing: {
+          xxsmall: 4,
+          xsmall: 8,
+          small: 12,
+          medium: 16,
+          large: 24,
+          xlarge: 32,
+          xxlarge: 48,
+          xxxlarge: 64,
+          xxxxlarge: 80,
+          xxxxxlarge: 96,
+        },
+        radius: {
+          xxsmall: 2,
+          xsmall: 4,
+          small: 6,
+          medium: 8,
+          large: 12,
+          xlarge: 16,
+          xxlarge: 24,
+          full: 9999,
+        },
+        shadows: {
+          xxsmall: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+          xsmall: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+          small: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+          medium: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+          large: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+          xlarge: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+          xxlarge: "0 35px 60px -15px rgba(0, 0, 0, 0.3)",
+        },
+        fontSize: {
+          xxsmall: 10,
+          xsmall: 12,
+          small: 14,
+          medium: 16,
+          large: 18,
+          xlarge: 20,
+          xxlarge: 24,
+        },
+        fontWeight: {
+          xxsmall: 100,
+          xsmall: 200,
+          small: 300,
+          medium: 400,
+          large: 500,
+          xlarge: 600,
+          xxlarge: 700,
+        },
+        breakpoints: {
+          xxsmall: 320,
+          xsmall: 480,
+          small: 640,
+          medium: 768,
+          large: 1024,
+          xlarge: 1280,
+          xxlarge: 1536,
+        },
+        borders: {
+          xxsmall: "1px solid",
+          xsmall: "2px solid",
+          small: "3px solid",
+          medium: "4px solid",
+          large: "5px solid",
+          xlarge: "6px solid",
+          xxlarge: "7px solid",
+        },
+      },
+    },
+  };
+
+  return <ConfigProvider theme={customTheme}>{children}</ConfigProvider>;
+};

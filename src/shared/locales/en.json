@@ -1,0 +1,15 @@
+{
+  "auth": {
+    "OTPVerification": "OTP Verification",
+    "generateOTPDescription": "OTP will be sent to your email",
+    "verifyOTPDescription": "Enter the OTP sent to your email",
+    "sendOTP": "Send OTP",
+    "verifyOTP": "Verify OTP",
+    "getLMSProfileFailed": "You do not have access to this application"
+  },
+  "common": {
+    "signIn": "Sign In",
+    "password": "Password",
+    "email": "Email"
+  }
+}
