@@ -1,3 +1,4 @@
+import { tenantStorage } from '@core/storage/tenantStorage'
 import { tokenStorage, type TokenBundle } from '@core/storage/tokenStorage'
 import { userStorage } from '@core/storage/userStorage'
 import { refreshToken, type RefreshTokenResponse } from './authApi'
