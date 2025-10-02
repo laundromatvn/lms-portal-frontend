@@ -6,6 +6,8 @@ import { VerifyOTPPage } from '@pages/Auth/VerifyOTPPage';
 
 import { OverviewPage } from '@pages/OverviewPage';
 
+import { StorePage } from '@pages/Store/StorePage';
+
 import { type Route } from './index';
 
 export const routes: Route[] = [
@@ -30,5 +32,10 @@ export const routes: Route[] = [
   {
     path: '/overview',
     component: <OverviewPage />,
+  },
+  // Store
+  {
+    path: '/stores',
+    component: <StorePage />,
   },
 ];

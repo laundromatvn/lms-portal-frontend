@@ -18,6 +18,7 @@ import {
   ArrowLeft,
   ArrowRight,
   Logout,
+  Shop2,
 } from '@solar-icons/react'
 
 const { Sider: AntdSider } = Layout;
@@ -49,6 +50,12 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       icon: <Widget />,
       label: t('navigation.overview'),
       path: '/overview',
+    },
+    {
+      key: 'stores',
+      icon: <Shop2 />,
+      label: t('navigation.stores'),
+      path: '/stores',
     }
   ];
 
