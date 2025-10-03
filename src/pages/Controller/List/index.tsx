@@ -22,13 +22,14 @@ export const ControllerListPage: React.FC = () => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
+  const [dataSource, setDataSource] = useState<any[]>([]);
+
   const columns = [
-    { title: 'Controller ID', dataIndex: 'id', width: 200 },
-    { title: 'Device ID', dataIndex: 'device_id', width: 200 },
-    { title: 'Store Name', dataIndex: 'store_name', width: 400 },
-    { title: 'Name', dataIndex: 'name', width: 400 },
-    { title: 'Total Relays', dataIndex: 'total_relays', width: 200 },
-    { title: 'Status', dataIndex: 'status', width: 200 },
+    { title: 'Device ID', dataIndex: 'device_id', width: 100 },
+    { title: 'Store Name', dataIndex: 'store_name', width: 300 },
+    { title: 'Name', dataIndex: 'name', width: 300 },
+    { title: 'Total Relays', dataIndex: 'total_relays', width: 100 },
+    { title: 'Status', dataIndex: 'status', width: 100 },
     { title: 'Actions', dataIndex: 'actions' },
   ];
 
@@ -38,6 +39,38 @@ export const ControllerListPage: React.FC = () => {
     error: listControllerError,
     listController,
   } = useListControllerApi<ListControllerResponse>();
+
+  useEffect(() => {
+    if (listControllerData) {
+      setDataSource(listControllerData.data.map((item) => ({
+        device_id: item.device_id || '-',
+        store_name: item.store_name || '-',
+        name: item.name || '-',
+        total_relays: item.total_relays,
+        status: <DynamicTag value={item.status} />,
+        actions: (
+          <Flex gap={theme.custom.spacing.medium}>
+            <Button
+              type="link"
+              onClick={() => {
+                navigate(`/controllers/${item.id}/detail`);
+              }}
+            >
+              {t('common.detail')}
+            </Button>
+            <Button
+              type="link"
+              onClick={() => {
+                navigate(`/controllers/${item.id}/edit`);
+              }}
+            >
+              {t('common.edit')}
+            </Button>
+          </Flex>
+        ),
+      })));
+    }
+  }, [listControllerData]);
 
   useEffect(() => {
     if (listControllerError) {
@@ -77,26 +110,7 @@ export const ControllerListPage: React.FC = () => {
 
             <Table
               bordered
-              dataSource={listControllerData?.data.map((item) => ({
-                id: item.id,
-                device_id: item.device_id || '-',
-                store_name: item.store_name || '-',
-                name: item.name || '-',
-                total_relays: item.total_relays,
-                status: <DynamicTag value={item.status} />,
-                actions: (
-                  <Flex gap={theme.custom.spacing.medium}>
-                    <Button
-                      type="link"
-                      onClick={() => {
-                        navigate(`/controllers/${item.id}`);
-                      }}
-                    >
-                      {t('common.detail')}
-                    </Button>
-                  </Flex>
-                ),
-              }))}
+              dataSource={dataSource}
               columns={columns}
               pagination={{
                 pageSize,

@@ -14,8 +14,10 @@ import {
 } from '@pages/Store';
 
 import {
-  ControllerListPage,
   ControllerAbandonedPage,
+  ControllerListPage,
+  ControllerEditPage,
+  ControllerDetailPage,
 } from '@pages/Controller';
 
 import {
@@ -57,11 +59,11 @@ export const routes: Route[] = [
     component: <StoreAddPage />,
   },
   {
-    path: '/stores/edit/:id',
+    path: '/stores/:id/edit',
     component: <StoreEditPage />,
   },
   {
-    path: '/stores/detail/:id',
+    path: '/stores/:id/detail',
     component: <StoreDetailPage />,
   },
   // Controller
@@ -72,6 +74,14 @@ export const routes: Route[] = [
   {
     path: '/controllers/abandoned',
     component: <ControllerAbandonedPage />,
+  },
+  {
+    path: '/controllers/:id/edit',
+    component: <ControllerEditPage />,
+  },
+  {
+    path: '/controllers/:id/detail',
+    component: <ControllerDetailPage />,
   },
   // Machine
   {

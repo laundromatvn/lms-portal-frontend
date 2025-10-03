@@ -18,7 +18,9 @@
     "sendTestSuccess": "Test sent successfully",
     "assignToStore": "Assign to Store",
     "assignToStoreSuccess": "Controller assigned to store successfully",
-    "assignToStoreError": "Failed to assign controller to store"
+    "assignToStoreError": "Failed to assign controller to store",
+    "updateControllerSuccess": "Controller updated successfully",
+    "updateControllerError": "Failed to update controller"  
   },
   "common": {
     "signIn": "Sign In",
@@ -30,8 +32,16 @@
     "store": "Store",
     "reload": "Reload",
     "deviceId": "Device ID",
+    "status": "Status",
     "assign": "Assign",
-    "detail": "Detail"
+    "detail": "Detail",
+    "edit": "Edit",
+    "save": "Save",
+    "controllerId": "Controller ID",
+    "new": "New",
+    "active": "Active",
+    "inactive": "Inactive",
+    "back": "Back"
   },
   "navigation": {
     "overview": "Overview",
@@ -51,6 +61,8 @@
     "thisPageWillBeUpdatedSoon": "This page will be updated soon",
     "enterName": "Enter name",
     "totalRelaysMustBeGreaterThanZero": "Total relays must be greater than zero",
-    "totalRelaysMustBeLessThanTwelve": "Total relays must be less than twelve"
+    "totalRelaysMustBeLessThanTwelve": "Total relays must be less than twelve",
+    "statusIsRequired": "Status is required",
+    "totalRelaysIsRequired": "Total relays is required"
   }
 }

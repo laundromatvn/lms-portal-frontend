@@ -18,7 +18,9 @@
     "sendTestSuccess": "Test đã được gửi thành công",
     "assignToStore": "Gán Controller tự do",
     "assignToStoreSuccess": "Controller đã được gán thành công",
-    "assignToStoreError": "Không thể gán controller tự do"
+    "assignToStoreError": "Không thể gán controller tự do",
+    "updateControllerSuccess": "Controller đã được cập nhật thành công",
+    "updateControllerError": "Không thể cập nhật controller"
   },
   "common": {
     "signIn": "Đăng nhập",
@@ -30,8 +32,16 @@
     "store": "Cửa hàng",
     "reload": "Tải lại",
     "deviceId": "ID Thiết bị",
+    "status": "Trạng thái",
     "assign": "Gán",
-    "detail": "Chi tiết"
+    "detail": "Chi tiết",
+    "edit": "Sửa",
+    "save": "Lưu",
+    "controllerId": "ID Controller",
+    "new": "Mới",
+    "active": "Hoạt động",
+    "inactive": "Không hoạt động",
+    "back": "Quay lại"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -51,6 +61,8 @@
     "thisPageWillBeUpdatedSoon": "Trang này sẽ được cập nhật sớm",
     "enterName": "Nhập tên",
     "totalRelaysMustBeGreaterThanZero": "Tổng relay phải lớn hơn 0",
-    "totalRelaysMustBeLessThanTwelve": "Tổng relay phải nhỏ hơn 12"
+    "totalRelaysMustBeLessThanTwelve": "Tổng relay phải nhỏ hơn 12",
+    "statusIsRequired": "Trạng thái là bắt buộc",
+    "totalRelaysIsRequired": "Tổng relay là bắt buộc"
   }
 }

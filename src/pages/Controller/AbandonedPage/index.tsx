@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 
 import { Button, Flex, Skeleton, Table, Typography, notification } from 'antd';
 
@@ -18,12 +17,12 @@ import { AssignToStoreModalContent } from './AssignToStoreModalContent';
 export const ControllerAbandonedPage: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const navigate = useNavigate();
 
   const [api, contextHolder] = notification.useNotification();
 
   const [isOpen, setIsOpen] = useState(false);
   const [controllerId, setControllerId] = useState('');
+  const [dataSource, setDataSource] = useState<any[]>([]);
 
   const columns = [
     { title: 'Controller ID', dataIndex: 'id' },
@@ -46,8 +45,41 @@ export const ControllerAbandonedPage: React.FC = () => {
   } = useVerifyAbandonedControllerApi();
 
   useEffect(() => {
-    console.log(listAbandondedControllerData);
+    if (listAbandondedControllerData) {
+      setDataSource(listAbandondedControllerData?.data.map((item) => ({
+        id: item,
+        status: <DynamicTag value="Abandoned" />,
+        actions: (
+          <Flex gap={theme.custom.spacing.medium}>
+            <Button
+              type="default"
+              onClick={() => {
+                setIsOpen(true);
+                setControllerId(item);
+              }}
+            >
+              {t('controller.assign')}
+            </Button>
+            <Button
+              type="default"
+              onClick={() => verifyAbandonedController(item)}
+              loading={verifyAbandonedControllerLoading}
+            >
+              {t('controller.test')}
+            </Button>
+          </Flex>
+        ),
+      })));
+    }
   }, [listAbandondedControllerData]);
+
+  useEffect(() => {
+    if (listAbandondedControllerError) {
+      api.error({
+        message: t('controller.listAbandondedControllerError'),
+      });
+    }
+  }, [listAbandondedControllerError]);
 
   useEffect(() => {
     if (verifyAbandonedControllerData) {
@@ -85,7 +117,7 @@ export const ControllerAbandonedPage: React.FC = () => {
         <LeftRightSection
           left={null}
           right={(<>
-            <Button 
+            <Button
               type="primary"
               size="large"
               onClick={() => listAbandondedController({ page: 1, page_size: 10 })}
@@ -96,38 +128,17 @@ export const ControllerAbandonedPage: React.FC = () => {
           </>)}
         />
 
-        {listAbandondedControllerLoading && <Skeleton active />}
-
-        <Flex vertical gap={theme.custom.spacing.large}>
-
-          <Table
-            dataSource={listAbandondedControllerData?.data.map((item) => ({
-              id: item,
-              status: <DynamicTag value="Abandoned" />,
-              actions: (
-                <Flex gap={theme.custom.spacing.medium}>
-                  <Button
-                    type="default"
-                    onClick={() => {
-                      setIsOpen(true);
-                      setControllerId(item);
-                    }}
-                  >
-                    {t('controller.assign')}
-                  </Button>
-                  <Button
-                    type="default"
-                    onClick={() => verifyAbandonedController(item)}
-                    loading={verifyAbandonedControllerLoading}
-                  >
-                    {t('controller.test')}
-                  </Button>
-                </Flex>
-              ),
-            }))}
-            columns={columns}
-          />
-        </Flex>
+        {listAbandondedControllerLoading
+          ? (
+            <Skeleton active />
+          ) : (
+            <Flex vertical gap={theme.custom.spacing.large}>
+              <Table
+                dataSource={dataSource}
+                columns={columns}
+              />
+            </Flex>
+          )}
       </Flex>
 
       <BaseModal
