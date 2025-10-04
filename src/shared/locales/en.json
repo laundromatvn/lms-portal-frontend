@@ -42,7 +42,11 @@
     "active": "Active",
     "inactive": "Inactive",
     "back": "Back",
-    "config": "Config"
+    "config": "Config",
+    "tenant": "Tenant",
+    "phone": "Phone",
+    "address": "Address",
+    "addStore": "Add Store"
   },
   "navigation": {
     "overview": "Overview",
@@ -64,6 +68,12 @@
     "totalRelaysMustBeGreaterThanZero": "Total relays must be greater than zero",
     "totalRelaysMustBeLessThanTwelve": "Total relays must be less than twelve",
     "statusIsRequired": "Status is required",
-    "totalRelaysIsRequired": "Total relays is required"
+    "totalRelaysIsRequired": "Total relays is required",
+    "nameIsRequired": "Name is required",
+    "phoneIsRequired": "Phone is required",
+    "addressIsRequired": "Address is required",
+    "tenantIsRequired": "Tenant is required",
+    "createStoreSuccess": "Store created successfully",
+    "createStoreError": "Failed to create store"
   }
 }

@@ -93,7 +93,16 @@ export const StoreListPage: React.FC = () => {
         <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
           <LeftRightSection
             left={null}
-            right={null}
+            right={(
+              <>
+                <Button
+                  type="default"
+                  size="large"
+                  onClick={() => navigate('/stores/add')}>
+                  {t('common.addStore')}
+                </Button>
+              </>
+            )}
           />
 
           {listStoreLoading && <Skeleton active />}

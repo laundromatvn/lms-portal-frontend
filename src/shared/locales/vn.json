@@ -42,7 +42,11 @@
     "active": "Hoạt động",
     "inactive": "Không hoạt động",
     "back": "Quay lại",
-    "config": "Cấu hình"
+    "config": "Cấu hình",
+    "tenant": "Tenant",
+    "phone": "Số điện thoại",
+    "address": "Địa chỉ",
+    "addStore": "Thêm Cửa hàng"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -64,6 +68,12 @@
     "totalRelaysMustBeGreaterThanZero": "Tổng relay phải lớn hơn 0",
     "totalRelaysMustBeLessThanTwelve": "Tổng relay phải nhỏ hơn 12",
     "statusIsRequired": "Trạng thái là bắt buộc",
-    "totalRelaysIsRequired": "Tổng relay là bắt buộc"
+    "totalRelaysIsRequired": "Tổng relay là bắt buộc",
+    "nameIsRequired": "Tên là bắt buộc",
+    "phoneIsRequired": "Số điện thoại là bắt buộc",
+    "addressIsRequired": "Địa chỉ là bắt buộc",
+    "tenantIsRequired": "Tenant là bắt buộc",
+    "createStoreSuccess": "Cửa hàng đã được tạo thành công",
+    "createStoreError": "Không thể tạo cửa hàng"
   }
 }
