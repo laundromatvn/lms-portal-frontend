@@ -16,6 +16,7 @@ import { type Store } from '@shared/types/store';
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DetailSection } from './DetailSection';
+import { ControllerListSection } from './ControllerListSection';
 
 export const StoreDetailPage: React.FC = () => {
   const { t } = useTranslation();
@@ -68,6 +69,7 @@ export const StoreDetailPage: React.FC = () => {
         {!storeLoading && storeData && (
           <>
             <DetailSection store={storeData as Store} />
+            <ControllerListSection store={storeData as Store} />
           </>
         )}
       </Flex>

@@ -25,6 +25,7 @@ export const ControllerListPage: React.FC = () => {
   const [dataSource, setDataSource] = useState<any[]>([]);
 
   const columns = [
+    { title: 'Controller ID', dataIndex: 'id', width: 100 },
     { title: 'Device ID', dataIndex: 'device_id', width: 100 },
     { title: 'Store Name', dataIndex: 'store_name', width: 300 },
     { title: 'Name', dataIndex: 'name', width: 300 },
@@ -43,6 +44,7 @@ export const ControllerListPage: React.FC = () => {
   useEffect(() => {
     if (listControllerData) {
       setDataSource(listControllerData.data.map((item) => ({
+        id: item.id,
         device_id: item.device_id || '-',
         store_name: item.store_name || '-',
         name: item.name || '-',
@@ -106,23 +108,24 @@ export const ControllerListPage: React.FC = () => {
 
           {listControllerLoading && <Skeleton active />}
 
-          <Flex vertical gap={theme.custom.spacing.large}>
-
-            <Table
-              bordered
-              dataSource={dataSource}
-              columns={columns}
-              pagination={{
-                pageSize,
-                current: page,
-                total: listControllerData?.total,
-                onChange: (page, pageSize) => {
-                  setPage(page);
-                  setPageSize(pageSize);
-                },
-              }}
-            />
-          </Flex>
+          {!listControllerLoading && (
+            <Flex vertical gap={theme.custom.spacing.large}>
+              <Table
+                bordered
+                dataSource={dataSource}
+                columns={columns}
+                pagination={{
+                  pageSize,
+                  current: page,
+                  total: listControllerData?.total,
+                  onChange: (page, pageSize) => {
+                    setPage(page);
+                    setPageSize(pageSize);
+                  },
+                }}
+              />
+            </Flex>
+          )}
         </Flex>
       </Flex>
     </PortalLayout>

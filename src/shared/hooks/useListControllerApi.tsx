@@ -9,6 +9,7 @@ import axiosClient from '@core/axiosClient';
 import { type Controller } from '@shared/types/Controller';
 
 export type ListControllerRequest = {
+  store_id?: string;
   page: number;
   page_size: number;
 }
@@ -28,15 +29,13 @@ export const useListControllerApi = <T = ListControllerResponse>() => {
     error: null,
   });
 
-  const listController = useCallback(async ({ page = 1, page_size = 10 }: ListControllerRequest) => {
-      setState(prevState => ({ ...prevState, loading: true, error: null }));
+  const listController = useCallback(async ({ store_id, page = 1, page_size = 10 }: ListControllerRequest) => {
+    setState(prevState => ({ ...prevState, loading: true, error: null }));
 
     const url = `${getBackendUrl()}/api/v1/controller`
+    const queryParams = { page, page_size, store_id };
 
-    const queryParams = {
-      page,
-      page_size,
-    }
+    setState({ data: null, loading: false, error: null });
 
     try {
       const response = await axiosClient.get<T>(
