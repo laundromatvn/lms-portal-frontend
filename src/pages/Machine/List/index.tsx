@@ -6,7 +6,14 @@ import { Button, Flex, Typography, Table, Skeleton, notification } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 
-import { useListMachineApi, type ListMachineResponse } from '@shared/hooks/useListMachineApi';
+import {
+  useListMachineApi,
+  type ListMachineResponse,
+} from '@shared/hooks/useListMachineApi';
+import {
+  useActivateMachineApi,
+  type ActivateMachineResponse,
+} from '@shared/hooks/useActivateMachineApi';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
@@ -25,8 +32,7 @@ export const MachineListPage: React.FC = () => {
 
   const columns = [
     { title: 'Store Name', dataIndex: 'store_name', width: 400 },
-    { title: 'Machine ID', dataIndex: 'id', width: 200 },
-    { title: 'Controller ID', dataIndex: 'controller_id', width: 200 },
+    { title: 'Controller Device ID', dataIndex: 'controller_device_id', width: 200 },
     { title: 'Relay No', dataIndex: 'relay_no', width: 200 },
     { title: 'Name', dataIndex: 'name', width: 400 },
     { title: 'Machine Type', dataIndex: 'machine_type', width: 200 },
@@ -41,6 +47,12 @@ export const MachineListPage: React.FC = () => {
     error: listMachineError,
     listMachine,
   } = useListMachineApi<ListMachineResponse>();
+  const {
+    activateMachine,
+    data: activateMachineData,
+    loading: activateMachineLoading,
+    error: activateMachineError,
+  } = useActivateMachineApi<ActivateMachineResponse>();
 
   useEffect(() => {
     if (listMachineData) {
@@ -48,6 +60,7 @@ export const MachineListPage: React.FC = () => {
         id: item.id,
         store_name: item.store_name || '-',
         controller_id: item.controller_id || '-',
+        controller_device_id: item.controller_device_id || '-',
         relay_no: item.relay_no,
         name: item.name || '-',
         machine_type: item.machine_type,
@@ -71,6 +84,15 @@ export const MachineListPage: React.FC = () => {
             >
               {t('common.edit')}
             </Button>
+            <Button
+              type="link"
+              onClick={() => {
+                activateMachine(item.id);
+              }}
+              loading={activateMachineLoading}
+            >
+              {t('common.activateMachine')}
+            </Button>
           </Flex>
         ),
       })));
@@ -89,6 +111,24 @@ export const MachineListPage: React.FC = () => {
     listMachine({ page, page_size: pageSize });
   }, [page, pageSize]);
 
+  useEffect(() => {
+    if (activateMachineError) {
+      api.error({
+        message: t('messages.activateMachineError'),
+      });
+    }
+  }, [activateMachineError]);
+
+  useEffect(() => {
+    if (activateMachineData) {
+      api.success({
+        message: t('messages.activateMachineSuccess'),
+      });
+
+      listMachine({ page, page_size: pageSize });
+    }
+  }, [activateMachineData]);
+
   return (
     <PortalLayout>
       {contextHolder}
@@ -104,23 +144,24 @@ export const MachineListPage: React.FC = () => {
 
           {listMachineLoading && <Skeleton active />}
 
-          <Flex vertical gap={theme.custom.spacing.large}>
-
-            <Table
-              bordered
-              dataSource={tableData || []}
-              columns={columns}
-              pagination={{
-                pageSize,
-                current: page,
-                total: listMachineData?.total,
-                onChange: (page, pageSize) => {
-                  setPage(page);
-                  setPageSize(pageSize);
-                },
-              }}
-            />
-          </Flex>
+          {!listMachineLoading && (
+            <Flex vertical gap={theme.custom.spacing.large}>
+              <Table
+                bordered
+                dataSource={tableData || []}
+                columns={columns}
+                pagination={{
+                  pageSize,
+                  current: page,
+                  total: listMachineData?.total,
+                  onChange: (page, pageSize) => {
+                    setPage(page);
+                    setPageSize(pageSize);
+                  },
+                }}
+              />
+            </Flex>
+          )}
         </Flex>
       </Flex>
     </PortalLayout>

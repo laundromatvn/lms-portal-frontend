@@ -8,6 +8,14 @@ import {
   useGetMachineApi,
   type GetMachineResponse,
 } from '@shared/hooks/useGetMachineApi';
+import {
+  useStartMachineApi,
+  type StartMachineResponse,
+} from '@shared/hooks/useStartMachineApi';
+import {
+  useActivateMachineApi,
+  type ActivateMachineResponse,
+} from '@shared/hooks/useActivateMachineApi';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -32,11 +40,23 @@ export const MachineDetailPage: React.FC = () => {
     loading: machineLoading,
     error: machineError,
   } = useGetMachineApi<GetMachineResponse>();
+  const {
+    startMachine,
+    data: startMachineData,
+    loading: startMachineLoading,
+    error: startMachineError,
+  } = useStartMachineApi<StartMachineResponse>();
+  const {
+    activateMachine,
+    data: activateMachineData,
+    loading: activateMachineLoading,
+    error: activateMachineError,
+  } = useActivateMachineApi<ActivateMachineResponse>();
 
   useEffect(() => {
     if (machineError) {
       api.error({
-        message: t('machine.getMachineError'),
+        message: t('messages.getMachineError'),
       });
     }
   }, [machineError]);
@@ -47,6 +67,40 @@ export const MachineDetailPage: React.FC = () => {
     }
   }, [machineId]);
 
+  useEffect(() => {
+    if (startMachineError) {
+      api.error({
+        message: t('messages.startMachineError'),
+      });
+    }
+  }, [startMachineError]);
+
+  useEffect(() => {
+    if (startMachineData) {
+      api.success({
+        message: t('messages.startMachineSuccess'),
+      });
+    }
+  }, [startMachineData]);
+
+  useEffect(() => {
+    if (activateMachineError) {
+      api.error({
+        message: t('messages.activateMachineError'),
+      });
+    }
+  }, [activateMachineError]);
+
+  useEffect(() => {
+    if (activateMachineData) {
+      api.success({
+        message: t('messages.activateMachineSuccess'),
+      });
+
+      getMachine(machineId as string);
+    }
+  }, [activateMachineData, machineId]);
+
   return (
     <PortalLayout>
       {contextHolder}
@@ -56,21 +110,37 @@ export const MachineDetailPage: React.FC = () => {
 
         <LeftRightSection
           left={null}
-          right={(<>
+          right={(<Flex gap={theme.custom.spacing.medium}>
+            <Button type="primary" size="large" onClick={() => startMachine(machineId as string)}>
+              {t('common.startMachine')}
+            </Button>
+            <Button 
+              type="primary"
+              size="large"
+              onClick={() => activateMachine(machineId as string)}
+              loading={activateMachineLoading}
+              style={{
+                color: theme.custom.colors.success.light,
+                backgroundColor: theme.custom.colors.success.default,
+                borderColor: theme.custom.colors.success.default,
+              }}
+            >
+              {t('common.activateMachine')}
+            </Button>
             <Button type="default" size="large" onClick={() => navigate(`/machines/${machineId}/edit`)}>
               {t('common.edit')}
             </Button>
-          </>)}
+          </Flex>)}
         />
 
-        {machineLoading && <Skeleton active />}
+      {machineLoading && <Skeleton active />}
 
-        {!machineLoading && machineData && (
-          <>
-            <DetailSection machine={machineData as Machine} />
-          </>
-        )}
-      </Flex>
-    </PortalLayout>
+      {!machineLoading && machineData && (
+        <>
+          <DetailSection machine={machineData as Machine} />
+        </>
+      )}
+    </Flex>
+    </PortalLayout >
   );
 };

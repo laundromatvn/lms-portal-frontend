@@ -55,7 +55,10 @@
     "machineType": "Loại máy",
     "basePrice": "Giá cơ bản",
     "washer": "Máy giặt",
-    "dryer": "Máy sấy"
+    "dryer": "Máy sấy",
+    "startMachine": "Bắt đầu",
+    "activateMachine": "Kích hoạt",
+    "activateAllControllerMachines": "Kích hoạt tất cả máy"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -86,6 +89,12 @@
     "createStoreError": "Không thể tạo cửa hàng",
     "machineIdIsRequired": "ID máy móc là bắt buộc",
     "machineTypeIsRequired": "Loại máy là bắt buộc",
-    "basePriceIsRequired": "Giá cơ bản là bắt buộc"
+    "basePriceIsRequired": "Giá cơ bản là bắt buộc",
+    "startMachineSuccess": "Máy đã được bắt đầu thành công",
+    "startMachineError": "Không thể bắt đầu máy",
+    "activateMachineSuccess": "Máy đã được kích hoạt thành công",
+    "activateMachineError": "Không thể kích hoạt máy",
+    "activateAllControllerMachinesSuccess": "Tất cả máy đã được kích hoạt thành công",
+    "activateAllControllerMachinesError": "Không thể kích hoạt tất cả máy"
   }
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button, Flex, Table, Typography } from 'antd';
+import { Button, Flex, Table, Typography, notification } from 'antd';
 
 import {
   Settings,
@@ -9,13 +9,21 @@ import {
 
 import { useTheme } from '@shared/theme/useTheme';
 
-import { useListMachineApi, type ListMachineResponse } from '@shared/hooks/useListMachineApi';
+import {
+  useListMachineApi,
+  type ListMachineResponse,
+} from '@shared/hooks/useListMachineApi';
+import {
+  useActivateAllControllerMachinesApi,
+  type ActivateAllControllerMachinesResponse,
+} from '@shared/hooks/useActivateAllControllerMachinesApi';
 
 import { type Controller } from '@shared/types/Controller';
 
 import { Box } from '@shared/components/Box';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { BaseModal } from '@shared/components/BaseModal';
+import LeftRightSection from '@shared/components/LeftRightSection';
 import { MachineConfigModalContent } from './MachineConfigModalContent';
 
 interface Props {
@@ -25,6 +33,7 @@ interface Props {
 export const MachineListSection: React.FC<Props> = ({ controller }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const [api, contextHolder] = notification.useNotification();
 
   const [dataSource, setDataSource] = useState<any[]>([]);
   const [page, setPage] = useState(1);
@@ -47,6 +56,12 @@ export const MachineListSection: React.FC<Props> = ({ controller }) => {
     loading: listMachineLoading,
     listMachine,
   } = useListMachineApi<ListMachineResponse>();
+  const {
+    activateAllControllerMachines,
+    data: activateAllControllerMachinesData,
+    loading: activateAllControllerMachinesLoading,
+    error: activateAllControllerMachinesError,
+  } = useActivateAllControllerMachinesApi<ActivateAllControllerMachinesResponse>();
 
   useEffect(() => {
     if (listMachineData) {
@@ -74,9 +89,44 @@ export const MachineListSection: React.FC<Props> = ({ controller }) => {
     listMachine({ controller_id: controller.id, page, page_size: pageSize });
   }, [controller]);
 
+  useEffect(() => {
+    if (activateAllControllerMachinesError) {
+      api.error({
+        message: t('messages.activateAllControllerMachinesError'),
+      });
+    }
+  }, [activateAllControllerMachinesError]);
+
+  useEffect(() => {
+    if (activateAllControllerMachinesData) {
+      api.success({
+        message: t('messages.activateAllControllerMachinesSuccess'),
+      });
+
+      listMachine({ controller_id: controller.id, page, page_size: pageSize });
+    }
+  }, [activateAllControllerMachinesData]);
+
   return (
     <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+      {contextHolder}
+
       <Typography.Title level={3}>Machines</Typography.Title>
+
+      <LeftRightSection
+        left={null}
+        right={(<>
+          <Button
+            type="primary"
+            size="large"
+            onClick={() => activateAllControllerMachines(controller.id)}
+            loading={activateAllControllerMachinesLoading}
+          >
+            {t('common.activateAllControllerMachines')}
+          </Button>
+        </>)}
+      />
+
       <Table
         dataSource={dataSource}
         columns={columns}

@@ -55,7 +55,10 @@
     "machineType": "Machine Type",
     "basePrice": "Base Price",
     "washer": "Washer",
-    "dryer": "Dryer"
+    "dryer": "Dryer",
+    "startMachine": "Start Machine",
+    "activateMachine": "Activate Machine",
+    "activateAllControllerMachines": "Activate All Machines"
   },
   "navigation": {
     "overview": "Overview",
@@ -86,6 +89,12 @@
     "createStoreError": "Failed to create store",
     "machineIdIsRequired": "Machine ID is required",
     "machineTypeIsRequired": "Machine type is required",
-    "basePriceIsRequired": "Base price is required"
+    "basePriceIsRequired": "Base price is required",
+    "startMachineSuccess": "Machine started successfully",
+    "startMachineError": "Failed to start machine",
+    "activateMachineSuccess": "Machine activated successfully",
+    "activateMachineError": "Failed to activate machine",
+    "activateAllControllerMachinesSuccess": "All controller machines activated successfully",
+    "activateAllControllerMachinesError": "Failed to activate all controller machines"
   }
 }
