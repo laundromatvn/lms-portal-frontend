@@ -46,7 +46,11 @@
     "tenant": "Tenant",
     "phone": "Phone",
     "address": "Address",
-    "addStore": "Add Store"
+    "addStore": "Add Store",
+    "contactPhoneNumber": "Contact Phone Number",
+    "longitude": "Longitude",
+    "latitude": "Latitude",
+    "storeId": "Store ID"
   },
   "navigation": {
     "overview": "Overview",

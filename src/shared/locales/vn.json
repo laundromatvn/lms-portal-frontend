@@ -46,7 +46,11 @@
     "tenant": "Tenant",
     "phone": "Số điện thoại",
     "address": "Địa chỉ",
-    "addStore": "Thêm Cửa hàng"
+    "addStore": "Thêm Cửa hàng",
+    "contactPhoneNumber": "Số điện thoại liên hệ",
+    "longitude": "Kinh độ",
+    "latitude": "Vĩ độ",
+    "storeId": "ID Cửa hàng"
   },
   "navigation": {
     "overview": "Tổng quan",

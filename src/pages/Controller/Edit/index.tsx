@@ -98,8 +98,6 @@ export const ControllerEditPage: React.FC = () => {
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
         <Typography.Title level={2}>Controller Edit</Typography.Title>
 
-        {controllerLoading && <Skeleton active />}
-
         <LeftRightSection
           left={(
             <Button
@@ -111,6 +109,8 @@ export const ControllerEditPage: React.FC = () => {
           )}
           right={null}
         />
+
+        {controllerLoading && <Skeleton active />}
 
         {!controllerLoading && controllerData && (
           <EditSection

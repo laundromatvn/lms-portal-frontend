@@ -4,6 +4,11 @@ import { useNavigate } from 'react-router-dom';
 
 import { Button, Flex, Typography, Table, Skeleton, notification } from 'antd';
 
+import {
+  Eye,
+  Settings
+} from '@solar-icons/react'
+
 import { useTheme } from '@shared/theme/useTheme';
 
 import { tenantStorage } from '@core/storage/tenantStorage';
@@ -54,14 +59,22 @@ export const StoreListPage: React.FC = () => {
         tenant_id: item.tenant_id || '-',
         status: <DynamicTag value={item.status} />,
         actions: (
-          <Flex gap={theme.custom.spacing.medium}>
+          <Flex gap={theme.custom.spacing.small}>
             <Button
               type="link"
               onClick={() => {
-                navigate(`/stores/${item.id}`);
+                navigate(`/stores/${item.id}/detail`);
               }}
             >
-              {t('common.detail')}
+              <Eye />
+            </Button>
+            <Button
+              type="link"
+              onClick={() => {
+                navigate(`/stores/${item.id}/edit`);
+              }}
+            >
+              <Settings />
             </Button>
           </Flex>
         ),
@@ -107,23 +120,24 @@ export const StoreListPage: React.FC = () => {
 
           {listStoreLoading && <Skeleton active />}
 
-          <Flex vertical gap={theme.custom.spacing.large}>
-
-            <Table
-              bordered
-              dataSource={tableData || []}
-              columns={columns}
-              pagination={{
-                pageSize,
-                current: page,
-                total: listStoreData?.total,
-                onChange: (page, pageSize) => {
-                  setPage(page);
-                  setPageSize(pageSize);
-                },
-              }}
-            />
-          </Flex>
+          {!listStoreLoading && (
+            <Flex vertical gap={theme.custom.spacing.large}>
+              <Table
+                bordered
+                dataSource={tableData || []}
+                columns={columns}
+                pagination={{
+                  pageSize,
+                  current: page,
+                  total: listStoreData?.total,
+                  onChange: (page, pageSize) => {
+                    setPage(page);
+                    setPageSize(pageSize);
+                  },
+                }}
+              />
+            </Flex>
+          )}
         </Flex>
       </Flex>
     </PortalLayout>
