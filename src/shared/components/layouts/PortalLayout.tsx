@@ -24,7 +24,7 @@ export const PortalLayout: React.FC<Props> = ({ children, style }) => {
       style={{
         minHeight: '100vh',
         width: '100vw',
-        backgroundColor: theme.custom.colors.background.light,
+        backgroundColor: theme.custom.colors.background.surface,
       }}
     >
       <Sider onCollapseChange={setSidebarCollapsed} />
@@ -40,6 +40,8 @@ export const PortalLayout: React.FC<Props> = ({ children, style }) => {
           width: '100%',
           height: '100vh',
           marginLeft: sidebarWidth,
+          marginTop: theme.custom.spacing.xxxlarge,
+          marginBottom: theme.custom.spacing.xxxlarge,
           padding: theme.custom.spacing.medium,
           backgroundColor: theme.custom.colors.background.surface,
           overflow: 'auto',

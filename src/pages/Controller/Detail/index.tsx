@@ -13,6 +13,7 @@ import { type Controller } from '@shared/types/Controller';
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DetailSection } from './DetailSection';
+import { MachineListSection } from './MachineListSection';
 
 export const ControllerDetailPage: React.FC = () => {
   const { t } = useTranslation();
@@ -63,7 +64,10 @@ export const ControllerDetailPage: React.FC = () => {
         />
 
         {!controllerLoading && controllerData && (
-          <DetailSection controller={controllerData as Controller} />
+          <>
+            <DetailSection controller={controllerData as Controller} />
+            <MachineListSection controller={controllerData as Controller} />
+          </>
         )}
       </Flex>
     </PortalLayout>
