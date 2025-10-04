@@ -58,10 +58,18 @@ export const MachineListPage: React.FC = () => {
             <Button
               type="link"
               onClick={() => {
-                navigate(`/machines/${item.id}`);
+                navigate(`/machines/${item.id}/detail`);
               }}
             >
               {t('common.detail')}
+            </Button>
+            <Button
+              type="link"
+              onClick={() => {
+                navigate(`/machines/${item.id}/edit`);
+              }}
+            >
+              {t('common.edit')}
             </Button>
           </Flex>
         ),

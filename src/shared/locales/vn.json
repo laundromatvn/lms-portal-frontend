@@ -50,7 +50,12 @@
     "contactPhoneNumber": "Số điện thoại liên hệ",
     "longitude": "Kinh độ",
     "latitude": "Vĩ độ",
-    "storeId": "ID Cửa hàng"
+    "storeId": "ID Cửa hàng",
+    "machineId": "ID Máy",
+    "machineType": "Loại máy",
+    "basePrice": "Giá cơ bản",
+    "washer": "Máy giặt",
+    "dryer": "Máy sấy"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -78,6 +83,9 @@
     "addressIsRequired": "Địa chỉ là bắt buộc",
     "tenantIsRequired": "Tenant là bắt buộc",
     "createStoreSuccess": "Cửa hàng đã được tạo thành công",
-    "createStoreError": "Không thể tạo cửa hàng"
+    "createStoreError": "Không thể tạo cửa hàng",
+    "machineIdIsRequired": "ID máy móc là bắt buộc",
+    "machineTypeIsRequired": "Loại máy là bắt buộc",
+    "basePriceIsRequired": "Giá cơ bản là bắt buộc"
   }
 }

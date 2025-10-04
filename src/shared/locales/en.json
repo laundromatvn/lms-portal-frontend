@@ -50,7 +50,12 @@
     "contactPhoneNumber": "Contact Phone Number",
     "longitude": "Longitude",
     "latitude": "Latitude",
-    "storeId": "Store ID"
+    "storeId": "Store ID",
+    "machineId": "Machine ID",
+    "machineType": "Machine Type",
+    "basePrice": "Base Price",
+    "washer": "Washer",
+    "dryer": "Dryer"
   },
   "navigation": {
     "overview": "Overview",
@@ -78,6 +83,9 @@
     "addressIsRequired": "Address is required",
     "tenantIsRequired": "Tenant is required",
     "createStoreSuccess": "Store created successfully",
-    "createStoreError": "Failed to create store"
+    "createStoreError": "Failed to create store",
+    "machineIdIsRequired": "Machine ID is required",
+    "machineTypeIsRequired": "Machine type is required",
+    "basePriceIsRequired": "Base price is required"
   }
 }

@@ -22,6 +22,8 @@ import {
 
 import {
   MachineListPage,
+  MachineEditPage,
+  MachineDetailPage,
 } from '@pages/Machine';
 
 import { type Route } from './index';
@@ -87,5 +89,13 @@ export const routes: Route[] = [
   {
     path: '/machines',
     component: <MachineListPage />,
+  },
+  {
+    path: '/machines/:id/edit',
+    component: <MachineEditPage />,
+  },
+  {
+    path: '/machines/:id/detail',
+    component: <MachineDetailPage />,
   },
 ];
