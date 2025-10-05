@@ -80,6 +80,8 @@ export const MachineDetailPage: React.FC = () => {
       api.success({
         message: t('messages.startMachineSuccess'),
       });
+
+      getMachine(machineId as string);
     }
   }, [startMachineData]);
 

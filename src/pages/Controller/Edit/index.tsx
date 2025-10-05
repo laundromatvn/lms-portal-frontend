@@ -54,6 +54,7 @@ export const ControllerEditPage: React.FC = () => {
     updateController(
       controllerId,
       {
+        device_id: form.getFieldValue('device_id'),
         name: form.getFieldValue('name'),
         total_relays: form.getFieldValue('total_relays'),
         status: form.getFieldValue('status'),
@@ -82,6 +83,8 @@ export const ControllerEditPage: React.FC = () => {
       api.success({
         message: t('controller.updateControllerSuccess'),
       });
+
+      navigate(`/controllers/${controllerId}/detail`);
     }
   }, [updateControllerData]);
 

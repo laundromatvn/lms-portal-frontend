@@ -54,7 +54,7 @@ export const EditSection: React.FC<Props> = ({ controller, onSave }: Props) => {
           name="device_id"
           style={{ width: '100%' }}
         >
-          <Input size="large" defaultValue={controller.device_id} disabled />
+          <Input size="large" defaultValue={controller.device_id} />
         </Form.Item>
 
         <Form.Item

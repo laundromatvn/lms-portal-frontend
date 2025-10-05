@@ -7,6 +7,8 @@ import { type ApiState } from '@shared/hooks/types'
 import { type Controller } from '@shared/types/Controller';
 
 export type UpdateControllerRequest = {
+  // TODO: need to remove device_id from the request
+  device_id: string;
   name: string;
   total_relays: number;
   status: string;
@@ -17,6 +19,7 @@ export type UpdateControllerResponse = Controller;
 export async function updateControllerApi(controller_id: string, payload: UpdateControllerRequest): Promise<UpdateControllerResponse> {
   const url = `${getBackendUrl()}/api/v1/controller/${controller_id}`
   const body = {
+    device_id: payload.device_id,
     name: payload.name,
     total_relays: payload.total_relays,
     status: payload.status,
