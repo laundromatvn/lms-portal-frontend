@@ -16,6 +16,7 @@ import { type Store } from '@shared/types/store';
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DetailSection } from './DetailSection';
+import { PaymentMethodSection } from './PaymentMethodSection';
 import { ControllerListSection } from './ControllerListSection';
 import { MachineListSection } from './MachineListSection';
 
@@ -70,6 +71,7 @@ export const StoreDetailPage: React.FC = () => {
         {!storeLoading && storeData && (
           <>
             <DetailSection store={storeData as Store} />
+            <PaymentMethodSection store={storeData as Store} />
             <ControllerListSection store={storeData as Store} />
             <MachineListSection store={storeData as Store} />
           </>

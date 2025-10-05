@@ -1,3 +1,5 @@
+import { type PaymentMethod } from "@shared/types/PaymentMethod";
+
 export type Store = {
   id: string;
   created_at: string;
@@ -13,4 +15,5 @@ export type Store = {
   latitude: number | null;
   contact_phone_number: string;
   tenant_id: string;
+  payment_methods: PaymentMethod[];
 }
