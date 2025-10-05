@@ -2,12 +2,9 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
-  Button,
   Form,
   Input,
-  InputNumber,
   Select,
-  type FormInstance,
 } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -19,10 +16,10 @@ import { Box } from '@shared/components/Box';
 
 interface Props {
   store: Store;
-  onSave: (form: FormInstance) => void;
+  onChange: (values: any) => void;
 }
 
-export const EditSection: React.FC<Props> = ({ store, onSave }: Props) => {
+export const DetailEditSection: React.FC<Props> = ({ store, onChange }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -34,14 +31,18 @@ export const EditSection: React.FC<Props> = ({ store, onSave }: Props) => {
       name: store.name,
       address: store.address,
       contact_phone_number: store.contact_phone_number,
-      tenant_id: store.tenant_id,
       status: store.status,
     });
   }, [store]);
 
   return (
     <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-      <Form form={form} layout="vertical" style={{ width: '100%', maxWidth: 600 }}>
+      <Form 
+        form={form}
+        layout="vertical"
+        style={{ width: '100%', maxWidth: 600 }}
+        onValuesChange={(_, values) => onChange(values)}
+      >
         <Form.Item
           label={t('common.storeId')}
           name="id"
@@ -94,17 +95,6 @@ export const EditSection: React.FC<Props> = ({ store, onSave }: Props) => {
               { label: t('common.inactive'), value: StoreStatusEnum.INACTIVE },
             ]}
           />
-        </Form.Item>
-
-        <Form.Item style={{ width: '100%', textAlign: 'right' }}>
-          <Button
-            type="primary"
-            size="large"
-            style={{ minWidth: 128 }}
-            onClick={() => onSave(form)}
-          >
-            {t('common.save')}
-          </Button>
         </Form.Item>
       </Form>
     </Box>

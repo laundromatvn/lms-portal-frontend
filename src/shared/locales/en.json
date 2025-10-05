@@ -104,6 +104,9 @@
     "getMachineError": "Failed to get machine",
     "pulseDurationIsRequired": "Pulse duration is required",
     "pulseValueIsRequired": "Pulse value is required",
-    "relayNoIsRequired": "Relay no is required"
+    "relayNoIsRequired": "Relay no is required",
+    "updateStoreSuccess": "Store updated successfully",
+    "updateStoreError": "Failed to update store",
+    "getStoreError": "Failed to get store"
   }
 }

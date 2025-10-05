@@ -9,6 +9,7 @@ import {
   Skeleton,
   notification,
   type FormInstance,
+  Form,
 } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -26,7 +27,7 @@ import {
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
-import { EditSection } from './EditSection';
+import { DetailEditSection } from './DetailEditSection';
 
 export const StoreEditPage: React.FC = () => {
   const { t } = useTranslation();
@@ -36,6 +37,8 @@ export const StoreEditPage: React.FC = () => {
   const [api, contextHolder] = notification.useNotification();
 
   const storeId = useParams().id as string;
+
+  const [form] = Form.useForm();
 
   const {
     getStore,
@@ -50,22 +53,21 @@ export const StoreEditPage: React.FC = () => {
     error: updateStoreError,
   } = useUpdateStoreApi<UpdateStoreResponse>();
 
-  const onSave = (form: FormInstance) => {
-    updateStore(
-      storeId,
-      {
-        name: form.getFieldValue('name'),
-        address: form.getFieldValue('address'),
-        contact_phone_number: form.getFieldValue('contact_phone_number'),
-        tenant_id: form.getFieldValue('tenant_id'),
-      }
-    );
+  const onSave = () => {
+    const payload = {
+      name: form.getFieldValue('name'),
+      address: form.getFieldValue('address'),
+      contact_phone_number: form.getFieldValue('contact_phone_number'),
+      status: form.getFieldValue('status'),
+      tenant_id: form.getFieldValue('tenant_id'),
+    }
+    updateStore(storeId, payload);
   }
 
   useEffect(() => {
     if (storeError) {
       api.error({
-        message: t('store.getStoreError'),
+        message: t('messages.getStoreError'),
       });
     }
   }, [storeError]);
@@ -73,7 +75,7 @@ export const StoreEditPage: React.FC = () => {
   useEffect(() => {
     if (updateStoreError) {
       api.error({
-        message: t('store.updateStoreError'),
+        message: t('messages.updateStoreError'),
       });
     }
   }, [updateStoreError]);
@@ -81,7 +83,7 @@ export const StoreEditPage: React.FC = () => {
   useEffect(() => {
     if (updateStoreData) {
       api.success({
-        message: t('store.updateStoreSuccess'),
+        message: t('messages.updateStoreSuccess'),
       });
     }
   }, [updateStoreData]);
@@ -91,6 +93,15 @@ export const StoreEditPage: React.FC = () => {
       getStore(storeId);
     }
   }, [storeId]);
+
+  useEffect(() => {
+    storeData && form.setFieldsValue({
+      name: storeData.name,
+      address: storeData.address,
+      contact_phone_number: storeData.contact_phone_number,
+      status: storeData.status,
+    });
+  }, [storeData]);
 
   return (
     <PortalLayout>
@@ -108,16 +119,25 @@ export const StoreEditPage: React.FC = () => {
               {t('common.back')}
             </Button>
           )}
-          right={null}
+          right={(
+            <Button
+              type="primary"
+              size="large"
+              onClick={onSave}
+              style={{ minWidth: 128 }}
+            >
+              {t('common.save')}
+            </Button>
+          )}
         />
 
         {storeLoading && <Skeleton active />}
 
         {!storeLoading && storeData && (
           <>
-            <EditSection
+            <DetailEditSection
               store={storeData as Store}
-              onSave={onSave}
+              onChange={(values) => form.setFieldsValue(values)}
             />
           </>
         )}
