@@ -114,7 +114,9 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
   }, [listMachineData]);
 
   useEffect(() => {
-    listMachine({ controller_id: selectedControllerId as string, page, page_size: pageSize });
+    if (selectedControllerId) {
+      listMachine({ controller_id: selectedControllerId as string, page, page_size: pageSize });
+    }
   }, [selectedControllerId]);
 
   useEffect(() => {
@@ -179,7 +181,9 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
               value: item.id,
             }))}
             onChange={(value) => setSelectedControllerId(value)}
-            style={{ width: 200 }}
+            style={{ width: 240 }}
+            loading={listControllerLoading}
+            placeholder={t('common.selectController')}
           />
         </Flex>)}
         right={(<Flex gap={theme.custom.spacing.medium}>

@@ -61,7 +61,18 @@
     "activateAllControllerMachines": "Activate All Machines",
     "pulseDuration": "Pulse Duration",
     "pulseValue": "Pulse Value",
-    "relayNo": "Relay No"
+    "relayNo": "Relay No",
+    "paymentMethod": "Payment Method",
+    "bankCode": "Bank Code",
+    "bankName": "Bank Name",
+    "bankAccountNumber": "Bank Account Number",
+    "bankAccountName": "Bank Account Name",
+    "remove": "Remove",
+    "cancel": "Cancel",
+    "addPaymentMethod": "Add Payment Method",
+    "qr": "QR Code",
+    "card": "Bank Card",
+    "selectController": "Select Controller"
   },
   "navigation": {
     "overview": "Overview",

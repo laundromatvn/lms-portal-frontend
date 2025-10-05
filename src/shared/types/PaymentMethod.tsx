@@ -1,4 +1,4 @@
-import { PaymentMethodEnum } from "@shared/enums/PaymentMethod";
+import { PaymentMethodEnum } from "@shared/enums/PaymentMethodEnum";
 
 export type PaymentMethodDetail = {
   bank_code: string;

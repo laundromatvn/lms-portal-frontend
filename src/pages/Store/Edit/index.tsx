@@ -28,6 +28,7 @@ import {
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DetailEditSection } from './DetailEditSection';
+import { PaymentMethodEditSection } from './PaymentMethodEditSection';
 
 export const StoreEditPage: React.FC = () => {
   const { t } = useTranslation();
@@ -60,6 +61,7 @@ export const StoreEditPage: React.FC = () => {
       contact_phone_number: form.getFieldValue('contact_phone_number'),
       status: form.getFieldValue('status'),
       tenant_id: form.getFieldValue('tenant_id'),
+      payment_methods: form.getFieldValue('payment_methods'),
     }
     updateStore(storeId, payload);
   }
@@ -136,6 +138,10 @@ export const StoreEditPage: React.FC = () => {
         {!storeLoading && storeData && (
           <>
             <DetailEditSection
+              store={storeData as Store}
+              onChange={(values) => form.setFieldsValue(values)}
+            />
+            <PaymentMethodEditSection
               store={storeData as Store}
               onChange={(values) => form.setFieldsValue(values)}
             />

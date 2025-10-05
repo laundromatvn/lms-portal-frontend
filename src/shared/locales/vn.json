@@ -61,7 +61,18 @@
     "activateAllControllerMachines": "Kích hoạt tất cả máy",
     "pulseDuration": "Độ dài xung",
     "pulseValue": "Giá trị xung",
-    "relayNo": "Relay no"
+    "relayNo": "Relay no",
+    "paymentMethod": "Phương thức thanh toán",
+    "bankCode": "Mã ngân hàng",
+    "bankName": "Tên ngân hàng",
+    "bankAccountNumber": "Số tài khoản",
+    "bankAccountName": "Tên chủ tài khoản",
+    "remove": "Xóa",
+    "cancel": "Hủy",
+    "addPaymentMethod": "Thêm phương thức thanh toán",
+    "qr": "Mã QR",
+    "card": "Thẻ ngân hàng",
+    "selectController": "Chọn Controller"
   },
   "navigation": {
     "overview": "Tổng quan",

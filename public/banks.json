@@ -1,0 +1,332 @@
+[
+  {
+    "bank_code": "TCB",
+    "bank_name": "Ngân hàng TMCP Kỹ thương Việt Nam",
+    "bank_short_name": "Techcombank"
+  },
+  {
+    "bank_code": "COOPBANK",
+    "bank_name": "Ngân hàng Hợp tác xã Việt Nam",
+    "bank_short_name": "COOPBANK"
+  },
+  {
+    "bank_code": "ACB",
+    "bank_name": "Ngân hàng TMCP Á Châu",
+    "bank_short_name": "ACB"
+  },
+  {
+    "bank_code": "KBHN",
+    "bank_name": "Ngân hàng Kookmin - Chi nhánh Hà Nội",
+    "bank_short_name": "KookminHN"
+  },
+  {
+    "bank_code": "IBK",
+    "bank_name": "Ngân hàng Công nghiệp Hàn Quốc",
+    "bank_short_name": "IBK"
+  },
+  {
+    "bank_code": "VAB",
+    "bank_name": "Ngân hàng TMCP Việt Á",
+    "bank_short_name": "VietABank"
+  },
+  {
+    "bank_code": "MSB",
+    "bank_name": "Ngân hàng TMCP Hàng Hải",
+    "bank_short_name": "MSB"
+  },
+  {
+    "bank_code": "ABB",
+    "bank_name": "Ngân hàng TMCP An Bình",
+    "bank_short_name": "ABBANK"
+  },
+  {
+    "bank_code": "LIOBANK",
+    "bank_name": "Ngân hàng số LioBank",
+    "bank_short_name": "LioBank"
+  },
+  {
+    "bank_code": "VPB",
+    "bank_name": "Ngân hàng TMCP Việt Nam Thịnh Vượng",
+    "bank_short_name": "VPBank"
+  },
+  {
+    "bank_code": "CBB",
+    "bank_name": "Ngân hàng Thương mại TNHH MTV Xây dựng Việt Nam",
+    "bank_short_name": "CBBank"
+  },
+  {
+    "bank_code": "KPB",
+    "bank_name": "Ngân hàng Đại chúng Kasikornbank - Chi nhánh TP. Hồ Chí Minh",
+    "bank_short_name": "KBank"
+  },
+  {
+    "bank_code": "WRB",
+    "bank_name": "Ngân hàng TNHH MTV Woori Việt Nam",
+    "bank_short_name": "Woori"
+  },
+  {
+    "bank_code": "HSBC",
+    "bank_name": "Ngân hàng TNHH MTV HSBC (Việt Nam)",
+    "bank_short_name": "HSBC"
+  },
+  {
+    "bank_code": "BNPHCM",
+    "bank_name": "Ngân hàng BNP Paribas - Chi nhánh TP. Hồ Chí Minh",
+    "bank_short_name": "BNPHCM"
+  },
+  {
+    "bank_code": "GPB",
+    "bank_name": "Ngân hàng Thương mại TNHH MTV Dầu Khí Toàn Cầu",
+    "bank_short_name": "GPBank"
+  },
+  {
+    "bank_code": "PBVN",
+    "bank_name": "Ngân hàng TNHH MTV Public Việt Nam",
+    "bank_short_name": "PublicBank"
+  },
+  {
+    "bank_code": "CAKE",
+    "bank_name": "TMCP Việt Nam Thịnh Vượng - Ngân hàng số CAKE by VPBank",
+    "bank_short_name": "CAKE"
+  },
+  {
+    "bank_code": "VTB",
+    "bank_name": "Ngân hàng TMCP Công thương Việt Nam",
+    "bank_short_name": "Vietinbank"
+  },
+  {
+    "bank_code": "BVB",
+    "bank_name": "Ngân hàng TMCP Bảo Việt",
+    "bank_short_name": "BaoVietBank"
+  },
+  {
+    "bank_code": "HONGLEONG",
+    "bank_name": "Ngân hàng TNHH MTV Hongleong Việt Nam",
+    "bank_short_name": "HongLeong"
+  },
+  {
+    "bank_code": "KEBHCM",
+    "bank_name": "Ngân hàng Keb Hana - Chi nhánh TP. Hồ Chí Minh",
+    "bank_short_name": "KEBHanaHCMBank"
+  },
+  {
+    "bank_code": "BNPHN",
+    "bank_name": "Ngân hàng BNP Paribas - Chi nhánh Hà Nội",
+    "bank_short_name": "BNPHN"
+  },
+  {
+    "bank_code": "VIB",
+    "bank_name": "Ngân hàng TMCP Quốc tế Việt Nam",
+    "bank_short_name": "VIB"
+  },
+  {
+    "bank_code": "VRB",
+    "bank_name": "Ngân hàng Liên doanh Việt - Nga",
+    "bank_short_name": "VRB"
+  },
+  {
+    "bank_code": "OCB",
+    "bank_name": "Ngân hàng TMCP Phương Đông",
+    "bank_short_name": "OCB"
+  },
+  {
+    "bank_code": "BAB",
+    "bank_name": "Ngân hàng TMCP Bắc Á",
+    "bank_short_name": "BacABank"
+  },
+  {
+    "bank_code": "KBHCM",
+    "bank_name": "Ngân hàng Kookmin - Chi nhánh Thành phố Hồ Chí Minh",
+    "bank_short_name": "KookminHCM"
+  },
+  {
+    "bank_code": "DAB",
+    "bank_name": "Ngân hàng TMCP Đông Á",
+    "bank_short_name": "DongABank"
+  },
+  {
+    "bank_code": "CITIBANK",
+    "bank_name": "Ngân hàng Citibank - Chi nhánh Hà Nội",
+    "bank_short_name": "CitibankHN"
+  },
+  {
+    "bank_code": "NCB",
+    "bank_name": "Ngân hàng TMCP Quốc Dân",
+    "bank_short_name": "NCB"
+  },
+  {
+    "bank_code": "VCAB",
+    "bank_name": "Ngân hàng TMCP Bản Việt",
+    "bank_short_name": "VietCapitalBank"
+  },
+  {
+    "bank_code": "DBS",
+    "bank_name": "DBS Bank Ltd - Chi nhánh Thành phố Hồ Chí Minh",
+    "bank_short_name": "DBSBank"
+  },
+  {
+    "bank_code": "NHB",
+    "bank_name": "Ngân hàng Nonghyup - Chi nhánh Hà Nội",
+    "bank_short_name": "Nonghyup"
+  },
+  {
+    "bank_code": "VTLMONEY",
+    "bank_name": "Tổng Công ty Dịch vụ số Viettel - Chi nhánh tập đoàn công nghiệp viễn thông Quân Đội",
+    "bank_short_name": "ViettelMoney"
+  },
+  {
+    "bank_code": "LPB",
+    "bank_name": "Ngân hàng TMCP Lộc Phát Việt Nam",
+    "bank_short_name": "LPBank"
+  },
+  {
+    "bank_code": "STB",
+    "bank_name": "Ngân hàng TMCP Sài Gòn Thương Tín",
+    "bank_short_name": "Sacombank"
+  },
+  {
+    "bank_code": "Ubank",
+    "bank_name": "TMCP Việt Nam Thịnh Vượng - Ngân hàng số Ubank by VPBank",
+    "bank_short_name": "Ubank"
+  },
+  {
+    "bank_code": "SHINHAN",
+    "bank_name": "Ngân hàng TNHH MTV Shinhan Việt Nam",
+    "bank_short_name": "ShinhanBank"
+  },
+  {
+    "bank_code": "SBC",
+    "bank_name": "Ngân hàng TMCP Sài Gòn Công Thương",
+    "bank_short_name": "SaigonBank"
+  },
+  {
+    "bank_code": "AGR",
+    "bank_name": "Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam",
+    "bank_short_name": "Agribank"
+  },
+  {
+    "bank_code": "HDB",
+    "bank_name": "Ngân hàng TMCP Phát triển Thành phố Hồ Chí Minh",
+    "bank_short_name": "HDBank"
+  },
+  {
+    "bank_code": "PGB",
+    "bank_name": "Ngân hàng TMCP Xăng dầu Petrolimex",
+    "bank_short_name": "PGBank"
+  },
+  {
+    "bank_code": "MB",
+    "bank_name": "Ngân hàng TMCP Quân đội",
+    "bank_short_name": "MBBank"
+  },
+  {
+    "bank_code": "BIDC",
+    "bank_name": "Ngân hàng Đầu tư và Phát triển Campuchia – Chi nhánh Hà Nội",
+    "bank_short_name": "BIDC"
+  },
+  {
+    "bank_code": "SAB",
+    "bank_name": "Ngân hàng TMCP Đông Nam Á",
+    "bank_short_name": "SeABank"
+  },
+  {
+    "bank_code": "VNPTMONEY",
+    "bank_name": "Trung tâm dịch vụ tài chính số VNPT- Chi nhánh Tổng công ty truyền thông (VNPT Fintech)",
+    "bank_short_name": "VNPTMoney"
+  },
+  {
+    "bank_code": "SHB",
+    "bank_name": "Ngân hàng TMCP Sài Gòn - Hà Nội",
+    "bank_short_name": "SHB"
+  },
+  {
+    "bank_code": "NAB",
+    "bank_name": "Ngân hàng TMCP Nam Á",
+    "bank_short_name": "NamABank"
+  },
+  {
+    "bank_code": "CUBHCM",
+    "bank_name": "Ngân hàng Cathay United Bank – Chi nhánh TP. Hồ Chí Minh",
+    "bank_short_name": "CathayUnitedBank"
+  },
+  {
+    "bank_code": "PVCB",
+    "bank_name": "Ngân hàng TMCP Đại Chúng Việt Nam",
+    "bank_short_name": "PVcomBank"
+  },
+  {
+    "bank_code": "VBC",
+    "bank_name": "Ngân hàng TMCP Việt Nam Thương Tín",
+    "bank_short_name": "VietBank"
+  },
+  {
+    "bank_code": "UOB",
+    "bank_name": "Ngân hàng United Overseas - Chi nhánh TP. Hồ Chí Minh",
+    "bank_short_name": "UnitedOverseas"
+  },
+  {
+    "bank_code": "TPB",
+    "bank_name": "Ngân hàng TMCP Tiên Phong",
+    "bank_short_name": "TPBank"
+  },
+  {
+    "bank_code": "UMEE",
+    "bank_name": "Ngân hàng số Umee – Kiên Long Bank",
+    "bank_short_name": "KienLongBank"
+  },
+  {
+    "bank_code": "CIMB",
+    "bank_name": "Ngân hàng TNHH MTV CIMB Việt Nam",
+    "bank_short_name": "CIMB"
+  },
+  {
+    "bank_code": "KLB",
+    "bank_name": "Ngân hàng TMCP Kiên Long",
+    "bank_short_name": "KienLongBank"
+  },
+  {
+    "bank_code": "VCB",
+    "bank_name": "Ngân hàng TMCP Ngoại Thương Việt Nam",
+    "bank_short_name": "Vietcombank"
+  },
+  {
+    "bank_code": "TIMO",
+    "bank_name": "Ngân hàng số Timo by Ban Viet Bank (Timo by Ban Viet Bank)",
+    "bank_short_name": "Timo"
+  },
+  {
+    "bank_code": "IVB",
+    "bank_name": "Ngân hàng TNHH Indovina",
+    "bank_short_name": "IndovinaBank"
+  },
+  {
+    "bank_code": "SCB",
+    "bank_name": "Ngân hàng TMCP Sài Gòn",
+    "bank_short_name": "SCB"
+  },
+  {
+    "bank_code": "BIDV",
+    "bank_name": "Ngân hàng TMCP Đầu tư và Phát triển Việt Nam",
+    "bank_short_name": "BIDV"
+  },
+  {
+    "bank_code": "EIB",
+    "bank_name": "Ngân hàng TMCP Xuất Nhập khẩu Việt Nam",
+    "bank_short_name": "Eximbank"
+  },
+  {
+    "bank_code": "SCVN",
+    "bank_name": "Ngân hàng TNHH MTV Standard Chartered Bank Việt Nam",
+    "bank_short_name": "StandardChartered"
+  },
+  {
+    "bank_code": "MBV",
+    "bank_name": "Ngân hàng Thương mại TNHH MTV Đại Dương",
+    "bank_short_name": "Oceanbank"
+  },
+  {
+    "bank_code": "KEBHN",
+    "bank_name": "Ngân hàng Keb Hana - Chi nhánh Hà Nội",
+    "bank_short_name": "KEBHanaHNBank"
+  }
+]

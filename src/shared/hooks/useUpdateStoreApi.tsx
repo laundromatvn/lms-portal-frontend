@@ -5,12 +5,14 @@ import { getBackendUrl } from '@shared/utils/env'
 import { type ApiState } from '@shared/hooks/types'
 
 import { type Store } from '@shared/types/store';
+import { type PaymentMethod } from '@shared/types/PaymentMethod';
 
 export type UpdateStoreRequest = {
   name: string;
   contact_phone_number: string;
   address: string;
   tenant_id: string;
+  payment_methods: PaymentMethod[];
 }
 
 export type UpdateStoreResponse = Store;
@@ -22,6 +24,7 @@ export async function updateStoreApi(storeId: string, request: UpdateStoreReques
     contact_phone_number: request.contact_phone_number,
     address: request.address,
     tenant_id: request.tenant_id,
+    payment_methods: request.payment_methods,
   }
 
   const res = await axiosClient.patch<UpdateStoreResponse>(url.replace(getBackendUrl(), ''), payload)

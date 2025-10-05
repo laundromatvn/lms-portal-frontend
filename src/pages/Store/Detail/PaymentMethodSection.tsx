@@ -20,10 +20,10 @@ export const PaymentMethodSection: React.FC<Props> = ({ store }: Props) => {
 
   const columns = [
     { title: t('common.paymentMethod'), dataIndex: 'payment_method' },
-    { title: t('common.bankCode'), dataIndex: 'details.bank_code' },
-    { title: t('common.bankName'), dataIndex: 'details.bank_name' },
-    { title: t('common.bankAccountNumber'), dataIndex: 'details.bank_account_number' },
-    { title: t('common.bankAccountName'), dataIndex: 'details.bank_account_name' },
+    { title: t('common.bankCode'), dataIndex: 'bank_code' },
+    { title: t('common.bankName'), dataIndex: 'bank_name' },
+    { title: t('common.bankAccountNumber'), dataIndex: 'bank_account_number' },
+    { title: t('common.bankAccountName'), dataIndex: 'bank_account_name' },
   ];
 
   return (
@@ -40,6 +40,7 @@ export const PaymentMethodSection: React.FC<Props> = ({ store }: Props) => {
         }))}
         columns={columns}
         style={{ width: '100%' }}
+        pagination={false}
       />
     </Box>
   );
