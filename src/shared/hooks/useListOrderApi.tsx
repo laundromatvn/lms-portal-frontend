@@ -6,34 +6,36 @@ import { type ApiState } from '@shared/hooks/types';
 
 import axiosClient from '@core/axiosClient';
 
-import { type Controller } from '@shared/types/Controller';
+import { type Order } from '@shared/types/Order';
 
-export type ListControllerRequest = {
+export type ListOrderRequest = {
+  tenant_id: string;
   page: number;
   page_size: number;
 }
 
-export type ListControllerResponse = {
+export type ListOrderResponse = {
   page: number;
   page_size: number;
   total: number;
   total_pages: number;
-  data: Controller[];
+  data: Order[];
 }
 
-export const useListControllerApi = <T = ListControllerResponse>() => {
+export const useListOrderApi = <T = ListOrderResponse>() => {
   const [state, setState] = useState<ApiState<T>>({
     data: null,
     loading: false,
     error: null,
   });
 
-  const listController = useCallback(async ({ page = 1, page_size = 10 }: ListControllerRequest) => {
+  const listOrder = useCallback(async ({ tenant_id, page = 1, page_size = 10 }: ListOrderRequest) => {
       setState(prevState => ({ ...prevState, loading: true, error: null }));
 
-    const url = `${getBackendUrl()}/api/v1/controller`
+    const url = `${getBackendUrl()}/api/v1/order`
 
     const queryParams = {
+      tenant_id,
       page,
       page_size,
     }
@@ -52,5 +54,5 @@ export const useListControllerApi = <T = ListControllerResponse>() => {
     }
   }, [setState]);
 
-  return { ...state, listController };
+  return { ...state, listOrder };
 }

@@ -21,6 +21,7 @@ import {
   Shop2,
   WiFiRouter,
   WashingMachine,
+  Bill,
 } from '@solar-icons/react'
 import type { MenuProps } from 'antd';
 
@@ -77,7 +78,12 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'machines',
       icon: <WashingMachine />,
       label: t('navigation.machines'),
-    }
+    },
+    {
+      key: 'orders',
+      icon: <Bill />,
+      label: t('navigation.orders'),
+    },
   ];
 
   useEffect(() => {

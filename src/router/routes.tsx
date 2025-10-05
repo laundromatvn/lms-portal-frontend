@@ -26,6 +26,10 @@ import {
   MachineDetailPage,
 } from '@pages/Machine';
 
+import {
+  OrderListPage
+} from '@pages/Order';
+
 import { type Route } from './index';
 
 export const routes: Route[] = [
@@ -97,5 +101,10 @@ export const routes: Route[] = [
   {
     path: '/machines/:id/detail',
     component: <MachineDetailPage />,
+  },
+  // Order
+  {
+    path: '/orders',
+    component: <OrderListPage />,
   },
 ];

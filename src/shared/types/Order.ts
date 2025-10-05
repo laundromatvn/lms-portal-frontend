@@ -7,4 +7,5 @@ export type Order = {
   total_washer: number;
   total_dryer: number;
   store_id: string;
+  store_name: string;
 }
