@@ -100,8 +100,11 @@ export const EditSection: React.FC<Props> = ({ machine, onSave }: Props) => {
             size="large"
             style={{ width: '100%' }}
             options={[
-              { label: t('common.active'), value: MachineStatusEnum.ACTIVE },
-              { label: t('common.inactive'), value: MachineStatusEnum.INACTIVE },
+              { label: t('common.pendingSetup'), value: MachineStatusEnum.PENDING_SETUP },
+              { label: t('common.idle'), value: MachineStatusEnum.IDLE },
+              { label: t('common.starting'), value: MachineStatusEnum.STARTING },
+              { label: t('common.busy'), value: MachineStatusEnum.BUSY },
+              { label: t('common.outOfService'), value: MachineStatusEnum.OUT_OF_SERVICE },
             ]}
           />
         </Form.Item>

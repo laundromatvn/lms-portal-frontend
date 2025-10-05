@@ -101,7 +101,7 @@ export const MachineEditPage: React.FC = () => {
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <Typography.Title level={2}>Store Edit</Typography.Title>
+        <Typography.Title level={2}>Machine Edit</Typography.Title>
 
         <LeftRightSection
           left={(

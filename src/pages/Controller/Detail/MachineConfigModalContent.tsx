@@ -11,6 +11,7 @@ import { MachineTypeEnum } from '@shared/enums/MachineTypeEnum';
 
 import { Box } from '@shared/components/Box';
 import { useUpdateMachineApi, type UpdateMachineResponse } from '@shared/hooks/useUpdateMachineApi';
+import { MachineStatusEnum } from '@shared/enums/MachineStatusEnum';
 
 interface Props {
   machineId: string;
@@ -84,6 +85,8 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
         machine_type: machineData.machine_type,
         base_price: machineData.base_price,
         status: machineData.status,
+        pulse_duration: machineData.pulse_duration,
+        pulse_value: machineData.pulse_value,
       });
     }
   }, [machineData]);
@@ -110,7 +113,7 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
         <Box
           vertical
           gap={theme.custom.spacing.medium}
-          style={{ width: '100%', height: '100%' }}
+          style={{ width: '100%', height: '100%', overflowY: 'auto' }}
         >
           <Form form={form} layout="vertical" style={{ width: '100%' }}>
             <Form.Item
@@ -119,6 +122,24 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
               rules={[{ required: true, message: t('machine.machineIdRequired') }]}
             >
               <Input size="large" defaultValue={machineId} disabled />
+            </Form.Item>
+
+            <Form.Item
+              label="Status"
+              name="status"
+              rules={[{ required: true, message: t('machine.statusRequired') }]}
+            >
+              <Select
+                size="large"
+                disabled
+                options={[
+                  { label: 'Pending Setup', value: MachineStatusEnum.PENDING_SETUP },
+                  { label: 'Idle', value: MachineStatusEnum.IDLE },
+                  { label: 'Starting', value: MachineStatusEnum.STARTING },
+                  { label: 'Busy', value: MachineStatusEnum.BUSY },
+                  { label: 'Out of Service', value: MachineStatusEnum.OUT_OF_SERVICE },
+                ]}
+              />
             </Form.Item>
 
             <Form.Item label="Machine Name" name="name">
@@ -158,18 +179,19 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
             </Form.Item>
 
             <Form.Item
-              label="Status"
-              name="status"
-              rules={[{ required: true, message: t('machine.statusRequired') }]}
+              label="Pulse Duration"
+              name="pulse_duration"
+              rules={[{ required: true, message: t('machine.pulseDurationRequired') }]}
             >
-              <Select
-                size="large"
-                disabled
-                options={[
-                  { label: 'Active', value: 'active' },
-                  { label: 'Inactive', value: 'inactive' },
-                ]}
-              />
+              <InputNumber size="large" style={{ width: '100%' }} />
+            </Form.Item>
+
+            <Form.Item
+              label="Pulse Value"
+              name="pulse_value"
+              rules={[{ required: true, message: t('machine.pulseValueRequired') }]}
+            >
+              <InputNumber size="large" style={{ width: '100%' }} />
             </Form.Item>
 
             <Form.Item style={{ width: '100%', textAlign: 'right' }}>
