@@ -58,6 +58,8 @@ export const MachineEditPage: React.FC = () => {
         machine_type: form.getFieldValue('machine_type'),
         base_price: form.getFieldValue('base_price'),
         status: form.getFieldValue('status'),
+        pulse_duration: form.getFieldValue('pulse_duration'),
+        pulse_value: form.getFieldValue('pulse_value'),
       }
     );
   }
@@ -65,7 +67,7 @@ export const MachineEditPage: React.FC = () => {
   useEffect(() => {
     if (machineError) {
       api.error({
-        message: t('machine.getMachineError'),
+        message: t('messages.getMachineError'),
       });
     }
   }, [machineError]);
@@ -73,7 +75,7 @@ export const MachineEditPage: React.FC = () => {
   useEffect(() => {
     if (updateMachineError) {
       api.error({
-        message: t('machine.updateMachineError'),
+        message: t('messages.updateMachineError'),
       });
     }
   }, [updateMachineError]);
@@ -81,8 +83,10 @@ export const MachineEditPage: React.FC = () => {
   useEffect(() => {
     if (updateMachineData) {
       api.success({
-        message: t('machine.updateMachineSuccess'),
+        message: t('messages.updateMachineSuccess'),
       });
+
+      navigate(`/machines/${machineId}/detail`);
     }
   }, [updateMachineData]);
 

@@ -34,6 +34,8 @@ export const DetailSection: React.FC<Props> = ({ machine }: Props) => {
         </Typography.Link>
       </DataWrapper>
       <DataWrapper title={t('common.relayNo')} value={machine.relay_no} />
+      <DataWrapper title={t('common.pulseDuration')} value={machine.pulse_duration} />
+      <DataWrapper title={t('common.pulseValue')} value={machine.pulse_value} />
       <DataWrapper title={t('common.status')} >
         <DynamicTag value={machine.status} />
       </DataWrapper>

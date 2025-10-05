@@ -15,4 +15,7 @@ export type Machine = {
   status: string;
   store_id: string | null;
   store_name: string | null;
+  pulse_duration: number;
+  pulse_value: number;
+  add_ons_options: Record<string, any>;
 }

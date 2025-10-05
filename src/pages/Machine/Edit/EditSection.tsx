@@ -36,6 +36,9 @@ export const EditSection: React.FC<Props> = ({ machine, onSave }: Props) => {
       machine_type: machine.machine_type,
       base_price: machine.base_price,
       status: machine.status,
+      relay_no: machine.relay_no,
+      pulse_duration: machine.pulse_duration,
+      pulse_value: machine.pulse_value,
     });
   }, [machine]);
 
@@ -52,12 +55,39 @@ export const EditSection: React.FC<Props> = ({ machine, onSave }: Props) => {
         </Form.Item>
 
         <Form.Item
+          label={t('common.relayNo')}
+          name="relay_no"
+          style={{ width: '100%' }}
+          rules={[{ required: true, message: t('common.relayNoIsRequired') }]}
+        >
+          <Input size="large" disabled />
+        </Form.Item>
+
+        <Form.Item
           label={t('common.name')}
           name="name"
           style={{ width: '100%' }}
           rules={[{ required: true, message: t('common.nameIsRequired') }]}
         >
           <Input size="large" />
+        </Form.Item>
+
+        <Form.Item
+          label={t('common.pulseDuration')}
+          name="pulse_duration"
+          style={{ width: '100%' }}
+          rules={[{ required: true, message: t('common.pulseDurationIsRequired') }]}
+        >
+          <InputNumber size="large" style={{ width: '100%' }} />
+        </Form.Item>
+
+        <Form.Item
+          label={t('common.pulseValue')}
+          name="pulse_value"
+          style={{ width: '100%' }}
+          rules={[{ required: true, message: t('common.pulseValueIsRequired') }]}
+        >
+          <InputNumber size="large" style={{ width: '100%' }} />
         </Form.Item>
 
         <Form.Item

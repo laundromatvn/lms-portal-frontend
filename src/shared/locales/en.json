@@ -58,7 +58,10 @@
     "dryer": "Dryer",
     "startMachine": "Start Machine",
     "activateMachine": "Activate Machine",
-    "activateAllControllerMachines": "Activate All Machines"
+    "activateAllControllerMachines": "Activate All Machines",
+    "pulseDuration": "Pulse Duration",
+    "pulseValue": "Pulse Value",
+    "relayNo": "Relay No"
   },
   "navigation": {
     "overview": "Overview",
@@ -95,6 +98,12 @@
     "activateMachineSuccess": "Machine activated successfully",
     "activateMachineError": "Failed to activate machine",
     "activateAllControllerMachinesSuccess": "All controller machines activated successfully",
-    "activateAllControllerMachinesError": "Failed to activate all controller machines"
+    "activateAllControllerMachinesError": "Failed to activate all controller machines",
+    "updateMachineSuccess": "Machine updated successfully",
+    "updateMachineError": "Failed to update machine",
+    "getMachineError": "Failed to get machine",
+    "pulseDurationIsRequired": "Pulse duration is required",
+    "pulseValueIsRequired": "Pulse value is required",
+    "relayNoIsRequired": "Relay no is required"
   }
 }
