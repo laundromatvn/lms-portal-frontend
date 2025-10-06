@@ -247,7 +247,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
         </Flex>
 
         {/* Main Menu */}
-        <Flex flex={1} style={{ overflow: 'auto' }}>
+        <div style={{ flex: 1, overflow: 'auto' }}>
           <Menu
             selectedKeys={[selectedKey]}
             mode="inline"
@@ -261,7 +261,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
             }}
             items={menuItems}
           />
-        </Flex>
+        </div>
 
         {/* User Admin Section */}
         <div
