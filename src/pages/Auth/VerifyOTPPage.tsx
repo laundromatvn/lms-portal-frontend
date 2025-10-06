@@ -11,6 +11,7 @@ import { useGetLMSProfileApi } from '@shared/hooks/useGetLMSProfile';
 import { useGetMeApi } from '@shared/hooks/useGetMe';
 import { userStorage } from '@core/storage/userStorage';
 import { tenantStorage } from '@core/storage/tenantStorage';
+import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
 
 import { AuthContainer } from './components';
 
@@ -45,7 +46,8 @@ export const VerifyOTPPage: React.FC = () => {
 
   useEffect(() => {
     if (verifyOTPData) {
-      getLMSProfile();
+      // First get user info to check if they are admin
+      getMe();
     }
   }, [verifyOTPData]);
 
@@ -53,14 +55,18 @@ export const VerifyOTPPage: React.FC = () => {
     if (getLMSProfileData) {
       userStorage.save(getLMSProfileData.user);
       tenantStorage.save(getLMSProfileData.tenant);
-      getMe();
+      navigate('/overview');
     }
   }, [getLMSProfileData]);
 
   useEffect(() => {
     if (getMeData) {
       userStorage.save(getMeData);
-      navigate('/overview');
+      if (getMeData.role === UserRoleEnum.ADMIN) {
+        navigate('/overview');
+      } else {
+        getLMSProfile();
+      }
     }
   }, [getMeData]);
 

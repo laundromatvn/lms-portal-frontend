@@ -8,7 +8,7 @@ import { type Store } from '@shared/types/store';
 import axiosClient from '@core/axiosClient'
 
 export type ListStoreRequest = {
-  tenant_id: string;
+  tenant_id?: string;
   page: number;
   page_size: number;
 }
@@ -33,16 +33,19 @@ export const useListStoreApi = <T = ListStoreResponse>() => {
 
     const url = `${getBackendUrl()}/api/v1/store`
 
-    const queryParams = {
-      tenant_id,
+    let queryParams = {
       page,
       page_size,
+    } as Record<string, any>;
+
+    if (tenant_id) {
+      queryParams.tenant_id = tenant_id;
     }
 
     try {
       const response = await axiosClient.get<T>(
         url.replace(getBackendUrl(), ''),
-        { params: queryParams }
+        { params: { ...queryParams } }
       )
 
       setState({ data: response.data as T, loading: false, error: null });

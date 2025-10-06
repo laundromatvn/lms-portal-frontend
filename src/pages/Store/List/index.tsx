@@ -49,6 +49,14 @@ export const StoreListPage: React.FC = () => {
     listStore,
   } = useListStoreApi<ListStoreResponse>();
 
+  const handleListStore = () => {
+    if (tenant) {
+      listStore({ tenant_id: tenant.id, page, page_size: pageSize });
+    } else {
+      listStore({ page, page_size: pageSize });
+    }
+  }
+
   useEffect(() => {
     if (listStoreData) {
       setTableData(listStoreData?.data.map((item) => ({
@@ -91,9 +99,7 @@ export const StoreListPage: React.FC = () => {
   }, [listStoreError]);
 
   useEffect(() => {
-    if (!tenant) return;
-
-    listStore({ tenant_id: tenant.id, page, page_size: pageSize });
+    handleListStore();
   }, [page, pageSize]);
 
   return (

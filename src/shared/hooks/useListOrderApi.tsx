@@ -9,7 +9,7 @@ import axiosClient from '@core/axiosClient';
 import { type Order } from '@shared/types/Order';
 
 export type ListOrderRequest = {
-  tenant_id: string;
+  tenant_id?: string;
   page: number;
   page_size: number;
 }
@@ -34,16 +34,19 @@ export const useListOrderApi = <T = ListOrderResponse>() => {
 
     const url = `${getBackendUrl()}/api/v1/order`
 
-    const queryParams = {
-      tenant_id,
+    let queryParams = {
       page,
       page_size,
+    } as Record<string, any>;
+
+    if (tenant_id) {
+      queryParams.tenant_id = tenant_id;
     }
 
     try {
       const response = await axiosClient.get<T>(
         url.replace(getBackendUrl(), ''),
-        { params: queryParams }
+        { params: { ...queryParams } }
       )
 
       setState({ data: response.data as T, loading: false, error: null });

@@ -81,9 +81,11 @@ export const OrderListPage: React.FC = () => {
   } = useTriggerPaymentFailedApi<TriggerPaymentFailedResponse>();
 
   const handleListOrder = async () => {
-    if (!tenant) return;
-
-    listOrder({ page, page_size: pageSize, tenant_id: tenant.id });
+    if (tenant) {
+      listOrder({ page, page_size: pageSize, tenant_id: tenant.id });
+    } else {
+      listOrder({ page, page_size: pageSize });
+    }
   }
 
   useEffect(() => {
@@ -106,12 +108,14 @@ export const OrderListPage: React.FC = () => {
             <Button
               type="link"
               onClick={() => triggerPaymentSuccess(item.id)}
+              loading={triggerPaymentSuccessLoading}
             >
               <BillCheck size={24} color={theme.custom.colors.success.default} />
             </Button>
             <Button
               type="link"
               onClick={() => triggerPaymentFailed(item.id)}
+              loading={triggerPaymentFailedLoading}
             >
               <BillCross size={24} color={theme.custom.colors.danger.default} />
             </Button>
