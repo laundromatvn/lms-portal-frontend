@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { Layout, Menu, Typography, Avatar, Button } from 'antd';
+import { Layout, Menu, Typography, Avatar, Button, Flex } from 'antd';
+
+import Flag from 'react-world-flags';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -24,6 +26,7 @@ import {
   Bill,
 } from '@solar-icons/react'
 import type { MenuProps } from 'antd';
+import i18n from '@shared/services/i18n';
 
 const { Sider: AntdSider } = Layout;
 const { Text } = Typography;
@@ -139,6 +142,15 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
     return name.charAt(0).toUpperCase() + name.slice(1);
   };
 
+  const flagStyle = {
+    width: 28,
+    height: 28,
+    borderRadius: theme.custom.radius.full,
+    cursor: 'pointer',
+    border: '2px solid #fff',
+    objectFit: 'cover' as React.CSSProperties['objectFit'],
+  };
+
   return (
     <AntdSider
       collapsible
@@ -158,28 +170,48 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
         ...style,
       }}
     >
-      <div
+      <Flex
+        vertical
         style={{
-          display: 'flex',
-          flexDirection: 'column',
           height: '100%',
           width: '100%',
           padding: theme.custom.spacing.medium,
         }}
       >
         {/* Header */}
-        <div
+        <Flex
+          justify="space-between"
+          align="center"
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
             marginBottom: theme.custom.spacing.large,
             paddingBottom: theme.custom.spacing.medium,
             borderBottom: `1px solid ${theme.custom.colors.neutral[200]}`,
           }}
         >
           {!collapsed && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: theme.custom.spacing.small }}>
+            <Flex align="center" gap={theme.custom.spacing.small}>
+              {i18n.language === 'vn' ? (
+                <Flag
+                  code="vn"
+                  style={{
+                    ...flagStyle,
+                    border: '2px solid #fff',
+                  }}
+                  onClick={() => {
+                    i18n.changeLanguage('en');
+                  }} />
+              ) : (
+                <Flag
+                  code="gb"
+                  style={{
+                    ...flagStyle,
+                    border: '2px solid #fff',
+                  }}
+                  onClick={() => {
+                    i18n.changeLanguage('vn');
+                  }} />
+              )}
+
               <Avatar
                 size="small"
                 style={{
@@ -197,8 +229,9 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
               >
                 LMS Admin
               </Text>
-            </div>
+            </Flex>
           )}
+
           <Button
             type="text"
             icon={collapsed ? <ArrowRight /> : <ArrowLeft />}
@@ -211,10 +244,10 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
               color: theme.custom.colors.text.secondary,
             }}
           />
-        </div>
+        </Flex>
 
         {/* Main Menu */}
-        <div style={{ flex: 1, overflow: 'auto' }}>
+        <Flex flex={1} style={{ overflow: 'auto' }}>
           <Menu
             selectedKeys={[selectedKey]}
             mode="inline"
@@ -228,7 +261,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
             }}
             items={menuItems}
           />
-        </div>
+        </Flex>
 
         {/* User Admin Section */}
         <div
@@ -291,24 +324,32 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
           </div>
 
           {/* Logout Button */}
-          <Button
-            type="text"
-            icon={<Logout />}
-            onClick={handleLogout}
+          <Flex
+            justify="flex-start"
+            align="center"
             style={{
               width: '100%',
-              textAlign: 'left',
-              color: theme.custom.colors.text.secondary,
               height: '40px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: collapsed ? 'center' : 'flex-start',
-            }}
-          >
-            {!collapsed && t('navigation.logout')}
-          </Button>
+            }}>
+            <Button
+              type="text"
+              icon={<Logout />}
+              onClick={handleLogout}
+              style={{
+                width: '100%',
+                textAlign: 'left',
+                color: theme.custom.colors.text.secondary,
+                height: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: collapsed ? 'center' : 'flex-start',
+              }}
+            >
+              {!collapsed && t('navigation.logout')}
+            </Button>
+          </Flex>
         </div>
-      </div>
+      </Flex>
     </AntdSider>
   );
 };
