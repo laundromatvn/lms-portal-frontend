@@ -25,6 +25,8 @@ import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DetailSection } from './DetailSection';
 
+const DEFAULT_TOTAL_AMOUNT = 200000;
+
 export const MachineDetailPage: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -113,7 +115,9 @@ export const MachineDetailPage: React.FC = () => {
         <LeftRightSection
           left={null}
           right={(<Flex gap={theme.custom.spacing.medium}>
-            <Button type="primary" size="large" onClick={() => startMachine(machineId as string)}>
+            <Button type="primary" size="large" onClick={() => {
+              startMachine(machineId as string, DEFAULT_TOTAL_AMOUNT);
+            }}>
               {t('common.startMachine')}
             </Button>
             <Button 

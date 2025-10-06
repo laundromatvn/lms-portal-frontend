@@ -41,6 +41,8 @@ interface Props {
   store: Store;
 }
 
+const DEFAULT_TOTAL_AMOUNT = 200000;
+
 export const MachineListSection: React.FC<Props> = ({ store }) => {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -97,7 +99,7 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
         actions: (
           <Flex gap={theme.custom.spacing.medium}>
             <Button type="link" onClick={() => {
-              startMachine(item.id);
+              startMachine(item.id, DEFAULT_TOTAL_AMOUNT);
             }}>
               <Play weight="Bold" color={theme.custom.colors.success.default} />
             </Button>
