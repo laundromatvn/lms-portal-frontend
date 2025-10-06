@@ -89,6 +89,20 @@ declare module 'antd/es/theme/interface' {
           light: string;
           dark: string;
         };
+        accent_1: {
+          100: string;
+          200: string;
+          300: string;
+          400: string;
+          500: string;
+          600: string;
+          700: string;
+          800: string;
+          900: string;
+          light: string;
+          dark: string;
+          default: string;
+        };
         background: {
           light: string;
           dark: string;

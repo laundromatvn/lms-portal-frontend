@@ -2,16 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { Layout, Menu, Typography, Avatar, Button, Flex } from 'antd';
-
-import Flag from 'react-world-flags';
-
-import { useTheme } from '@shared/theme/useTheme';
-
-import { userStorage } from '@core/storage/userStorage';
-import { STORAGE_KEY as USER_STORAGE_KEY } from '@core/storage/userStorage';
-
-import { type User } from '@shared/types/user';
+import {
+  Layout,
+  Menu,
+  Typography,
+  Avatar,
+  Button,
+  Flex,
+  type MenuProps,
+} from 'antd';
 
 import {
   Widget,
@@ -25,9 +24,22 @@ import {
   Suitcase,
   UsersGroupTwoRounded
 } from '@solar-icons/react'
-import type { MenuProps } from 'antd';
+
+import Flag from 'react-world-flags';
+
+import { useTheme } from '@shared/theme/useTheme';
 import i18n from '@shared/services/i18n';
+
+import { STORAGE_KEY as USER_STORAGE_KEY } from '@core/storage/userStorage';
+
+import { userStorage } from '@core/storage/userStorage';
+import { tenantStorage } from '@core/storage/tenantStorage';
+import { tokenStorage } from '@core/storage/tokenStorage';
+
+import { type User } from '@shared/types/user';
 import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
+
+import { DynamicTag } from '@shared/components/DynamicTag';
 
 const { Sider: AntdSider } = Layout;
 const { Text } = Typography;
@@ -49,6 +61,8 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
 
   const [collapsed, setCollapsed] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+
+  const tenant = tenantStorage.load();
 
   const [selectedMainKey, setSelectedMainKey] = useState<string | null>(null);
   const [selectedTenantKey, setSelectedTenantKey] = useState<string | null>(null);
@@ -137,7 +151,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
     const pathname = location.pathname;
     const pathSegments = pathname.split('/').filter(Boolean);
     const firstSegment = pathSegments[0];
-    
+
     // Check if it's a tenant route
     if (firstSegment === 'tenant') {
       setSelectedMainKey(null);
@@ -151,6 +165,8 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
 
   const handleLogout = () => {
     userStorage.clear();
+    tenantStorage.clear();
+    tokenStorage.clear();
     navigate('/auth/sign-in');
   };
 
@@ -238,23 +254,23 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
                   }} />
               )}
 
-              <Avatar
-                size="small"
-                style={{
-                  backgroundColor: theme.custom.colors.primary.default,
-                }}
-              >
-                L
-              </Avatar>
-              <Text
-                strong
-                style={{
-                  color: theme.custom.colors.text.primary,
-                  fontSize: '16px',
-                }}
-              >
-                LMS Admin
-              </Text>
+              <Flex vertical justify="center" gap={theme.custom.spacing.xxsmall}>
+                <Text
+                  strong
+                  style={{
+                    color: theme.custom.colors.text.primary,
+                    fontSize: '16px',
+                  }}
+                >
+                  LMS Portal
+                </Text>
+
+                {tenant && (
+                  <Typography.Text type="secondary" style={{ fontSize: theme.custom.fontSize.medium }}>
+                    {tenant.name}
+                  </Typography.Text>
+                )}
+              </Flex>
             </Flex>
           )}
 
@@ -341,22 +357,9 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
             {!collapsed && (
               <div style={{ flex: 1, minWidth: 0 }}>
                 <Text
-                  strong
-                  style={{
-                    color: theme.custom.colors.text.primary,
-                    fontSize: '14px',
-                    display: 'block',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {getUserDisplayName(user)}
-                </Text>
-                <Text
                   style={{
                     color: theme.custom.colors.text.secondary,
-                    fontSize: '12px',
+                    fontSize: theme.custom.fontSize.small,
                     display: 'block',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
@@ -365,6 +368,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
                 >
                   {user?.email || 'admin@lms.com'}
                 </Text>
+                <DynamicTag value={user?.role || ''} />
               </div>
             )}
           </div>
