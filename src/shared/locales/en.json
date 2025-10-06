@@ -72,7 +72,11 @@
     "addPaymentMethod": "Add Payment Method",
     "qr": "QR Code",
     "card": "Bank Card",
-    "selectController": "Select Controller"
+    "selectController": "Select Controller",
+    "contactEmail": "Contact Email",
+    "contactFullName": "Contact Full Name",
+    "contactAddress": "Contact Address",
+    "tenantId": "Tenant ID"
   },
   "navigation": {
     "overview": "Overview",
@@ -121,6 +125,7 @@
     "relayNoIsRequired": "Relay no is required",
     "updateStoreSuccess": "Store updated successfully",
     "updateStoreError": "Failed to update store",
-    "getStoreError": "Failed to get store"
+    "getStoreError": "Failed to get store",
+    "getTenantError": "Failed to get tenant"
   }
 }

@@ -72,7 +72,11 @@
     "addPaymentMethod": "Thêm phương thức thanh toán",
     "qr": "Mã QR",
     "card": "Thẻ ngân hàng",
-    "selectController": "Chọn Controller"
+    "selectController": "Chọn Controller",
+    "contactEmail": "Email liên hệ",
+    "contactFullName": "Tên liên hệ",
+    "contactAddress": "Địa chỉ liên hệ",
+    "tenantId": "ID Tenant"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -121,6 +125,7 @@
     "relayNoIsRequired": "Relay no là bắt buộc",
     "updateStoreSuccess": "Cửa hàng đã được cập nhật thành công",
     "updateStoreError": "Không thể cập nhật cửa hàng",
-    "getStoreError": "Không thể lấy cửa hàng"
+    "getStoreError": "Không thể lấy cửa hàng",
+    "getTenantError": "Không thể lấy tenant"
   }
 }

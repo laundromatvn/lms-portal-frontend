@@ -32,7 +32,8 @@ import {
 
 import {
   TenantProfilePage,
-  TenantMembersPage
+  TenantMembersPage,
+  TenantEditPage,
 } from '@pages/Tenant';
 
 import { type Route } from './index';
@@ -114,11 +115,15 @@ export const routes: Route[] = [
   },
   // Tenant
   {
-    path: '/tenant/profile',
+    path: '/tenants/profile',
     component: <TenantProfilePage />,
   },
   {
-    path: '/tenant/members',
+    path: '/tenants/members',
     component: <TenantMembersPage />,
   },
+  {
+    path: '/tenants/:id/edit',
+    component: <TenantEditPage />,
+  }
 ];

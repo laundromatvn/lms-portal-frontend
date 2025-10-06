@@ -93,12 +93,12 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
 
   const tenantManagementMenuItems: MenuItem[] = [
     {
-      key: 'tenant/profile',
+      key: 'tenants/profile',
       icon: <Suitcase />,
       label: t('navigation.tenantProfile'),
     },
     {
-      key: 'tenant/members',
+      key: 'tenants/members',
       icon: <UsersGroupTwoRounded />,
       label: t('navigation.tenantMembers'),
     },
