@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { use, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Flex, Input, Form, Typography, notification, Select, Skeleton, Button } from 'antd';
@@ -54,7 +54,7 @@ export const ConfigModalContent: React.FC<Props> = ({ user_id, onClose }) => {
     if (user_id) {
       getUser(user_id);
     }
-  }, []);
+  }, [user_id]);
 
   useEffect(() => {
     if (userError) {
@@ -100,15 +100,6 @@ export const ConfigModalContent: React.FC<Props> = ({ user_id, onClose }) => {
       });
     }
   }, [userData]);
-
-  useEffect(() => {
-    form.setFieldsValue({
-      email: '',
-      phone: '',
-      role: '',
-      status: '',
-    });
-  }, []);
 
   return (
     <Flex vertical gap={theme.custom.spacing.medium}>
