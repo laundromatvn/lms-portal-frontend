@@ -30,6 +30,11 @@ import {
   OrderListPage
 } from '@pages/Order';
 
+import {
+  TenantProfilePage,
+  TenantMembersPage
+} from '@pages/Tenant';
+
 import { type Route } from './index';
 
 export const routes: Route[] = [
@@ -106,5 +111,14 @@ export const routes: Route[] = [
   {
     path: '/orders',
     component: <OrderListPage />,
+  },
+  // Tenant
+  {
+    path: '/tenant/profile',
+    component: <TenantProfilePage />,
+  },
+  {
+    path: '/tenant/members',
+    component: <TenantMembersPage />,
   },
 ];

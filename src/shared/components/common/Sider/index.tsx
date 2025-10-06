@@ -15,8 +15,6 @@ import { type User } from '@shared/types/user';
 
 import {
   Widget,
-  Settings,
-  UserCircle,
   ArrowLeft,
   ArrowRight,
   Logout,
@@ -24,9 +22,12 @@ import {
   WiFiRouter,
   WashingMachine,
   Bill,
+  Suitcase,
+  UsersGroupTwoRounded
 } from '@solar-icons/react'
 import type { MenuProps } from 'antd';
 import i18n from '@shared/services/i18n';
+import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
 
 const { Sider: AntdSider } = Layout;
 const { Text } = Typography;
@@ -49,9 +50,10 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
-  const [selectedKey, setSelectedKey] = useState<string>('overview');
+  const [selectedMainKey, setSelectedMainKey] = useState<string | null>(null);
+  const [selectedTenantKey, setSelectedTenantKey] = useState<string | null>(null);
 
-  const menuItems: MenuItem[] = [
+  const mainMenuItems: MenuItem[] = [
     {
       key: 'overview',
       icon: <Widget />,
@@ -89,6 +91,19 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
     },
   ];
 
+  const tenantManagementMenuItems: MenuItem[] = [
+    {
+      key: 'tenant/profile',
+      icon: <Suitcase />,
+      label: t('navigation.tenantProfile'),
+    },
+    {
+      key: 'tenant/members',
+      icon: <UsersGroupTwoRounded />,
+      label: t('navigation.tenantMembers'),
+    },
+  ];
+
   useEffect(() => {
     const loadUserData = () => {
       const userData = userStorage.load();
@@ -120,7 +135,18 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
   // Sync selectedKey with current location
   useEffect(() => {
     const pathname = location.pathname;
-    setSelectedKey(pathname.split('/')[1]);
+    const pathSegments = pathname.split('/').filter(Boolean);
+    const firstSegment = pathSegments[0];
+    
+    // Check if it's a tenant route
+    if (firstSegment === 'tenant') {
+      setSelectedMainKey(null);
+      setSelectedTenantKey(pathSegments.join('/'));
+    } else {
+      // Main menu route
+      setSelectedMainKey(firstSegment || null);
+      setSelectedTenantKey(null);
+    }
   }, [location.pathname]);
 
   const handleLogout = () => {
@@ -249,18 +275,38 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
         {/* Main Menu */}
         <div style={{ flex: 1, overflow: 'auto' }}>
           <Menu
-            selectedKeys={[selectedKey]}
+            selectedKeys={[selectedMainKey || '']}
             mode="inline"
             onClick={(key) => {
-              setSelectedKey(key.key as string);
+              setSelectedMainKey(key.key as string);
+              setSelectedTenantKey(null);
               navigate(`/${key.key}`);
             }}
             style={{
               backgroundColor: 'transparent',
               border: 'none',
             }}
-            items={menuItems}
+            items={mainMenuItems}
           />
+
+          {(user?.role === UserRoleEnum.TENANT_ADMIN || user?.role === UserRoleEnum.TENANT_STAFF) && (
+            <Menu
+              selectedKeys={[selectedTenantKey || '']}
+              mode="inline"
+              onClick={(key) => {
+                setSelectedTenantKey(key.key as string);
+                setSelectedMainKey(null);
+                navigate(`/${key.key}`);
+              }}
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                borderTop: `1px solid ${theme.custom.colors.neutral[200]}`,
+                marginTop: theme.custom.spacing.medium,
+              }}
+              items={tenantManagementMenuItems}
+            />
+          )}
         </div>
 
         {/* User Admin Section */}

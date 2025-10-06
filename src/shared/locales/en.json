@@ -86,7 +86,9 @@
     "profile": "Profile",
     "logout": "Logout",
     "controllers": "Controllers",
-    "registerAbandonedControllers": "Register Abandoned"
+    "registerAbandonedControllers": "Register Abandoned",
+    "tenantProfile": "Tenant Profile",
+    "tenantMembers": "Tenant Members"
   },
   "messages": {
     "incorrectCredentials": "Incorrect credentials",

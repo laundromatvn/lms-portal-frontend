@@ -86,7 +86,9 @@
     "profile": "Hồ sơ",
     "logout": "Đăng xuất",
     "controllers": "Controllers",
-    "registerAbandonedControllers": "Đăng ký"
+    "registerAbandonedControllers": "Đăng ký",
+    "tenantProfile": "Hồ sơ Tenant",
+    "tenantMembers": "Thành viên Tenant"
   },
   "messages": {
     "incorrectCredentials": "Thông tin đăng nhập không chính xác",
