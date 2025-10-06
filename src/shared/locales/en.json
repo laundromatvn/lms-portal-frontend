@@ -99,7 +99,8 @@
     "tenant_staff": "Tenant Staff",
     "customer": "Customer",
     "addNewMember": "Add New Member",
-    "createNewMember": "Create New Member"
+    "createNewMember": "Create New Member",
+    "coinValue": "Coin Value"
   },
   "navigation": {
     "overview": "Overview",

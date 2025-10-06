@@ -99,7 +99,8 @@
     "tenant_staff": "Tenant Staff",
     "customer": "Customer",
     "addNewMember": "Thêm thành viên mới",
-    "createNewMember": "Tạo thành viên mới"
+    "createNewMember": "Tạo thành viên mới",
+    "coinValue": "Giá trị xu"
   },
   "navigation": {
     "overview": "Tổng quan",
