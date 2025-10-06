@@ -27,7 +27,8 @@ import {
 } from '@pages/Machine';
 
 import {
-  OrderListPage
+  OrderListPage,
+  OrderDetailPage,
 } from '@pages/Order';
 
 import {
@@ -112,6 +113,10 @@ export const routes: Route[] = [
   {
     path: '/orders',
     component: <OrderListPage />,
+  },
+  {
+    path: '/orders/:id/detail',
+    component: <OrderDetailPage />,
   },
   // Tenant
   {

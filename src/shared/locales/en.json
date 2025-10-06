@@ -76,7 +76,14 @@
     "contactEmail": "Contact Email",
     "contactFullName": "Contact Full Name",
     "contactAddress": "Contact Address",
-    "tenantId": "Tenant ID"
+    "tenantId": "Tenant ID",
+    "orderId": "Order ID",
+    "totalAmount": "Total Amount",
+    "totalWasher": "Total Washer",
+    "totalDryer": "Total Dryer",
+    "testTriggerPaymentSuccess": "[Test] Trigger Payment Success",
+    "testTriggerPaymentFailed": "[Test] Trigger Payment Failed",
+    "orderDetail": "Order Detail"
   },
   "navigation": {
     "overview": "Overview",
@@ -92,7 +99,8 @@
     "controllers": "Controllers",
     "registerAbandonedControllers": "Register Abandoned",
     "tenantProfile": "Tenant Profile",
-    "tenantMembers": "Tenant Members"
+    "tenantMembers": "Tenant Members",
+    "orderDetail": "Order Detail"
   },
   "messages": {
     "incorrectCredentials": "Incorrect credentials",
@@ -126,6 +134,10 @@
     "updateStoreSuccess": "Store updated successfully",
     "updateStoreError": "Failed to update store",
     "getStoreError": "Failed to get store",
-    "getTenantError": "Failed to get tenant"
+    "getTenantError": "Failed to get tenant",
+    "triggerPaymentSuccessSuccess": "[Test] Payment success triggered successfully",
+    "triggerPaymentSuccessError": "[Test] Failed to trigger payment success",
+    "triggerPaymentFailedSuccess": "[Test] Payment failed triggered successfully",
+    "triggerPaymentFailedError": "[Test] Failed to trigger payment failed"
   }
 }

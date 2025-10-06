@@ -14,6 +14,7 @@ import {
 import {
   BillCheck,
   BillCross,
+  Eye,
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -96,6 +97,12 @@ export const OrderListPage: React.FC = () => {
         total_dryer: item.total_dryer,
         actions: (
           <Flex gap={theme.custom.spacing.medium}>
+            <Button
+              type="link"
+              onClick={() => navigate(`/orders/${item.id}/detail`)}
+            >
+              <Eye size={24} color={theme.custom.colors.primary.default} />
+            </Button>
             <Button
               type="link"
               onClick={() => triggerPaymentSuccess(item.id)}

@@ -76,7 +76,14 @@
     "contactEmail": "Email liên hệ",
     "contactFullName": "Tên liên hệ",
     "contactAddress": "Địa chỉ liên hệ",
-    "tenantId": "ID Tenant"
+    "tenantId": "ID Tenant",
+    "orderId": "ID Đơn hàng",
+    "totalAmount": "Tổng tiền",
+    "totalWasher": "Tổng máy giặt",
+    "totalDryer": "Tổng máy sấy",
+    "orderDetail": "Chi tiết đơn hàng",
+    "testTriggerPaymentSuccess": "[Test] Kích hoạt thanh toán thành công",
+    "testTriggerPaymentFailed": "[Test] Kích hoạt thanh toán thất bại"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -92,7 +99,8 @@
     "controllers": "Controllers",
     "registerAbandonedControllers": "Đăng ký",
     "tenantProfile": "Hồ sơ Tenant",
-    "tenantMembers": "Thành viên Tenant"
+    "tenantMembers": "Thành viên Tenant",
+    "orderDetail": "Chi tiết đơn hàng"
   },
   "messages": {
     "incorrectCredentials": "Thông tin đăng nhập không chính xác",
@@ -126,6 +134,10 @@
     "updateStoreSuccess": "Cửa hàng đã được cập nhật thành công",
     "updateStoreError": "Không thể cập nhật cửa hàng",
     "getStoreError": "Không thể lấy cửa hàng",
-    "getTenantError": "Không thể lấy tenant"
+    "getTenantError": "Không thể lấy tenant",
+    "triggerPaymentSuccessSuccess": "[Test] Thanh toán thành công đã được kích hoạt thành công",
+    "triggerPaymentSuccessError": "[Test] Không thể kích hoạt thanh toán thành công",
+    "triggerPaymentFailedSuccess": "[Test] Thanh toán thất bại đã được kích hoạt thành công",
+    "triggerPaymentFailedError": "[Test] Không thể kích hoạt thanh toán thất bại"
   }
 }
