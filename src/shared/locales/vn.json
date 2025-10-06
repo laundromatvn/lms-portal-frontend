@@ -88,7 +88,18 @@
     "id": "ID",
     "price": "Giá",
     "actions": "Hành động",
-    "machineName": "Tên máy"
+    "machineName": "Tên máy",
+    "passwordConfirm": "Xác nhận mật khẩu",
+    "userConfig": "Cấu hình người dùng",
+    "role": "Vai trò",
+    "resetPassword": "Đặt lại mật khẩu",
+    "update": "Cập nhật",
+    "admin": "Admin",
+    "tenant_admin": "Tenant Admin",
+    "tenant_staff": "Tenant Staff",
+    "customer": "Customer",
+    "addNewMember": "Thêm thành viên mới",
+    "createNewMember": "Tạo thành viên mới"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -143,6 +154,23 @@
     "triggerPaymentSuccessSuccess": "[Test] Thanh toán thành công đã được kích hoạt thành công",
     "triggerPaymentSuccessError": "[Test] Không thể kích hoạt thanh toán thành công",
     "triggerPaymentFailedSuccess": "[Test] Thanh toán thất bại đã được kích hoạt thành công",
-    "triggerPaymentFailedError": "[Test] Không thể kích hoạt thanh toán thất bại"
+    "triggerPaymentFailedError": "[Test] Không thể kích hoạt thanh toán thất bại",
+    "resetPasswordSuccess": "Đặt lại mật khẩu thành công",
+    "resetPasswordError": "Không thể đặt lại mật khẩu",
+    "userResetPassword": "Đặt lại mật khẩu người dùng",
+    "passwordConfirmError": "Mật khẩu và xác nhận mật khẩu không khớp",
+    "passwordIsRequired": "Mật khẩu là bắt buộc",
+    "passwordMustBeAtLeastEightCharacters": "Mật khẩu phải có ít nhất 8 ký tự",
+    "passwordMustContainUppercase": "Mật khẩu phải chứa ít nhất một chữ hoa",
+    "passwordMustContainLowercase": "Mật khẩu phải chứa ít nhất một chữ thường",
+    "passwordMustContainNumber": "Mật khẩu phải chứa ít nhất một số",
+    "passwordMustContainSpecialCharacter": "Mật khẩu phải chứa ít nhất một ký tự đặc biệt",
+    "passwordConfirmIsRequired": "Xác nhận mật khẩu là bắt buộc",
+    "passwordConfirmMustBeAtLeastEightCharacters": "Xác nhận mật khẩu phải có ít nhất 8 ký tự",
+    "emailIsRequired": "Email là bắt buộc",
+    "roleIsRequired": "Vai trò là bắt buộc",
+    "updateUserSuccess": "Người dùng đã được cập nhật thành công",
+    "updateUserError": "Không thể cập nhật người dùng",
+    "getUserError": "Không thể lấy người dùng"
   }
 }

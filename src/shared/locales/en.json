@@ -88,7 +88,18 @@
     "id": "ID",
     "price": "Price",
     "actions": "Actions",
-    "machineName": "Machine Name"
+    "machineName": "Machine Name",
+    "passwordConfirm": "Password Confirm",
+    "userConfig": "User Config",
+    "role": "Role",
+    "resetPassword": "Reset Password",
+    "update": "Update",
+    "admin": "Admin",
+    "tenant_admin": "Tenant Admin",
+    "tenant_staff": "Tenant Staff",
+    "customer": "Customer",
+    "addNewMember": "Add New Member",
+    "createNewMember": "Create New Member"
   },
   "navigation": {
     "overview": "Overview",
@@ -143,6 +154,23 @@
     "triggerPaymentSuccessSuccess": "[Test] Payment success triggered successfully",
     "triggerPaymentSuccessError": "[Test] Failed to trigger payment success",
     "triggerPaymentFailedSuccess": "[Test] Payment failed triggered successfully",
-    "triggerPaymentFailedError": "[Test] Failed to trigger payment failed"
+    "triggerPaymentFailedError": "[Test] Failed to trigger payment failed",
+    "resetPasswordSuccess": "Reset password successfully",
+    "resetPasswordError": "Failed to reset password",
+    "userResetPassword": "User Reset Password",
+    "passwordConfirmError": "Password and password confirm do not match",
+    "passwordIsRequired": "Password is required",
+    "passwordMustBeAtLeastEightCharacters": "Password must be at least 8 characters",
+    "passwordMustContainUppercase": "Password must contain at least one uppercase letter",
+    "passwordMustContainLowercase": "Password must contain at least one lowercase letter",
+    "passwordMustContainNumber": "Password must contain at least one number",
+    "passwordMustContainSpecialCharacter": "Password must contain at least one special character",
+    "passwordConfirmIsRequired": "Password confirmation is required",
+    "passwordConfirmMustBeAtLeastEightCharacters": "Password confirmation must be at least 8 characters",
+    "emailIsRequired": "Email is required",
+    "roleIsRequired": "Role is required",
+    "updateUserSuccess": "User updated successfully",
+    "updateUserError": "Failed to update user",
+    "getUserError": "Failed to get user"
   }
 }

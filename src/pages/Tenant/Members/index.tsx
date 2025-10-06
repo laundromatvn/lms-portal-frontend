@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { Button, Flex, Typography, Table, Skeleton, notification } from 'antd';
+
+import {
+  Settings,
+  KeySquare2
+} from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -16,7 +21,19 @@ import { tenantStorage } from '@core/storage/tenantStorage';
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
-import { Eye } from '@solar-icons/react';
+import { BaseModal } from '@shared/components/BaseModal';
+
+import { ConfigModalContent } from './ConfigModalContent';
+import { ResetPasswordModalContent } from './ResetPasswordModalContent';
+import { CreateNewMemberModalContent } from './CreateNewMemberModalContent';
+
+export const ModalType = {
+  CREATE_NEW_MEMBER: 'create_new_member',
+  CONFIG: 'config',
+  RESET_PASSWORD: 'reset_password',
+} as const;
+
+export type ModalType = (typeof ModalType)[keyof typeof ModalType];
 
 export const TenantMemberListPage: React.FC = () => {
   const { t } = useTranslation();
@@ -30,6 +47,9 @@ export const TenantMemberListPage: React.FC = () => {
   const [tableData, setTableData] = useState<any[] | null>(null);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedModalType, setSelectedModalType] = useState<ModalType | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
   const columns = [
     { title: 'ID', dataIndex: 'id', width: 400 },
@@ -68,10 +88,22 @@ export const TenantMemberListPage: React.FC = () => {
             <Button
               type="link"
               onClick={() => {
-                navigate(`/tenant-members/${item.id}/detail`);
+                setIsModalOpen(true);
+                setSelectedModalType(ModalType.CONFIG);
+                setSelectedUserId(item.user_id);
               }}
             >
-              <Eye />
+              <Settings size={20} />
+            </Button>
+            <Button
+              type="link"
+              onClick={() => {
+                setIsModalOpen(true);
+                setSelectedModalType(ModalType.RESET_PASSWORD);
+                setSelectedUserId(item.user_id);
+              }}
+            >
+              <KeySquare2 size={20} />
             </Button>
           </Flex>
         ),
@@ -91,6 +123,12 @@ export const TenantMemberListPage: React.FC = () => {
     handleListTenantMember();
   }, [page, pageSize]);
 
+  useEffect(() => {
+    if (!isModalOpen) {
+      handleListTenantMember();
+    }
+  }, [isModalOpen]);
+
   return (
     <PortalLayout>
       {contextHolder}
@@ -101,7 +139,21 @@ export const TenantMemberListPage: React.FC = () => {
         <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
           <LeftRightSection
             left={null}
-            right={null}
+            right={(
+              <Flex gap={theme.custom.spacing.medium}>
+                <Button
+                  type="default"
+                  size="large"
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setSelectedModalType(ModalType.CREATE_NEW_MEMBER);
+                  }}
+                  style={{ minWidth: 128 }}
+                >
+                  {t('common.createNewMember')}
+                </Button>
+              </Flex>
+            )}
           />
 
           {listTenantMemberLoading && <Skeleton active />}
@@ -126,6 +178,49 @@ export const TenantMemberListPage: React.FC = () => {
           )}
         </Flex>
       </Flex>
+
+      <BaseModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        closable={true}
+        onCancel={() => {
+          setIsModalOpen(false);
+          setSelectedModalType(null);
+          setSelectedUserId(null);
+        }}
+        maskClosable={true}
+      >
+        {selectedModalType === ModalType.CONFIG && (
+          <ConfigModalContent
+            user_id={selectedUserId as string}
+            onClose={() => {
+              setIsModalOpen(false);
+              setSelectedModalType(null);
+              setSelectedUserId(null);
+            }}
+          />
+        )}
+
+        {selectedModalType === ModalType.RESET_PASSWORD && (
+          <ResetPasswordModalContent
+            user_id={selectedUserId as string}
+            onClose={() => {
+              setIsModalOpen(false);
+              setSelectedModalType(null);
+              setSelectedUserId(null);
+            }}
+          />
+        )}
+
+        {selectedModalType === ModalType.CREATE_NEW_MEMBER && (
+          <CreateNewMemberModalContent tenant_id={tenant?.id as string} onClose={() => {
+            setIsModalOpen(false);
+            setSelectedModalType(null);
+            setSelectedUserId(null);
+          }}
+        />
+        )}
+      </BaseModal>
     </PortalLayout>
   );
 };
