@@ -112,7 +112,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       label: t('navigation.tenantProfile'),
     },
     {
-      key: 'tenants/members',
+      key: 'tenant-members',
       icon: <UsersGroupTwoRounded />,
       label: t('navigation.tenantMembers'),
     },
