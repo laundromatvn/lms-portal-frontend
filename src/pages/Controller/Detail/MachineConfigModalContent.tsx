@@ -86,7 +86,7 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
         base_price: machineData.base_price,
         status: machineData.status,
         pulse_duration: machineData.pulse_duration,
-        pulse_value: machineData.pulse_value,
+        coin_value: machineData.coin_value,
       });
     }
   }, [machineData]);
@@ -187,9 +187,9 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
             </Form.Item>
 
             <Form.Item
-              label="Pulse Value"
-              name="pulse_value"
-              rules={[{ required: true, message: t('machine.pulseValueRequired') }]}
+              label="Coin Value"
+              name="coin_value"
+              rules={[{ required: true, message: t('machine.coinValueRequired') }]}
             >
               <InputNumber size="large" style={{ width: '100%' }} />
             </Form.Item>

@@ -145,7 +145,7 @@
     "updateMachineError": "Không thể cập nhật máy",
     "getMachineError": "Không thể lấy máy",
     "pulseDurationIsRequired": "Độ dài xung là bắt buộc",
-    "pulseValueIsRequired": "Giá trị xung là bắt buộc",
+    "coinValueIsRequired": "Giá trị xu là bắt buộc",
     "relayNoIsRequired": "Relay no là bắt buộc",
     "updateStoreSuccess": "Cửa hàng đã được cập nhật thành công",
     "updateStoreError": "Không thể cập nhật cửa hàng",

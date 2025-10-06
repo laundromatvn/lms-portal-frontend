@@ -38,7 +38,7 @@ export const EditSection: React.FC<Props> = ({ machine, onSave }: Props) => {
       status: machine.status,
       relay_no: machine.relay_no,
       pulse_duration: machine.pulse_duration,
-      pulse_value: machine.pulse_value,
+      coin_value: machine.coin_value,
     });
   }, [machine]);
 
@@ -82,10 +82,10 @@ export const EditSection: React.FC<Props> = ({ machine, onSave }: Props) => {
         </Form.Item>
 
         <Form.Item
-          label={t('common.pulseValue')}
-          name="pulse_value"
+          label={t('common.coinValue')}
+          name="coin_value"
           style={{ width: '100%' }}
-          rules={[{ required: true, message: t('common.pulseValueIsRequired') }]}
+          rules={[{ required: true, message: t('common.coinValueIsRequired') }]}
         >
           <InputNumber size="large" style={{ width: '100%' }} />
         </Form.Item>

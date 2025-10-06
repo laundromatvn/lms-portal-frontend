@@ -16,6 +16,6 @@ export type Machine = {
   store_id: string | null;
   store_name: string | null;
   pulse_duration: number;
-  pulse_value: number;
+  coin_value: number;
   add_ons_options: Record<string, any>;
 }

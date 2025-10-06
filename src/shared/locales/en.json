@@ -145,7 +145,7 @@
     "updateMachineError": "Failed to update machine",
     "getMachineError": "Failed to get machine",
     "pulseDurationIsRequired": "Pulse duration is required",
-    "pulseValueIsRequired": "Pulse value is required",
+    "coinValueIsRequired": "Coin value is required",
     "relayNoIsRequired": "Relay no is required",
     "updateStoreSuccess": "Store updated successfully",
     "updateStoreError": "Failed to update store",
