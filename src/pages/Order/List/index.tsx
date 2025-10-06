@@ -89,7 +89,7 @@ export const OrderListPage: React.FC = () => {
   useEffect(() => {
     if (listOrderData) {
       setTableData(listOrderData?.data.map((item) => ({
-        id: item.id,
+        id: <Typography.Link onClick={() => navigate(`/orders/${item.id}/detail`)}>{item.id}</Typography.Link>,
         status: item.status,
         store_name: item.store_name,
         total_amount: item.total_amount,

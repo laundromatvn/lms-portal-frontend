@@ -14,7 +14,9 @@ import { useTriggerPaymentFailedApi } from '@shared/hooks/useTriggerPaymentFaile
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
+
 import { DetailSection } from './DetailSection';
+import { OrderDetailListSection } from './OrderDetailListSection';
 
 export const OrderDetailPage: React.FC = () => {
   const { t } = useTranslation();
@@ -148,6 +150,7 @@ export const OrderDetailPage: React.FC = () => {
         {!getOrderLoading && getOrderData && (
           <>
             <DetailSection order={getOrderData as Order} />
+            <OrderDetailListSection order={getOrderData as Order} />
           </>
         )}
       </Flex>

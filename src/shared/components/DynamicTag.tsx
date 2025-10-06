@@ -25,6 +25,7 @@ export const DynamicTag: React.FC<Props> = ({ value, color, style }) => {
       case 'pending_setup':
       case 'busy':
       case 'in_progress':
+      case 'dryer':
         return theme.custom.colors.warning.default;
       case 'error':
       case 'failed':
@@ -37,6 +38,7 @@ export const DynamicTag: React.FC<Props> = ({ value, color, style }) => {
       case 'idle':
         return theme.custom.colors.success.default;
       case 'waiting_for_payment':
+      case 'washer':
         return theme.custom.colors.info.default;
       default:
         return theme.custom.colors.neutral[400];

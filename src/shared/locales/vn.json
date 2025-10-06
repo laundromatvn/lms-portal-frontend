@@ -81,9 +81,14 @@
     "totalAmount": "Tổng tiền",
     "totalWasher": "Tổng máy giặt",
     "totalDryer": "Tổng máy sấy",
-    "orderDetail": "Chi tiết đơn hàng",
     "testTriggerPaymentSuccess": "[Test] Kích hoạt thanh toán thành công",
-    "testTriggerPaymentFailed": "[Test] Kích hoạt thanh toán thất bại"
+    "testTriggerPaymentFailed": "[Test] Kích hoạt thanh toán thất bại",
+    "orderDetail": "Chi tiết đơn hàng",
+    "orderDetailList": "Danh sách chi tiết đơn hàng",
+    "id": "ID",
+    "price": "Giá",
+    "actions": "Hành động",
+    "machineName": "Tên máy"
   },
   "navigation": {
     "overview": "Tổng quan",

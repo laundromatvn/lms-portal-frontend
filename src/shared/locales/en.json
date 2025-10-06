@@ -83,7 +83,12 @@
     "totalDryer": "Total Dryer",
     "testTriggerPaymentSuccess": "[Test] Trigger Payment Success",
     "testTriggerPaymentFailed": "[Test] Trigger Payment Failed",
-    "orderDetail": "Order Detail"
+    "orderDetail": "Order Detail",
+    "orderDetailList": "Order Detail List",
+    "id": "ID",
+    "price": "Price",
+    "actions": "Actions",
+    "machineName": "Machine Name"
   },
   "navigation": {
     "overview": "Overview",
