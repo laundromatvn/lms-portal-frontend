@@ -89,6 +89,7 @@
     "registerAbandonedControllers": "Đăng ký"
   },
   "messages": {
+    "incorrectCredentials": "Thông tin đăng nhập không chính xác",
     "thisPageWillBeUpdatedSoon": "Trang này sẽ được cập nhật sớm",
     "enterName": "Nhập tên",
     "totalRelaysMustBeGreaterThanZero": "Tổng relay phải lớn hơn 0",

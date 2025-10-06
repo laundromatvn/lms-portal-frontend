@@ -89,6 +89,7 @@
     "registerAbandonedControllers": "Register Abandoned"
   },
   "messages": {
+    "incorrectCredentials": "Incorrect credentials",
     "thisPageWillBeUpdatedSoon": "This page will be updated soon",
     "enterName": "Enter name",
     "totalRelaysMustBeGreaterThanZero": "Total relays must be greater than zero",
