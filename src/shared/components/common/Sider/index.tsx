@@ -105,7 +105,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
     },
   ];
 
-  const tenantManagementMenuItems: MenuItem[] = [
+  const tenantAdminManagementMenuItems: MenuItem[] = [
     {
       key: 'tenants/profile',
       icon: <Suitcase />,
@@ -115,6 +115,14 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'tenant-members',
       icon: <UsersGroupTwoRounded />,
       label: t('navigation.tenantMembers'),
+    },
+  ];
+
+  const tenantStaffManagementMenuItems: MenuItem[] = [
+    {
+      key: 'tenants/profile',
+      icon: <Suitcase />,
+      label: t('navigation.tenantProfile'),
     },
   ];
 
@@ -175,13 +183,6 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
     const email = user.email;
     const name = email.split('@')[0];
     return name.charAt(0).toUpperCase();
-  };
-
-  const getUserDisplayName = (user: User | null) => {
-    if (!user?.email) return 'Admin User';
-    const email = user.email;
-    const name = email.split('@')[0];
-    return name.charAt(0).toUpperCase() + name.slice(1);
   };
 
   const flagStyle = {
@@ -320,7 +321,10 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
                 borderTop: `1px solid ${theme.custom.colors.neutral[200]}`,
                 marginTop: theme.custom.spacing.medium,
               }}
-              items={tenantManagementMenuItems}
+              items={user?.role === UserRoleEnum.TENANT_ADMIN
+                ? tenantAdminManagementMenuItems
+                : tenantStaffManagementMenuItems
+              }
             />
           )}
         </div>
