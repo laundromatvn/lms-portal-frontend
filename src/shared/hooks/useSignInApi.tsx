@@ -8,6 +8,7 @@ import { type ApiState } from '@shared/hooks/types'
 export type SignInRequest = {
   email: string;
   password: string;
+  sessionId: string;
 }
 
 export type SignInResponse = any;
@@ -19,7 +20,7 @@ export const useSignInApi = <T = SignInResponse>() => {
     error: null,
   });
 
-  const signIn = useCallback(async ({ email, password }: SignInRequest) => {
+  const signIn = useCallback(async ({ email, password, sessionId }: SignInRequest) => {
     setState(prevState => ({ ...prevState, loading: true, error: null }));
 
     const url = `${getBackendUrl()}/api/v1/auth/sign-in`
@@ -27,6 +28,7 @@ export const useSignInApi = <T = SignInResponse>() => {
     const body = {
       email,
       password,
+      session_id: sessionId,
     }
 
     try {
