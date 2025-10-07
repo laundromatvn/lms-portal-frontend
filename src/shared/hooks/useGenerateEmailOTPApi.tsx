@@ -17,7 +17,7 @@ export const useGenerateEmailOTPApi = <T = GenerateEmailOTPResponse>() => {
   const generateEmailOTP = useCallback(async () => {
     setState(prevState => ({ ...prevState, loading: true, error: null }));
 
-    const url = `${getBackendUrl()}/api/v1/auth/generate-email-otp`
+    const url = `${getBackendUrl()}/api/v1/auth/send-otp`
 
     try {
       const response = await axiosClient.post<T>(url.replace(getBackendUrl(), ''))
