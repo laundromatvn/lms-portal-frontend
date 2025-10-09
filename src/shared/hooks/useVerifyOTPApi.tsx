@@ -7,6 +7,7 @@ import { type ApiState } from '@shared/hooks/types'
 
 export type VerifyOTPRequest = {
   otp: string;
+  sessionId: string;
 }
 
 export type VerifyOTPResponse = any;
@@ -18,12 +19,13 @@ export const useVerifyOTPApi = <T = VerifyOTPResponse>() => {
     error: null,
   });
 
-  const verifyOTP = useCallback(async ({ otp }: VerifyOTPRequest) => {
+  const verifyOTP = useCallback(async ({ otp, sessionId }: VerifyOTPRequest) => {
     setState(prevState => ({ ...prevState, loading: true, error: null }));
 
     const url = `${getBackendUrl()}/api/v1/auth/verify-otp`
     const payload = {
       otp,
+      session_id: sessionId,
     }
 
     try {

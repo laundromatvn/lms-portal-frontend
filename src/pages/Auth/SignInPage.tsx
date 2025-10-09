@@ -68,7 +68,7 @@ export const SignInPage: React.FC = () => {
         message: t('messages.signInSuccess'),
       });
 
-      navigate('/auth/generate-otp');
+      navigate(`/auth/generate-otp?session_id=${sessionId}`);
     } 
   }, [signInData])
 

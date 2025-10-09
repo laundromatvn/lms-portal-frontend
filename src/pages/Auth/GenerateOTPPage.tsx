@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { Button, Typography, Divider, notification } from 'antd';
@@ -18,11 +18,14 @@ export const GenerateOTPPage: React.FC = () => {
 
   const [api, contextHolder] = notification.useNotification();
 
+  const [searchParams] = useSearchParams();
+  const sessionId = searchParams.get('session_id') as string;
+
   const { generateEmailOTP, loading, data, error } = useGenerateEmailOTPApi();
 
   useEffect(() => {
     if (data) {
-      navigate('/auth/verify-otp');
+      navigate(`/auth/verify-otp?session_id=${sessionId}`);
     }
   }, [data]);
 

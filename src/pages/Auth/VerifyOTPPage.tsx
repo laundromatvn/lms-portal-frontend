@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { Button, Typography, Divider, notification, Input, Flex } from 'antd';
@@ -22,6 +22,9 @@ export const VerifyOTPPage: React.FC = () => {
   const navigate = useNavigate();
 
   const [api, contextHolder] = notification.useNotification();
+
+  const [searchParams] = useSearchParams();
+  const sessionId = searchParams.get('session_id') as string;
 
   const {
     verifyOTP,
@@ -123,7 +126,7 @@ export const VerifyOTPPage: React.FC = () => {
       <Button
         type="primary"
         size="large"
-        onClick={() => verifyOTP({ otp })}
+        onClick={() => verifyOTP({ otp, sessionId })}
         loading={verifyOTPLoading || getLMSProfileLoading || getMeLoading}
         disabled={otp.length !== 6}
         style={{
