@@ -1,13 +1,39 @@
 #!/bin/bash
 
 # Registry name
-SERVICE=$1
+SERVICE="portal-frontend"
+ENVIRONMENT=$1
 REGISTRY_PROJECT="devlaundromat"
 REGISTRY_USER="devlaundromat"
 
-if [ -z "$SERVICE" ]; then
-    SERVICE="portal-frontend"
-    echo "No service specified, defaulting to portal-frontend."
+# Set environment and env file based on parameter
+if [ -z "$ENVIRONMENT" ]; then
+    echo "Usage: $0 <environment>"
+    echo "Valid environments: production, staging"
+    echo "Example: $0 production"
+    echo "Example: $0 staging"
+    exit 1
+elif [ "$ENVIRONMENT" == "production" ]; then
+    ENVIRONMENT="production"
+    ENV_FILE=".env.production"
+    echo "Building for production environment with .env.production"
+elif [ "$ENVIRONMENT" == "staging" ]; then
+    ENVIRONMENT="staging"
+    ENV_FILE=".env.staging"
+    echo "Building for staging environment with .env.staging"
+else
+    echo "Invalid environment: ${ENVIRONMENT}. Valid options: production, staging"
+    exit 1
+fi
+
+# Check if env file exists
+if [ ! -f "$ENV_FILE" ]; then
+    echo "Warning: Environment file $ENV_FILE not found. Using default .env if available."
+    if [ ! -f ".env" ]; then
+        echo "Error: No .env file found. Please create the appropriate environment file."
+        exit 1
+    fi
+    ENV_FILE=".env"
 fi
 
 if [ "$SERVICE" == "portal-frontend" ]; then
@@ -29,11 +55,12 @@ TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 GIT_HASH=$(git rev-parse --short HEAD 2>/dev/null || echo "nogit")
 
 # Generate unique tag
-TAG="${SERVICE_NAME}:${TIMESTAMP}_${GIT_HASH}"
+TAG="${SERVICE_NAME}_${ENVIRONMENT}:${TIMESTAMP}_${GIT_HASH}"
 
 # Build the image
 echo "Building Docker image with tag: ${TAG} using Dockerfile: ${DOCKERFILE}"
-docker build -t ${TAG} --platform linux/amd64 -f ${DOCKERFILE} .
+echo "Using environment file: ${ENV_FILE} for environment: ${ENVIRONMENT}"
+docker build -t ${TAG} --platform linux/amd64 -f ${DOCKERFILE} --build-arg ENV_FILE=${ENV_FILE} --build-arg ENVIRONMENT=${ENVIRONMENT} .
 echo "Image built successfully!"
 
 # Tag as latest

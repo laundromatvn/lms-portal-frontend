@@ -4,6 +4,10 @@ FROM node:22-alpine AS build
 # Set working directory
 WORKDIR /app
 
+# Accept build arguments
+ARG ENV_FILE=.env
+ARG ENVIRONMENT=staging
+
 # Copy package files
 COPY package*.json ./
 
@@ -13,11 +17,14 @@ RUN npm ci
 # Copy source code
 COPY . .
 
+# Copy the appropriate environment file
+COPY ${ENV_FILE} .env
+
 # Build the application with TypeScript checking disabled
-ENV APP_ENV=production
+ENV APP_ENV=${ENVIRONMENT}
 ENV NODE_ENV=production
 ENV VITE_SKIP_TYPECHECK=true
-RUN npm run build
+RUN npm run build:${ENVIRONMENT}
 
 FROM nginx:alpine
 
