@@ -5,9 +5,12 @@ import { getBackendUrl } from '@shared/utils/env'
 
 import { type ApiState } from '@shared/hooks/types'
 
+import { OTPActionEnum } from '@shared/enums/OTPActionEnum';
+
 export type VerifyOTPRequest = {
   otp: string;
-  sessionId: string;
+  action: OTPActionEnum;
+  sessionId?: string;
 }
 
 export type VerifyOTPResponse = any;
@@ -19,17 +22,18 @@ export const useVerifyOTPApi = <T = VerifyOTPResponse>() => {
     error: null,
   });
 
-  const verifyOTP = useCallback(async ({ otp, sessionId }: VerifyOTPRequest) => {
+  const verifyOTP = useCallback(async ({ otp, action, sessionId = '' }: VerifyOTPRequest) => {
     setState(prevState => ({ ...prevState, loading: true, error: null }));
 
     const url = `${getBackendUrl()}/api/v1/auth/verify-otp`
     const payload = {
       otp,
+      action,
       session_id: sessionId,
     }
 
     try {
-      const response = await axiosClient.post<T>(url.replace(getBackendUrl(), ''), payload)
+      const response = await axiosClient.post<T>(url, payload)
 
       setState({ data: response.data as T, loading: false, error: null });
       return response.data as T

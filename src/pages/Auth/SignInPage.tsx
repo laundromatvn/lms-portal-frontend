@@ -49,6 +49,7 @@ export const SignInPage: React.FC = () => {
 
   useEffect(() => {
     if (sessionId) {
+      console.log('sessionId', sessionId)
       proceedAuthSession({ sessionId: sessionId });
     }
   }, [sessionId]);
@@ -68,7 +69,11 @@ export const SignInPage: React.FC = () => {
         message: t('messages.signInSuccess'),
       });
 
-      navigate(`/auth/generate-otp?session_id=${sessionId}`);
+      if (sessionId) {
+        navigate(`/auth/generate-otp?session_id=${sessionId}`);
+      } else {
+        navigate(`/auth/generate-otp`);
+      }
     } 
   }, [signInData])
 

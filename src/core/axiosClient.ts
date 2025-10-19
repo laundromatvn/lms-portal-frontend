@@ -11,16 +11,19 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(async (config) => {
   const token = await tokenManager.ensureValidAccessToken()
+  console.log('token', token)
   if (token) {
     config.headers = config.headers ?? {}
     ;(config.headers as any).Authorization = `Bearer ${token}`
   }
+  console.log('config', config)
   return config
 })
 
 axiosClient.interceptors.response.use(
   (response) => response,
   async (error) => {
+    console.log('error', error)
     if (error?.response?.status === 401) {
       const originalRequest = error.config as any
       if (!originalRequest?._retry) {

@@ -12,6 +12,7 @@ import { useGetMeApi } from '@shared/hooks/useGetMe';
 import { userStorage } from '@core/storage/userStorage';
 import { tenantStorage } from '@core/storage/tenantStorage';
 import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
+import { OTPActionEnum } from '@shared/enums/OTPActionEnum';
 
 import { AuthContainer } from './components';
 
@@ -126,7 +127,7 @@ export const VerifyOTPPage: React.FC = () => {
       <Button
         type="primary"
         size="large"
-        onClick={() => verifyOTP({ otp, sessionId })}
+        onClick={() => verifyOTP({ otp, action: OTPActionEnum.SIGN_IN, sessionId: sessionId || '' })}
         loading={verifyOTPLoading || getLMSProfileLoading || getMeLoading}
         disabled={otp.length !== 6}
         style={{

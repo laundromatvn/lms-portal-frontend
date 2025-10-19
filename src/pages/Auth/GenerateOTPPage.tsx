@@ -7,6 +7,7 @@ import { Button, Typography, Divider, notification } from 'antd';
 import { useTheme } from '@shared/theme/useTheme';
 
 import { useGenerateEmailOTPApi } from '@shared/hooks/useGenerateEmailOTPApi';
+import { OTPActionEnum } from '@shared/enums/OTPActionEnum';
 
 import { AuthContainer } from './components';
 
@@ -25,7 +26,11 @@ export const GenerateOTPPage: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      navigate(`/auth/verify-otp?session_id=${sessionId}`);
+      if (sessionId) {
+        navigate(`/auth/verify-otp?session_id=${sessionId}`);
+      } else {
+        navigate(`/auth/verify-otp`);
+      }
     }
   }, [data]);
 
@@ -50,7 +55,7 @@ export const GenerateOTPPage: React.FC = () => {
       <Button
         type="primary"
         size="large"
-        onClick={generateEmailOTP}
+        onClick={() => generateEmailOTP({ action: OTPActionEnum.SIGN_IN })}
         loading={loading}
         style={{
           width: '100%',
