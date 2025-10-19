@@ -14,6 +14,8 @@ import { tenantStorage } from '@core/storage/tenantStorage';
 import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
 import { OTPActionEnum } from '@shared/enums/OTPActionEnum';
 
+import { routes } from '@router/routes';
+
 import { AuthContainer } from './components';
 
 
@@ -26,6 +28,7 @@ export const VerifyOTPPage: React.FC = () => {
 
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get('session_id') as string;
+  const redirectTo = searchParams.get('redirect_to') as string;
 
   const {
     verifyOTP,
@@ -48,9 +51,21 @@ export const VerifyOTPPage: React.FC = () => {
 
   const [otp, setOtp] = useState('');
 
+  const handleSuccessfulAuth = () => {
+    try {
+      if (redirectTo) { 
+        navigate(redirectTo);
+      } else {
+        navigate('/overview');
+      }
+    } catch (error) {
+      console.warn('Invalid redirect_to parameter:', redirectTo);
+      navigate('/overview');
+    }
+  };
+
   useEffect(() => {
     if (verifyOTPData) {
-      // First get user info to check if they are admin
       getMe();
     }
   }, [verifyOTPData]);
@@ -59,7 +74,7 @@ export const VerifyOTPPage: React.FC = () => {
     if (getLMSProfileData) {
       userStorage.save(getLMSProfileData.user);
       tenantStorage.save(getLMSProfileData.tenant);
-      navigate('/overview');
+      handleSuccessfulAuth();
     }
   }, [getLMSProfileData]);
 
@@ -67,7 +82,7 @@ export const VerifyOTPPage: React.FC = () => {
     if (getMeData) {
       userStorage.save(getMeData);
       if (getMeData.role === UserRoleEnum.ADMIN) {
-        navigate('/overview');
+        handleSuccessfulAuth();
       } else {
         getLMSProfile();
       }

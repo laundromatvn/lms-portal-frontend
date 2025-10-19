@@ -37,6 +37,11 @@ import {
   TenantEditPage,
 } from '@pages/Tenant';
 
+import {
+  VerificationSuccessPage,
+  VerificationFailedPage,
+} from '@pages/Common';
+
 import { type Route } from './index';
 
 export const routes: Route[] = [
@@ -56,6 +61,15 @@ export const routes: Route[] = [
   {
     path: '/auth/verify-otp',
     component: <VerifyOTPPage />,
+  },
+  // Common
+  {
+    path: '/verification-success',
+    component: <VerificationSuccessPage />,
+  },
+  {
+    path: '/verification-failed',
+    component: <VerificationFailedPage />,
   },
   // Overview
   {

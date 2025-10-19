@@ -28,6 +28,7 @@ export const SignInPage: React.FC = () => {
 
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get('session_id') as string;
+  const redirectTo = searchParams.get('redirect_to') as string;
 
   const {
     signIn,
@@ -69,11 +70,16 @@ export const SignInPage: React.FC = () => {
         message: t('messages.signInSuccess'),
       });
 
+      const queryParams = new URLSearchParams();
       if (sessionId) {
-        navigate(`/auth/generate-otp?session_id=${sessionId}`);
-      } else {
-        navigate(`/auth/generate-otp`);
+        queryParams.set('session_id', sessionId);
       }
+      if (redirectTo) {
+        queryParams.set('redirect_to', redirectTo);
+      }
+      
+      const queryString = queryParams.toString();
+      navigate(`/auth/generate-otp${queryString ? `?${queryString}` : ''}`);
     } 
   }, [signInData])
 

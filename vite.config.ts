@@ -18,6 +18,7 @@ export default defineConfig({
       '@shared': resolvePath(__dirname, './src/shared'),
       '@pages': resolvePath(__dirname, './src/pages'),
       '@core': resolvePath(__dirname, './src/core'),
+      '@router': resolvePath(__dirname, './src/router'),
     },
   },
 })

@@ -21,16 +21,22 @@ export const GenerateOTPPage: React.FC = () => {
 
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get('session_id') as string;
+  const redirectTo = searchParams.get('redirect_to') as string;
 
   const { generateEmailOTP, loading, data, error } = useGenerateEmailOTPApi();
 
   useEffect(() => {
     if (data) {
+      const queryParams = new URLSearchParams();
       if (sessionId) {
-        navigate(`/auth/verify-otp?session_id=${sessionId}`);
-      } else {
-        navigate(`/auth/verify-otp`);
+        queryParams.set('session_id', sessionId);
       }
+      if (redirectTo) {
+        queryParams.set('redirect_to', redirectTo);
+      }
+      
+      const queryString = queryParams.toString();
+      navigate(`/auth/verify-otp${queryString ? `?${queryString}` : ''}`);
     }
   }, [data]);
 

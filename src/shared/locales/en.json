@@ -100,7 +100,9 @@
     "customer": "Customer",
     "addNewMember": "Add New Member",
     "createNewMember": "Create New Member",
-    "coinValue": "Coin Value"
+    "coinValue": "Coin Value",
+    "goToSignInPage": "Go to Sign In Page",
+    "goToHomePage": "Go to Home Page"
   },
   "navigation": {
     "overview": "Overview",
@@ -122,6 +124,7 @@
   "messages": {
     "incorrectCredentials": "Incorrect credentials",
     "thisPageWillBeUpdatedSoon": "This page will be updated soon",
+    "verifyOTPFailed": "Failed to verify OTP",
     "enterName": "Enter name",
     "totalRelaysMustBeGreaterThanZero": "Total relays must be greater than zero",
     "totalRelaysMustBeLessThanTwelve": "Total relays must be less than twelve",
@@ -172,6 +175,10 @@
     "roleIsRequired": "Role is required",
     "updateUserSuccess": "User updated successfully",
     "updateUserError": "Failed to update user",
-    "getUserError": "Failed to get user"
+    "getUserError": "Failed to get user",
+    "verificationSuccess": "Verification Success",
+    "verificationSuccessDescription": "Your verification was successful",
+    "verificationFailed": "Verification Failed",
+    "verificationFailedDescription": "Your verification was failed"
   }
 }
