@@ -14,8 +14,6 @@ import { tenantStorage } from '@core/storage/tenantStorage';
 import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
 import { OTPActionEnum } from '@shared/enums/OTPActionEnum';
 
-import { routes } from '@router/routes';
-
 import { AuthContainer } from './components';
 
 
@@ -29,6 +27,7 @@ export const VerifyOTPPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get('session_id') as string;
   const redirectTo = searchParams.get('redirect_to') as string;
+  const action = searchParams.get('action') as OTPActionEnum;
 
   const {
     verifyOTP,
@@ -142,7 +141,7 @@ export const VerifyOTPPage: React.FC = () => {
       <Button
         type="primary"
         size="large"
-        onClick={() => verifyOTP({ otp, action: OTPActionEnum.SIGN_IN, sessionId: sessionId || '' })}
+        onClick={() => verifyOTP({ otp, action: action || OTPActionEnum.SIGN_IN, sessionId: sessionId || '' })}
         loading={verifyOTPLoading || getLMSProfileLoading || getMeLoading}
         disabled={otp.length !== 6}
         style={{

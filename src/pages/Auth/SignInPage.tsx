@@ -16,6 +16,8 @@ import { ACCESS_TOKEN_TTL_SECONDS, REFRESH_TOKEN_TTL_SECONDS } from '@core/const
 import { useSignInApi } from '@shared/hooks/useSignInApi';
 import { useProceedAuthSessionApi } from '@shared/hooks/useProceedAuthSessionApi';
 
+import { OTPActionEnum } from '@shared/enums/OTPActionEnum';
+
 import { AuthContainer } from './components';
 
 export const SignInPage: React.FC = () => {
@@ -29,6 +31,7 @@ export const SignInPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get('session_id') as string;
   const redirectTo = searchParams.get('redirect_to') as string;
+  const action = searchParams.get('action') as OTPActionEnum;
 
   const {
     signIn,
@@ -77,7 +80,12 @@ export const SignInPage: React.FC = () => {
       if (redirectTo) {
         queryParams.set('redirect_to', redirectTo);
       }
-      
+      if (action) {
+        queryParams.set('action', action);
+      } else {
+        queryParams.set('action', OTPActionEnum.SIGN_IN);
+      }
+
       const queryString = queryParams.toString();
       navigate(`/auth/generate-otp${queryString ? `?${queryString}` : ''}`);
     } 

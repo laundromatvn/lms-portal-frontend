@@ -7,10 +7,10 @@ import { Button, Typography, Divider, notification } from 'antd';
 import { useTheme } from '@shared/theme/useTheme';
 
 import { useGenerateEmailOTPApi } from '@shared/hooks/useGenerateEmailOTPApi';
+
 import { OTPActionEnum } from '@shared/enums/OTPActionEnum';
 
 import { AuthContainer } from './components';
-
 
 export const GenerateOTPPage: React.FC = () => {
   const theme = useTheme();
@@ -22,6 +22,7 @@ export const GenerateOTPPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get('session_id') as string;
   const redirectTo = searchParams.get('redirect_to') as string;
+  const action = searchParams.get('action') as OTPActionEnum;
 
   const { generateEmailOTP, loading, data, error } = useGenerateEmailOTPApi();
 
@@ -34,7 +35,10 @@ export const GenerateOTPPage: React.FC = () => {
       if (redirectTo) {
         queryParams.set('redirect_to', redirectTo);
       }
-      
+      if (action) {
+        queryParams.set('action', action);
+      }
+
       const queryString = queryParams.toString();
       navigate(`/auth/verify-otp${queryString ? `?${queryString}` : ''}`);
     }
