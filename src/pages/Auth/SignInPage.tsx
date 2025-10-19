@@ -15,6 +15,7 @@ import { ACCESS_TOKEN_TTL_SECONDS, REFRESH_TOKEN_TTL_SECONDS } from '@core/const
 
 import { useSignInApi } from '@shared/hooks/useSignInApi';
 import { useProceedAuthSessionApi } from '@shared/hooks/useProceedAuthSessionApi';
+import { useProcessSystemTaskApi } from '@shared/hooks/useProcessSystemTaskApi';
 
 import { OTPActionEnum } from '@shared/enums/OTPActionEnum';
 
@@ -42,6 +43,9 @@ export const SignInPage: React.FC = () => {
   const {
     proceedAuthSession,
   } = useProceedAuthSessionApi();
+  const {
+    processSystemTask,
+  } = useProcessSystemTaskApi();
 
   const handleSubmit = async () => {
     await signIn({
@@ -53,8 +57,8 @@ export const SignInPage: React.FC = () => {
 
   useEffect(() => {
     if (sessionId) {
-      console.log('sessionId', sessionId)
       proceedAuthSession({ sessionId: sessionId });
+      processSystemTask({ sessionId: sessionId });
     }
   }, [sessionId]);
 
