@@ -103,7 +103,10 @@
     "coinValue": "Coin Value",
     "goToSignInPage": "Go to Sign In Page",
     "goToHomePage": "Go to Home Page",
-    "error": "Error"
+    "error": "Error",
+    "refresh": "Refresh",
+    "clear": "Clear",
+    "search": "Search"
   },
   "navigation": {
     "overview": "Overview",
@@ -211,6 +214,27 @@
       "title": "Revenue by day",
       "revenue": "Revenue",
       "revenueDescription": "Revenue by day in the system"
+    },
+    "storeKeyMetrics": {
+      "title": "Stores",
+      "name": "Name",
+      "address": "Address",
+      "contactPhoneNumber": "Contact Phone Number",
+      "totalOrders": "Total Orders",
+      "totalRevenue": "Total Revenue"
+    },
+    "orderTable": {
+      "title": "Orders",
+      "createdAt": "Created At",
+      "orderId": "Order ID",
+      "status": "Status",
+      "paymentStatus": "Payment Status",
+      "transactionCode": "Transaction Code",
+      "totalAmount": "Total Amount",
+      "totalWasher": "Total Washer",
+      "totalDryer": "Total Dryer",
+      "searchPlaceholder": "Search orders (min 3 words)",
+      "searchMinWordsError": "Please enter at least 3 words to search"
     }
   }
 }

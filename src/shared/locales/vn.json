@@ -100,7 +100,13 @@
     "customer": "Customer",
     "addNewMember": "Thêm thành viên mới",
     "createNewMember": "Tạo thành viên mới",
-    "coinValue": "Giá trị xu"
+    "coinValue": "Giá trị xu",
+    "goToSignInPage": "Đến trang đăng nhập",
+    "goToHomePage": "Đến trang chủ",
+    "error": "Lỗi",
+    "refresh": "Tải lại",
+    "clear": "Xóa",
+    "search": "Tìm kiếm"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -205,6 +211,27 @@
       "title": "Doanh thu theo ngày",
       "revenue": "Doanh thu",
       "revenueDescription": "Doanh thu theo ngày trong hệ thống"
+    },
+    "storeKeyMetrics": {
+      "title": "Cửa hàng",
+      "name": "Tên",
+      "address": "Địa chỉ",
+      "contactPhoneNumber": "Số điện thoại liên hệ",
+      "totalOrders": "Số lượng đơn hàng",
+      "totalRevenue": "Doanh thu"
+    },
+    "orderTable": {
+      "title": "Đơn hàng",
+      "createdAt": "Ngày tạo",
+      "orderId": "ID đơn hàng",
+      "status": "Trạng thái",
+      "paymentStatus": "Trạng thái thanh toán",
+      "transactionCode": "Mã giao dịch",
+      "totalAmount": "Tổng tiền",
+      "totalWasher": "Số máy giặt",
+      "totalDryer": "Số máy sấy",
+      "searchPlaceholder": "Tìm kiếm đơn hàng (tối thiểu 3 từ)",
+      "searchMinWordsError": "Vui lòng nhập ít nhất 3 từ để tìm kiếm"
     }
   }
 }

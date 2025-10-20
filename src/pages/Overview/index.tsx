@@ -10,6 +10,8 @@ import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import { KeyMetricsSection } from './KeyMetricsSection';
 import { OrderByDayBarChartSection } from './OrderByDayBarChartSection';
 import { RevenueByDayBarChartSection } from './RevenueByDayBarChartSection';
+import { StoreKeyMetricsSection } from './StoreKeyMetricsSection';
+import { OverviewOrderTableSection } from './OrderTableSection/index';
 
 export const OverviewPage: React.FC = () => {
   const { t } = useTranslation();
@@ -25,6 +27,10 @@ export const OverviewPage: React.FC = () => {
         <OrderByDayBarChartSection />
 
         <RevenueByDayBarChartSection />
+
+        <StoreKeyMetricsSection />
+
+        <OverviewOrderTableSection />
       </Flex>
     </PortalLayout>
   );
