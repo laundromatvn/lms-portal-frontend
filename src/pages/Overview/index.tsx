@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { Flex, Typography } from 'antd';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+
 import { KeyMetricsSection } from './KeyMetricsSection';
+import { OrderByDayBarChartSection } from './OrderByDayBarChartSection';
 
 export const OverviewPage: React.FC = () => {
   const { t } = useTranslation();
@@ -15,6 +17,7 @@ export const OverviewPage: React.FC = () => {
         <Typography.Title level={2}>{t('navigation.overview')}</Typography.Title>
 
         <KeyMetricsSection />
+        <OrderByDayBarChartSection />
       </Flex>
     </PortalLayout>
   );

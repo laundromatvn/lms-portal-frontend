@@ -191,6 +191,11 @@
       "revenueByDayDescription": "Doanh thu theo ngày trong hệ thống",
       "revenueByMonth": "Doanh thu theo tháng",
       "revenueByMonthDescription": "Doanh thu theo tháng trong hệ thống"
+    },
+    "totalOrdersByDay": {
+      "title": "Tổng đơn hàng theo ngày",
+      "orderCount": "Số lượng đơn hàng",
+      "orderCountDescription": "Số lượng đơn hàng theo ngày"
     }
   }
 }

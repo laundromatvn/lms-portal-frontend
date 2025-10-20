@@ -197,6 +197,11 @@
       "revenueByDayDescription": "Revenue by day in the system",
       "revenueByMonth": "Revenue By Month",
       "revenueByMonthDescription": "Revenue by month in the system"
+    },
+    "totalOrdersByDay": {
+      "title": "Total orders by day",
+      "orderCount": "Order Count",
+      "orderCountDescription": "Order count by day in the system"
     }
   }
 }

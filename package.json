@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@ant-design/colors": "^7.2.1",
+    "@ant-design/plots": "^2.6.5",
     "@solar-icons/react": "^1.0.1",
     "antd": "^5.27.3",
     "axios": "^1.11.0",
