@@ -102,7 +102,8 @@
     "createNewMember": "Create New Member",
     "coinValue": "Coin Value",
     "goToSignInPage": "Go to Sign In Page",
-    "goToHomePage": "Go to Home Page"
+    "goToHomePage": "Go to Home Page",
+    "error": "Error"
   },
   "navigation": {
     "overview": "Overview",
@@ -180,5 +181,22 @@
     "verificationSuccessDescription": "Your verification was successful",
     "verificationFailed": "Verification Failed",
     "verificationFailedDescription": "Your verification was failed"
+  },
+  "overview": {
+    "keyMetrics": {
+      "title": "Key Metrics",
+      "totalStores": "Total Stores",
+      "totalStoresDescription": "Total stores in the system",
+      "totalOrders": "Total Orders",
+      "totalOrdersDescription": "Total orders in the system",
+      "totalWashers": "Total Washers",
+      "totalWashersDescription": "Total washers in the system",
+      "totalDryers": "Total Dryers",
+      "totalDryersDescription": "Total dryers in the system",
+      "revenueByDay": "Revenue By Day",
+      "revenueByDayDescription": "Revenue by day in the system",
+      "revenueByMonth": "Revenue By Month",
+      "revenueByMonthDescription": "Revenue by month in the system"
+    }
   }
 }

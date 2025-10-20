@@ -4,7 +4,7 @@ import { SignInPage } from '@pages/Auth';
 import { GenerateOTPPage } from '@pages/Auth/GenerateOTPPage';
 import { VerifyOTPPage } from '@pages/Auth/VerifyOTPPage';
 
-import { OverviewPage } from '@pages/OverviewPage';
+import { OverviewPage } from '@pages/Overview';
 
 import {
   StoreListPage,

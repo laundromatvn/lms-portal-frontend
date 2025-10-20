@@ -173,6 +173,24 @@
     "roleIsRequired": "Vai trò là bắt buộc",
     "updateUserSuccess": "Người dùng đã được cập nhật thành công",
     "updateUserError": "Không thể cập nhật người dùng",
-    "getUserError": "Không thể lấy người dùng"
+    "getUserError": "Không thể lấy người dùng",
+    "error": "Lỗi"
+  },
+  "overview": {
+    "keyMetrics": {
+      "title": "Chỉ số chính",
+      "totalStores": "Tổng cửa hàng",
+      "totalStoresDescription": "Tổng cửa hàng trong hệ thống",
+      "totalOrders": "Tổng đơn hàng",
+      "totalOrdersDescription": "Tổng đơn hàng trong hệ thống",
+      "totalWashers": "Tổng máy giặt",
+      "totalWashersDescription": "Tổng máy giặt trong hệ thống",
+      "totalDryers": "Tổng máy sấy",
+      "totalDryersDescription": "Tổng máy sấy trong hệ thống",
+      "revenueByDay": "Doanh thu theo ngày",
+      "revenueByDayDescription": "Doanh thu theo ngày trong hệ thống",
+      "revenueByMonth": "Doanh thu theo tháng",
+      "revenueByMonthDescription": "Doanh thu theo tháng trong hệ thống"
+    }
   }
 }

@@ -189,6 +189,9 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
           large: 18,
           xlarge: 20,
           xxlarge: 24,
+          xxxlarge: 32,
+          xxxxlarge: 40,
+          xxxxxlarge: 48,
         },
         fontWeight: {
           xxsmall: 100,

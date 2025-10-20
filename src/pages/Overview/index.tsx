@@ -4,15 +4,17 @@ import { useTranslation } from 'react-i18next';
 import { Flex, Typography } from 'antd';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { KeyMetricsSection } from './KeyMetricsSection';
 
 export const OverviewPage: React.FC = () => {
   const { t } = useTranslation();
 
   return (
     <PortalLayout>
-      <Flex vertical justify="center" align="center" style={{ height: '100%' }}>
+      <Flex vertical gap="large" style={{ width: '100%' }}>
         <Typography.Title level={2}>{t('navigation.overview')}</Typography.Title>
-        <Typography.Text type="secondary">{t('messages.thisPageWillBeUpdatedSoon')}</Typography.Text>
+
+        <KeyMetricsSection />
       </Flex>
     </PortalLayout>
   );

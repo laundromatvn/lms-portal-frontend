@@ -157,6 +157,9 @@ declare module 'antd/es/theme/interface' {
         large: number;
         xlarge: number;
         xxlarge: number;
+        xxxlarge: number;
+        xxxxlarge: number;
+        xxxxxlarge: number;
       };
       fontWeight: {
         xxsmall: number;

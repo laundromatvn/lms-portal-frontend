@@ -1,13 +1,5 @@
 export type CompactCurrencyOptions = {
   maximumFractionDigits?: number;
-  suffixes?: Partial<Record<'K' | 'M' | 'B' | 'T', string>>;
-};
-
-const DEFAULT_SUFFIXES: Record<'K' | 'M' | 'B' | 'T', string> = {
-  K: 'K',
-  M: 'M',
-  B: 'B',
-  T: 'T',
 };
 
 const currencySymbol = 'đ';
@@ -22,51 +14,30 @@ function coerceToNumber(input: number | string | null | undefined): number {
   return 0;
 }
 
-function formatWithMaxDecimals(value: number, maxDecimals: number): string {
-  if (Number.isInteger(value)) return String(value);
-  const fixed = value.toFixed(Math.max(0, maxDecimals));
-  return fixed.replace(/\.0+$|(\.\d*[1-9])0+$/, '$1');
-}
-
 /**
- * Formats a number into a compact currency-like string.
+ * Formats a number into a comma-separated currency string with trailing symbol.
  * Examples:
- *  - 20000 -> "20K"
- *  - 1530000 -> "1.5M"
- *  - -1250000000 -> "-1.25B"
+ *  - 20000 -> "20,000 đ"
+ *  - 1530000 -> "1,530,000 đ"
+ *  - -1250000 -> "-1,250,000 đ"
  */
 export function formatCurrencyCompact(
   input: number | string,
   options?: CompactCurrencyOptions
 ): string {
   const num = coerceToNumber(input);
-  const maximumFractionDigits = options?.maximumFractionDigits ?? 2;
-  const suffixes = { ...DEFAULT_SUFFIXES, ...(options?.suffixes ?? {}) };
+  const maximumFractionDigits = options?.maximumFractionDigits ?? 0;
 
   const sign = num < 0 ? '-' : '';
   const abs = Math.abs(num);
 
-  const units: Array<{ value: number; symbol: string }> = [
-    { value: 1e12, symbol: suffixes.T },
-    { value: 1e9, symbol: suffixes.B },
-    { value: 1e6, symbol: suffixes.M },
-    { value: 1e3, symbol: suffixes.K },
-  ];
+  const formatted = new Intl.NumberFormat('en-US', {
+    useGrouping: true,
+    maximumFractionDigits: Math.max(0, maximumFractionDigits),
+    minimumFractionDigits: 0,
+  }).format(abs);
 
-  for (const unit of units) {
-    if (abs >= unit.value) {
-      const scaled = abs / unit.value;
-      // Use up to maximumFractionDigits, but drop trailing zeros
-      const display = formatWithMaxDecimals(
-        scaled,
-        Math.max(0, maximumFractionDigits)
-      );
-      return `${sign}${display}${unit.symbol} ${currencySymbol}`;
-    }
-  }
-
-  // For values below 1000, return as-is (no grouping), trimming decimals
-  return `${sign}${formatWithMaxDecimals(abs, Math.max(0, maximumFractionDigits))} ${currencySymbol}`;
+  return `${sign}${formatted} ${currencySymbol}`;
 }
 
 export default formatCurrencyCompact;
