@@ -50,7 +50,7 @@ export const useListOverviewOrderApi = <T = ListOverviewOrderResponse>() => {
       setState({ data: response.data as T, loading: false, error: null });
       return response.data as T
     } catch (error: any) {
-      setState({ data: null, loading: false, error: new Error(error.message) });
+      setState(prevState => ({ ...prevState, loading: false, error: new Error(error.message) }));
       throw error;
     }
   }, []);

@@ -73,6 +73,8 @@ export const OverviewOrderTable: React.FC<Props> = ({
       dataIndex: 'total_amount',
       key: 'total_amount',
       width: 100,
+      sorter: true,
+      onSort: (column: string, direction: 'asc' | 'desc') => onSort?.(column, direction),
       render: (text: string) => (
         <Typography.Text style={{ textAlign: 'right', width: '100%' }}>
           {formatCurrencyCompact(text)}
@@ -84,6 +86,8 @@ export const OverviewOrderTable: React.FC<Props> = ({
       dataIndex: 'total_washer',
       key: 'total_washer',
       width: 100,
+      sorter: true,
+      onSort: (column: string, direction: 'asc' | 'desc') => onSort?.(column, direction),
       render: (text: string) => (
         <Typography.Text style={{ textAlign: 'right', width: '100%' }}>
           {text}
@@ -95,6 +99,8 @@ export const OverviewOrderTable: React.FC<Props> = ({
       dataIndex: 'total_dryer',
       key: 'total_dryer',
       width: 100,
+      sorter: true,
+      onSort: (column: string, direction: 'asc' | 'desc') => onSort?.(column, direction),
       render: (text: string) => (
         <Typography.Text style={{ textAlign: 'right', width: '100%' }}>
           {text}

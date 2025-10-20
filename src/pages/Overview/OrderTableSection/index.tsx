@@ -27,12 +27,16 @@ export const OverviewOrderTableSection: React.FC<Props> = ({ style }) => {
   const theme = useTheme();
 
   const tenant = tenantStorage.load();
+
   const [searchText, setSearchText] = useState('');
   const [searchError, setSearchError] = useState<string | undefined>();
   const [statusFilter, setStatusFilter] = useState<string | undefined>();
   const [paymentStatusFilter, setPaymentStatusFilter] = useState<string | undefined>();
   const [orderBy, setOrderBy] = useState<string | undefined>();
   const [orderDirection, setOrderDirection] = useState<string | undefined>();
+
+  const [orders, setOrders] = useState<OverviewOrder[]>([]);
+  const [isTableLoading, setIsTableLoading] = useState(false);
 
   const {
     listOverviewOrder,
@@ -47,14 +51,19 @@ export const OverviewOrderTableSection: React.FC<Props> = ({ style }) => {
   };
 
   const handleListOverviewOrder = async () => {
-    await listOverviewOrder({
-      tenant_id: tenant?.id as string,
-      status: statusFilter as OrderStatusEnum,
-      payment_status: paymentStatusFilter as PaymentStatusEnum,
-      query: searchText,
-      order_by: orderBy,
-      order_direction: orderDirection as 'asc' | 'desc'
-    });
+    setIsTableLoading(true);
+    try {
+      await listOverviewOrder({
+        tenant_id: tenant?.id as string,
+        status: statusFilter as OrderStatusEnum,
+        payment_status: paymentStatusFilter as PaymentStatusEnum,
+        query: searchText,
+        order_by: orderBy,
+        order_direction: orderDirection as 'asc' | 'desc'
+      });
+    } finally {
+      setIsTableLoading(false);
+    }
   };
 
   const handleSearch = async (searchValue: string) => {
@@ -82,14 +91,22 @@ export const OverviewOrderTableSection: React.FC<Props> = ({ style }) => {
   };
 
   useEffect(() => {
+    if (listOverviewOrderData?.data) {
+      setOrders(listOverviewOrderData.data as OverviewOrder[]);
+    }
+  }, [listOverviewOrderData]);
+
+  // Initial load
+  useEffect(() => {
+    handleListOverviewOrder();
+  }, []);
+
+  useEffect(() => {
     if (!validateSearchText(searchText)) return;
 
     handleListOverviewOrder();
   }, [searchText, statusFilter, paymentStatusFilter, orderBy, orderDirection]);
 
-  if (listOverviewOrderLoading) {
-    return <Skeleton active />;
-  }
 
   return (
     <Box
@@ -106,67 +123,61 @@ export const OverviewOrderTableSection: React.FC<Props> = ({ style }) => {
         {t('overview.orderTable.title')}
       </Typography.Title>
 
-      {listOverviewOrderLoading ? (
-        <Skeleton active />
-      ) : (
-        <>
-          <LeftRightSection
-            left={(
-              <Input.Search
-                placeholder={t('overview.orderTable.searchPlaceholder')}
-                value={searchText}
-                onChange={(e) => handleSearch(e.target.value)}
-                onSearch={handleSearch}
-                allowClear
-                onClear={handleClear}
-                status={searchError ? 'error' : undefined}
-                style={{ width: 200, marginBottom: theme.custom.spacing.small }}
-              />)}
-            right={(
-              <Flex gap={theme.custom.spacing.small}>
-                <Button
-                  icon={<Refresh />}
-                  onClick={handleListOverviewOrder}
-                />
+      <LeftRightSection
+        left={(
+          <Input.Search
+            placeholder={t('overview.orderTable.searchPlaceholder')}
+            value={searchText}
+            onChange={(e) => handleSearch(e.target.value)}
+            onSearch={handleSearch}
+            allowClear
+            onClear={handleClear}
+            status={searchError ? 'error' : undefined}
+            style={{ width: 200, marginBottom: theme.custom.spacing.small }}
+          />)}
+        right={(
+          <Flex gap={theme.custom.spacing.small}>
+            <Button
+              icon={<Refresh />}
+              onClick={handleListOverviewOrder}
+            />
 
-                <Select
-                  placeholder={t('overview.orderTable.status')}
-                  style={{ width: 150 }}
-                  allowClear
-                  value={statusFilter}
-                  onChange={(value) => handleStatusFilter(value as OrderStatusEnum)}
-                >
-                  {Object.values(OrderStatusEnum).map((status) => (
-                    <Select.Option key={status} value={status} style={{ textAlign: 'left' }}>
-                      <DynamicTag value={status} />
-                    </Select.Option>
-                  ))}
-                </Select>
+            <Select
+              placeholder={t('overview.orderTable.status')}
+              style={{ width: 150 }}
+              allowClear
+              value={statusFilter}
+              onChange={(value) => handleStatusFilter(value as OrderStatusEnum)}
+            >
+              {Object.values(OrderStatusEnum).map((status) => (
+                <Select.Option key={status} value={status} style={{ textAlign: 'left' }}>
+                  <DynamicTag value={status} />
+                </Select.Option>
+              ))}
+            </Select>
 
-                <Select
-                  placeholder={t('overview.orderTable.paymentStatus')}
-                  style={{ width: 180 }}
-                  allowClear
-                  value={paymentStatusFilter}
-                  onChange={(value) => handlePaymentStatusFilter(value as PaymentStatusEnum)}
-                >
-                  {Object.values(PaymentStatusEnum).map((status) => (
-                    <Select.Option key={status} value={status} style={{ textAlign: 'left' }}>
-                      <DynamicTag value={status} />
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Flex>
-            )}
-          />
+            <Select
+              placeholder={t('overview.orderTable.paymentStatus')}
+              style={{ width: 180 }}
+              allowClear
+              value={paymentStatusFilter}
+              onChange={(value) => handlePaymentStatusFilter(value as PaymentStatusEnum)}
+            >
+              {Object.values(PaymentStatusEnum).map((status) => (
+                <Select.Option key={status} value={status} style={{ textAlign: 'left' }}>
+                  <DynamicTag value={status} />
+                </Select.Option>
+              ))}
+            </Select>
+          </Flex>
+        )}
+      />
 
-          <OverviewOrderTable
-            orders={listOverviewOrderData?.data as OverviewOrder[]}
-            loading={listOverviewOrderLoading}
-            onSort={(column, direction) => handleSort(column, direction)}
-          />
-        </>
-      )}
+       <OverviewOrderTable
+         orders={orders}
+         loading={isTableLoading}
+         onSort={(column, direction) => handleSort(column, direction)}
+       />
     </Box>
   );
 };
