@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 import { Column } from '@ant-design/plots';
 
+import formatCurrencyCompact from '@shared/utils/currency';
+
 type Props = {
   labels?: string[];
   values?: number[];
@@ -36,7 +38,7 @@ export const RevenueByDayBarChart: React.FC<Props> = ({ labels, values, height =
           labelFormatter: (d: string) => d,
         },
         y: {
-          labelFormatter: (val: number) => val,
+          labelFormatter: (val: number) => formatCurrencyCompact(val),
           title: t('overview.revenueByDay.revenue'),
           tickCount: 5,
         },
@@ -46,7 +48,7 @@ export const RevenueByDayBarChart: React.FC<Props> = ({ labels, values, height =
           {
             field: 'value',
             name: t('overview.revenueByDay.revenue'),
-            valueFormatter: (val: number) => val,
+            valueFormatter: (val: number) => formatCurrencyCompact(val),
           },
         ],
       },
