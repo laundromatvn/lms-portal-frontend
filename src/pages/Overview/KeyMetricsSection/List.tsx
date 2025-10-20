@@ -20,27 +20,31 @@ export const KeyMetricItemList: React.FC<Props> = ({ dashboardOverviewKeyMetrics
   const theme = useTheme();
 
   return (
-    <Flex gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+    <Flex gap={theme.custom.spacing.medium} style={{ width: '100%' }} wrap="wrap">
       <KeyMetricItem
         title={t('overview.keyMetrics.totalStores')}
+        unit={t('overview.keyMetrics.totalStoresUnit')}
         value={`${dashboardOverviewKeyMetrics?.total_active_stores || 0} / ${dashboardOverviewKeyMetrics?.total_stores || 0}`}
         description={t('overview.keyMetrics.totalStoresDescription')}
       />
 
       <KeyMetricItem
         title={t('overview.keyMetrics.totalOrdersToday')}
+        unit={t('overview.keyMetrics.totalOrdersTodayUnit')}
         value={`${dashboardOverviewKeyMetrics?.total_in_progress_orders || 0} / ${dashboardOverviewKeyMetrics?.today_orders || 0}`}
         description={t('overview.keyMetrics.totalOrdersTodayDescription')}
       />
 
       <KeyMetricItem
         title={t('overview.keyMetrics.totalWashers')}
+        unit={t('overview.keyMetrics.totalWashersUnit')}
         value={`${dashboardOverviewKeyMetrics?.total_in_progress_washers || 0} / ${dashboardOverviewKeyMetrics?.total_washers || 0}`}
         description={t('overview.keyMetrics.totalWashersDescription')}
       />
 
       <KeyMetricItem
         title={t('overview.keyMetrics.totalDryers')}
+        unit={t('overview.keyMetrics.totalDryersUnit')}
         value={`${dashboardOverviewKeyMetrics?.total_in_progress_dryers || 0} / ${dashboardOverviewKeyMetrics?.total_dryers || 0}`}
         description={t('overview.keyMetrics.totalDryersDescription')}
       />

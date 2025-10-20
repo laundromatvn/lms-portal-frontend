@@ -28,41 +28,59 @@ export const KeyMetricItem: React.FC<Props> = ({ title, value, unit, description
       border
       justify="space-between"
       style={{
-        width: 240,
-        height: 128,
+        minWidth: 240,
+        minHeight: 128,
         backgroundColor: theme.custom.colors.background.surface,
         ...style,
       }}
     >
-      <Flex gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
-        <Typography.Text
-          style={{
-            textAlign: 'left',
-            color: theme.custom.colors.text.secondary,
-          }}
-        >
-          {title} {unit && `(${unit})`}
-        </Typography.Text>
-
-        <Tooltip title={description}>
-          <InfoCircle
-            size={16}
-            color={theme.custom.colors.text.secondary}
-          />
-        </Tooltip>
-      </Flex>
-
-      <Flex justify="flex-end" align="center" style={{ width: '100%' }}>
-        
+      <Flex vertical gap={theme.custom.spacing.small}>
+        <Flex gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
           <Typography.Text
             style={{
-              fontSize: theme.custom.fontSize.xxxlarge,
+              textAlign: 'left',
               color: theme.custom.colors.text.primary,
-              ...valueTextStyle,
+              fontWeight: theme.custom.fontWeight.large,
             }}
           >
-            {value}
+            {title}
           </Typography.Text>
+
+          <Tooltip title={description}>
+            <InfoCircle
+              size={16}
+              color={theme.custom.colors.text.secondary}
+            />
+          </Tooltip>
+        </Flex>
+      </Flex>
+
+
+      <Flex
+        vertical
+        justify="center"
+        align="flex-end"
+        gap={theme.custom.spacing.xsmall}
+        style={{ width: '100%' }}
+      >
+        <Typography.Text
+          style={{
+            fontSize: theme.custom.fontSize.xxxlarge,
+            color: theme.custom.colors.success.default,
+            ...valueTextStyle,
+          }}
+        >
+          {value}
+        </Typography.Text>
+
+        {unit && <Typography.Text
+          style={{
+            textAlign: 'left',
+            color: theme.custom.colors.text.tertiary,
+          }}
+        >
+          ({unit})
+        </Typography.Text>}
       </Flex>
     </Box>
   )
