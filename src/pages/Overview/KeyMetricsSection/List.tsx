@@ -28,9 +28,9 @@ export const KeyMetricItemList: React.FC<Props> = ({ dashboardOverviewKeyMetrics
       />
 
       <KeyMetricItem
-        title={t('overview.keyMetrics.totalOrders')}
+        title={t('overview.keyMetrics.totalOrdersToday')}
         value={`${dashboardOverviewKeyMetrics?.total_in_progress_orders || 0} / ${dashboardOverviewKeyMetrics?.today_orders || 0}`}
-        description={t('overview.keyMetrics.totalOrdersDescription')}
+        description={t('overview.keyMetrics.totalOrdersTodayDescription')}
       />
 
       <KeyMetricItem

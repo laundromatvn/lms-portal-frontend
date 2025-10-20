@@ -3,13 +3,17 @@ import { useTranslation } from 'react-i18next';
 
 import { Flex, Typography } from 'antd';
 
+import { useTheme } from '@shared/theme/useTheme';
+
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 
 import { KeyMetricsSection } from './KeyMetricsSection';
 import { OrderByDayBarChartSection } from './OrderByDayBarChartSection';
+import { RevenueByDayBarChartSection } from './RevenueByDayBarChartSection';
 
 export const OverviewPage: React.FC = () => {
   const { t } = useTranslation();
+  const theme = useTheme();
 
   return (
     <PortalLayout>
@@ -17,7 +21,10 @@ export const OverviewPage: React.FC = () => {
         <Typography.Title level={2}>{t('navigation.overview')}</Typography.Title>
 
         <KeyMetricsSection />
+
         <OrderByDayBarChartSection />
+
+        <RevenueByDayBarChartSection />
       </Flex>
     </PortalLayout>
   );

@@ -187,8 +187,8 @@
       "title": "Key Metrics",
       "totalStores": "Total Stores",
       "totalStoresDescription": "Total stores in the system",
-      "totalOrders": "Total Orders",
-      "totalOrdersDescription": "Total orders in the system",
+      "totalOrdersToday": "Total orders today (in progress/total)",
+      "totalOrdersTodayDescription": "Total orders today in the system",
       "totalWashers": "Total Washers",
       "totalWashersDescription": "Total washers in the system",
       "totalDryers": "Total Dryers",
@@ -202,6 +202,11 @@
       "title": "Total orders by day",
       "orderCount": "Order Count",
       "orderCountDescription": "Order count by day in the system"
+    },
+    "revenueByDay": {
+      "title": "Revenue by day",
+      "revenue": "Revenue",
+      "revenueDescription": "Revenue by day in the system"
     }
   }
 }
