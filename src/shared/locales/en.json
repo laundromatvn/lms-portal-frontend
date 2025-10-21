@@ -106,7 +106,9 @@
     "error": "Error",
     "refresh": "Refresh",
     "clear": "Clear",
-    "search": "Search"
+    "search": "Search",
+    "selectStore": "Select Store",
+    "selectMachine": "Select Machine"
   },
   "navigation": {
     "overview": "Overview",
@@ -235,6 +237,15 @@
       "totalDryer": "Total Dryer",
       "searchPlaceholder": "Search orders (min 3 words)",
       "searchMinWordsError": "Please enter at least 3 words to search"
+    },
+    "machineStatus": {
+      "title": "Machine Status Timeline",
+      "datetime": "Date & Time",
+      "status": "Status",
+      "machine": "Machine",
+      "description": "Machine status changes over time",
+      "noData": "No data available",
+      "pleaseSelectMachineAndStoreToViewData": "Please select a machine and a store to view the data"   
     }
   }
 }

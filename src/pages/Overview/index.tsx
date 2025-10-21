@@ -12,6 +12,7 @@ import { OrderByDayBarChartSection } from './OrderByDayBarChartSection';
 import { RevenueByDayBarChartSection } from './RevenueByDayBarChartSection';
 import { StoreKeyMetricsSection } from './StoreKeyMetricsSection';
 import { OverviewOrderTableSection } from './OrderTableSection/index';
+import { MachineStatusLineChartSection } from './MachineStatusLineChartSection';
 
 export const OverviewPage: React.FC = () => {
   const { t } = useTranslation();
@@ -31,6 +32,8 @@ export const OverviewPage: React.FC = () => {
         <StoreKeyMetricsSection />
 
         <OverviewOrderTableSection />
+        
+        <MachineStatusLineChartSection />
       </Flex>
     </PortalLayout>
   );

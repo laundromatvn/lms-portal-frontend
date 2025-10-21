@@ -106,7 +106,9 @@
     "error": "Lỗi",
     "refresh": "Tải lại",
     "clear": "Xóa",
-    "search": "Tìm kiếm"
+    "search": "Tìm kiếm",
+    "selectStore": "Chọn cửa hàng",
+    "selectMachine": "Chọn máy"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -232,6 +234,15 @@
       "totalDryer": "Số máy sấy",
       "searchPlaceholder": "Tìm kiếm đơn hàng (tối thiểu 3 từ)",
       "searchMinWordsError": "Vui lòng nhập ít nhất 3 từ để tìm kiếm"
+    },
+    "machineStatus": {
+      "title": "Timeline Trạng thái Máy",
+      "datetime": "Ngày & Giờ",
+      "status": "Trạng thái",
+      "machine": "Máy",
+      "description": "Thay đổi trạng thái máy theo thời gian",
+      "noData": "Không có dữ liệu",
+      "pleaseSelectMachineAndStoreToViewData": "Vui lòng chọn một máy và một cửa hàng để xem dữ liệu"
     }
   }
 }
