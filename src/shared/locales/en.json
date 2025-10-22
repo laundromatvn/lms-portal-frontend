@@ -140,7 +140,9 @@
     "busy": "Busy",
     "outOfService": "Out of Service",
     "controllerDetail": "Controller Detail",
-    "delete": "Delete"
+    "delete": "Delete",
+    "machineDetail": "Machine Detail",
+    "machineEdit": "Machine Edit"
   },
   "navigation": {
     "overview": "Overview",
@@ -219,7 +221,9 @@
     "verificationFailed": "Verification Failed",
     "verificationFailedDescription": "Your verification was failed",
     "resetMachineSuccess": "Machine reset successfully",
-    "resetMachineError": "Failed to reset machine"
+    "resetMachineError": "Failed to reset machine",
+    "enterBasePrice": "Enter base price",
+    "basePriceMustBeGreaterThanZero": "Base price must be greater than zero"
   },
   "overview": {
     "keyMetrics": {

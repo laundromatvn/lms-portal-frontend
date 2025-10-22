@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button, Flex, Typography, Skeleton, notification } from 'antd';
 
+import { ArrowLeft, CheckCircle, PlayCircle } from '@solar-icons/react';
+
 import {
   useGetMachineApi,
   type GetMachineResponse,
@@ -23,7 +25,9 @@ import { type Machine } from '@shared/types/machine';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
+
 import { DetailSection } from './DetailSection';
+import { MachineConfigSection } from './ConfigSection';
 
 const DEFAULT_TOTAL_AMOUNT = 200000;
 
@@ -110,31 +114,44 @@ export const MachineDetailPage: React.FC = () => {
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <Typography.Title level={2}>Machine Detail</Typography.Title>
+        <Typography.Title level={2}>{t('common.machineDetail')}</Typography.Title>
 
         <LeftRightSection
-          left={null}
+          left={(
+            <Button
+              type="link"
+              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
+              onClick={() => navigate(-1)}
+            >
+              {t('common.back')}
+            </Button>
+          )}
           right={(<Flex gap={theme.custom.spacing.medium}>
-            <Button type="primary" size="large" onClick={() => {
-              startMachine(machineId as string, DEFAULT_TOTAL_AMOUNT);
-            }}>
+            <Button
+              type="default"
+              icon={<PlayCircle weight="Outline" />}
+              onClick={() => startMachine(machineId as string, DEFAULT_TOTAL_AMOUNT)}
+              loading={startMachineLoading}
+              style={{
+                color: theme.custom.colors.success.default,
+                borderColor: theme.custom.colors.success.default,
+                backgroundColor: theme.custom.colors.background.light,
+              }}
+            >
               {t('common.startMachine')}
             </Button>
             <Button 
-              type="primary"
-              size="large"
+              type="default"
               onClick={() => activateMachine(machineId as string)}
+              icon={<CheckCircle weight="Outline" />}
               loading={activateMachineLoading}
               style={{
-                color: theme.custom.colors.success.light,
-                backgroundColor: theme.custom.colors.success.default,
+                color: theme.custom.colors.success.default,
                 borderColor: theme.custom.colors.success.default,
+                backgroundColor: theme.custom.colors.background.light,
               }}
             >
               {t('common.activateMachine')}
-            </Button>
-            <Button type="default" size="large" onClick={() => navigate(`/machines/${machineId}/edit`)}>
-              {t('common.edit')}
             </Button>
           </Flex>)}
         />
@@ -144,6 +161,7 @@ export const MachineDetailPage: React.FC = () => {
       {!machineLoading && machineData && (
         <>
           <DetailSection machine={machineData as Machine} />
+          <MachineConfigSection machine={machineData as Machine} />
         </>
       )}
     </Flex>

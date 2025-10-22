@@ -11,6 +11,8 @@ import {
   type FormInstance,
 } from 'antd';
 
+import { ArrowLeft } from '@solar-icons/react';
+
 import { useTheme } from '@shared/theme/useTheme';
 
 import { type Machine } from '@shared/types/machine';
@@ -46,7 +48,6 @@ export const MachineEditPage: React.FC = () => {
   const {
     updateMachine,
     data: updateMachineData,
-    loading: updateMachineLoading,
     error: updateMachineError,
   } = useUpdateMachineApi<UpdateMachineResponse>();
 
@@ -101,14 +102,15 @@ export const MachineEditPage: React.FC = () => {
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <Typography.Title level={2}>Machine Edit</Typography.Title>
+        <Typography.Title level={2}>{t('common.machineEdit')}</Typography.Title>
 
         <LeftRightSection
           left={(
             <Button
-              type="default"
-              size="large"
-              onClick={() => navigate(`/machines/${machineId}/detail`)}>
+              type="link"
+              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
+              onClick={() => navigate(-1)}
+            >
               {t('common.back')}
             </Button>
           )}

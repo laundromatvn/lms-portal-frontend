@@ -140,7 +140,9 @@
     "busy": "Đang sử dụng",
     "outOfService": "Ngừng hoạt động",
     "controllerDetail": "Chi tiết Controller",
-    "delete": "Xóa"
+    "delete": "Xóa",
+    "machineDetail": "Chi tiết máy",
+    "machineEdit": "Cập nhật máy"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -216,7 +218,9 @@
     "getUserError": "Không thể lấy người dùng",
     "error": "Lỗi",
     "resetMachineSuccess": "Máy đã được đặt lại thành công",
-    "resetMachineError": "Không thể đặt lại máy"
+    "resetMachineError": "Không thể đặt lại máy",
+    "enterBasePrice": "Nhập giá cơ bản",
+    "basePriceMustBeGreaterThanZero": "Giá cơ bản phải lớn hơn 0"
   },
   "overview": {
     "keyMetrics": {

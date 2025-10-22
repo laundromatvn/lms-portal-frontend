@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
-  Button,
   Form,
   Input,
   InputNumber,
@@ -10,13 +9,11 @@ import {
   type FormInstance,
 } from 'antd';
 
-import { useTheme } from '@shared/theme/useTheme';
-
 import { type Machine } from '@shared/types/machine';
 import { MachineTypeEnum } from '@shared/enums/MachineTypeEnum';
 import { MachineStatusEnum } from '@shared/enums/MachineStatusEnum';
 
-import { Box } from '@shared/components/Box';
+import { BaseEditSection } from '@shared/components/BaseEditSection';
 
 interface Props {
   machine: Machine;
@@ -25,7 +22,6 @@ interface Props {
 
 export const EditSection: React.FC<Props> = ({ machine, onSave }: Props) => {
   const { t } = useTranslation();
-  const theme = useTheme();
 
   const [form] = Form.useForm();
 
@@ -43,7 +39,7 @@ export const EditSection: React.FC<Props> = ({ machine, onSave }: Props) => {
   }, [machine]);
 
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+    <BaseEditSection title={t('common.basicInformation')} onSave={() => onSave(form)}>
       <Form form={form} layout="vertical" style={{ width: '100%', maxWidth: 600 }}>
         <Form.Item
           label={t('common.machineId')}
@@ -126,25 +122,35 @@ export const EditSection: React.FC<Props> = ({ machine, onSave }: Props) => {
         </Form.Item>
 
         <Form.Item
-          label={t('common.basePrice')}
-          name="base_price"
-          style={{ width: '100%' }}
-          rules={[{ required: true, message: t('common.basePriceIsRequired') }]}
-        >
-          <InputNumber size="large" style={{ width: '100%' }} min={0} />
-        </Form.Item>
-
-        <Form.Item style={{ width: '100%', textAlign: 'right' }}>
-          <Button
-            type="primary"
-            size="large"
-            style={{ minWidth: 128 }}
-            onClick={() => onSave(form)}
+            label={t('common.basePrice')}
+            name="base_price"
+            style={{ width: '100%' }}
+            rules={[
+              { required: true, message: t('messages.basePriceIsRequired') },
+              {
+                validator: (_, value) => {
+                  if (value <= 0) {
+                    return Promise.reject(new Error(t('messages.basePriceMustBeGreaterThanZero')));
+                  }
+                  return Promise.resolve();
+                }
+              }
+            ]}
           >
-            {t('common.save')}
-          </Button>
+          <InputNumber
+            size="large"
+            style={{ width: '100%' }}
+            placeholder={t('messages.enterBasePrice')}
+            min={0}
+            addonAfter="đ"
+            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            parser={(value) => {
+              const cleaned = value?.replace(/,/g, '') || '';
+              return (cleaned === '' ? 0 : Number(cleaned)) as 0;
+            }}
+          />
         </Form.Item>
       </Form>
-    </Box>
+    </BaseEditSection>
   );
 };

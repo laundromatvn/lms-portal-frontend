@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { Button, Flex, Typography, Table, Skeleton, notification } from 'antd';
 
+import { CheckCircle } from '@solar-icons/react';
+
 import { useTheme } from '@shared/theme/useTheme';
 
 import {
@@ -15,9 +17,12 @@ import {
   type ActivateMachineResponse,
 } from '@shared/hooks/useActivateMachineApi';
 
+import { formatCurrencyCompact } from '@shared/utils/currency';
+
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
+import { Box } from '@shared/components/Box';
 
 export const MachineListPage: React.FC = () => {
   const { t } = useTranslation();
@@ -31,14 +36,14 @@ export const MachineListPage: React.FC = () => {
   const [pageSize, setPageSize] = useState(10);
 
   const columns = [
-    { title: 'Store Name', dataIndex: 'store_name', width: 400 },
-    { title: 'Controller Device ID', dataIndex: 'controller_device_id', width: 200 },
-    { title: 'Relay No', dataIndex: 'relay_no', width: 200 },
-    { title: 'Name', dataIndex: 'name', width: 400 },
-    { title: 'Machine Type', dataIndex: 'machine_type', width: 200 },
-    { title: 'Base Price', dataIndex: 'base_price', width: 200 },
-    { title: 'Status', dataIndex: 'status', width: 200 },
-    { title: 'Actions', dataIndex: 'actions' },
+    { title: t('common.storeName'), dataIndex: 'store_name', width: 256 },
+    { title: t('common.deviceId'), dataIndex: 'controller_device_id', width: 128 },
+    { title: t('common.relayNo'), dataIndex: 'relay_no', width: 48 },
+    { title: t('common.machineName'), dataIndex: 'name', width: 256 },
+    { title: t('common.machineType'), dataIndex: 'machine_type', width: 128 },
+    { title: t('common.basePrice'), dataIndex: 'base_price', width: 128 },
+    { title: t('common.status'), dataIndex: 'status', width: 128 },
+    { title: t('common.actions'), dataIndex: 'actions' },
   ];
 
   const {
@@ -58,38 +63,26 @@ export const MachineListPage: React.FC = () => {
     if (listMachineData) {
       setTableData(listMachineData?.data.map((item) => ({
         id: item.id,
-        store_name: item.store_name || '-',
-        controller_id: item.controller_id || '-',
-        controller_device_id: item.controller_device_id || '-',
+        store_name: <Typography.Link onClick={() => navigate(`/stores/${item.store_id}/detail`)}>{item.store_name || '-'}</Typography.Link>,
+        controller_id: <Typography.Link onClick={() => navigate(`/controllers/${item.controller_id}/detail`)}>{item.controller_id || '-'}</Typography.Link>,
+        controller_device_id: <Typography.Link onClick={() => navigate(`/controllers/${item.controller_id}/detail`)}>{item.controller_device_id || '-'}</Typography.Link>,
         relay_no: item.relay_no,
-        name: item.name || '-',
+        name: <Typography.Link onClick={() => navigate(`/machines/${item.id}/detail`)}>{item.name || '-'}</Typography.Link>,
         machine_type: item.machine_type,
-        base_price: item.base_price,
+        base_price: formatCurrencyCompact(item.base_price),
         status: <DynamicTag value={item.status} />,
         actions: (
           <Flex gap={theme.custom.spacing.medium}>
             <Button
               type="link"
               onClick={() => {
-                navigate(`/machines/${item.id}/detail`);
-              }}
-            >
-              {t('common.detail')}
-            </Button>
-            <Button
-              type="link"
-              onClick={() => {
-                navigate(`/machines/${item.id}/edit`);
-              }}
-            >
-              {t('common.edit')}
-            </Button>
-            <Button
-              type="link"
-              onClick={() => {
                 activateMachine(item.id);
               }}
               loading={activateMachineLoading}
+              icon={<CheckCircle weight="Outline" />}
+              style={{
+                color: theme.custom.colors.success.default,
+              }}
             >
               {t('common.activateMachine')}
             </Button>
@@ -145,7 +138,7 @@ export const MachineListPage: React.FC = () => {
           {listMachineLoading && <Skeleton active />}
 
           {!listMachineLoading && (
-            <Flex vertical gap={theme.custom.spacing.large}>
+            <Box vertical gap={theme.custom.spacing.large} style={{ width: '100%' }}>
               <Table
                 bordered
                 dataSource={tableData || []}
@@ -159,8 +152,10 @@ export const MachineListPage: React.FC = () => {
                     setPageSize(pageSize);
                   },
                 }}
+                style={{ width: '100%' }}
+                scroll={{ x: 'max-content' }}
               />
-            </Flex>
+            </Box>
           )}
         </Flex>
       </Flex>

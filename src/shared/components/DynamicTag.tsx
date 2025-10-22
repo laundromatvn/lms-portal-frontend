@@ -33,6 +33,7 @@ export const DynamicTag: React.FC<Props> = ({ value, color, style }) => {
       case 'failed':
       case 'payment_failed':
       case 'cancelled':
+      case 'out_of_service':
         return theme.custom.colors.danger.default;
       case 'success':
       case 'payment_success':
