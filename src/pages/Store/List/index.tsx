@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { Button, Flex, Typography, Table, Skeleton, notification } from 'antd';
 
+import { AddCircle } from '@solar-icons/react';
+
 import { useTheme } from '@shared/theme/useTheme';
 
 import { tenantStorage } from '@core/storage/tenantStorage';
@@ -88,9 +90,11 @@ export const StoreListPage: React.FC = () => {
             right={(
               <>
                 <Button
-                  type="link"
+                  type="primary"
+                  icon={<AddCircle color={theme.custom.colors.text.inverted} />}
+                  onClick={() => navigate('/stores/add')}
                   size="large"
-                  onClick={() => navigate('/stores/add')}>
+                >
                   {t('common.addStore')}
                 </Button>
               </>

@@ -3,15 +3,17 @@ import { useTranslation } from 'react-i18next';
 
 import { Button, Form, Input, Select } from 'antd';
 
+import { InboxIn } from '@solar-icons/react';
+
 import { useTheme } from '@shared/theme/useTheme';
 
 import { userStorage } from '@core/storage/userStorage';
+import { tenantStorage } from '@core/storage/tenantStorage';
 
 import { useListTenantApi, type ListTenantResponse } from '@shared/hooks/useListTenantApi';
 import { useCreateStoreApi, type CreateStoreResponse } from '@shared/hooks/useCreateStoreApi';
 
-import { Box } from '@shared/components/Box';
-import { tenantStorage } from '@core/storage/tenantStorage';
+import { BaseEditSection } from '@shared/components/BaseEditSection';
 
 interface Props {
   onSuccess: () => void;
@@ -45,7 +47,7 @@ export const AddSection: React.FC<Props> = ({ onSuccess, onError }) => {
       name: form.getFieldValue('name'),
       contact_phone_number: form.getFieldValue('contact_phone_number'),
       address: form.getFieldValue('address'),
-      tenant_id: form.getFieldValue('tenant_id'),
+      tenant_id: form.getFieldValue('tenant_id') || tenant?.id,
     });
   }
 
@@ -83,7 +85,7 @@ export const AddSection: React.FC<Props> = ({ onSuccess, onError }) => {
   }, [user, tenant, form]);
 
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+    <BaseEditSection title={t('common.basicInformation')} saveButtonText={t('common.add')} onSave={handleSave}>
       <Form form={form} layout="vertical" style={{ width: '100%', maxWidth: 600 }}>
         <Form.Item
           name="name"
@@ -109,29 +111,20 @@ export const AddSection: React.FC<Props> = ({ onSuccess, onError }) => {
           <Input size="large" />
         </Form.Item>
 
-        <Form.Item
-          name="tenant_id"
-          label={t('common.tenant')}
-          rules={[{ required: true, message: t('messages.tenantIsRequired') }]}
-        >
-          <Select
-            size="large"
-            options={tenantOptions}
-            loading={listTenantLoading}
-            disabled={user?.role !== 'admin'} />
-        </Form.Item>
-
-        <Form.Item style={{ width: '100%', textAlign: 'right' }}>
-          <Button
-            type="primary"
-            size="large"
-            onClick={handleSave}
-            style={{ minWidth: 128 }}
+        {user?.role === 'admin' && (
+          <Form.Item
+            name="tenant_id"
+            label={t('common.tenant')}
+            rules={[{ required: true, message: t('messages.tenantIsRequired') }]}
           >
-            {t('common.save')}
-          </Button>
-        </Form.Item>
+            <Select
+              size="large"
+              options={tenantOptions}
+              loading={listTenantLoading}
+              disabled={user?.role !== 'admin'} />
+          </Form.Item>
+        )}
       </Form>
-    </Box>
+    </BaseEditSection>
   );
 };

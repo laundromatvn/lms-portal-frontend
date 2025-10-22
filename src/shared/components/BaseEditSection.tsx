@@ -14,10 +14,11 @@ import { Box } from '@shared/components/Box';
 interface Props {
   title: string;
   children: React.ReactNode;
+  saveButtonText?: string;
   onSave: () => void;
 }
 
-export const BaseEditSection: React.FC<Props> = ({ title, children, onSave }: Props) => {
+export const BaseEditSection: React.FC<Props> = ({ title, children, saveButtonText, onSave }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -30,7 +31,7 @@ export const BaseEditSection: React.FC<Props> = ({ title, children, onSave }: Pr
             type="link"
             onClick={onSave}
           >
-            {t('common.save')}
+            {saveButtonText || t('common.save')}
             <CheckCircle size={18} />
           </Button>
         )}

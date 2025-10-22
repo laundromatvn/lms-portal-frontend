@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {
   Button,
   Flex,
   Typography,
-  Skeleton,
   notification,
-  type FormInstance,
 } from 'antd';
+
+import { ArrowLeft } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -32,7 +32,16 @@ export const StoreAddPage: React.FC = () => {
         <Typography.Title level={2}>Store Add</Typography.Title>
 
         <LeftRightSection
-          left={null}
+          left={(
+            <Button
+              type="link"
+              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
+              onClick={() => navigate('/stores')}
+              size="large"
+            >
+              {t('common.back')}
+            </Button>
+          )}
           right={null}
         />
 
