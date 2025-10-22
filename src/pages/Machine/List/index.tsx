@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Flex, Typography, Table, Skeleton, notification, Select } from 'antd';
+import { Button, Flex, Typography, Table, Skeleton, notification, Select, Input } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
 import { CheckCircle } from '@solar-icons/react';
@@ -50,16 +50,15 @@ export const MachineListPage: React.FC = () => {
   const [selectedControllerId, setSelectedControllerId] = useState<string | undefined>(undefined);
   const [selectedMachineType, setSelectedMachineType] = useState<MachineTypeEnum | undefined>(undefined);
   const [selectedStatus, setSelectedStatus] = useState<MachineStatusEnum | undefined>(undefined);
-  const [searchValue, setSearchValue] = useState<string>('');
-  const [orderBy, setOrderBy] = useState<string>('relay_no');
+  const [orderBy, setOrderBy] = useState<string>();
   const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('asc');
 
   const columns: ColumnsType<any> = [
     { title: t('common.storeName'), dataIndex: 'store_name', width: 256 },
     { title: t('common.deviceId'), dataIndex: 'controller_device_id', width: 128 },
-    { 
-      title: t('common.relayNo'), 
-      dataIndex: 'relay_no', 
+    {
+      title: t('common.relayNo'),
+      dataIndex: 'relay_no',
       width: 48,
       sorter: (a: any, b: any) => {
         const aValue = a._relay_no || 0;
@@ -68,9 +67,9 @@ export const MachineListPage: React.FC = () => {
       },
       sortOrder: orderBy === 'relay_no' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
     },
-    { 
-      title: t('common.machineName'), 
-      dataIndex: 'name', 
+    {
+      title: t('common.machineName'),
+      dataIndex: 'name',
       width: 256,
       sorter: (a: any, b: any) => {
         const aValue = a._name || '';
@@ -79,9 +78,9 @@ export const MachineListPage: React.FC = () => {
       },
       sortOrder: orderBy === 'name' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
     },
-    { 
-      title: t('common.machineType'), 
-      dataIndex: 'machine_type', 
+    {
+      title: t('common.machineType'),
+      dataIndex: 'machine_type',
       width: 128,
       sorter: (a: any, b: any) => {
         const aValue = a._machine_type || '';
@@ -90,9 +89,9 @@ export const MachineListPage: React.FC = () => {
       },
       sortOrder: orderBy === 'machine_type' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
     },
-    { 
-      title: t('common.basePrice'), 
-      dataIndex: 'base_price', 
+    {
+      title: t('common.basePrice'),
+      dataIndex: 'base_price',
       width: 128,
       sorter: (a: any, b: any) => {
         const aValue = a._base_price || 0;
@@ -101,9 +100,9 @@ export const MachineListPage: React.FC = () => {
       },
       sortOrder: orderBy === 'base_price' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
     },
-    { 
-      title: t('common.status'), 
-      dataIndex: 'status', 
+    {
+      title: t('common.status'),
+      dataIndex: 'status',
       width: 128,
       sorter: (a: any, b: any) => {
         const aValue = a._status || '';
@@ -144,7 +143,6 @@ export const MachineListPage: React.FC = () => {
       controller_id: selectedControllerId,
       machine_type: selectedMachineType,
       status: selectedStatus,
-      search_value: searchValue,
       order_by: orderBy,
       order_direction: orderDirection,
     });
@@ -206,7 +204,7 @@ export const MachineListPage: React.FC = () => {
 
   useEffect(() => {
     handleListMachine();
-  }, [page, pageSize, selectedStoreId, selectedControllerId, selectedMachineType, selectedStatus, searchValue, orderBy, orderDirection]);
+  }, [page, pageSize, selectedStoreId, selectedControllerId, selectedMachineType, selectedStatus, orderBy, orderDirection]);
 
   useEffect(() => {
     if (activateMachineError) {
@@ -229,13 +227,13 @@ export const MachineListPage: React.FC = () => {
   useEffect(() => {
     if (selectedStoreId) {
       listController({ store_id: selectedStoreId, page, page_size: 100 });
-    } 
+    }
   }, [selectedStoreId]);
 
   useEffect(() => {
     listStore({ page: 1, page_size: 100 });
   }, []);
-  
+
   return (
     <PortalLayout>
       {contextHolder}
@@ -262,7 +260,19 @@ export const MachineListPage: React.FC = () => {
                   allowClear
                   placeholder={t('common.selectStatus')}
                 />
-                
+
+                <Select
+                  options={[
+                    { label: t('common.washer'), value: MachineTypeEnum.WASHER as string },
+                    { label: t('common.dryer'), value: MachineTypeEnum.DRYER as string },
+                  ]}
+                  value={selectedMachineType as string}
+                  onChange={(value) => setSelectedMachineType(value as MachineTypeEnum)}
+                  style={{ width: 156 }}
+                  allowClear
+                  placeholder={t('common.selectMachineType')}
+                />
+
                 <Select
                   options={listControllerData?.data.map((item) => ({
                     label: item.name,
