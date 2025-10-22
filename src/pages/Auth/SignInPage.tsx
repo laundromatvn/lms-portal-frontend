@@ -13,11 +13,16 @@ import {
 
 import { ACCESS_TOKEN_TTL_SECONDS, REFRESH_TOKEN_TTL_SECONDS } from '@core/constant'
 
+import { tenantStorage } from '@core/storage/tenantStorage';
+import { userStorage } from '@core/storage/userStorage';
+
+import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
+
 import { useSignInApi } from '@shared/hooks/useSignInApi';
+import { useGetLMSProfileApi } from '@shared/hooks/useGetLMSProfile';
+import { useGetMeApi } from '@shared/hooks/useGetMe';
 import { useProceedAuthSessionApi } from '@shared/hooks/useProceedAuthSessionApi';
 import { useProcessSystemTaskApi } from '@shared/hooks/useProcessSystemTaskApi';
-
-import { OTPActionEnum } from '@shared/enums/OTPActionEnum';
 
 import { AuthContainer } from './components';
 
@@ -40,6 +45,18 @@ export const SignInPage: React.FC = () => {
     error: signInError,
   } = useSignInApi();
   const {
+    getLMSProfile,
+    loading: getLMSProfileLoading,
+    data: getLMSProfileData,
+    error: getLMSProfileError,
+  } = useGetLMSProfileApi();
+  const {
+    getMe,
+    loading: getMeLoading,
+    data: getMeData,
+    error: getMeError,
+  } = useGetMeApi();
+  const {
     proceedAuthSession,
   } = useProceedAuthSessionApi();
   const {
@@ -54,7 +71,12 @@ export const SignInPage: React.FC = () => {
     });
   };
 
-  const handleSuccessfulAuth = () => {
+  const fetchData = async () => {
+    await getMe();
+    await getLMSProfile();
+  }
+
+  const handleSuccessfulAuth = async () => {
     try {
       const bundle: TokenBundle = {
         accessToken: (signInData as any).access_token,
@@ -70,6 +92,8 @@ export const SignInPage: React.FC = () => {
 
       navigate('/verification-failed');
     }
+
+    await fetchData();
 
     try {
       if (redirectTo) {
@@ -107,6 +131,25 @@ export const SignInPage: React.FC = () => {
       });
     }
   }, [signInError])
+
+  useEffect(() => {
+    if (getLMSProfileData) {
+      userStorage.save(getLMSProfileData.user);
+      tenantStorage.save(getLMSProfileData.tenant);
+      handleSuccessfulAuth();
+    }
+  }, [getLMSProfileData]);
+
+  useEffect(() => {
+    if (getMeData) {
+      userStorage.save(getMeData);
+      if (getMeData.role === UserRoleEnum.ADMIN) {
+        handleSuccessfulAuth();
+      } else {
+        getLMSProfile();
+      }
+    }
+  }, [getMeData]);
 
   return (
     <AuthContainer>

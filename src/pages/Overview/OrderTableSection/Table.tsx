@@ -36,15 +36,15 @@ export const OverviewOrderTable: React.FC<Props> = ({
       title: t('overview.orderTable.createdAt'),
       dataIndex: 'created_at',
       key: 'created_at',
-      width: 100,
+      width: 96,
       sorter: true,
       onSort: (column: string, direction: 'asc' | 'desc') => onSort?.(column, direction),
     },
     {
-      title: t('overview.orderTable.orderId'),
-      dataIndex: 'id',
-      key: 'id',
-      width: 100,
+      title: t('overview.orderTable.transactionCode'),
+      dataIndex: 'transaction_code',
+      key: 'transaction_code',
+      width: 72,
       fixed: 'left' as const,
       render: (text: string, record: OverviewOrder) => (
         <div style={{
@@ -59,22 +59,16 @@ export const OverviewOrderTable: React.FC<Props> = ({
               navigate(`/orders/${record.id}/detail`);
             }}
           >
-            {record.id}
+            {record.transaction_code}
           </Typography.Link>
         </div>
       )
     },
     {
-      title: t('overview.orderTable.transactionCode'),
-      dataIndex: 'transaction_code',
-      key: 'transaction_code',
-      width: 100,
-    },
-    {
       title: t('overview.orderTable.totalAmount'),
       dataIndex: 'total_amount',
       key: 'total_amount',
-      width: 100,
+      width: 72,
       sorter: true,
       onSort: (column: string, direction: 'asc' | 'desc') => onSort?.(column, direction),
       render: (text: string) => (
@@ -87,7 +81,7 @@ export const OverviewOrderTable: React.FC<Props> = ({
       title: t('overview.orderTable.totalWasher'),
       dataIndex: 'total_washer',
       key: 'total_washer',
-      width: 100,
+      width: 48,
       sorter: true,
       onSort: (column: string, direction: 'asc' | 'desc') => onSort?.(column, direction),
       render: (text: string) => (
@@ -100,7 +94,7 @@ export const OverviewOrderTable: React.FC<Props> = ({
       title: t('overview.orderTable.totalDryer'),
       dataIndex: 'total_dryer',
       key: 'total_dryer',
-      width: 100,
+      width: 48,
       sorter: true,
       onSort: (column: string, direction: 'asc' | 'desc') => onSort?.(column, direction),
       render: (text: string) => (
@@ -137,7 +131,7 @@ export const OverviewOrderTable: React.FC<Props> = ({
           type="link"
           onClick={() => { }}
         >
-          <Play weight="Bold" size={24} color={theme.custom.colors.success.default} />
+          <Play weight="Bold" color={theme.custom.colors.success.default} />
         </Button>
       )
     },
