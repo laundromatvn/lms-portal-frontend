@@ -7,21 +7,19 @@ import {
   Select,
 } from 'antd';
 
-import { useTheme } from '@shared/theme/useTheme';
-
 import { type Store } from '@shared/types/store';
 import { StoreStatusEnum } from '@shared/enums/StoreStatusEnum';
 
-import { Box } from '@shared/components/Box';
+import { BaseEditSection } from '@shared/components/BaseEditSection';
 
 interface Props {
   store: Store;
   onChange: (values: any) => void;
+  onSave: () => void;
 }
 
-export const DetailEditSection: React.FC<Props> = ({ store, onChange }: Props) => {
+export const DetailEditSection: React.FC<Props> = ({ store, onChange, onSave }: Props) => {
   const { t } = useTranslation();
-  const theme = useTheme();
 
   const [form] = Form.useForm();
 
@@ -36,49 +34,20 @@ export const DetailEditSection: React.FC<Props> = ({ store, onChange }: Props) =
   }, [store]);
 
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-      <Form 
+    <BaseEditSection title={t('common.basicInformation')} onSave={onSave}>
+      <Form
         form={form}
         layout="vertical"
         style={{ width: '100%', maxWidth: 600 }}
         onValuesChange={(_, values) => onChange(values)}
       >
         <Form.Item
-          label={t('common.storeId')}
-          name="id"
-          style={{ width: '100%' }}
-          rules={[ { required: true, message: t('common.storeIdIsRequired') }]}
-        >
-          <Input size="large" disabled />
-        </Form.Item>
-
-        <Form.Item
           label={t('common.name')}
           name="name"
           style={{ width: '100%' }}
-          rules={[ { required: true, message: t('common.nameIsRequired') }]}
+          rules={[{ required: true, message: t('common.nameIsRequired') }]}
         >
           <Input size="large" />
-        </Form.Item>
-
-        <Form.Item
-          label={t('common.address')}
-          name="address"
-          style={{ width: '100%' }}
-          rules={[ { required: true, message: t('common.addressIsRequired') }]}
-        >
-          <Input size="large" />
-        </Form.Item>
-
-        <Form.Item
-          label={t('common.contactPhoneNumber')}
-          name="contact_phone_number"
-          style={{ width: '100%' }}
-          rules={[
-            { required: true, message: t('common.contactPhoneNumberIsRequired') },
-          ]}
-        >
-          <Input size="large" type="number" />
         </Form.Item>
 
         <Form.Item
@@ -96,7 +65,27 @@ export const DetailEditSection: React.FC<Props> = ({ store, onChange }: Props) =
             ]}
           />
         </Form.Item>
+
+        <Form.Item
+          label={t('common.address')}
+          name="address"
+          style={{ width: '100%' }}
+          rules={[{ required: true, message: t('common.addressIsRequired') }]}
+        >
+          <Input size="large" />
+        </Form.Item>
+
+        <Form.Item
+          label={t('common.contactPhoneNumber')}
+          name="contact_phone_number"
+          style={{ width: '100%' }}
+          rules={[
+            { required: true, message: t('common.contactPhoneNumberIsRequired') },
+          ]}
+        >
+          <Input size="large" type="number" />
+        </Form.Item>
       </Form>
-    </Box>
+    </BaseEditSection>
   );
 };

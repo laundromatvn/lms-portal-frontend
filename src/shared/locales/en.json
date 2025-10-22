@@ -79,6 +79,7 @@
     "remove": "Remove",
     "cancel": "Cancel",
     "addPaymentMethod": "Add Payment Method",
+    "duplicatePaymentMethodError": "This payment method already exists",
     "qr": "QR Code",
     "card": "Bank Card",
     "selectController": "Select Controller",

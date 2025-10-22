@@ -8,7 +8,6 @@ import {
   Typography,
   Skeleton,
   notification,
-  type FormInstance,
   Form,
 } from 'antd';
 
@@ -50,7 +49,6 @@ export const StoreEditPage: React.FC = () => {
   const {
     updateStore,
     data: updateStoreData,
-    loading: updateStoreLoading,
     error: updateStoreError,
   } = useUpdateStoreApi<UpdateStoreResponse>();
 
@@ -115,22 +113,13 @@ export const StoreEditPage: React.FC = () => {
         <LeftRightSection
           left={(
             <Button
-              type="default"
+              type="link"
               size="large"
               onClick={() => navigate(`/stores/${storeId}/detail`)}>
               {t('common.back')}
             </Button>
           )}
-          right={(
-            <Button
-              type="primary"
-              size="large"
-              onClick={onSave}
-              style={{ minWidth: 128 }}
-            >
-              {t('common.save')}
-            </Button>
-          )}
+          right={null}
         />
 
         {storeLoading && <Skeleton active />}
@@ -140,10 +129,12 @@ export const StoreEditPage: React.FC = () => {
             <DetailEditSection
               store={storeData as Store}
               onChange={(values) => form.setFieldsValue(values)}
+              onSave={onSave}
             />
             <PaymentMethodEditSection
               store={storeData as Store}
               onChange={(values) => form.setFieldsValue(values)}
+              onSave={onSave}
             />
           </>
         )}

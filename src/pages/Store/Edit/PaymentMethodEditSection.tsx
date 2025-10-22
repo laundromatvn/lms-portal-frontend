@@ -18,18 +18,18 @@ import { type Store } from '@shared/types/store';
 import { type PaymentMethod } from '@shared/types/PaymentMethod';
 import { PaymentMethodEnum } from '@shared/enums/PaymentMethodEnum';
 
-import { Box } from '@shared/components/Box';
+import { BaseEditSection } from '@shared/components/BaseEditSection';
 
 import bankData from '@public/banks.json';
 
 interface Props {
   store: Store;
   onChange: (values: any) => void;
+  onSave: () => void;
 }
 
-export const PaymentMethodEditSection: React.FC<Props> = ({ store, onChange }: Props) => {
+export const PaymentMethodEditSection: React.FC<Props> = ({ store, onChange, onSave }: Props) => {
   const { t } = useTranslation();
-  const theme = useTheme();
 
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>(store.payment_methods || []);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -40,6 +40,32 @@ export const PaymentMethodEditSection: React.FC<Props> = ({ store, onChange }: P
   }, [store.payment_methods]);
 
   const handleAddPaymentMethod = (values: any) => {
+    // Check for duplicate payment method against existing payment methods
+    const isDuplicateWithExisting = paymentMethods.some(
+      (existingMethod) => 
+        existingMethod.payment_method === values.payment_method &&
+        existingMethod.details.bank_code === values.bank_code &&
+        existingMethod.details.bank_account_number === values.bank_account_number
+    );
+
+    if (isDuplicateWithExisting) {
+      addForm.setFields([
+        {
+          name: 'payment_method',
+          errors: [t('common.duplicatePaymentMethodError')],
+        },
+        {
+          name: 'bank_code',
+          errors: [t('common.duplicatePaymentMethodError')],
+        },
+        {
+          name: 'bank_account_number',
+          errors: [t('common.duplicatePaymentMethodError')],
+        },
+      ]);
+      return;
+    }
+
     const newPaymentMethod: PaymentMethod = {
       payment_method: values.payment_method,
       details: {
@@ -76,9 +102,7 @@ export const PaymentMethodEditSection: React.FC<Props> = ({ store, onChange }: P
   };
 
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-      <Typography.Title level={3}>{t('common.paymentMethod')}</Typography.Title>
-
+    <BaseEditSection title={t('common.paymentMethod')} onSave={onSave}>
       {paymentMethods.map((paymentMethod, index) => (
         <Card
           key={index}
@@ -133,7 +157,27 @@ export const PaymentMethodEditSection: React.FC<Props> = ({ store, onChange }: P
             <Form.Item
               name="payment_method"
               label={t('common.paymentMethod')}
-              rules={[{ required: true, message: `${t('common.paymentMethod')} is required` }]}
+              rules={[
+                { required: true, message: `${t('common.paymentMethod')} is required` },
+                {
+                  validator: (_, value) => {
+                    if (!value) return Promise.resolve();
+                    
+                    const formValues = addForm.getFieldsValue();
+                    const isDuplicate = paymentMethods.some(
+                      (existingMethod) => 
+                        existingMethod.payment_method === value &&
+                        existingMethod.details.bank_code === formValues.bank_code &&
+                        existingMethod.details.bank_account_number === formValues.bank_account_number
+                    );
+                    
+                    if (isDuplicate) {
+                      return Promise.reject(new Error(t('common.duplicatePaymentMethodError')));
+                    }
+                    return Promise.resolve();
+                  }
+                }
+              ]}
             >
               <Select
                 placeholder={t('common.paymentMethod')}
@@ -146,7 +190,27 @@ export const PaymentMethodEditSection: React.FC<Props> = ({ store, onChange }: P
             <Form.Item
               name="bank_code"
               label={t('common.bankCode')}
-              rules={[{ required: true, message: `${t('common.bankCode')} is required` }]}
+              rules={[
+                { required: true, message: `${t('common.bankCode')} is required` },
+                {
+                  validator: (_, value) => {
+                    if (!value) return Promise.resolve();
+                    
+                    const formValues = addForm.getFieldsValue();
+                    const isDuplicate = paymentMethods.some(
+                      (existingMethod) => 
+                        existingMethod.payment_method === formValues.payment_method &&
+                        existingMethod.details.bank_code === value &&
+                        existingMethod.details.bank_account_number === formValues.bank_account_number
+                    );
+                    
+                    if (isDuplicate) {
+                      return Promise.reject(new Error(t('common.duplicatePaymentMethodError')));
+                    }
+                    return Promise.resolve();
+                  }
+                }
+              ]}
             >
               <Select
                 placeholder={t('common.bankCode')}
@@ -165,7 +229,27 @@ export const PaymentMethodEditSection: React.FC<Props> = ({ store, onChange }: P
             <Form.Item
               name="bank_account_number"
               label={t('common.bankAccountNumber')}
-              rules={[{ required: true, message: `${t('common.bankAccountNumber')} is required` }]}
+              rules={[
+                { required: true, message: `${t('common.bankAccountNumber')} is required` },
+                {
+                  validator: (_, value) => {
+                    if (!value) return Promise.resolve();
+                    
+                    const formValues = addForm.getFieldsValue();
+                    const isDuplicate = paymentMethods.some(
+                      (existingMethod) => 
+                        existingMethod.payment_method === formValues.payment_method &&
+                        existingMethod.details.bank_code === formValues.bank_code &&
+                        existingMethod.details.bank_account_number === value
+                    );
+                    
+                    if (isDuplicate) {
+                      return Promise.reject(new Error(t('common.duplicatePaymentMethodError')));
+                    }
+                    return Promise.resolve();
+                  }
+                }
+              ]}
             >
               <Input placeholder={t('common.bankAccountNumber')} />
             </Form.Item>
@@ -201,6 +285,6 @@ export const PaymentMethodEditSection: React.FC<Props> = ({ store, onChange }: P
           {t('common.addPaymentMethod')}
         </Button>
       )}
-    </Box>
+    </BaseEditSection>
   );
 };
