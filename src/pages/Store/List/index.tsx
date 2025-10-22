@@ -33,8 +33,7 @@ export const StoreListPage: React.FC = () => {
   const [pageSize, setPageSize] = useState(10);
 
   const columns = [
-    { title: 'Tenant ID', dataIndex: 'tenant_id', width: 200 },
-    { title: 'ID', dataIndex: 'id', width: 200 },
+    { title: 'Tenant Name', dataIndex: 'tenant_name', width: 200 },
     { title: 'Name', dataIndex: 'name', width: 400 },
     { title: 'Address', dataIndex: 'address', width: 400 },
     { title: 'Contact Phone Number', dataIndex: 'contact_phone_number', width: 200 },
@@ -59,11 +58,10 @@ export const StoreListPage: React.FC = () => {
   useEffect(() => {
     if (listStoreData) {
       setTableData(listStoreData?.data.map((item) => ({
-        id: item.id,
-        name: item.name || '-',
+        name: <Typography.Link onClick={() => navigate(`/stores/${item.id}/detail`)}>{item.name || '-'}</Typography.Link>,
         address: item.address || '-',
         contact_phone_number: item.contact_phone_number || '-',
-        tenant_id: item.tenant_id || '-',
+        tenant_name: item.tenant_name || '-',
         status: <DynamicTag value={item.status} />,
         actions: (
           <Flex gap={theme.custom.spacing.small}>

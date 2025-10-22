@@ -15,5 +15,6 @@ export type Store = {
   latitude: number | null;
   contact_phone_number: string;
   tenant_id: string;
+  tenant_name: string | null;
   payment_methods: PaymentMethod[];
 }
