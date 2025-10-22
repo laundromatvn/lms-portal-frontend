@@ -4,11 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { Button, Flex, Typography, Table, Skeleton, notification } from 'antd';
 
-import {
-  Eye,
-  Settings
-} from '@solar-icons/react'
-
 import { useTheme } from '@shared/theme/useTheme';
 
 import { tenantStorage } from '@core/storage/tenantStorage';
@@ -17,6 +12,7 @@ import { useListStoreApi, type ListStoreResponse } from '@shared/hooks/useListSt
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
+import { Box } from '@shared/components/Box';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
 export const StoreListPage: React.FC = () => {
@@ -33,11 +29,11 @@ export const StoreListPage: React.FC = () => {
   const [pageSize, setPageSize] = useState(10);
 
   const columns = [
-    { title: 'Tenant Name', dataIndex: 'tenant_name', width: 200 },
-    { title: 'Name', dataIndex: 'name', width: 400 },
+    { title: 'Tenant Name', dataIndex: 'tenant_name', width: 128 },
+    { title: 'Name', dataIndex: 'name', width: 256 },
+    { title: 'Status', dataIndex: 'status', width: 72 },
     { title: 'Address', dataIndex: 'address', width: 400 },
-    { title: 'Contact Phone Number', dataIndex: 'contact_phone_number', width: 200 },
-    { title: 'Status', dataIndex: 'status', width: 200 },
+    { title: 'Contact Phone Number', dataIndex: 'contact_phone_number', width: 128 },
   ];
 
   const {
@@ -63,26 +59,6 @@ export const StoreListPage: React.FC = () => {
         contact_phone_number: item.contact_phone_number || '-',
         tenant_name: item.tenant_name || '-',
         status: <DynamicTag value={item.status} />,
-        actions: (
-          <Flex gap={theme.custom.spacing.small}>
-            <Button
-              type="link"
-              onClick={() => {
-                navigate(`/stores/${item.id}/detail`);
-              }}
-            >
-              <Eye />
-            </Button>
-            <Button
-              type="link"
-              onClick={() => {
-                navigate(`/stores/${item.id}/edit`);
-              }}
-            >
-              <Settings />
-            </Button>
-          </Flex>
-        ),
       })));
     }
   }, [listStoreData]);
@@ -106,7 +82,7 @@ export const StoreListPage: React.FC = () => {
       <Flex vertical style={{ height: '100%' }}>
         <Typography.Title level={2}>Store List</Typography.Title>
 
-        <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
+        <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
           <LeftRightSection
             left={null}
             right={(
@@ -124,7 +100,7 @@ export const StoreListPage: React.FC = () => {
           {listStoreLoading && <Skeleton active />}
 
           {!listStoreLoading && (
-            <Flex vertical gap={theme.custom.spacing.large}>
+            <Flex vertical style={{ width: '100%' }}>
               <Table
                 bordered
                 dataSource={tableData || []}
@@ -141,7 +117,7 @@ export const StoreListPage: React.FC = () => {
               />
             </Flex>
           )}
-        </Flex>
+        </Box>
       </Flex>
     </PortalLayout>
   );
