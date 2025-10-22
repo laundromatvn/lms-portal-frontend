@@ -13,7 +13,7 @@ import {
 
 import { type Store } from '@shared/types/store';
 
-import { EditSection } from '@shared/components/EditSection';
+import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
 interface Props {
@@ -68,7 +68,7 @@ export const ControllerListSection: React.FC<Props> = ({ store }) => {
   }, [page, pageSize]);
 
   return (
-    <EditSection title={t('common.controllers')} >
+    <BaseDetailSection title={t('common.controllers')} >
       <Table
         dataSource={dataSource}
         columns={columns}
@@ -85,6 +85,6 @@ export const ControllerListSection: React.FC<Props> = ({ store }) => {
         loading={listControllerLoading}
         style={{ width: '100%' }}
       />
-    </EditSection>
+    </BaseDetailSection>
   );
 };

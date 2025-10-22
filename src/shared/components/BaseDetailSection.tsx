@@ -17,7 +17,7 @@ interface Props {
   onEdit?: () => void;
 }
 
-export const EditSection: React.FC<Props> = ({ title, children, onEdit }: Props) => {
+export const BaseDetailSection: React.FC<Props> = ({ title, children, onEdit }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
 

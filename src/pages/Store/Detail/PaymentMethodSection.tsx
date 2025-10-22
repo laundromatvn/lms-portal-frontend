@@ -6,7 +6,7 @@ import { Table } from 'antd';
 
 import { type Store } from '@shared/types/store';
 
-import { EditSection } from '@shared/components/EditSection';
+import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 
 interface Props {
   store: Store;
@@ -25,7 +25,7 @@ export const PaymentMethodSection: React.FC<Props> = ({ store }: Props) => {
   ];
 
   return (
-    <EditSection title={t('common.paymentMethod')} onEdit={() => navigate(`/stores/${store.id}/edit`)}>
+    <BaseDetailSection title={t('common.paymentMethod')} onEdit={() => navigate(`/stores/${store.id}/edit`)}>
       <Table
         dataSource={store.payment_methods.map((paymentMethod) => ({
           payment_method: paymentMethod.payment_method,
@@ -38,6 +38,6 @@ export const PaymentMethodSection: React.FC<Props> = ({ store }: Props) => {
         style={{ width: '100%' }}
         pagination={false}
       />
-    </EditSection>
+    </BaseDetailSection>
   );
 };

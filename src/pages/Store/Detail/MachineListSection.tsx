@@ -28,7 +28,7 @@ import { formatCurrencyCompact } from '@shared/utils/currency';
 
 import { type Store } from '@shared/types/store';
 
-import { EditSection } from '@shared/components/EditSection';
+import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { BaseModal } from '@shared/components/BaseModal';
 import LeftRightSection from '@shared/components/LeftRightSection';
@@ -161,7 +161,7 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
   }, [activateMachineError]);
 
   return (
-    <EditSection title={t('common.machines')} >
+    <BaseDetailSection title={t('common.machines')} >
       {contextHolder}
 
       <LeftRightSection
@@ -274,6 +274,6 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
           />
         </BaseModal>
       )}
-    </EditSection>
+    </BaseDetailSection>
   );
 };

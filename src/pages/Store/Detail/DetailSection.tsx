@@ -6,7 +6,7 @@ import { type Store } from '@shared/types/store';
 
 import { DataWrapper } from '@shared/components/DataWrapper';
 import { DynamicTag } from '@shared/components/DynamicTag';
-import { EditSection } from '@shared/components/EditSection';
+import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 
 
 interface Props {
@@ -18,13 +18,13 @@ export const DetailSection: React.FC<Props> = ({ store }: Props) => {
   const navigate = useNavigate();
 
   return (
-    <EditSection title={t('common.basicInformation')} onEdit={() => navigate(`/stores/${store.id}/edit`)}>
+    <BaseDetailSection title={t('common.basicInformation')} onEdit={() => navigate(`/stores/${store.id}/edit`)}>
       <DataWrapper title={t('common.name')} value={store.name || '-'} />
       <DataWrapper title={t('common.status')} >
         <DynamicTag value={store.status} />
       </DataWrapper>
       <DataWrapper title={t('common.address')} value={store.address || '-'} />
       <DataWrapper title={t('common.contactPhoneNumber')} value={store.contact_phone_number || '-'} />
-    </EditSection>
+    </BaseDetailSection>
   );
 };
