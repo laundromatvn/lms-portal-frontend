@@ -142,7 +142,10 @@
     "controllerDetail": "Controller Detail",
     "delete": "Delete",
     "machineDetail": "Machine Detail",
-    "machineEdit": "Machine Edit"
+    "machineEdit": "Machine Edit",
+    "selectStatus": "Select Status",
+    "selectMachineType": "Select Machine Type",
+    "machineList": "Machine List"
   },
   "navigation": {
     "overview": "Overview",

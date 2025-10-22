@@ -142,7 +142,10 @@
     "controllerDetail": "Chi tiết Controller",
     "delete": "Xóa",
     "machineDetail": "Chi tiết máy",
-    "machineEdit": "Cập nhật máy"
+    "machineEdit": "Cập nhật máy",
+    "selectStatus": "Chọn trạng thái",
+    "selectMachineType": "Chọn loại máy",
+    "machineList": "Danh sách máy"
   },
   "navigation": {
     "overview": "Tổng quan",

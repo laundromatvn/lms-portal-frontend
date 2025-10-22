@@ -4,14 +4,21 @@ import { getBackendUrl } from '@shared/utils/env'
 
 import { type ApiState } from '@shared/hooks/types';
 import { type Machine } from '@shared/types/machine';
+import { MachineTypeEnum } from '@shared/enums/MachineTypeEnum';
+import { MachineStatusEnum } from '@shared/enums/MachineStatusEnum';
 
 import axiosClient from '@core/axiosClient';
 
 export type ListMachineRequest = {
   store_id?: string;
   controller_id?: string;
-  page: number;
-  page_size: number;
+  page?: number;
+  page_size?: number;
+  machine_type?: MachineTypeEnum;
+  status?: MachineStatusEnum;
+  search_value?: string;
+  order_by?: string;
+  order_direction?: 'asc' | 'desc';
 }
 
 export type ListMachineResponse = {
@@ -29,7 +36,17 @@ export const useListMachineApi = <T = ListMachineResponse>() => {
     error: null,
   });
 
-  const listMachine = useCallback(async ({ store_id, controller_id, page = 1, page_size = 10 }: ListMachineRequest) => {
+  const listMachine = useCallback(async ({
+    store_id,
+    controller_id,
+    machine_type,
+    status,
+    page = 1,
+    page_size = 10,
+    search_value = '',
+    order_by = 'relay_no',
+    order_direction = 'asc',
+  }: ListMachineRequest) => {
     setState(prevState => ({ ...prevState, loading: true, error: null }));
 
     const url = `${getBackendUrl()}/api/v1/machine`
@@ -37,6 +54,11 @@ export const useListMachineApi = <T = ListMachineResponse>() => {
     const queryParams = {
       store_id,
       controller_id,
+      machine_type,
+      status,
+      search_value,
+      order_by,
+      order_direction,
       page,
       page_size,
     }
