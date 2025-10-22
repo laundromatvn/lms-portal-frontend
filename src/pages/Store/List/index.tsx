@@ -39,7 +39,6 @@ export const StoreListPage: React.FC = () => {
     { title: 'Address', dataIndex: 'address', width: 400 },
     { title: 'Contact Phone Number', dataIndex: 'contact_phone_number', width: 200 },
     { title: 'Status', dataIndex: 'status', width: 200 },
-    { title: 'Actions', dataIndex: 'actions' },
   ];
 
   const {

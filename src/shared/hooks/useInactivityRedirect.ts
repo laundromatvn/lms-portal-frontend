@@ -30,12 +30,10 @@ export function useInactivityRedirect(options?: UseInactivityRedirectOptions): v
       if (timerRef.current) window.clearTimeout(timerRef.current);
 
       timerRef.current = window.setTimeout(() => {
-        console.log(`[inactivity] redirecting to ${targetPath} after ${timeoutMs}ms of inactivity (resets: ${resetCountRef.current})`);
         navigate(targetPath, { replace: true });
       }, timeoutMs);
 
       resetCountRef.current += 1;
-      console.log(`[inactivity] reset timer #${resetCountRef.current} (timeout=${timeoutMs}ms)`);
     };
 
     const handleEvent = () => {
