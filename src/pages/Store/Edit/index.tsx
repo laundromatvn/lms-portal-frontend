@@ -27,7 +27,7 @@ import {
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DetailEditSection } from './DetailEditSection';
-import { PaymentMethodEditSection } from './PaymentMethodEditSection';
+import { PaymentMethodEditSection } from './PaymentMethodEditSection/index';
 
 export const StoreEditPage: React.FC = () => {
   const { t } = useTranslation();

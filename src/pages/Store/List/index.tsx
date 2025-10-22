@@ -88,7 +88,7 @@ export const StoreListPage: React.FC = () => {
             right={(
               <>
                 <Button
-                  type="default"
+                  type="link"
                   size="large"
                   onClick={() => navigate('/stores/add')}>
                   {t('common.addStore')}
