@@ -154,7 +154,8 @@
     "paymentFailed": "Thanh toán thất bại",
     "confirm": "Xác nhận",  
     "tenantProfile": "Hồ sơ Tenant",  
-    "userResetPassword": "Đặt lại mật khẩu người dùng"
+    "userResetPassword": "Đặt lại mật khẩu người dùng",
+    "orderList": "Danh sách đơn hàng"
   },
   "navigation": {
     "overview": "Tổng quan",

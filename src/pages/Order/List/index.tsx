@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,7 +15,6 @@ import {
 import {
   BillCheck,
   BillCross,
-  Eye,
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -197,7 +196,7 @@ export const OrderListPage: React.FC = () => {
       {contextHolder}
 
       <Flex vertical style={{ height: '100%' }}>
-        <Typography.Title level={2}>Order List</Typography.Title>
+        <Typography.Title level={2}>{t('common.orderList')}</Typography.Title>
 
         <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
           <LeftRightSection

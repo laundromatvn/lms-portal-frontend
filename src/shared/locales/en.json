@@ -154,7 +154,8 @@
     "paymentFailed": "Payment Failed",
     "confirm": "Confirm",
     "tenantProfile": "Tenant Profile",
-    "userResetPassword": "User Reset Password"
+    "userResetPassword": "User Reset Password",
+    "orderList": "Order List"
   },
   "navigation": {
     "overview": "Overview",
