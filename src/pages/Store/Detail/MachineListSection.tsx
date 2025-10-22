@@ -16,24 +16,19 @@ import {
   type ListMachineResponse,
 } from '@shared/hooks/useListMachineApi';
 import {
-  useActivateAllControllerMachinesApi,
-  type ActivateAllControllerMachinesResponse,
-} from '@shared/hooks/useActivateAllControllerMachinesApi';
-import {
-  useStartMachineApi,
-  type StartMachineResponse,
-} from '@shared/hooks/useStartMachineApi';
-
-import {
   useListControllerApi,
   type ListControllerResponse,
 } from '@shared/hooks/useListControllerApi';
+import {
+  useActivateMachineApi,
+  type ActivateMachineResponse,
+} from '@shared/hooks/useActivateMachineApi';
 
 import { formatCurrencyCompact } from '@shared/utils/currency';
 
 import { type Store } from '@shared/types/store';
 
-import { Box } from '@shared/components/Box';
+import { EditSection } from '@shared/components/EditSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { BaseModal } from '@shared/components/BaseModal';
 import LeftRightSection from '@shared/components/LeftRightSection';
@@ -45,11 +40,10 @@ interface Props {
   store: Store;
 }
 
-const DEFAULT_TOTAL_AMOUNT = 200000;
-
 export const MachineListSection: React.FC<Props> = ({ store }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+
   const [api, contextHolder] = notification.useNotification();
 
   const [dataSource, setDataSource] = useState<any[]>([]);
@@ -82,17 +76,21 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
     listMachine,
   } = useListMachineApi<ListMachineResponse>();
   const {
-    activateAllControllerMachines,
-    data: activateAllControllerMachinesData,
-    loading: activateAllControllerMachinesLoading,
-    error: activateAllControllerMachinesError,
-  } = useActivateAllControllerMachinesApi<ActivateAllControllerMachinesResponse>();
-  const {
-    startMachine,
-    data: startMachineData,
-    loading: startMachineLoading,
-    error: startMachineError,
-  } = useStartMachineApi<StartMachineResponse>();
+    activateMachine,
+    data: activateMachineData,
+    loading: activateMachineLoading,
+    error: activateMachineError,
+  } = useActivateMachineApi<ActivateMachineResponse>();
+
+  const handleListMachine = () => {
+    if (!selectedControllerId) return;
+
+    listMachine({
+      controller_id: selectedControllerId as string,
+      page,
+      page_size: pageSize
+    });
+  }
 
   useEffect(() => {
     if (listMachineData) {
@@ -104,12 +102,22 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
         status: item.status,
         actions: (
           <Flex gap={theme.custom.spacing.medium}>
-            <Button type="link" onClick={() => {
-              setIsStartMachineModalOpen(true);
-              setSelectedMachineId(item.id);
-              setSelectedMachine(item);
-            }}>
+            <Button
+              type="link"
+              onClick={() => {
+                setIsStartMachineModalOpen(true);
+                setSelectedMachineId(item.id);
+                setSelectedMachine(item);
+              }}
+            >
               <Play weight="Bold" color={theme.custom.colors.success.default} />
+            </Button>
+            <Button
+              type="link"
+              onClick={() => activateMachine(item.id)}
+              loading={activateMachineLoading}
+            >
+              <Refresh weight="Bold" color={theme.custom.colors.success.default} />
             </Button>
             <Button type="link" onClick={() => {
               setIsModalOpen(true);
@@ -124,28 +132,8 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
   }, [listMachineData]);
 
   useEffect(() => {
-    if (selectedControllerId) {
-      listMachine({ controller_id: selectedControllerId as string, page, page_size: pageSize });
-    }
+    handleListMachine();
   }, [selectedControllerId]);
-
-  useEffect(() => {
-    if (activateAllControllerMachinesError) {
-      api.error({
-        message: t('messages.activateAllControllerMachinesError'),
-      });
-    }
-  }, [activateAllControllerMachinesError]);
-
-  useEffect(() => {
-    if (activateAllControllerMachinesData) {
-      api.success({
-        message: t('messages.activateAllControllerMachinesSuccess'),
-      });
-
-      listMachine({ controller_id: selectedControllerId as string, page, page_size: pageSize });
-    }
-  }, [activateAllControllerMachinesData]);
 
   useEffect(() => {
     listController({
@@ -156,67 +144,48 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
   }, [store]);
 
   useEffect(() => {
-    if (startMachineError) {
-      api.error({
-        message: t('messages.startMachineError'),
+    if (activateMachineData) {
+      api.success({
+        message: t('messages.activateMachineSuccess'),
       });
+      handleListMachine();
     }
-  }, [startMachineError]);
+  }, [activateMachineData]);
 
   useEffect(() => {
-    if (startMachineData) {
-      api.success({
-        message: t('messages.startMachineSuccess'),
-      });
-
-      listMachine({
-        controller_id: selectedControllerId as string,
-        page,
-        page_size: pageSize
+    if (activateMachineError) {
+      api.error({
+        message: t('messages.activateMachineError'),
       });
     }
-  }, [startMachineData]);
+  }, [activateMachineError]);
 
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+    <EditSection title={t('common.machines')} >
       {contextHolder}
 
-      <Typography.Title level={3}>Machines</Typography.Title>
-
       <LeftRightSection
-        left={(<Flex gap={theme.custom.spacing.medium}>
-          <Select
-            options={listControllerData?.data.map((item) => ({
-              label: item.name,
-              value: item.id,
-            }))}
-            onChange={(value) => setSelectedControllerId(value)}
-            style={{ width: 240 }}
-            loading={listControllerLoading}
-            placeholder={t('common.selectController')}
-          />
-        </Flex>)}
-        right={(<Flex gap={theme.custom.spacing.medium}>
-          <Button
-            type="text"
-            size="large"
-            onClick={() => listMachine({
-              controller_id: selectedControllerId as string,
-              page,
-              page_size: pageSize
-            })}
-          >
-            <Refresh size={24} />
-          </Button>
-          <Button
-            type="primary"
-            size="large"
-            onClick={() => activateAllControllerMachines(selectedControllerId as string)}
-            loading={activateAllControllerMachinesLoading}
-          >
-            {t('common.activateAllControllerMachines')}
-          </Button>
-        </Flex>)}
+        left={(null)}
+        right={(
+          <>
+            <Button
+              onClick={() => handleListMachine()}
+              icon={<Refresh />}
+            />
+
+            <Select
+              options={listControllerData?.data.map((item) => ({
+                label: item.name,
+                value: item.id,
+              }))}
+              onChange={(value) => setSelectedControllerId(value)}
+              style={{ width: 240 }}
+              loading={listControllerLoading}
+              placeholder={t('common.selectController')}
+            />
+          </>
+        )}
+        rightStyle={{ gap: theme.custom.spacing.small }}
       />
 
       <Table
@@ -305,6 +274,6 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
           />
         </BaseModal>
       )}
-    </Box>
+    </EditSection>
   );
 };

@@ -57,15 +57,6 @@ export const StoreDetailPage: React.FC = () => {
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
         <Typography.Title level={2}>Store Detail</Typography.Title>
 
-        <LeftRightSection
-          left={null}
-          right={(<>
-            <Button type="default" size="large" onClick={() => navigate(`/stores/${storeId}/edit`)}>
-              {t('common.edit')}
-            </Button>
-          </>)}
-        />
-
         {storeLoading && <Skeleton active />}
 
         {!storeLoading && storeData && (

@@ -109,7 +109,6 @@
     "customer": "Customer",
     "addNewMember": "Thêm thành viên mới",
     "createNewMember": "Tạo thành viên mới",
-    "coinValue": "Giá trị xu",
     "goToSignInPage": "Đến trang đăng nhập",
     "goToHomePage": "Đến trang chủ",
     "error": "Lỗi",
@@ -117,7 +116,10 @@
     "clear": "Xóa",
     "search": "Tìm kiếm",
     "selectStore": "Chọn cửa hàng",
-    "selectMachine": "Chọn máy"
+    "selectMachine": "Chọn máy",
+    "basicInformation": "Thông tin cơ bản",
+    "controllers": "Controllers",
+    "machines": "Máy móc"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -234,6 +236,7 @@
     "orderTable": {
       "title": "Đơn hàng",
       "createdAt": "Ngày tạo",
+      "dateAndTime": "Ngày & Giờ",
       "orderId": "ID đơn hàng",
       "status": "Trạng thái",
       "paymentStatus": "Trạng thái thanh toán",

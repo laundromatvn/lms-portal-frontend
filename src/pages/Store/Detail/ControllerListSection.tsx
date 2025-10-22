@@ -13,7 +13,7 @@ import {
 
 import { type Store } from '@shared/types/store';
 
-import { Box } from '@shared/components/Box';
+import { EditSection } from '@shared/components/EditSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
 interface Props {
@@ -68,8 +68,7 @@ export const ControllerListSection: React.FC<Props> = ({ store }) => {
   }, [page, pageSize]);
 
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-      <Typography.Title level={3}>Controllers</Typography.Title>
+    <EditSection title={t('common.controllers')} >
       <Table
         dataSource={dataSource}
         columns={columns}
@@ -86,6 +85,6 @@ export const ControllerListSection: React.FC<Props> = ({ store }) => {
         loading={listControllerLoading}
         style={{ width: '100%' }}
       />
-    </Box>
+    </EditSection>
   );
 };

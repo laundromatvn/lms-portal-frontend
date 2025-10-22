@@ -1,14 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
-import { useTheme } from '@shared/theme/useTheme';
+import { Table } from 'antd';
 
 import { type Store } from '@shared/types/store';
 
-import { Box } from '@shared/components/Box';
-import { DataWrapper } from '@shared/components/DataWrapper';
-import { DynamicTag } from '@shared/components/DynamicTag';
-import { Table, Typography } from 'antd';
+import { EditSection } from '@shared/components/EditSection';
 
 interface Props {
   store: Store;
@@ -16,20 +14,18 @@ interface Props {
 
 export const PaymentMethodSection: React.FC<Props> = ({ store }: Props) => {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const navigate = useNavigate();
 
   const columns = [
-    { title: t('common.paymentMethod'), dataIndex: 'payment_method' },
-    { title: t('common.bankCode'), dataIndex: 'bank_code' },
-    { title: t('common.bankName'), dataIndex: 'bank_name' },
-    { title: t('common.bankAccountNumber'), dataIndex: 'bank_account_number' },
-    { title: t('common.bankAccountName'), dataIndex: 'bank_account_name' },
+    { title: t('common.paymentMethod'), dataIndex: 'payment_method', width: 48 },
+    { title: t('common.bankCode'), dataIndex: 'bank_code', width: 48 },
+    { title: t('common.bankName'), dataIndex: 'bank_name', width: 256 },
+    { title: t('common.bankAccountNumber'), dataIndex: 'bank_account_number', width: 256 },
+    { title: t('common.bankAccountName'), dataIndex: 'bank_account_name', width: 256 },
   ];
 
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-      <Typography.Title level={3}>Payment Methods</Typography.Title>
-
+    <EditSection title={t('common.paymentMethod')} onEdit={() => navigate(`/stores/${store.id}/edit`)}>
       <Table
         dataSource={store.payment_methods.map((paymentMethod) => ({
           payment_method: paymentMethod.payment_method,
@@ -42,6 +38,6 @@ export const PaymentMethodSection: React.FC<Props> = ({ store }: Props) => {
         style={{ width: '100%' }}
         pagination={false}
       />
-    </Box>
+    </EditSection>
   );
 };

@@ -109,7 +109,6 @@
     "customer": "Customer",
     "addNewMember": "Add New Member",
     "createNewMember": "Create New Member",
-    "coinValue": "Coin Value",
     "goToSignInPage": "Go to Sign In Page",
     "goToHomePage": "Go to Home Page",
     "error": "Error",
@@ -117,7 +116,10 @@
     "clear": "Clear",
     "search": "Search",
     "selectStore": "Select Store",
-    "selectMachine": "Select Machine"
+    "selectMachine": "Select Machine",
+    "basicInformation": "Basic Information",
+    "controllers": "Controllers",
+    "machines": "Machines"
   },
   "navigation": {
     "overview": "Overview",
@@ -237,6 +239,7 @@
     "orderTable": {
       "title": "Orders",
       "createdAt": "Created At",
+      "dateAndTime": "Date & Time",
       "orderId": "Order ID",
       "status": "Status",
       "paymentStatus": "Payment Status",
