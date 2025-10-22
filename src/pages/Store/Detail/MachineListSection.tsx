@@ -146,7 +146,7 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
   useEffect(() => {
     if (activateMachineData) {
       api.success({
-        message: t('messages.activateMachineSuccess'),
+        message: t('messages.resetMachineSuccess'),
       });
       handleListMachine();
     }
@@ -155,7 +155,7 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
   useEffect(() => {
     if (activateMachineError) {
       api.error({
-        message: t('messages.activateMachineError'),
+        message: t('messages.resetMachineError'),
       });
     }
   }, [activateMachineError]);

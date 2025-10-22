@@ -193,7 +193,9 @@
     "updateUserSuccess": "Người dùng đã được cập nhật thành công",
     "updateUserError": "Không thể cập nhật người dùng",
     "getUserError": "Không thể lấy người dùng",
-    "error": "Lỗi"
+    "error": "Lỗi",
+    "resetMachineSuccess": "Máy đã được đặt lại thành công",
+    "resetMachineError": "Không thể đặt lại máy"
   },
   "overview": {
     "keyMetrics": {

@@ -196,7 +196,9 @@
     "verificationSuccess": "Verification Success",
     "verificationSuccessDescription": "Your verification was successful",
     "verificationFailed": "Verification Failed",
-    "verificationFailedDescription": "Your verification was failed"
+    "verificationFailedDescription": "Your verification was failed",
+    "resetMachineSuccess": "Machine reset successfully",
+    "resetMachineError": "Failed to reset machine"
   },
   "overview": {
     "keyMetrics": {
