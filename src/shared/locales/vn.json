@@ -145,7 +145,14 @@
     "machineEdit": "Cập nhật máy",
     "selectStatus": "Chọn trạng thái",
     "selectMachineType": "Chọn loại máy",
-    "machineList": "Danh sách máy"
+    "machineList": "Danh sách máy",
+    "createdAt": "Ngày tạo",
+    "transactionCode": "Mã giao dịch",
+    "pay": "Thanh toán",
+    "cancelPayment": "Hủy thanh toán",
+    "paymentSuccess": "Thanh toán thành công",
+    "paymentFailed": "Thanh toán thất bại",
+    "confirm": "Xác nhận"
   },
   "navigation": {
     "overview": "Tổng quan",

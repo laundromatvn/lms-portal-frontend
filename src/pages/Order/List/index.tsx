@@ -9,6 +9,7 @@ import {
   Table,
   Skeleton,
   notification,
+  Popconfirm,
 } from 'antd';
 
 import {
@@ -37,6 +38,10 @@ import {
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
+import { Box } from '@shared/components/Box';
+
+import { formatDateTime } from '@shared/utils/date';
+import { formatCurrencyCompact } from '@shared/utils/currency';
 
 export const OrderListPage: React.FC = () => {
   const { t } = useTranslation();
@@ -52,13 +57,14 @@ export const OrderListPage: React.FC = () => {
   const [pageSize, setPageSize] = useState(10);
 
   const columns = [
-    { title: 'Store', dataIndex: 'store_name', width: 300 },
-    { title: 'Order ID', dataIndex: 'id', width: 300 },
-    { title: 'Status', dataIndex: 'status', width: 200, render: (text: string) => <DynamicTag value={text} /> },
-    { title: 'Total Amount', dataIndex: 'total_amount', width: 200 },
-    { title: 'Total Washer', dataIndex: 'total_washer', width: 200 },
-    { title: 'Total Dryer', dataIndex: 'total_dryer', width: 200 },
-    { title: 'Actions', dataIndex: 'actions' },
+    { title: t('common.createdAt'), dataIndex: 'created_at', width: 72 },
+    { title: t('common.storeName'), dataIndex: 'store_name', width: 256 },
+    { title: t('common.transactionCode'), dataIndex: 'transaction_code', width: 128 },
+    { title: t('common.status'), dataIndex: 'status', width: 128, render: (text: string) => <DynamicTag value={text} /> },
+    { title: t('common.totalAmount'), dataIndex: 'total_amount', width: 128 },
+    { title: t('common.totalWasher'), dataIndex: 'total_washer', width: 128 },
+    { title: t('common.totalDryer'), dataIndex: 'total_dryer', width: 128 },
+    { title: t('common.actions'), dataIndex: 'actions' },
   ];
 
   const {
@@ -92,33 +98,46 @@ export const OrderListPage: React.FC = () => {
     if (listOrderData) {
       setTableData(listOrderData?.data.map((item) => ({
         id: <Typography.Link onClick={() => navigate(`/orders/${item.id}/detail`)}>{item.id}</Typography.Link>,
+        created_at: formatDateTime(item.created_at),
+        transaction_code: <Typography.Link onClick={() => navigate(`/orders/${item.id}/detail`)}>{item.transaction_code}</Typography.Link>,
         status: item.status,
-        store_name: item.store_name,
-        total_amount: item.total_amount,
+        store_name: <Typography.Link onClick={() => navigate(`/stores/${item.store_id}/detail`)}>{item.store_name}</Typography.Link>,
+        total_amount: formatCurrencyCompact(item.total_amount),
         total_washer: item.total_washer,
         total_dryer: item.total_dryer,
         actions: (
           <Flex gap={theme.custom.spacing.medium}>
+            <Popconfirm
+              title={t('common.pay')}
+              onConfirm={() => triggerPaymentSuccess(item.id)}
+              onCancel={() => triggerPaymentFailed(item.id)}
+              okText={t('common.confirm')}
+              cancelText={t('common.cancel')}
+            >
             <Button
               type="link"
-              onClick={() => navigate(`/orders/${item.id}/detail`)}
+              icon={<BillCheck size={18} />}
+              style={{
+                color: theme.custom.colors.success.default,
+              }}
+            />
+            </Popconfirm>
+
+            <Popconfirm
+              title={t('common.cancelPayment')}
+              onConfirm={() => triggerPaymentFailed(item.id)}
+              onCancel={() => triggerPaymentFailed(item.id)}
+              okText={t('common.confirm')}
+              cancelText={t('common.cancel')}
             >
-              <Eye size={24} color={theme.custom.colors.primary.default} />
-            </Button>
             <Button
               type="link"
-              onClick={() => triggerPaymentSuccess(item.id)}
-              loading={triggerPaymentSuccessLoading}
-            >
-              <BillCheck size={24} color={theme.custom.colors.success.default} />
-            </Button>
-            <Button
-              type="link"
-              onClick={() => triggerPaymentFailed(item.id)}
-              loading={triggerPaymentFailedLoading}
-            >
-              <BillCross size={24} color={theme.custom.colors.danger.default} />
-            </Button>
+              icon={<BillCross size={18} />}
+              style={{
+                color: theme.custom.colors.danger.default,
+              }}
+            />
+            </Popconfirm>
           </Flex>
         ),
       })));
@@ -180,7 +199,7 @@ export const OrderListPage: React.FC = () => {
       <Flex vertical style={{ height: '100%' }}>
         <Typography.Title level={2}>Order List</Typography.Title>
 
-        <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
+        <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
           <LeftRightSection
             left={null}
             right={null}
@@ -189,7 +208,7 @@ export const OrderListPage: React.FC = () => {
           {listOrderLoading && <Skeleton active />}
 
           {!listOrderLoading && (
-            <Flex vertical gap={theme.custom.spacing.large}>
+            <Flex vertical gap={theme.custom.spacing.large} style={{ width: '100%' }}>
               <Table
                 bordered
                 dataSource={tableData || []}
@@ -203,10 +222,12 @@ export const OrderListPage: React.FC = () => {
                     setPageSize(pageSize);
                   },
                 }}
+                style={{ width: '100%' }}
+                scroll={{ x: 'max-content' }}
               />
             </Flex>
           )}
-        </Flex>
+        </Box>
       </Flex>
     </PortalLayout>
   );

@@ -145,7 +145,14 @@
     "machineEdit": "Machine Edit",
     "selectStatus": "Select Status",
     "selectMachineType": "Select Machine Type",
-    "machineList": "Machine List"
+    "machineList": "Machine List",
+    "createdAt": "Created At",
+    "transactionCode": "Transaction Code",
+    "pay": "Pay",
+    "cancelPayment": "Cancel Payment",
+    "paymentSuccess": "Payment Success",
+    "paymentFailed": "Payment Failed",
+    "confirm": "Confirm"
   },
   "navigation": {
     "overview": "Overview",

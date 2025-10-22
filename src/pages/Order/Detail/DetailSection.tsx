@@ -8,9 +8,10 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import { type Order } from '@shared/types/Order';
 
-import { Box } from '@shared/components/Box';
+import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DataWrapper } from '@shared/components/DataWrapper';
 import { DynamicTag } from '@shared/components/DynamicTag';
+import { formatCurrencyCompact } from '@shared/utils/currency';
 
 interface Props {
   order: Order;
@@ -22,16 +23,14 @@ export const DetailSection: React.FC<Props> = ({ order }: Props) => {
   const navigate = useNavigate();
 
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-      <Typography.Title level={3}>{t('common.orderDetail')}</Typography.Title>
-
-      <DataWrapper title={t('common.orderId')} value={order.id || '-'} />
+    <BaseDetailSection title={t('common.orderDetail')}>
+      <DataWrapper title={t('common.transactionCode')} value={order.transaction_code || '-'} />
       <DataWrapper title={t('common.status')} >
         <DynamicTag value={order.status} />
       </DataWrapper>
-      <DataWrapper title={t('common.totalAmount')} value={order.total_amount || '-'} />
-      <DataWrapper title={t('common.totalWasher')} value={order.total_washer || '-'} />
-      <DataWrapper title={t('common.totalDryer')} value={order.total_dryer || '-'} />
+      <DataWrapper title={t('common.totalAmount')} value={formatCurrencyCompact(order.total_amount || 0)} />
+      <DataWrapper title={t('common.totalWasher')} value={order.total_washer || 0} />
+      <DataWrapper title={t('common.totalDryer')} value={order.total_dryer || 0} />
       <DataWrapper title={t('common.store')}>
         <Typography.Link
           onClick={() => navigate(`/stores/${order.store_id}/detail`)}
@@ -40,6 +39,6 @@ export const DetailSection: React.FC<Props> = ({ order }: Props) => {
           {order.store_name || '-'}
         </Typography.Link>
       </DataWrapper>
-    </Box>
+    </BaseDetailSection>
   );
 };

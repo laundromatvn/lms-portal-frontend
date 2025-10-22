@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Button, Flex, Skeleton, Typography, notification } from 'antd';
+import { Button, Flex, Popconfirm, Skeleton, Typography, notification } from 'antd';
+
+import { ArrowLeft, BillCheck, BillCross } from '@solar-icons/react';
 
 import { type Order } from '@shared/types/Order';
 
@@ -64,7 +66,7 @@ export const OrderDetailPage: React.FC = () => {
 
   useEffect(() => {
     if (triggerPaymentFailedData) {
-    api.success({
+      api.success({
         message: t('messages.triggerPaymentFailedSuccess'),
       });
 
@@ -116,31 +118,56 @@ export const OrderDetailPage: React.FC = () => {
         <Typography.Title level={2}>{t('common.orderDetail')}</Typography.Title>
 
         <LeftRightSection
-          left={null}
+          left={(
+            <Button
+              type="link"
+              icon={<ArrowLeft size={18} />}
+              onClick={() => navigate(-1)}
+            >
+              {t('common.back')}
+            </Button>
+          )}
           right={(
             <Flex gap={theme.custom.spacing.medium}>
-              <Button
-                type="primary"
-                size="large"
-                onClick={() => triggerPaymentSuccess(getOrderData?.id as string)}
-                style={{
-                  color: theme.custom.colors.success.light,
-                  backgroundColor: theme.custom.colors.success.default,
-                  borderColor: theme.custom.colors.success.default,
-                }}
-                loading={triggerPaymentSuccessLoading}
+              <Popconfirm
+                title={t('common.pay')}
+                onConfirm={() => triggerPaymentSuccess(orderId)}
+                onCancel={() => triggerPaymentFailed(orderId)}
+                okText={t('common.confirm')}
+                cancelText={t('common.cancel')}
               >
-                {t('common.testTriggerPaymentSuccess')}
-              </Button>
-              <Button
-                type="primary"
-                size="large"
-                onClick={() => triggerPaymentFailed(getOrderData?.id as string)}
-                danger
-                loading={triggerPaymentFailedLoading}
+                <Button
+                  type="default"
+                  icon={<BillCheck size={18} />}
+                  style={{
+                    color: theme.custom.colors.success.default,
+                    backgroundColor: theme.custom.colors.background.light,
+                    borderColor: theme.custom.colors.success.default,
+                  }} >
+                  {t('common.pay')}
+                </Button>
+              </Popconfirm>
+
+              <Popconfirm
+                title={t('common.cancelPayment')}
+                onConfirm={() => triggerPaymentFailed(orderId)}
+                onCancel={() => triggerPaymentFailed(orderId)}
+                okText={t('common.confirm')}
+                cancelText={t('common.cancel')}
               >
-                {t('common.testTriggerPaymentFailed')}
-              </Button>
+                <Button
+                  type="default"
+                  danger
+                  icon={<BillCross size={18} />}
+                  style={{
+                    color: theme.custom.colors.danger.default,
+                    backgroundColor: theme.custom.colors.background.light,
+                    borderColor: theme.custom.colors.danger.default,
+                  }}
+                >
+                  {t('common.cancelPayment')}
+                </Button>
+              </Popconfirm>
             </Flex>
           )}
         />

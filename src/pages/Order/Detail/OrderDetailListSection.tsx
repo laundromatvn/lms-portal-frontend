@@ -13,8 +13,10 @@ import {
 
 import { type Order } from '@shared/types/Order';
 
-import { Box } from '@shared/components/Box';
+import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
+
+import { formatCurrencyCompact } from '@shared/utils/currency';
 
 interface Props {
   order?: Order;
@@ -46,10 +48,9 @@ export const OrderDetailListSection: React.FC<Props> = ({ order }) => {
     if (listOrderDetailData) {
       setDataSource(listOrderDetailData.data.map((item) => ({
         id: item.id,
-        order_id: item.order_id,
-        machine_name: item.machine_name,
+        machine_name: <Typography.Link onClick={() => navigate(`/machines/${item.machine_id}/detail`)}>{item.machine_name}</Typography.Link>,
         machine_type: <DynamicTag value={item.machine_type as string} />,
-        price: item.price,
+        price: formatCurrencyCompact(item.price),
         status: <DynamicTag value={item.status} />,
       })));
     }
@@ -66,8 +67,7 @@ export const OrderDetailListSection: React.FC<Props> = ({ order }) => {
   }, [page, pageSize, order?.id]);
 
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-      <Typography.Title level={3}>{t('common.orderDetailList')}</Typography.Title>
+    <BaseDetailSection title={t('common.orderDetailList')}>
       <Table
         dataSource={dataSource}
         columns={columns}
@@ -88,6 +88,6 @@ export const OrderDetailListSection: React.FC<Props> = ({ order }) => {
         loading={listOrderDetailLoading}
         style={{ width: '100%' }}
       />
-    </Box>
+    </BaseDetailSection>
   );
 };
