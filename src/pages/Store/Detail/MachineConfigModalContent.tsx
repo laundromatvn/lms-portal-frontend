@@ -53,6 +53,11 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
     }
   }, [machineId]);
 
+  // Reset form when machineId changes
+  useEffect(() => {
+    form.resetFields();
+  }, [machineId, form]);
+
   useEffect(() => {
     if (machineError) {
       api.error({

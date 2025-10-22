@@ -29,6 +29,8 @@ import {
   type ListControllerResponse,
 } from '@shared/hooks/useListControllerApi';
 
+import { formatCurrencyCompact } from '@shared/utils/currency';
+
 import { type Store } from '@shared/types/store';
 
 import { Box } from '@shared/components/Box';
@@ -36,6 +38,8 @@ import { DynamicTag } from '@shared/components/DynamicTag';
 import { BaseModal } from '@shared/components/BaseModal';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { MachineConfigModalContent } from './MachineConfigModalContent';
+import { StartMachineModalContent } from './StartMachineModalContent';
+
 
 interface Props {
   store: Store;
@@ -53,7 +57,9 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
   const [pageSize, setPageSize] = useState(10);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isStartMachineModalOpen, setIsStartMachineModalOpen] = useState(false);
   const [selectedMachineId, setSelectedMachineId] = useState<string | null>(null);
+  const [selectedMachine, setSelectedMachine] = useState<any | null>(null);
   const [selectedControllerId, setSelectedControllerId] = useState<string | null>(null);
 
   const columns = [
@@ -94,12 +100,14 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
         relay_no: item.relay_no,
         name: item.name,
         machine_type: item.machine_type,
-        base_price: item.base_price,
+        base_price: formatCurrencyCompact(item.base_price),
         status: item.status,
         actions: (
           <Flex gap={theme.custom.spacing.medium}>
             <Button type="link" onClick={() => {
-              startMachine(item.id, DEFAULT_TOTAL_AMOUNT);
+              setIsStartMachineModalOpen(true);
+              setSelectedMachineId(item.id);
+              setSelectedMachine(item);
             }}>
               <Play weight="Bold" color={theme.custom.colors.success.default} />
             </Button>
@@ -234,6 +242,7 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
 
       {selectedMachineId && (
         <BaseModal
+          key={`config-${selectedMachineId}`}
           closable={true}
           onCancel={() => {
             setIsModalOpen(false);
@@ -244,6 +253,7 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
           setIsModalOpen={setIsModalOpen}
         >
           <MachineConfigModalContent
+            key={`config-content-${selectedMachineId}`}
             machineId={selectedMachineId}
             onClose={() => {
               setIsModalOpen(false);
@@ -251,6 +261,41 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
             }}
             onSave={() => {
               setSelectedMachineId(null);
+              listMachine({
+                controller_id: selectedControllerId as string,
+                page,
+                page_size: pageSize
+              });
+            }}
+          />
+        </BaseModal>
+      )}
+
+      {selectedMachine && (
+        <BaseModal
+          key={`start-${selectedMachine.id}`}
+          closable={true}
+          onCancel={() => {
+            setIsStartMachineModalOpen(false);
+            setSelectedMachineId(null);
+            setSelectedMachine(null);
+          }}
+          maskClosable={true}
+          isModalOpen={isStartMachineModalOpen}
+          setIsModalOpen={setIsStartMachineModalOpen}
+        >
+          <StartMachineModalContent
+            key={`start-content-${selectedMachine.id}`}
+            machine={selectedMachine}
+            onClose={() => {
+              setIsStartMachineModalOpen(false);
+              setSelectedMachineId(null);
+              setSelectedMachine(null);
+            }}
+            onSuccess={() => {
+              setIsStartMachineModalOpen(false);
+              setSelectedMachineId(null);
+              setSelectedMachine(null);
               listMachine({
                 controller_id: selectedControllerId as string,
                 page,

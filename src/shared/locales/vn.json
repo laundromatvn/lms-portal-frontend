@@ -57,6 +57,15 @@
     "washer": "Máy giặt",
     "dryer": "Máy sấy",
     "startMachine": "Bắt đầu",
+    "amount": "Số tiền",
+    "amountRequired": "Số tiền là bắt buộc",
+    "amountMustBeGreaterThanZero": "Số tiền phải lớn hơn 0",
+    "enterAmount": "Nhập số tiền",
+    "machineInfo": "Thông tin máy",
+    "coinValue": "Giá trị xu",
+    "pulsePreview": "Xem trước xung",
+    "numberOfPulses": "Số lượng xung",
+    "pulseCalculationFormula": "Tính toán",
     "activateMachine": "Kích hoạt",
     "activateAllControllerMachines": "Kích hoạt tất cả máy",
     "pulseDuration": "Độ dài xung",
@@ -233,7 +242,8 @@
       "totalWasher": "Số máy giặt",
       "totalDryer": "Số máy sấy",
       "searchPlaceholder": "Tìm kiếm đơn hàng (tối thiểu 3 từ)",
-      "searchMinWordsError": "Vui lòng nhập ít nhất 3 từ để tìm kiếm"
+      "searchMinWordsError": "Vui lòng nhập ít nhất 3 từ để tìm kiếm",
+      "action": "Hành động"
     },
     "machineStatus": {
       "title": "Timeline Trạng thái Máy",

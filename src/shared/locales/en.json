@@ -57,6 +57,15 @@
     "washer": "Washer",
     "dryer": "Dryer",
     "startMachine": "Start Machine",
+    "amount": "Amount",
+    "amountRequired": "Amount is required",
+    "amountMustBeGreaterThanZero": "Amount must be greater than zero",
+    "enterAmount": "Enter amount",
+    "machineInfo": "Machine Information",
+    "coinValue": "Coin Value",
+    "pulsePreview": "Pulse Preview",
+    "numberOfPulses": "Number of Pulses",
+    "pulseCalculationFormula": "Calculation",
     "activateMachine": "Activate Machine",
     "activateAllControllerMachines": "Activate All Machines",
     "pulseDuration": "Pulse Duration",
@@ -236,7 +245,8 @@
       "totalWasher": "Total Washer",
       "totalDryer": "Total Dryer",
       "searchPlaceholder": "Search orders (min 3 words)",
-      "searchMinWordsError": "Please enter at least 3 words to search"
+      "searchMinWordsError": "Please enter at least 3 words to search",
+      "action": "Action"
     },
     "machineStatus": {
       "title": "Machine Status Timeline",

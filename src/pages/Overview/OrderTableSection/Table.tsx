@@ -2,7 +2,9 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Table, Typography } from 'antd';
+import { Table, Typography, Button } from 'antd';
+
+import { Play } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -17,8 +19,8 @@ type Props = {
   onSort?: (column: string, direction: 'asc' | 'desc') => void;
 };
 
-export const OverviewOrderTable: React.FC<Props> = ({ 
-  orders, 
+export const OverviewOrderTable: React.FC<Props> = ({
+  orders,
   loading = false,
   onSort,
 }) => {
@@ -123,6 +125,20 @@ export const OverviewOrderTable: React.FC<Props> = ({
       width: 100,
       render: (text: string) => (
         <DynamicTag value={text} />
+      )
+    },
+    {
+      title: t('overview.orderTable.action'),
+      dataIndex: 'action',
+      key: 'action',
+      width: 100,
+      render: (text: string, record: OverviewOrder) => (
+        <Button
+          type="link"
+          onClick={() => { }}
+        >
+          <Play weight="Bold" size={24} color={theme.custom.colors.success.default} />
+        </Button>
       )
     },
   ]
