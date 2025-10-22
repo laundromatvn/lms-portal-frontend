@@ -32,7 +32,6 @@ export const SignInPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get('session_id') as string;
   const redirectTo = searchParams.get('redirect_to') as string;
-  const action = searchParams.get('action') as OTPActionEnum;
 
   const {
     signIn,
@@ -55,6 +54,39 @@ export const SignInPage: React.FC = () => {
     });
   };
 
+  const handleSuccessfulAuth = () => {
+    try {
+      const bundle: TokenBundle = {
+        accessToken: (signInData as any).access_token,
+        refreshToken: (signInData as any).refresh_token,
+        accessTokenExp: Date.now() + ACCESS_TOKEN_TTL_SECONDS * 1000,
+        refreshTokenExp: Date.now() + REFRESH_TOKEN_TTL_SECONDS * 1000,
+      }
+      tokenManager.setTokens(bundle)
+    } catch {
+      api.error({
+        message: t('messages.signInFailed'),
+      });
+
+      navigate('/verification-failed');
+    }
+
+    try {
+      if (redirectTo) {
+        if (redirectTo.startsWith('/')) {
+          navigate(redirectTo);
+        } else {
+          navigate(`/${redirectTo}`);
+        }
+      } else {
+        navigate('/overview');
+      }
+    } catch (error) {
+      console.warn('Invalid redirect_to parameter:', redirectTo);
+      navigate('/overview');
+    }
+  };
+
   useEffect(() => {
     if (sessionId) {
       proceedAuthSession({ sessionId: sessionId });
@@ -64,35 +96,8 @@ export const SignInPage: React.FC = () => {
 
   useEffect(() => {
     if (signInData) {
-      try {
-        const bundle: TokenBundle = {
-          accessToken: (signInData as any).access_token,
-          refreshToken: (signInData as any).refresh_token,
-          accessTokenExp: Date.now() + ACCESS_TOKEN_TTL_SECONDS * 1000,
-          refreshTokenExp: Date.now() + REFRESH_TOKEN_TTL_SECONDS * 1000,
-        }
-        tokenManager.setTokens(bundle)
-      } catch {}
-      api.success({
-        message: t('messages.signInSuccess'),
-      });
-
-      const queryParams = new URLSearchParams();
-      if (sessionId) {
-        queryParams.set('session_id', sessionId);
-      }
-      if (redirectTo) {
-        queryParams.set('redirect_to', redirectTo);
-      }
-      if (action) {
-        queryParams.set('action', action);
-      } else {
-        queryParams.set('action', OTPActionEnum.SIGN_IN);
-      }
-
-      const queryString = queryParams.toString();
-      navigate(`/auth/generate-otp${queryString ? `?${queryString}` : ''}`);
-    } 
+      handleSuccessfulAuth();
+    }
   }, [signInData])
 
   useEffect(() => {
