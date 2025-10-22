@@ -3,11 +3,12 @@ import { useTranslation } from 'react-i18next';
 
 import { Card, Space, Typography, Flex, Button } from 'antd';
 
-import { TrashBinTrash, PenNewSquare, TrashBin2 } from '@solar-icons/react';
+import { TrashBinTrash, PenNewSquare } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
 import { type PaymentMethod } from '@shared/types/PaymentMethod';
+import { PaymentMethodEnum } from '@shared/enums/PaymentMethodEnum';
 
 interface Props {
   paymentMethod: PaymentMethod;
@@ -25,6 +26,17 @@ export const PaymentMethodDetailItem: React.FC<Props> = ({
   const { t } = useTranslation();
   const theme = useTheme();
 
+  const headerBackgroundCardColor = () => {
+    switch (paymentMethod.payment_method) {
+      case PaymentMethodEnum.CARD:
+        return theme.custom.colors.success[100];
+      case PaymentMethodEnum.QR:
+        return theme.custom.colors.info[100];
+      default:
+        return theme.custom.colors.neutral.default;
+    }
+  };
+
   return (
     <Card
       title={<Typography.Text strong>{paymentMethod.payment_method}</Typography.Text>}
@@ -33,6 +45,7 @@ export const PaymentMethodDetailItem: React.FC<Props> = ({
         <Button type="link" danger icon={<TrashBinTrash />} onClick={() => onRemove(index)} />
       </Space>}
       style={{ width: '100%' }}
+      headStyle={{ backgroundColor: headerBackgroundCardColor() }}
       size="small"
     >
       <Flex vertical gap={theme.custom.spacing.medium}>
