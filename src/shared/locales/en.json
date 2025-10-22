@@ -20,7 +20,13 @@
     "assignToStoreSuccess": "Controller assigned to store successfully",
     "assignToStoreError": "Failed to assign controller to store",
     "updateControllerSuccess": "Controller updated successfully",
-    "updateControllerError": "Failed to update controller"  
+    "updateControllerError": "Failed to update controller",
+    "autoRefreshEveryXSeconds": "(*) Auto refresh every {seconds} seconds",
+    "autoRefreshDisabled": "Auto refresh disabled",
+    "information": "Information",
+    "thisNumberIsTheTotalActiveRelays": "This number is the total active relays",
+    "example": "For example, if you have {{totalRelays}} relays and you activate {{activeRelays}} relays, then the total active relays will be {{activeRelays}}",
+    "theMachinesWillBeActivatedInTheOrder": "The machines will be activated in the order from lowest to highest ({{minRelayNumber}} to {{maxRelayNumber}})"
   },
   "common": {
     "signIn": "Sign In",
@@ -120,7 +126,10 @@
     "selectMachine": "Select Machine",
     "basicInformation": "Basic Information",
     "controllers": "Controllers",
-    "machines": "Machines"
+    "machines": "Machines",
+    "tenantName": "Tenant Name",
+    "storeName": "Store Name",
+    "controllerName": "Controller Name"
   },
   "navigation": {
     "overview": "Overview",

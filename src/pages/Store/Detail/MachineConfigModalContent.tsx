@@ -122,7 +122,7 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
         >
           <Form form={form} layout="vertical" style={{ width: '100%' }}>
             <Form.Item
-              label="Machine ID"
+              label={t('common.machineId')}
               name="machine_id"
               rules={[{ required: true, message: t('machine.machineIdRequired') }]}
             >
@@ -130,7 +130,7 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
             </Form.Item>
 
             <Form.Item
-              label="Status"
+              label={t('common.status')}
               name="status"
               rules={[{ required: true, message: t('machine.statusRequired') }]}
             >
@@ -147,12 +147,12 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
               />
             </Form.Item>
 
-            <Form.Item label="Machine Name" name="name">
+            <Form.Item label={t('common.name')} name="name">
               <Input size="large" />
             </Form.Item>
 
             <Form.Item
-              label="Machine Type"
+              label={t('common.machineType')}
               name="machine_type"
               rules={[{ required: true, message: t('machine.machineTypeRequired') }]}
             >
@@ -166,7 +166,7 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
             </Form.Item>
 
             <Form.Item
-              label="Base Price"
+              label={t('common.basePrice')}
               name="base_price"
               rules={[
                 { required: true, message: t('machine.basePriceRequired') },
@@ -184,7 +184,7 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
             </Form.Item>
 
             <Form.Item
-              label="Pulse Duration"
+              label={t('common.pulseDuration')}
               name="pulse_duration"
               rules={[{ required: true, message: t('machine.pulseDurationRequired') }]}
             >
@@ -192,7 +192,7 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
             </Form.Item>
 
             <Form.Item
-              label="Coin Value"
+              label={t('common.coinValue')}
               name="coin_value"
               rules={[{ required: true, message: t('machine.coinValueRequired') }]}
             >

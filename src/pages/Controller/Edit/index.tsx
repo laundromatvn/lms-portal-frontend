@@ -11,6 +11,8 @@ import {
   type FormInstance,
 } from 'antd';
 
+import { ArrowLeft } from '@solar-icons/react';
+
 import { useTheme } from '@shared/theme/useTheme';
 
 import { type Controller } from '@shared/types/Controller';
@@ -104,9 +106,10 @@ export const ControllerEditPage: React.FC = () => {
         <LeftRightSection
           left={(
             <Button
-              type="default"
-              size="large"
-              onClick={() => navigate(`/controllers/${controllerId}/detail`)}>
+              type="link"
+              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
+              onClick={() => navigate(-1)}
+            >
               {t('common.back')}
             </Button>
           )}

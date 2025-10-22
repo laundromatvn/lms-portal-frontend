@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button, Flex, Typography, Skeleton, notification } from 'antd';
 
+import { ArrowLeft } from '@solar-icons/react';
+
 import { useGetControllerApi, type GetControllerResponse } from '@shared/hooks/useGetControllerApi';
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -55,12 +57,16 @@ export const ControllerDetailPage: React.FC = () => {
         {controllerLoading && <Skeleton active />}
 
         <LeftRightSection
-          left={null}
-          right={(<>
-            <Button type="default" size="large" onClick={() => navigate(`/controllers/${controllerId}/edit`)}>
-              {t('common.edit')}
+          left={(
+            <Button
+              type="link"
+              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
+              onClick={() => navigate(-1)}
+            >
+              {t('common.back')}
             </Button>
-          </>)}
+          )}
+          right={null}
         />
 
         {!controllerLoading && controllerData && (

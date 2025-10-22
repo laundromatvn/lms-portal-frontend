@@ -11,6 +11,8 @@ import {
   Form,
 } from 'antd';
 
+import { ArrowLeft } from '@solar-icons/react';
+
 import { useTheme } from '@shared/theme/useTheme';
 
 import { type Store } from '@shared/types/store';
@@ -114,8 +116,9 @@ export const StoreEditPage: React.FC = () => {
           left={(
             <Button
               type="link"
-              size="large"
-              onClick={() => navigate(`/stores/${storeId}/detail`)}>
+              onClick={() => navigate(-1)}
+              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
+            >
               {t('common.back')}
             </Button>
           )}

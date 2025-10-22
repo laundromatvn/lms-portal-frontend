@@ -30,12 +30,10 @@ export const ControllerListSection: React.FC<Props> = ({ store }) => {
   const [pageSize, setPageSize] = useState(10);
 
   const columns = [
-    { title: 'Controller ID', dataIndex: 'id', width: 100 },
-    { title: 'Device ID', dataIndex: 'device_id', width: 100 },
-    { title: 'Name', dataIndex: 'name', width: 300 },
-    { title: 'Total Relays', dataIndex: 'total_relays', width: 100 },
-    { title: 'Status', dataIndex: 'status', width: 100 },
-    { title: 'Actions', dataIndex: 'actions' },
+    { title: t('common.deviceId'), dataIndex: 'device_id', width: 128 },
+    { title: t('common.status'), dataIndex: 'status', width: 128 },
+    { title: t('common.controllerName'), dataIndex: 'name' },
+    { title: t('common.totalRelays'), dataIndex: 'total_relays' },
   ];
 
   const {
@@ -47,18 +45,11 @@ export const ControllerListSection: React.FC<Props> = ({ store }) => {
   useEffect(() => {
     if (listControllerData) {
       setDataSource(listControllerData.data.map((item) => ({
-        id: item.id,
-        device_id: item.device_id,
-        name: item.name || '-',
-        total_relays: item.total_relays,
+        device_id: <Typography.Link onClick={() => navigate(`/controllers/${item.id}/detail`)}>{item.device_id}</Typography.Link>,
         status: <DynamicTag value={item.status} />,
-        actions: (
-          <Flex gap={theme.custom.spacing.medium}>
-            <Button type="link" onClick={() => navigate(`/controllers/${item.id}/detail`)}>
-              {t('common.detail')}
-            </Button>
-          </Flex>
-        ),
+        name: <Typography.Link onClick={() => navigate(`/controllers/${item.id}/detail`)}>{item.name || '-'}</Typography.Link>,
+        total_relays: item.total_relays,
+        actions: null,
       })));
     }
   }, [listControllerData]);

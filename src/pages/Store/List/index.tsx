@@ -31,11 +31,11 @@ export const StoreListPage: React.FC = () => {
   const [pageSize, setPageSize] = useState(10);
 
   const columns = [
-    { title: 'Tenant Name', dataIndex: 'tenant_name', width: 128 },
-    { title: 'Name', dataIndex: 'name', width: 256 },
-    { title: 'Status', dataIndex: 'status', width: 72 },
-    { title: 'Address', dataIndex: 'address', width: 400 },
-    { title: 'Contact Phone Number', dataIndex: 'contact_phone_number', width: 128 },
+    { title: t('common.tenantName'), dataIndex: 'tenant_name', width: 128 },
+    { title: t('common.name'), dataIndex: 'name', width: 256 },
+    { title: t('common.status'), dataIndex: 'status', width: 72 },
+    { title: t('common.address'), dataIndex: 'address', width: 400 },
+    { title: t('common.contactPhoneNumber'), dataIndex: 'contact_phone_number', width: 128 },
   ];
 
   const {

@@ -19,6 +19,7 @@ import { DetailSection } from './DetailSection';
 import { PaymentMethodSection } from './PaymentMethodSection';
 import { ControllerListSection } from './ControllerListSection';
 import { MachineListSection } from './MachineListSection';
+import { ArrowLeft } from '@solar-icons/react';
 
 export const StoreDetailPage: React.FC = () => {
   const { t } = useTranslation();
@@ -56,6 +57,19 @@ export const StoreDetailPage: React.FC = () => {
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
         <Typography.Title level={2}>Store Detail</Typography.Title>
+
+        <LeftRightSection
+          left={(
+            <Button
+              type="link"
+              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
+              onClick={() => navigate(-1)}
+            >
+              {t('common.back')}
+            </Button>
+          )}
+          right={null}
+        />
 
         {storeLoading && <Skeleton active />}
 

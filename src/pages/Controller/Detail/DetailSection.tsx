@@ -1,11 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { useTheme } from '@shared/theme/useTheme';
+import { useNavigate } from 'react-router-dom';
 
 import { type Controller } from '@shared/types/Controller';
 
-import { Box } from '@shared/components/Box';
+import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DataWrapper } from '@shared/components/DataWrapper';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
@@ -15,10 +14,10 @@ interface Props {
 
 export const DetailSection: React.FC<Props> = ({ controller }: Props) => {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const navigate = useNavigate();
 
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+    <BaseDetailSection title={t('common.basicInformation')} onEdit={() => navigate(`/controllers/${controller.id}/edit`)}>
       <DataWrapper title={t('common.deviceId')} value={controller.device_id || '-'} />
       <DataWrapper title={t('common.store')} value={controller.store_name || '-'} />
       <DataWrapper title={t('common.name')} value={controller.name || '-'} />
@@ -26,6 +25,6 @@ export const DetailSection: React.FC<Props> = ({ controller }: Props) => {
       <DataWrapper title={t('common.status')} >
         <DynamicTag value={controller.status} />
       </DataWrapper>
-    </Box>
+    </BaseDetailSection>
   );
 };

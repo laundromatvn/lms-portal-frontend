@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { Button, Flex, Typography, Table, Skeleton, notification } from 'antd';
 
+import { AddCircle } from '@solar-icons/react';
+
 import { useTheme } from '@shared/theme/useTheme';
 
 import { useListControllerApi, type ListControllerResponse } from '@shared/hooks/useListControllerApi';
@@ -11,6 +13,7 @@ import { useListControllerApi, type ListControllerResponse } from '@shared/hooks
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
+import { Box } from '@shared/components/Box';
 
 export const ControllerListPage: React.FC = () => {
   const { t } = useTranslation();
@@ -25,13 +28,11 @@ export const ControllerListPage: React.FC = () => {
   const [dataSource, setDataSource] = useState<any[]>([]);
 
   const columns = [
-    { title: 'Controller ID', dataIndex: 'id', width: 100 },
-    { title: 'Device ID', dataIndex: 'device_id', width: 100 },
-    { title: 'Store Name', dataIndex: 'store_name', width: 300 },
-    { title: 'Name', dataIndex: 'name', width: 300 },
-    { title: 'Total Relays', dataIndex: 'total_relays', width: 100 },
-    { title: 'Status', dataIndex: 'status', width: 100 },
-    { title: 'Actions', dataIndex: 'actions' },
+    { title: t('common.storeName'), dataIndex: 'store_name', width: 156 },
+    { title: t('common.deviceId'), dataIndex: 'device_id', width: 128 },
+    { title: t('common.controllerName'), dataIndex: 'name', width: 256 },
+    { title: t('common.totalRelays'), dataIndex: 'total_relays', width: 48 },
+    { title: t('common.status'), dataIndex: 'status', width: 128 },
   ];
 
   const {
@@ -44,32 +45,11 @@ export const ControllerListPage: React.FC = () => {
   useEffect(() => {
     if (listControllerData) {
       setDataSource(listControllerData.data.map((item) => ({
-        id: item.id,
-        device_id: item.device_id || '-',
-        store_name: item.store_name || '-',
-        name: item.name || '-',
+        device_id: <Typography.Link onClick={() => navigate(`/controllers/${item.id}/detail`)}>{item.device_id || '-'}</Typography.Link>,
+        store_name: <Typography.Link onClick={() => navigate(`/stores/${item.store_id}/detail`)}>{item.store_name || '-'}</Typography.Link>,
+        name: <Typography.Link onClick={() => navigate(`/controllers/${item.id}/detail`)}>{item.name || '-'}</Typography.Link>,
         total_relays: item.total_relays,
         status: <DynamicTag value={item.status} />,
-        actions: (
-          <Flex gap={theme.custom.spacing.medium}>
-            <Button
-              type="link"
-              onClick={() => {
-                navigate(`/controllers/${item.id}/detail`);
-              }}
-            >
-              {t('common.detail')}
-            </Button>
-            <Button
-              type="link"
-              onClick={() => {
-                navigate(`/controllers/${item.id}/edit`);
-              }}
-            >
-              {t('common.edit')}
-            </Button>
-          </Flex>
-        ),
       })));
     }
   }, [listControllerData]);
@@ -93,14 +73,15 @@ export const ControllerListPage: React.FC = () => {
       <Flex vertical style={{ height: '100%' }}>
         <Typography.Title level={2}>Controller List</Typography.Title>
 
-        <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
+        <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
           <LeftRightSection
             left={null}
             right={(<>
               <Button
                 type="primary"
-                size="large"
                 onClick={() => navigate('/controllers/abandoned')}>
+                <AddCircle
+                />
                 {t('controller.registerAbandoned')}
               </Button>
             </>)}
@@ -108,25 +89,22 @@ export const ControllerListPage: React.FC = () => {
 
           {listControllerLoading && <Skeleton active />}
 
-          {!listControllerLoading && (
-            <Flex vertical gap={theme.custom.spacing.large}>
-              <Table
-                bordered
-                dataSource={dataSource}
-                columns={columns}
-                pagination={{
-                  pageSize,
-                  current: page,
-                  total: listControllerData?.total,
-                  onChange: (page, pageSize) => {
-                    setPage(page);
-                    setPageSize(pageSize);
-                  },
-                }}
-              />
-            </Flex>
-          )}
-        </Flex>
+          <Table
+            bordered
+            dataSource={dataSource}
+            columns={columns}
+            pagination={{
+              pageSize,
+              current: page,
+              total: listControllerData?.total,
+              onChange: (page, pageSize) => {
+                setPage(page);
+                setPageSize(pageSize);
+              },
+            }}
+            style={{ width: '100%' }}
+          />
+        </Box>
       </Flex>
     </PortalLayout>
   );

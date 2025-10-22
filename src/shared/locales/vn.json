@@ -20,7 +20,13 @@
     "assignToStoreSuccess": "Controller đã được gán thành công",
     "assignToStoreError": "Không thể gán controller tự do",
     "updateControllerSuccess": "Controller đã được cập nhật thành công",
-    "updateControllerError": "Không thể cập nhật controller"
+    "updateControllerError": "Không thể cập nhật controller",
+    "autoRefreshEveryXSeconds": "(*) Tự động làm mới mỗi {{seconds}} giây",
+    "autoRefreshDisabled": "Tự động làm mới đã bị vô hiệu hóa",
+    "information": "Thông tin",
+    "thisNumberIsTheTotalActiveRelays": "Đây là tổng số relay hoạt động",
+    "example": "Ví dụ, nếu bạn có {{totalRelays}} relay và bạn kích hoạt {{activeRelays}} relay thì tổng số relay (máy) hoạt động sẽ là {{activeRelays}}",
+    "theMachinesWillBeActivatedInTheOrder": "Các máy sẽ được kích hoạt theo thứ tự từ thấp đến cao ({{minRelayNumber}} đến {{maxRelayNumber}})"
   },
   "common": {
     "signIn": "Đăng nhập",
@@ -120,7 +126,10 @@
     "selectMachine": "Chọn máy",
     "basicInformation": "Thông tin cơ bản",
     "controllers": "Controllers",
-    "machines": "Máy móc"
+    "machines": "Máy móc",
+    "tenantName": "Tên Tenant",
+    "storeName": "Tên cửa hàng",
+    "controllerName": "Tên Controller"
   },
   "navigation": {
     "overview": "Tổng quan",

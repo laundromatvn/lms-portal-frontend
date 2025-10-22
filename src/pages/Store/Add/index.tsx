@@ -36,8 +36,7 @@ export const StoreAddPage: React.FC = () => {
             <Button
               type="link"
               icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
-              onClick={() => navigate('/stores')}
-              size="large"
+              onClick={() => navigate(-1)}
             >
               {t('common.back')}
             </Button>

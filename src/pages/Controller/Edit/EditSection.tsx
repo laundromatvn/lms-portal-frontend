@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
-  Button,
+  Card,
   Form,
+  Flex,
   Input,
   InputNumber,
   Select,
+  Typography,
   type FormInstance,
 } from 'antd';
 
@@ -14,7 +16,7 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import { type Controller } from '@shared/types/Controller';
 
-import { Box } from '@shared/components/Box';
+import { BaseEditSection } from '@shared/components/BaseEditSection';
 import { ControllerStatusEnum } from '@shared/enums/ControllerStatusEnum';
 
 interface Props {
@@ -39,26 +41,10 @@ export const EditSection: React.FC<Props> = ({ controller, onSave }: Props) => {
   }, [controller]);
 
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+    <BaseEditSection title={t('common.basicInformation')} onSave={() => onSave(form)}>
       <Form form={form} layout="vertical" style={{ width: '100%', maxWidth: 600 }}>
-        <Form.Item 
-          label={t('common.controllerId')}
-          name="id"
-          style={{ width: '100%' }}
-        >
-          <Input size="large" defaultValue={controller.id} disabled />
-        </Form.Item>
-
         <Form.Item
-          label={t('common.deviceId')}
-          name="device_id"
-          style={{ width: '100%' }}
-        >
-          <Input size="large" defaultValue={controller.device_id} />
-        </Form.Item>
-
-        <Form.Item
-          label={t('common.name')}
+          label={t('common.controllerName')}
           name="name"
           style={{ width: '100%' }}
         >
@@ -70,18 +56,37 @@ export const EditSection: React.FC<Props> = ({ controller, onSave }: Props) => {
           name="total_relays"
           style={{ width: '100%' }}
           rules={[
-            {required: true, message: t('common.totalRelaysIsRequired') },
-            {validator: (_, value) => {
-              if (value < 0) {
-                return Promise.reject(new Error(t('common.totalRelaysMustBeGreaterThanZero')));
+            { required: true, message: t('common.totalRelaysIsRequired') },
+            {
+              validator: (_, value) => {
+                if (value < 0) {
+                  return Promise.reject(new Error(t('common.totalRelaysMustBeGreaterThanZero')));
+                }
+                return Promise.resolve();
               }
-              return Promise.resolve();
-            }}]}
+            }]}
         >
           <InputNumber size="large" style={{ width: '100%' }} />
         </Form.Item>
 
-        <Form.Item 
+        <Card
+          size="small"
+          title={t('controller.information')}
+          style={{
+            border: 'none',
+            backgroundColor: theme.custom.colors.info.light,
+            marginBottom: theme.custom.spacing.medium,
+            marginTop: theme.custom.spacing.medium,
+          }}
+        >
+          <Flex vertical gap={theme.custom.spacing.small}>
+            <Typography.Text>{t('controller.thisNumberIsTheTotalActiveRelays')}</Typography.Text>
+            <Typography.Text>{t('controller.example', { totalRelays: 8, activeRelays: 4 })}</Typography.Text>
+            <Typography.Text>{t('controller.theMachinesWillBeActivatedInTheOrder', { minRelayNumber: 1, maxRelayNumber: 8 })}</Typography.Text>
+          </Flex>
+        </Card>
+
+        <Form.Item
           label={t('common.status')}
           name="status"
           style={{ width: '100%' }}
@@ -97,18 +102,7 @@ export const EditSection: React.FC<Props> = ({ controller, onSave }: Props) => {
             ]}
           />
         </Form.Item>
-
-        <Form.Item style={{ width: '100%', textAlign: 'right' }}>
-          <Button
-            type="primary"
-            size="large"
-            style={{ minWidth: 128 }}
-            onClick={() => onSave(form)}
-          >
-            {t('common.save')}
-          </Button>
-        </Form.Item>
       </Form>
-    </Box>
+    </BaseEditSection>
   );
 };

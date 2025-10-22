@@ -57,12 +57,12 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
   const [selectedControllerId, setSelectedControllerId] = useState<string | null>(null);
 
   const columns = [
-    { title: 'Relay No', dataIndex: 'relay_no' },
-    { title: 'Name', dataIndex: 'name' },
-    { title: 'Machine Type', dataIndex: 'machine_type' },
-    { title: 'Base Price', dataIndex: 'base_price' },
-    { title: 'Status', dataIndex: 'status', render: (status: string) => <DynamicTag value={status} /> },
-    { title: 'Actions', dataIndex: 'actions' },
+    { title: t('common.relayNo'), dataIndex: 'relay_no', width: 48 },
+    { title: t('common.name'), dataIndex: 'name' },
+    { title: t('common.machineType'), dataIndex: 'machine_type', width: 128 },
+    { title: t('common.basePrice'), dataIndex: 'base_price', width: 128 },
+    { title: t('common.status'), dataIndex: 'status', render: (status: string) => <DynamicTag value={status} />, width: 128 },
+    { title: t('common.actions'), dataIndex: 'actions', width: 256 },
   ];
 
   const {

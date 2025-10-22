@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
-import { Button, Flex, Skeleton, Table, Typography, notification } from 'antd';
+import { Button, Flex, Switch, Table, Typography, notification } from 'antd';
+
+import { ArrowLeft, PaperclipRounded, Play, Refresh } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -13,21 +16,27 @@ import LeftRightSection from '@shared/components/LeftRightSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { BaseModal } from '@shared/components/BaseModal';
 import { AssignToStoreModalContent } from './AssignToStoreModalContent';
+import { Box } from '@shared/components/Box';
+
+const AUTO_REFRESH_INTERVAL_MS = 2000;
+const AUTO_REFRESH_INTERVAL_SECONDS = AUTO_REFRESH_INTERVAL_MS / 1000;
 
 export const ControllerAbandonedPage: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const [api, contextHolder] = notification.useNotification();
 
   const [isOpen, setIsOpen] = useState(false);
   const [controllerId, setControllerId] = useState('');
   const [dataSource, setDataSource] = useState<any[]>([]);
+  const [autoRefresh, setAutoRefresh] = useState(true);
 
   const columns = [
-    { title: 'Controller ID', dataIndex: 'id' },
-    { title: 'Status', dataIndex: 'status' },
-    { title: 'Actions', dataIndex: 'actions' },
+    { title: t('common.deviceId'), dataIndex: 'id', width: 128 },
+    { title: t('common.status'), dataIndex: 'status', },
+    { title: t('common.actions'), dataIndex: 'actions', width: 256 },
   ];
 
   const {
@@ -57,16 +66,16 @@ export const ControllerAbandonedPage: React.FC = () => {
                 setIsOpen(true);
                 setControllerId(item);
               }}
-            >
-              {t('controller.assign')}
-            </Button>
+              style={{ color: theme.custom.colors.info.default }}
+              icon={<PaperclipRounded weight="Outline" />}
+            />
             <Button
               type="default"
               onClick={() => verifyAbandonedController(item)}
               loading={verifyAbandonedControllerLoading}
-            >
-              {t('controller.test')}
-            </Button>
+              style={{ color: theme.custom.colors.success.default }}
+              icon={<Play weight="Bold" />}
+            />
           </Flex>
         ),
       })));
@@ -107,6 +116,18 @@ export const ControllerAbandonedPage: React.FC = () => {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!autoRefresh) return;
+
+    const interval = setInterval(() => {
+      if (!isOpen && !listAbandondedControllerLoading) {
+        listAbandondedController({ page: 1, page_size: 10 });
+      }
+    }, AUTO_REFRESH_INTERVAL_MS);
+
+    return () => clearInterval(interval);
+  }, [autoRefresh, isOpen, listAbandondedControllerLoading, listAbandondedController]);
+
   return (
     <PortalLayout>
       {contextHolder}
@@ -115,30 +136,54 @@ export const ControllerAbandonedPage: React.FC = () => {
         <Typography.Title level={2}>{t('controller.abandonedController')}</Typography.Title>
 
         <LeftRightSection
-          left={null}
-          right={(<>
+          left={(
             <Button
-              type="primary"
-              size="large"
-              onClick={() => listAbandondedController({ page: 1, page_size: 10 })}
-              loading={listAbandondedControllerLoading}
+              type="link"
+              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
+              onClick={() => navigate(-1)}
             >
-              {t('common.reload')}
+              {t('common.back')}
             </Button>
-          </>)}
+          )}
+          right={null}
         />
 
-        {listAbandondedControllerLoading
-          ? (
-            <Skeleton active />
-          ) : (
-            <Flex vertical gap={theme.custom.spacing.large}>
-              <Table
-                dataSource={dataSource}
-                columns={columns}
+        <Box
+          vertical
+          gap={theme.custom.spacing.large}
+          style={{ width: '100%' }}
+        >
+          <LeftRightSection
+            left={
+              <Flex gap={theme.custom.spacing.medium} align="center">
+                <Switch
+                  checked={autoRefresh}
+                  onChange={setAutoRefresh}
+                  size="small"
+                />
+                <Typography.Text type="secondary">
+                  {autoRefresh
+                    ? t('controller.autoRefreshEveryXSeconds', { seconds: AUTO_REFRESH_INTERVAL_SECONDS })
+                    : t('controller.autoRefreshDisabled')
+                  }
+                </Typography.Text>
+              </Flex>
+            }
+            right={(
+              <Button
+                type="default"
+                onClick={() => listAbandondedController({ page: 1, page_size: 10 })}
+                icon={<Refresh />}
               />
-            </Flex>
-          )}
+            )}
+          />
+
+          <Table
+            dataSource={dataSource}
+            columns={columns}
+            style={{ width: '100%' }}
+          />
+        </Box>
       </Flex>
 
       <BaseModal
