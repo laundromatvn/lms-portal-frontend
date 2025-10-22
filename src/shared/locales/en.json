@@ -129,7 +129,14 @@
     "machines": "Machines",
     "tenantName": "Tenant Name",
     "storeName": "Store Name",
-    "controllerName": "Controller Name"
+    "controllerName": "Controller Name",
+    "machineConfig": "Machine Config",
+    "pendingSetup": "Pending Setup",
+    "idle": "Idle",
+    "starting": "Starting",
+    "busy": "Busy",
+    "outOfService": "Out of Service",
+    "controllerDetail": "Controller Detail"
   },
   "navigation": {
     "overview": "Overview",

@@ -8,18 +8,19 @@ import { useTheme } from '@shared/theme/useTheme';
 import { useGetMachineApi, type GetMachineResponse } from '@shared/hooks/useGetMachineApi';
 
 import { MachineTypeEnum } from '@shared/enums/MachineTypeEnum';
+import type { Machine } from '@shared/types/machine';
 
 import { Box } from '@shared/components/Box';
 import { useUpdateMachineApi, type UpdateMachineResponse } from '@shared/hooks/useUpdateMachineApi';
 import { MachineStatusEnum } from '@shared/enums/MachineStatusEnum';
 
 interface Props {
-  machineId: string;
+  machine: Machine;
   onSave?: () => void;
   onClose?: () => void;
 }
 
-export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, onClose }) => {
+export const MachineConfigModalContent: React.FC<Props> = ({ machine, onSave, onClose }) => {
   const theme = useTheme();
   const { t } = useTranslation();
 
@@ -42,16 +43,20 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
   } = useUpdateMachineApi<UpdateMachineResponse>();
 
   const handleSave = async () => {
-    await updateMachine(machineId, form.getFieldsValue())
+    await updateMachine(machine.id, form.getFieldsValue())
     onSave?.();
     onClose?.();
   }
 
   useEffect(() => {
-    if (machineId) {
-      getMachine(machineId);
+    if (machine.id) {
+      getMachine(machine.id);
     }
-  }, [machineId]);
+  }, [machine.id]);
+
+  useEffect(() => {
+    form.resetFields();
+  }, [machine.id, form]);
 
   useEffect(() => {
     if (machineError) {
@@ -80,7 +85,7 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
   useEffect(() => {
     if (machineData) {
       form.setFieldsValue({
-        machine_id: machineData.id,
+        machine_id: machine.id,
         name: machineData.name,
         machine_type: machineData.machine_type,
         base_price: machineData.base_price,
@@ -103,7 +108,7 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
         paddingRight: theme.custom.spacing.medium,
       }}
     >
-      <Typography.Title level={3}>Machine Config {machineId}</Typography.Title>
+      <Typography.Title level={3}>{t('common.machineConfig')}: {machine?.name || machine?.id}</Typography.Title>
 
       {contextHolder}
 
@@ -117,51 +122,42 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
         >
           <Form form={form} layout="vertical" style={{ width: '100%' }}>
             <Form.Item
-              label="Machine ID"
-              name="machine_id"
-              rules={[{ required: true, message: t('machine.machineIdRequired') }]}
-            >
-              <Input size="large" defaultValue={machineId} disabled />
-            </Form.Item>
-
-            <Form.Item
-              label="Status"
+              label={t('common.status')}
               name="status"
               rules={[{ required: true, message: t('machine.statusRequired') }]}
             >
               <Select
                 size="large"
-                disabled
                 options={[
-                  { label: 'Pending Setup', value: MachineStatusEnum.PENDING_SETUP },
-                  { label: 'Idle', value: MachineStatusEnum.IDLE },
-                  { label: 'Starting', value: MachineStatusEnum.STARTING },
-                  { label: 'Busy', value: MachineStatusEnum.BUSY },
-                  { label: 'Out of Service', value: MachineStatusEnum.OUT_OF_SERVICE },
+                  { label: t('common.pendingSetup'), value: MachineStatusEnum.PENDING_SETUP },
+                  { label: t('common.idle'), value: MachineStatusEnum.IDLE },
+                  { label: t('common.starting'), value: MachineStatusEnum.STARTING },
+                  { label: t('common.busy'), value: MachineStatusEnum.BUSY },
+                  { label: t('common.outOfService'), value: MachineStatusEnum.OUT_OF_SERVICE },
                 ]}
               />
             </Form.Item>
 
-            <Form.Item label="Machine Name" name="name">
+            <Form.Item label={t('common.name')} name="name">
               <Input size="large" />
             </Form.Item>
 
             <Form.Item
-              label="Machine Type"
+              label={t('common.machineType')}
               name="machine_type"
               rules={[{ required: true, message: t('machine.machineTypeRequired') }]}
             >
               <Select
                 size="large"
                 options={[
-                  { label: MachineTypeEnum.WASHER, value: MachineTypeEnum.WASHER },
-                  { label: MachineTypeEnum.DRYER, value: MachineTypeEnum.DRYER },
+                  { label: t('common.washer'), value: MachineTypeEnum.WASHER },
+                  { label: t('common.dryer'), value: MachineTypeEnum.DRYER },
                 ]}
               />
             </Form.Item>
 
             <Form.Item
-              label="Base Price"
+              label={t('common.basePrice')}
               name="base_price"
               rules={[
                 { required: true, message: t('machine.basePriceRequired') },
@@ -179,7 +175,7 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
             </Form.Item>
 
             <Form.Item
-              label="Pulse Duration"
+              label={t('common.pulseDuration')}
               name="pulse_duration"
               rules={[{ required: true, message: t('machine.pulseDurationRequired') }]}
             >
@@ -187,7 +183,7 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
             </Form.Item>
 
             <Form.Item
-              label="Coin Value"
+              label={t('common.coinValue')}
               name="coin_value"
               rules={[{ required: true, message: t('machine.coinValueRequired') }]}
             >

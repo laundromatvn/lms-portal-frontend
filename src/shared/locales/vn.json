@@ -129,7 +129,14 @@
     "machines": "Máy móc",
     "tenantName": "Tên Tenant",
     "storeName": "Tên cửa hàng",
-    "controllerName": "Tên Controller"
+    "controllerName": "Tên Controller",
+    "machineConfig": "Cấu hình máy",
+    "pendingSetup": "Chờ cấu hình",
+    "idle": "Đang trống",
+    "starting": "Đang khởi động",
+    "busy": "Đang sử dụng",
+    "outOfService": "Ngừng hoạt động",
+    "controllerDetail": "Chi tiết Controller"
   },
   "navigation": {
     "overview": "Tổng quan",

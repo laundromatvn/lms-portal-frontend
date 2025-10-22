@@ -15,7 +15,7 @@ import { type Controller } from '@shared/types/Controller';
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DetailSection } from './DetailSection';
-import { MachineListSection } from './MachineListSection';
+import { MachineListSectionV2 } from './MachineListSection';
 
 export const ControllerDetailPage: React.FC = () => {
   const { t } = useTranslation();
@@ -52,7 +52,7 @@ export const ControllerDetailPage: React.FC = () => {
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <Typography.Title level={2}>Controller Detail</Typography.Title>
+        <Typography.Title level={2}>{t('common.controllerDetail')}</Typography.Title>
 
         {controllerLoading && <Skeleton active />}
 
@@ -72,7 +72,7 @@ export const ControllerDetailPage: React.FC = () => {
         {!controllerLoading && controllerData && (
           <>
             <DetailSection controller={controllerData as Controller} />
-            <MachineListSection controller={controllerData as Controller} />
+            <MachineListSectionV2 controller={controllerData as Controller} />
           </>
         )}
       </Flex>
