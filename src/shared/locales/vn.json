@@ -26,7 +26,10 @@
     "information": "Thông tin",
     "thisNumberIsTheTotalActiveRelays": "Đây là tổng số relay hoạt động",
     "example": "Ví dụ, nếu bạn có {{totalRelays}} relay và bạn kích hoạt {{activeRelays}} relay thì tổng số relay (máy) hoạt động sẽ là {{activeRelays}}",
-    "theMachinesWillBeActivatedInTheOrder": "Các máy sẽ được kích hoạt theo thứ tự từ thấp đến cao ({{minRelayNumber}} đến {{maxRelayNumber}})"
+    "theMachinesWillBeActivatedInTheOrder": "Các máy sẽ được kích hoạt theo thứ tự từ thấp đến cao ({{minRelayNumber}} đến {{maxRelayNumber}})",
+    "deleteControllerSuccess": "Controller đã được xóa thành công",
+    "deleteControllerError": "Không thể xóa controller",
+    "deleteControllerConfirm": "Bạn có chắc chắn muốn xóa controller này không?"
   },
   "common": {
     "signIn": "Đăng nhập",
@@ -136,7 +139,8 @@
     "starting": "Đang khởi động",
     "busy": "Đang sử dụng",
     "outOfService": "Ngừng hoạt động",
-    "controllerDetail": "Chi tiết Controller"
+    "controllerDetail": "Chi tiết Controller",
+    "delete": "Xóa"
   },
   "navigation": {
     "overview": "Tổng quan",

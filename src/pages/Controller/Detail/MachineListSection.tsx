@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
-import { Button, Flex, Select, Table, Typography, notification } from 'antd';
+import { Button, Flex, Table, Typography, notification } from 'antd';
 
 import {
   Refresh,
@@ -38,9 +39,10 @@ interface Props {
   onSuccess?: () => void;
 }
 
-export const MachineListSectionV2: React.FC<Props> = ({ controller }) => {
+export const MachineListSection: React.FC<Props> = ({ controller }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -87,7 +89,7 @@ export const MachineListSectionV2: React.FC<Props> = ({ controller }) => {
     if (listMachineData) {
       setDataSource(listMachineData.data.map((item) => ({
         relay_no: item.relay_no,
-        name: item.name,
+        name: <Typography.Link onClick={() => navigate(`/machines/${item.id}/detail`)}>{item.name || '-'}</Typography.Link>,
         machine_type: item.machine_type,
         base_price: formatCurrencyCompact(item.base_price),
         status: item.status,

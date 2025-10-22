@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Button, Flex, Typography, Skeleton, notification } from 'antd';
+import { Button, Flex, Typography, Skeleton, notification, Popconfirm } from 'antd';
 
-import { ArrowLeft } from '@solar-icons/react';
+import { ArrowLeft, TrashBinTrash } from '@solar-icons/react';
 
 import { useGetControllerApi, type GetControllerResponse } from '@shared/hooks/useGetControllerApi';
+import { useDeleteControllerApi } from '@shared/hooks/useDeleteControllerApi';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -15,7 +16,7 @@ import { type Controller } from '@shared/types/Controller';
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DetailSection } from './DetailSection';
-import { MachineListSectionV2 } from './MachineListSection';
+import { MachineListSection } from './MachineListSection';
 
 export const ControllerDetailPage: React.FC = () => {
   const { t } = useTranslation();
@@ -32,6 +33,12 @@ export const ControllerDetailPage: React.FC = () => {
     loading: controllerLoading,
     error: controllerError,
   } = useGetControllerApi<GetControllerResponse>();
+  const {
+    deleteController,
+    data: deleteControllerData,
+    error: deleteControllerError,
+    loading: deleteControllerLoading,
+  } = useDeleteControllerApi<void>();
 
   useEffect(() => {
     if (controllerError) {
@@ -66,13 +73,32 @@ export const ControllerDetailPage: React.FC = () => {
               {t('common.back')}
             </Button>
           )}
-          right={null}
+          right={(
+            <Popconfirm
+              title={t('controller.deleteControllerConfirm')}
+              onConfirm={() => deleteController(controllerId as string)}
+              okText={t('common.delete')}
+              cancelText={t('common.cancel')}
+            >
+              <Button
+                danger
+                type="default"
+                loading={deleteControllerLoading}
+                style={{
+                  backgroundColor: theme.custom.colors.background.light,
+                }}
+              >
+                <TrashBinTrash weight="Outline" color={theme.custom.colors.danger.default} />
+                {t('common.delete')}
+              </Button>
+            </Popconfirm>
+          )}
         />
 
         {!controllerLoading && controllerData && (
           <>
             <DetailSection controller={controllerData as Controller} />
-            <MachineListSectionV2 controller={controllerData as Controller} />
+            <MachineListSection controller={controllerData as Controller} />
           </>
         )}
       </Flex>
