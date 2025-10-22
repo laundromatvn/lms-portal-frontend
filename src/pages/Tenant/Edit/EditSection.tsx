@@ -14,7 +14,7 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import { type Tenant } from '@shared/types/tenant';
 
-import { Box } from '@shared/components/Box';
+import { BaseEditSection } from '@shared/components/BaseEditSection';
 import { TenantStatusEnum } from '@shared/enums/TenantStatusEnum';
 
 interface Props {
@@ -39,9 +39,9 @@ export const EditSection: React.FC<Props> = ({ tenant, onSave }: Props) => {
       status: tenant.status,
     });
   }, [tenant]);
-
+  
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+    <BaseEditSection title={t('common.basicInformation')} onSave={() => onSave(form)}>
       <Form form={form} layout="vertical" style={{ width: '100%', maxWidth: 600 }}>
         <Form.Item
           label={t('common.tenantId')}
@@ -108,18 +108,7 @@ export const EditSection: React.FC<Props> = ({ tenant, onSave }: Props) => {
         >
           <InputNumber size="large" style={{ width: '100%' }} />
         </Form.Item>
-
-        <Form.Item style={{ width: '100%', textAlign: 'right' }}>
-          <Button
-            type="primary"
-            size="large"
-            style={{ minWidth: 128 }}
-            onClick={() => onSave(form)}
-          >
-            {t('common.save')}
-          </Button>
-        </Form.Item>
       </Form>
-    </Box>
+    </BaseEditSection>
   );
 };

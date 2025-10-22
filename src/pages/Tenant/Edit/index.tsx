@@ -11,6 +11,8 @@ import {
   type FormInstance,
 } from 'antd';
 
+import { ArrowLeft } from '@solar-icons/react';
+
 import { useTheme } from '@shared/theme/useTheme';
 
 import { type Tenant } from '@shared/types/tenant';
@@ -106,9 +108,10 @@ export const TenantEditPage: React.FC = () => {
         <LeftRightSection
           left={(
             <Button
-              type="default"
-              size="large"
-              onClick={() => navigate(`/tenants/profile`)}>
+              type="link"
+              onClick={() => navigate(-1)}
+              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
+            >
               {t('common.back')}
             </Button>
           )}

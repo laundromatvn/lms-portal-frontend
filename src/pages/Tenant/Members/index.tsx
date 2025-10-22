@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Flex, Typography, Table, Skeleton, notification } from 'antd';
 
 import {
-  Settings,
-  KeySquare2
+  AddCircle,
+  KeySquare2,
+  PenNewSquare,
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -22,6 +23,7 @@ import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { BaseModal } from '@shared/components/BaseModal';
+import { Box } from '@shared/components/Box';
 
 import { ConfigModalContent } from './ConfigModalContent';
 import { ResetPasswordModalContent } from './ResetPasswordModalContent';
@@ -52,12 +54,12 @@ export const TenantMemberListPage: React.FC = () => {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
   const columns = [
-    { title: 'ID', dataIndex: 'id', width: 400 },
-    { title: 'User Email', dataIndex: 'user_email', width: 400 },
-    { title: 'User Phone', dataIndex: 'user_phone', width: 400 },
-    { title: 'User Role', dataIndex: 'user_role', width: 400 },
-    { title: 'User Status', dataIndex: 'user_status', width: 400 },
-    { title: 'Actions', dataIndex: 'actions' },
+    { title: t('common.id'), dataIndex: 'id', width: 400 },
+    { title: t('common.email'), dataIndex: 'user_email', width: 400 },
+    { title: t('common.phone'), dataIndex: 'user_phone', width: 400 },
+    { title: t('common.role'), dataIndex: 'user_role', width: 400 },
+    { title: t('common.status'), dataIndex: 'user_status', width: 400 },
+    { title: t('common.actions'), dataIndex: 'actions' },
   ];
 
   const {
@@ -92,8 +94,11 @@ export const TenantMemberListPage: React.FC = () => {
                 setSelectedModalType(ModalType.CONFIG);
                 setSelectedUserId(item.user_id);
               }}
+              icon={<PenNewSquare size={18} />}
+              style={{
+                color: theme.custom.colors.info.default,
+              }}
             >
-              <Settings size={20} />
             </Button>
             <Button
               type="link"
@@ -102,9 +107,11 @@ export const TenantMemberListPage: React.FC = () => {
                 setSelectedModalType(ModalType.RESET_PASSWORD);
                 setSelectedUserId(item.user_id);
               }}
-            >
-              <KeySquare2 size={20} />
-            </Button>
+              icon={<KeySquare2 size={18} />}
+              style={{
+                color: theme.custom.colors.warning.default,
+              }}
+            />
           </Flex>
         ),
       })));
@@ -136,19 +143,18 @@ export const TenantMemberListPage: React.FC = () => {
       <Flex vertical style={{ height: '100%' }}>
         <Typography.Title level={2}>{t('navigation.tenantMembers')}</Typography.Title>
 
-        <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
+        <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
           <LeftRightSection
             left={null}
             right={(
               <Flex gap={theme.custom.spacing.medium}>
                 <Button
-                  type="default"
-                  size="large"
+                  type="primary"
                   onClick={() => {
                     setIsModalOpen(true);
                     setSelectedModalType(ModalType.CREATE_NEW_MEMBER);
                   }}
-                  style={{ minWidth: 128 }}
+                  icon={<AddCircle />}
                 >
                   {t('common.createNewMember')}
                 </Button>
@@ -176,7 +182,7 @@ export const TenantMemberListPage: React.FC = () => {
               />
             </Flex>
           )}
-        </Flex>
+        </Box>
       </Flex>
 
       <BaseModal
@@ -189,6 +195,12 @@ export const TenantMemberListPage: React.FC = () => {
           setSelectedUserId(null);
         }}
         maskClosable={true}
+        modalStyles={{
+          body: {
+            height: '100%',
+            overflowY: 'auto',
+          },
+        }}
       >
         {selectedModalType === ModalType.CONFIG && (
           <ConfigModalContent
@@ -218,7 +230,7 @@ export const TenantMemberListPage: React.FC = () => {
             setSelectedModalType(null);
             setSelectedUserId(null);
           }}
-        />
+          />
         )}
       </BaseModal>
     </PortalLayout>

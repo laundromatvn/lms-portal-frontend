@@ -18,6 +18,7 @@ import {
 } from '@shared/hooks/useUpdateUserApi';
 
 import { Box } from '@shared/components/Box';
+import { BaseEditSection } from '@shared/components/BaseEditSection';
 
 interface Props {
   user_id: string;
@@ -107,11 +108,7 @@ export const ConfigModalContent: React.FC<Props> = ({ user_id, onClose }) => {
 
       <Typography.Title level={3}>{t('common.userConfig')}</Typography.Title>
 
-      <Box
-        vertical
-        gap={theme.custom.spacing.medium}
-        style={{ width: '100%', height: '100%', overflowY: 'auto' }}
-      >
+      <BaseEditSection onSave={handleUpdateUser}>
         {userLoading && <Skeleton active />}
 
         {!userLoading && userData && (
@@ -169,22 +166,9 @@ export const ConfigModalContent: React.FC<Props> = ({ user_id, onClose }) => {
                 ]}
               />
             </Form.Item>
-
-            <Form.Item style={{ width: '100%', textAlign: 'right' }}>
-              <Button
-                type="primary"
-                htmlType="submit"
-                size="large"
-                loading={updateUserLoading}
-                style={{ minWidth: 128 }}
-                onClick={handleUpdateUser}
-              >
-                {t('common.update')}
-              </Button>
-            </Form.Item>
           </Form>
         )}
-      </Box>
+      </BaseEditSection>
     </Flex>
   );
 };

@@ -152,7 +152,9 @@
     "cancelPayment": "Hủy thanh toán",
     "paymentSuccess": "Thanh toán thành công",
     "paymentFailed": "Thanh toán thất bại",
-    "confirm": "Xác nhận"
+    "confirm": "Xác nhận",  
+    "tenantProfile": "Hồ sơ Tenant",  
+    "userResetPassword": "Đặt lại mật khẩu người dùng"
   },
   "navigation": {
     "overview": "Tổng quan",

@@ -18,6 +18,7 @@ import {
 } from '@shared/hooks/useResetPasswordApi';
 
 import { Box } from '@shared/components/Box';
+import { BaseEditSection } from '@shared/components/BaseEditSection';
 
 interface Props {
   user_id: string;
@@ -80,11 +81,7 @@ export const ResetPasswordModalContent: React.FC<Props> = ({ user_id, onClose })
 
       <Typography.Title level={3}>{t('common.userResetPassword')}</Typography.Title>
 
-      <Box
-        vertical
-        gap={theme.custom.spacing.medium}
-        style={{ width: '100%', height: '100%', overflowY: 'auto' }}
-      >
+      <BaseEditSection  onSave={handleResetPassword}>
         <Form
           style={{
             width: '100%',
@@ -139,21 +136,8 @@ export const ResetPasswordModalContent: React.FC<Props> = ({ user_id, onClose })
           >
             <Input.Password size="large" placeholder={t('common.passwordConfirm')}/>
           </Form.Item>
-
-          <Form.Item style={{ width: '100%', textAlign: 'right' }}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              size="large"
-              loading={userLoading}
-              style={{ minWidth: 128 }}
-              onClick={handleResetPassword}
-            >
-              {t('common.resetPassword')}
-            </Button>
-          </Form.Item>
         </Form>
-      </Box>
+      </BaseEditSection>
     </Flex>
   );
 };

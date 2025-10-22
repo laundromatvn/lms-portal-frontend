@@ -12,7 +12,7 @@ import LeftRightSection from '@shared/components/LeftRightSection';
 import { Box } from '@shared/components/Box';
 
 interface Props {
-  title: string;
+  title?: string;
   children: React.ReactNode;
   saveButtonText?: string;
   onSave: () => void;
@@ -30,9 +30,9 @@ export const BaseEditSection: React.FC<Props> = ({ title, children, saveButtonTe
           <Button
             type="link"
             onClick={onSave}
+            icon={<CheckCircle size={18} />}
           >
             {saveButtonText || t('common.save')}
-            <CheckCircle size={18} />
           </Button>
         )}
       />

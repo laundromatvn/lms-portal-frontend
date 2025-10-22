@@ -26,6 +26,7 @@ import {
 } from '@shared/hooks/useCreateUserApi';
 
 import { Box } from '@shared/components/Box';
+import { BaseEditSection } from '@shared/components/BaseEditSection';
 
 interface Props {
   tenant_id: string;
@@ -125,11 +126,7 @@ export const CreateNewMemberModalContent: React.FC<Props> = ({ tenant_id, onClos
 
       <Typography.Title level={3}>{t('common.createNewMember')}</Typography.Title>
 
-      <Box
-        vertical
-        gap={theme.custom.spacing.medium}
-        style={{ width: '100%', height: '100%', overflowY: 'auto' }}
-      >
+      <BaseEditSection onSave={handleCreateUser} saveButtonText={t('common.createNewMember')}>
         <Form
           style={{
             width: '100%',
@@ -229,21 +226,8 @@ export const CreateNewMemberModalContent: React.FC<Props> = ({ tenant_id, onClos
               ]}
             />
           </Form.Item>
-
-          <Form.Item style={{ width: '100%', textAlign: 'right' }}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              size="large"
-              style={{ minWidth: 128 }}
-              onClick={handleCreateUser}
-              loading={createUserLoading || createTenantMemberLoading}
-            >
-              {t('common.createNewMember')}
-            </Button>
-          </Form.Item>
         </Form>
-      </Box>
+      </BaseEditSection>
     </Flex>
   );
 };

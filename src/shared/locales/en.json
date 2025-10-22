@@ -152,7 +152,9 @@
     "cancelPayment": "Cancel Payment",
     "paymentSuccess": "Payment Success",
     "paymentFailed": "Payment Failed",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "tenantProfile": "Tenant Profile",
+    "userResetPassword": "User Reset Password"
   },
   "navigation": {
     "overview": "Overview",

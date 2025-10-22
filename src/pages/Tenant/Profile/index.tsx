@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 
-import { Button, Flex, Skeleton, Typography, notification } from 'antd';
+import { Flex, Skeleton, Typography, notification } from 'antd';
 
 import { tenantStorage } from '@core/storage/tenantStorage';
 
@@ -13,13 +12,11 @@ import { useTheme } from '@shared/theme/useTheme';
 import { useGetTenantApi } from '@shared/hooks/useGetTenantApi';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
-import LeftRightSection from '@shared/components/LeftRightSection';
 import { DetailSection } from './DetailSection';
 
 export const TenantProfilePage: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const navigate = useNavigate();
 
   const localTenant = tenantStorage.load();
   const [api, contextHolder] = notification.useNotification();
@@ -57,17 +54,6 @@ export const TenantProfilePage: React.FC = () => {
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
         <Typography.Title level={2}>{t('navigation.tenantProfile')}</Typography.Title>
-
-        <LeftRightSection
-          left={null}
-          right={(
-            <Flex gap={theme.custom.spacing.medium}>
-              <Button type="default" size="large" onClick={() => navigate(`/tenants/${getTenantData?.id}/edit`)}>
-                {t('common.edit')}
-              </Button>
-            </Flex>
-          )}
-        />
 
         {getTenantLoading && <Skeleton active />}
 
