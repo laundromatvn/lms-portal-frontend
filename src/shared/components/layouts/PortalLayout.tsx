@@ -7,6 +7,7 @@ import { useTheme } from '@shared/theme/useTheme';
 import { Sider } from '@shared/components/common/Sider';
 import { MobileHeader } from '@shared/components/common/MobileHeader';
 import { MobileDrawer } from '@shared/components/common/MobileDrawer';
+import { MobileFAB } from '@shared/components/common/MobileFAB';
 
 const { Content } = Layout;
 
@@ -67,7 +68,7 @@ export const PortalLayout: React.FC<Props> = ({ children, style }) => {
           width: '100%',
           height: '100vh',
           marginLeft: isMobile ? 0 : sidebarWidth,
-          marginTop: isMobile ? 0 : theme.custom.spacing.xxxlarge,
+          marginTop: isMobile ? theme.custom.spacing.large : theme.custom.spacing.xxxlarge,
           marginBottom: theme.custom.spacing.xxxlarge,
           padding: theme.custom.spacing.medium,
           backgroundColor: theme.custom.colors.background.surface,
@@ -80,10 +81,13 @@ export const PortalLayout: React.FC<Props> = ({ children, style }) => {
       </Content>
 
       {isMobile && (
-        <MobileDrawer
-          open={mobileDrawerOpen}
-          onClose={handleMobileDrawerClose}
-        />
+        <>
+          {!mobileDrawerOpen && <MobileFAB onClick={handleMobileMenuClick} />}
+          <MobileDrawer
+            open={mobileDrawerOpen}
+            onClose={handleMobileDrawerClose}
+          />
+        </>
       )}
     </Layout>
   );

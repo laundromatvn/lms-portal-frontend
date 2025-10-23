@@ -13,9 +13,10 @@ interface Props {
   rounded?: boolean;
   size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
   style?: React.CSSProperties;
+  titleStyle?: React.CSSProperties;
 }
 
-export const Logo: React.FC<Props> = ({ minimal = false, rounded = false, size = 'medium', style }) => {
+export const Logo: React.FC<Props> = ({ minimal = false, rounded = false, size = 'medium', style, titleStyle }) => {
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -69,6 +70,7 @@ export const Logo: React.FC<Props> = ({ minimal = false, rounded = false, size =
           style={{
             margin: 0,
             color: theme.custom.colors.primary.default,
+            ...titleStyle,
           }}
         >
           WashGo247

@@ -34,7 +34,7 @@ export const MobileHeader: React.FC<Props> = ({ onMenuClick }) => {
         zIndex: 1000,
       }}>
       <Flex
-        justify="space-between"
+        justify="center"
         align="center"
         style={{
           width: '100%',
@@ -42,39 +42,16 @@ export const MobileHeader: React.FC<Props> = ({ onMenuClick }) => {
           maxWidth: MAX_WIDTH,
           padding: `0 ${theme.custom.spacing.medium}px`,
         }}>
-
-        {/* Minimal Logo on Left */}
-        <Flex
-          justify="flex-start"
-          align="center"
-          style={{
-            height: '100%',
-          }}>
-          <Logo minimal rounded size="xsmall" />
-        </Flex>
-
-        {/* Menu Button on Right */}
-        <Flex
-          justify="flex-end"
-          align="center"
-          style={{
-            height: '100%',
-          }}>
-          <Button
-            type="text"
-            icon={<MenuOutlined />}
-            onClick={onMenuClick}
-            style={{
-              color: 'white',
-              fontSize: '18px',
-              height: '100%',
-              padding: '0 16px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          />
-        </Flex>
+        <Logo
+          rounded
+          size="xsmall"
+          style={{ backgroundColor: 'transparent', border: 'none' }}
+          titleStyle={{
+            color: 'white',
+            fontSize: 24,
+            fontWeight: 600,
+          }}
+        />
       </Flex>
     </AntdHeader>
   );
