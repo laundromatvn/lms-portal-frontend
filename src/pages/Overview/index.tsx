@@ -23,7 +23,7 @@ export const OverviewPage: React.FC = () => {
   return (
     <PortalLayout>
       <Flex vertical gap="large" style={{ width: '100%' }}>
-        <Typography.Title level={2}>{t('navigation.overview')}</Typography.Title>
+        {!isMobile && <Typography.Title level={2}>{t('navigation.overview')}</Typography.Title>}
 
         <KeyMetricsSection />
 
