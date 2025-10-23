@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Flex, Typography } from 'antd';
-
-import { useTheme } from '@shared/theme/useTheme';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 
@@ -16,7 +14,11 @@ import { MachineStatusLineChartSection } from './MachineStatusLineChartSection';
 
 export const OverviewPage: React.FC = () => {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   return (
     <PortalLayout>
@@ -29,11 +31,11 @@ export const OverviewPage: React.FC = () => {
 
         <RevenueByDayBarChartSection />
 
-        <StoreKeyMetricsSection />
+        {!isMobile && <StoreKeyMetricsSection />}
 
-        <OverviewOrderTableSection />
+        {!isMobile && <OverviewOrderTableSection />}
         
-        <MachineStatusLineChartSection />
+        {!isMobile && <MachineStatusLineChartSection />}
       </Flex>
     </PortalLayout>
   );
