@@ -172,7 +172,9 @@
     "registerAbandonedControllers": "Register Abandoned",
     "tenantProfile": "Tenant Profile",
     "tenantMembers": "Tenant Members",
-    "orderDetail": "Order Detail"
+    "orderDetail": "Order Detail",
+    "language": "Language",
+    "home": "Home"
   },
   "messages": {
     "incorrectCredentials": "Incorrect credentials",

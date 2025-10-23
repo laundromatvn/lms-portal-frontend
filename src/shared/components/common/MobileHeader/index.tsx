@@ -1,9 +1,6 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '@shared/theme/useTheme';
-
-import Flag from 'react-world-flags';
 
 import { Flex, Layout, Button } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
@@ -20,16 +17,6 @@ interface Props {
 
 export const MobileHeader: React.FC<Props> = ({ onMenuClick }) => {
   const theme = useTheme();
-  const { i18n } = useTranslation();
-
-  const flagStyle = {
-    width: 32,
-    height: 24,
-    borderRadius: 4,
-    cursor: 'pointer',
-    border: '2px solid #fff',
-    objectFit: 'cover' as React.CSSProperties['objectFit'],
-  };
 
   return (
     <AntdHeader
@@ -56,8 +43,19 @@ export const MobileHeader: React.FC<Props> = ({ onMenuClick }) => {
           padding: `0 ${theme.custom.spacing.medium}px`,
         }}>
 
+        {/* Minimal Logo on Left */}
         <Flex
           justify="flex-start"
+          align="center"
+          style={{
+            height: '100%',
+          }}>
+          <Logo minimal rounded size="xsmall" />
+        </Flex>
+
+        {/* Menu Button on Right */}
+        <Flex
+          justify="flex-end"
           align="center"
           style={{
             height: '100%',
@@ -76,42 +74,6 @@ export const MobileHeader: React.FC<Props> = ({ onMenuClick }) => {
               justifyContent: 'center',
             }}
           />
-        </Flex>
-
-        <Flex
-          justify="center"
-          align="center"
-          style={{
-            height: '100%',
-          }}>
-          <Logo size="small" />
-        </Flex>
-
-        <Flex
-          justify="flex-end"
-          align="center"
-          gap={theme.custom.spacing.xsmall}
-          style={{
-            height: '100%',
-          }}>
-          <Flag
-            code="vn"
-            style={{
-              ...flagStyle,
-              border: i18n.language === 'vn' ? '2px solid #fff' : 'none',
-            }}
-            onClick={() => {
-              i18n.changeLanguage('vn');
-            }} />
-          <Flag
-            code="gb"
-            style={{
-              ...flagStyle,
-              border: i18n.language === 'en' ? '2px solid #fff' : 'none',
-            }}
-            onClick={() => {
-              i18n.changeLanguage('en');
-            }} />
         </Flex>
       </Flex>
     </AntdHeader>

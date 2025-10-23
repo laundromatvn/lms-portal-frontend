@@ -172,7 +172,9 @@
     "registerAbandonedControllers": "Đăng ký",
     "tenantProfile": "Hồ sơ Tenant",
     "tenantMembers": "Thành viên Tenant",
-    "orderDetail": "Chi tiết đơn hàng"
+    "orderDetail": "Chi tiết đơn hàng",
+    "language": "Ngôn ngữ",
+    "home": "Trang chủ"
   },
   "messages": {
     "incorrectCredentials": "Thông tin đăng nhập không chính xác",

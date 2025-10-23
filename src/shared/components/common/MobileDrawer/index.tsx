@@ -12,6 +12,8 @@ import {
   type MenuProps,
 } from 'antd';
 
+import Flag from 'react-world-flags';
+
 import {
   Widget,
   Logout,
@@ -20,12 +22,11 @@ import {
   WashingMachine,
   Bill,
   Suitcase,
-  UsersGroupTwoRounded
+  UsersGroupTwoRounded,
+  Home
 } from '@solar-icons/react'
 
 import { useTheme } from '@shared/theme/useTheme';
-
-import { STORAGE_KEY as USER_STORAGE_KEY } from '@core/storage/userStorage';
 
 import { userStorage } from '@core/storage/userStorage';
 import { tenantStorage } from '@core/storage/tenantStorage';
@@ -49,7 +50,7 @@ interface Props {
 
 export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
   const theme = useTheme();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -129,7 +130,7 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
 
   useEffect(() => {
     const currentPath = location.pathname;
-    
+
     // Set main menu selection
     if (currentPath.startsWith('/overview')) {
       setSelectedMainKey('overview');
@@ -231,29 +232,20 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
             </Text>
           </Flex>
 
-          <Avatar
-            size={48}
-            style={{
-              backgroundColor: theme.custom.colors.primary.default,
-            }}
-          >
-            {user?.email?.charAt(0).toUpperCase()}
-          </Avatar>
+          {/* User Role Badge */}
+          {user?.role && (
+            <Flex
+              justify="center"
+              style={{
+                marginBottom: theme.custom.spacing.large,
+              }}
+            >
+              <DynamicTag
+                value={user.role}
+              />
+            </Flex>
+          )}
         </Flex>
-
-        {/* User Role Badge */}
-        {user?.role && (
-          <Flex
-            justify="center"
-            style={{
-              marginBottom: theme.custom.spacing.large,
-            }}
-          >
-            <DynamicTag
-              value={user.role === UserRoleEnum.TENANT_ADMIN ? t('roles.tenantAdmin') : t('roles.tenantStaff')}
-            />
-          </Flex>
-        )}
 
         {/* Menu */}
         <Flex
@@ -276,25 +268,100 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
           />
         </Flex>
 
-        {/* Logout Button */}
+        {/* Language Selection */}
         <Flex
           justify="center"
+          align="center"
+          gap={theme.custom.spacing.medium}
           style={{
             marginTop: theme.custom.spacing.large,
             paddingTop: theme.custom.spacing.medium,
             borderTop: `1px solid ${theme.custom.colors.neutral[200]}`,
           }}
         >
+          <Text
+            style={{
+              fontSize: 14,
+              color: theme.custom.colors.text.secondary,
+            }}
+          >
+            {t('navigation.language')}:
+          </Text>
+          <Flex gap={theme.custom.spacing.small}>
+            <Flag
+              code="vn"
+              style={{
+                width: 48,
+                height: 32,
+                borderRadius: 4,
+                cursor: 'pointer',
+                border: i18n.language === 'vn' ? '2px solid #1677ff' : '2px solid transparent',
+                objectFit: 'cover' as React.CSSProperties['objectFit'],
+              }}
+              onClick={() => {
+                i18n.changeLanguage('vn');
+              }}
+            />
+            <Flag
+              code="gb"
+              style={{
+                width: 48,
+                height: 32,
+                borderRadius: 4,
+                cursor: 'pointer',
+                border: i18n.language === 'en' ? '2px solid #1677ff' : '2px solid transparent',
+                objectFit: 'cover' as React.CSSProperties['objectFit'],
+              }}
+              onClick={() => {
+                i18n.changeLanguage('en');
+              }}
+            />
+          </Flex>
+        </Flex>
+
+        {/* Button Group */}
+        <Flex
+          justify="center"
+          gap={theme.custom.spacing.medium}
+          style={{
+            marginTop: theme.custom.spacing.medium,
+          }}
+        >
           <Button
-            type="text"
+            type="primary"
+            danger
             icon={<Logout />}
             onClick={handleLogout}
             style={{
-              color: theme.custom.colors.text.secondary,
+              width: '100%',
+              height: 48,
               fontSize: 16,
+              color: theme.custom.colors.danger.default,
+              padding: theme.custom.spacing.medium,
+              borderRadius: theme.custom.radius.full,
+              backgroundColor: theme.custom.colors.danger.light,
             }}
           >
             {t('navigation.logout')}
+          </Button>
+
+          <Button
+            type="primary"
+            icon={<Home />}
+            onClick={() => {
+              navigate('/overview');
+              onClose();
+            }}
+            style={{
+              width: '100%',
+              height: 48,
+              fontSize: 16,
+              color: theme.custom.colors.text.inverted,
+              padding: theme.custom.spacing.medium,
+              borderRadius: theme.custom.radius.full,
+            }}
+          >
+            {t('navigation.home')}
           </Button>
         </Flex>
       </Flex>
