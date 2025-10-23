@@ -30,45 +30,29 @@ export const MachineLiquidItem: React.FC<Props> = ({
 
   const percent = useMemo(() => Math.round((currentValue / totalValue) * 100) / 100, [currentValue, totalValue]);
 
-  const getFillColor = (percent: number) => {
-    if (percent < 0.2) {
-      return theme.custom.colors.danger.default;
-    }
-    if (percent > 0.5) {
-      return theme.custom.colors.success.default;
-    }
-    return theme.custom.colors.info.default;
-  };
-
-  const config = useMemo(() => ({
-    percent,
+  const config = {
     style: {
-      color: getFillColor(percent),
-      outlineBorder: 4,
+      outlineBorder: 2,
       outlineDistance: 4,
       waveLength: 64,
-      width: '100%',
+      width: 'calc(100% - 8px)',
       height: 'auto',
-      maxWidth: '200px',
-      maxHeight: '200px',
-    },
-    liquidStyle: ({ percent }: { percent: number }) => ({
-      fill: getFillColor(percent),
-      stroke: getFillColor(percent),
-    })
-  }), [percent]);
+      maxWidth: 256,
+      maxHeight: 256,
+    }
+  }
 
   return (
-    <Box vertical border align="space-between" justify="center" >
+    <Box vertical border align="space-between" justify="center" style={{ width: '100%' }}>
       <Typography.Text>{title}</Typography.Text>
 
       <Flex vertical align="center" justify="center" style={{ 
         width: '100%', 
         minHeight: 128,
-        height: 256,
-        overflow: 'hidden'
+        maxHeight: 256,
+        overflow: 'hidden',
       }}>
-        <Liquid {...config} />
+        <Liquid percent={percent} {...config} />
       </Flex>
 
       <Flex gap={theme.custom.spacing.small} justify="center" wrap="wrap" style={{ width: '100%', padding: '8px' }}>

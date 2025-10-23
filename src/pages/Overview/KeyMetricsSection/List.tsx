@@ -72,7 +72,7 @@ export const KeyMetricItemList: React.FC<Props> = ({ dashboardOverviewKeyMetrics
         />
       </Flex>
 
-      <Flex vertical={isMobile} wrap gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+      <Flex vertical={isMobile} gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
         <MachineLiquidItem
           title={t('overview.keyMetrics.totalWashers')}
           currentValue={dashboardOverviewKeyMetrics?.total_in_progress_washers || 0}
