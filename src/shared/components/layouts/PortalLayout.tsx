@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Layout } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 
 import { Sider } from '@shared/components/common/Sider';
+import { MobileHeader } from '@shared/components/common/MobileHeader';
+import { MobileDrawer } from '@shared/components/common/MobileDrawer';
 
 const { Content } = Layout;
 
@@ -16,8 +18,29 @@ interface Props {
 export const PortalLayout: React.FC<Props> = ({ children, style }) => {
   const theme = useTheme();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   const sidebarWidth = sidebarCollapsed ? 80 : 300;
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
+
+  const handleMobileMenuClick = () => {
+    setMobileDrawerOpen(true);
+  };
+
+  const handleMobileDrawerClose = () => {
+    setMobileDrawerOpen(false);
+  };
 
   return (
     <Layout
@@ -27,7 +50,11 @@ export const PortalLayout: React.FC<Props> = ({ children, style }) => {
         backgroundColor: theme.custom.colors.background.surface,
       }}
     >
-      <Sider onCollapseChange={setSidebarCollapsed} />
+      {!isMobile && <Sider onCollapseChange={setSidebarCollapsed} />}
+      
+      {isMobile && (
+        <MobileHeader onMenuClick={handleMobileMenuClick} />
+      )}
 
       <Content
         className="portal-content"
@@ -39,8 +66,8 @@ export const PortalLayout: React.FC<Props> = ({ children, style }) => {
           gap: theme.custom.spacing.medium,
           width: '100%',
           height: '100vh',
-          marginLeft: sidebarWidth,
-          marginTop: theme.custom.spacing.xxxlarge,
+          marginLeft: isMobile ? 0 : sidebarWidth,
+          marginTop: isMobile ? 0 : theme.custom.spacing.xxxlarge,
           marginBottom: theme.custom.spacing.xxxlarge,
           padding: theme.custom.spacing.medium,
           backgroundColor: theme.custom.colors.background.surface,
@@ -51,6 +78,13 @@ export const PortalLayout: React.FC<Props> = ({ children, style }) => {
       >
         {children}
       </Content>
+
+      {isMobile && (
+        <MobileDrawer
+          open={mobileDrawerOpen}
+          onClose={handleMobileDrawerClose}
+        />
+      )}
     </Layout>
   );
 };
