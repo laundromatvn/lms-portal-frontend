@@ -24,6 +24,19 @@ export const PortalLayout: React.FC<Props> = ({ children, style }) => {
 
   const sidebarWidth = sidebarCollapsed ? 80 : 300;
 
+  const desktopLayoutStyle = {
+    minHeight: '100vh',
+    width: '100vw',
+    backgroundColor: theme.custom.colors.background.surface,
+  };
+  const mobileLayoutStyle = {
+    minHeight: '100vh',
+    width: '100vw',
+    backgroundColor: theme.custom.colors.background.surface,
+    display: 'flex',
+    flexDirection: 'column',
+  };
+
   useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -45,11 +58,7 @@ export const PortalLayout: React.FC<Props> = ({ children, style }) => {
 
   return (
     <Layout
-      style={{
-        minHeight: '100vh',
-        width: '100vw',
-        backgroundColor: theme.custom.colors.background.surface,
-      }}
+      style={isMobile ? mobileLayoutStyle : desktopLayoutStyle}
     >
       {!isMobile && <Sider onCollapseChange={setSidebarCollapsed} />}
       
@@ -66,9 +75,9 @@ export const PortalLayout: React.FC<Props> = ({ children, style }) => {
           alignContent: 'flex-start',
           gap: theme.custom.spacing.medium,
           width: '100%',
-          height: '100vh',
+          height: isMobile ? 'calc(100vh - 64px)' : 'calc(100vh - 64px - 48px)',
           marginLeft: isMobile ? 0 : sidebarWidth,
-          marginTop: isMobile ? theme.custom.spacing.large : theme.custom.spacing.xxxlarge,
+          marginTop: isMobile ? 64 : theme.custom.spacing.xxxlarge,
           marginBottom: theme.custom.spacing.xxxlarge,
           padding: theme.custom.spacing.medium,
           backgroundColor: theme.custom.colors.background.surface,
@@ -83,6 +92,7 @@ export const PortalLayout: React.FC<Props> = ({ children, style }) => {
       {isMobile && (
         <>
           {!mobileDrawerOpen && <MobileFAB onClick={handleMobileMenuClick} />}
+
           <MobileDrawer
             open={mobileDrawerOpen}
             onClose={handleMobileDrawerClose}
