@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import { Button } from 'antd';
-import { MenuOutlined } from '@ant-design/icons';
+
+import { EmojiFunnyCircle } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -133,19 +134,19 @@ export const MobileFAB: React.FC<Props> = ({ onClick }) => {
         type="primary"
         shape="circle"
         size="large"
-        icon={<MenuOutlined />}
+        icon={<EmojiFunnyCircle size={36} weight="Bold" />}
         onClick={onClick}
         style={{
           width: 64,
           height: 64,
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
           border: 'none',
-          backgroundColor: theme.custom.colors.primary.default,
+          backgroundColor: theme.custom.colors.warning.default,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           fontSize: '20px',
-          color: 'white',
+          color: theme.custom.colors.text.inverted,
         }}
       />
     </div>
