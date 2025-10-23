@@ -255,7 +255,9 @@
       "revenueByDay": "Doanh thu theo ngày",
       "revenueByDayDescription": "Doanh thu theo ngày trong hệ thống",
       "revenueByMonth": "Doanh thu theo tháng",
-      "revenueByMonthDescription": "Doanh thu theo tháng trong hệ thống"
+      "revenueByMonthDescription": "Doanh thu theo tháng trong hệ thống",
+      "inProgressMachines": "Máy đang xử lý",
+      "totalMachines": "Tổng máy"
     },
     "totalOrdersByDay": {
       "title": "Tổng đơn hàng theo ngày",

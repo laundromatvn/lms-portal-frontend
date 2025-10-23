@@ -8,6 +8,7 @@ import { useTheme } from '@shared/theme/useTheme';
 import type { DashboardOverviewKeyMetrics } from '@shared/types/dashboard/DashboardOverviewKeyMetrics';
 
 import { KeyMetricItem } from './Item';
+import { MachineLiquidItem } from './MachineLiquidItem';
 
 import formatCurrencyCompact from '@shared/utils/currency';
 
@@ -33,9 +34,9 @@ export const KeyMetricItemList: React.FC<Props> = ({ dashboardOverviewKeyMetrics
 
   return (
     <Flex
+      vertical
       gap={theme.custom.spacing.medium}
       style={{ width: '100%' }}
-      vertical={isMobile}
     >
       <Flex vertical={isMobile} gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
         <KeyMetricItem
@@ -71,21 +72,21 @@ export const KeyMetricItemList: React.FC<Props> = ({ dashboardOverviewKeyMetrics
         />
       </Flex>
 
-      <Flex vertical={isMobile} gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-        <KeyMetricItem
+      <Flex vertical={isMobile} wrap gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+        <MachineLiquidItem
           title={t('overview.keyMetrics.totalWashers')}
-          unit={t('overview.keyMetrics.totalWashersUnit')}
-          value={`${dashboardOverviewKeyMetrics?.total_in_progress_washers || 0} / ${dashboardOverviewKeyMetrics?.total_washers || 0}`}
-          description={t('overview.keyMetrics.totalWashersDescription')}
-          style={{ width: '100%' }}
+          currentValue={dashboardOverviewKeyMetrics?.total_in_progress_washers || 0}
+          totalValue={dashboardOverviewKeyMetrics?.total_washers || 0}
+          currentLabel={t('overview.keyMetrics.inProgressMachines')}
+          totalLabel={t('overview.keyMetrics.totalMachines')}
         />
 
-        <KeyMetricItem
+        <MachineLiquidItem
           title={t('overview.keyMetrics.totalDryers')}
-          unit={t('overview.keyMetrics.totalDryersUnit')}
-          value={`${dashboardOverviewKeyMetrics?.total_in_progress_dryers || 0} / ${dashboardOverviewKeyMetrics?.total_dryers || 0}`}
-          description={t('overview.keyMetrics.totalDryersDescription')}
-          style={{ width: '100%' }}
+          currentValue={dashboardOverviewKeyMetrics?.total_in_progress_dryers || 0}
+          totalValue={dashboardOverviewKeyMetrics?.total_dryers || 0}
+          currentLabel={t('overview.keyMetrics.inProgressMachines')}
+          totalLabel={t('overview.keyMetrics.totalMachines')}
         />
       </Flex>
     </Flex>

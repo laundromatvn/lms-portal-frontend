@@ -258,7 +258,9 @@
       "revenueByDay": "Revenue By Day",
       "revenueByDayDescription": "Revenue by day in the system",
       "revenueByMonth": "Revenue By Month",
-      "revenueByMonthDescription": "Revenue by month in the system"
+      "revenueByMonthDescription": "Revenue by month in the system",
+      "inProgressMachines": "In Progress Machines",
+      "totalMachines": "Total Machines"
     },
     "totalOrdersByDay": {
       "title": "Total orders by day",
