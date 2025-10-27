@@ -7,11 +7,18 @@ import { type ApiState } from '@shared/hooks/types';
 import axiosClient from '@core/axiosClient';
 
 import { type Order } from '@shared/types/Order';
+import { OrderStatusEnum } from '@shared/enums/OrderStatusEnum';
+import { PaymentStatusEnum } from '@shared/enums/PaymentStatusEnum';
 
 export type ListOrderRequest = {
   tenant_id?: string;
+  status?: OrderStatusEnum;
+  payment_status?: PaymentStatusEnum;
+  query?: string;
   page: number;
   page_size: number;
+  order_by?: string;
+  order_direction?: 'asc' | 'desc';
 }
 
 export type ListOrderResponse = {
@@ -29,7 +36,7 @@ export const useListOrderApi = <T = ListOrderResponse>() => {
     error: null,
   });
 
-  const listOrder = useCallback(async ({ tenant_id, page = 1, page_size = 10 }: ListOrderRequest) => {
+  const listOrder = useCallback(async ({ tenant_id, status, payment_status, query, page = 1, page_size = 10, order_by, order_direction }: ListOrderRequest) => {
       setState(prevState => ({ ...prevState, loading: true, error: null }));
 
     const url = `${getBackendUrl()}/api/v1/order`
@@ -41,6 +48,26 @@ export const useListOrderApi = <T = ListOrderResponse>() => {
 
     if (tenant_id) {
       queryParams.tenant_id = tenant_id;
+    }
+
+    if (status) {
+      queryParams.status = status;
+    }
+
+    if (payment_status) {
+      queryParams.payment_status = payment_status;
+    }
+
+    if (query) {
+      queryParams.query = query;
+    }
+
+    if (order_by) {
+      queryParams.order_by = order_by;
+    }
+
+    if (order_direction) {
+      queryParams.order_direction = order_direction;
     }
 
     try {

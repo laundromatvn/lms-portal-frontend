@@ -10,17 +10,21 @@ import {
   Skeleton,
   notification,
   Popconfirm,
+  Input,
+  Select,
 } from 'antd';
 
 import {
   BillCheck,
   BillCross,
+  Refresh,
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
 import { tenantStorage } from '@core/storage/tenantStorage';
 
+import { useIsMobile } from '@shared/hooks/useIsMobile';
 import {
   useListOrderApi,
   type ListOrderResponse,
@@ -42,10 +46,14 @@ import { Box } from '@shared/components/Box';
 import { formatDateTime } from '@shared/utils/date';
 import { formatCurrencyCompact } from '@shared/utils/currency';
 
+import { OrderStatusEnum } from '@shared/enums/OrderStatusEnum';
+import { PaymentStatusEnum } from '@shared/enums/PaymentStatusEnum';
+
 export const OrderListPage: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -54,16 +62,111 @@ export const OrderListPage: React.FC = () => {
   const [tableData, setTableData] = useState<any[] | null>(null);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [searchText, setSearchText] = useState('');
+  const [searchError, setSearchError] = useState<string | undefined>();
+  const [statusFilter, setStatusFilter] = useState<string | undefined>();
+  const [paymentStatusFilter, setPaymentStatusFilter] = useState<string | undefined>();
+  const [orderBy, setOrderBy] = useState<string>('created_at');
+  const [orderDirection, setOrderDirection] = useState<string>('desc');
 
   const columns = [
-    { title: t('common.createdAt'), dataIndex: 'created_at', width: 72 },
-    { title: t('common.storeName'), dataIndex: 'store_name', width: 256 },
-    { title: t('common.transactionCode'), dataIndex: 'transaction_code', width: 128 },
-    { title: t('common.status'), dataIndex: 'status', width: 128, render: (text: string) => <DynamicTag value={text} /> },
-    { title: t('common.totalAmount'), dataIndex: 'total_amount', width: 128 },
-    { title: t('common.totalWasher'), dataIndex: 'total_washer', width: 128 },
-    { title: t('common.totalDryer'), dataIndex: 'total_dryer', width: 128 },
-    { title: t('common.actions'), dataIndex: 'actions' },
+    {
+      title: t('common.createdAt'),
+      dataIndex: 'created_at',
+      key: 'created_at',
+      width: 128,
+      sorter: true,
+      onSort: (column: string, direction: 'asc' | 'desc') => handleSort(column, direction),
+      render: (_: string, record: any) => formatDateTime(record.created_at)
+    },
+    {
+      title: t('common.storeName'),
+      dataIndex: 'store_name',
+      key: 'store_name',
+      width: 256,
+      render: (text: string, record: any) => <Typography.Link onClick={() => navigate(`/stores/${record.store_id}/detail`)}>{text}</Typography.Link>
+    },
+    {
+      title: t('common.transactionCode'),
+      dataIndex: 'transaction_code',
+      key: 'transaction_code',
+      width: 128,
+      render: (text: string, record: any) => <Typography.Link onClick={() => navigate(`/orders/${record.id}/detail`)}>{text}</Typography.Link>
+    },
+    {
+      title: t('common.status'),
+      dataIndex: 'status',
+      key: 'status',
+      width: 128,
+      sorter: true,
+      onSort: (column: string, direction: 'asc' | 'desc') => handleSort(column, direction),
+      render: (text: string) => <DynamicTag value={text} />
+    },
+    {
+      title: t('common.totalAmount'),
+      dataIndex: 'total_amount',
+      key: 'total_amount',
+      width: 128,
+      sorter: true,
+      onSort: (column: string, direction: 'asc' | 'desc') => handleSort(column, direction),
+      render: (text: string) => formatCurrencyCompact(text)
+    },
+    {
+      title: t('common.totalWasher'),
+      dataIndex: 'total_washer',
+      key: 'total_washer',
+      width: 128,
+      sorter: true,
+      onSort: (column: string, direction: 'asc' | 'desc') => handleSort(column, direction),
+      render: (text: string) => text
+    },
+    {
+      title: t('common.totalDryer'), dataIndex: 'total_dryer',
+      key: 'total_dryer',
+      width: 128,
+      sorter: true,
+      onSort: (column: string, direction: 'asc' | 'desc') => handleSort(column, direction),
+      render: (text: string) => text
+    },
+    {
+      title: t('common.actions'), dataIndex: 'actions', render: (_: string, record: any) => {
+        return (
+          <Flex gap={theme.custom.spacing.medium}>
+            <Popconfirm
+              title={t('common.pay')}
+              onConfirm={() => triggerPaymentSuccess(record.id)}
+              onCancel={() => triggerPaymentFailed(record.id)}
+              okText={t('common.confirm')}
+              cancelText={t('common.cancel')}
+            >
+              <Button
+                type="link"
+                icon={<BillCheck size={18} />}
+                style={{
+                  color: theme.custom.colors.success.default,
+                }}
+              />
+            </Popconfirm>
+
+            <Popconfirm
+              title={t('common.cancelPayment')}
+              onConfirm={() => triggerPaymentFailed(record.id)}
+              onCancel={() => triggerPaymentFailed(record.id)}
+              okText={t('common.confirm')}
+              cancelText={t('common.cancel')}
+            >
+              <Button
+                type="link"
+                icon={<BillCross size={18} />}
+                style={{
+                  color: theme.custom.colors.danger.default,
+                }}
+              />
+            </Popconfirm>
+          </Flex>
+        );
+      }
+    },
   ];
 
   const {
@@ -74,71 +177,75 @@ export const OrderListPage: React.FC = () => {
   } = useListOrderApi<ListOrderResponse>();
   const {
     data: triggerPaymentSuccessData,
-    loading: triggerPaymentSuccessLoading,
     error: triggerPaymentSuccessError,
     triggerPaymentSuccess,
   } = useTriggerPaymentSuccessApi<TriggerPaymentSuccessResponse>();
   const {
     data: triggerPaymentFailedData,
-    loading: triggerPaymentFailedLoading,
     error: triggerPaymentFailedError,
     triggerPaymentFailed,
   } = useTriggerPaymentFailedApi<TriggerPaymentFailedResponse>();
 
   const handleListOrder = async () => {
     if (tenant) {
-      listOrder({ page, page_size: pageSize, tenant_id: tenant.id });
+      listOrder({
+        page,
+        page_size: pageSize,
+        tenant_id: tenant.id,
+        status: statusFilter as OrderStatusEnum,
+        payment_status: paymentStatusFilter as PaymentStatusEnum,
+        query: searchText,
+        order_by: orderBy,
+        order_direction: orderDirection as 'asc' | 'desc',
+      });
     } else {
-      listOrder({ page, page_size: pageSize });
+      listOrder({
+        page,
+        page_size: pageSize,
+        status: statusFilter as OrderStatusEnum,
+        payment_status: paymentStatusFilter as PaymentStatusEnum,
+        query: searchText,
+        order_by: orderBy,
+        order_direction: orderDirection as 'asc' | 'desc',
+      });
     }
   }
+
+  const handleSearch = async (searchValue: string) => {
+    setSearchText(searchValue);
+  };
+
+  const handleClear = async () => {
+    setSearchText('');
+    setSearchError(undefined);
+    setStatusFilter(undefined);
+    setPaymentStatusFilter(undefined);
+  };
+
+  const handleStatusFilter = async (status: OrderStatusEnum) => {
+    setStatusFilter(status);
+  };
+
+  const handlePaymentStatusFilter = async (paymentStatus: PaymentStatusEnum) => {
+    setPaymentStatusFilter(paymentStatus);
+  };
+
+  const handleSort = async (column: string, direction: 'asc' | 'desc') => {
+    setOrderBy(column);
+    setOrderDirection(direction);
+  };
 
   useEffect(() => {
     if (listOrderData) {
       setTableData(listOrderData?.data.map((item) => ({
-        id: <Typography.Link onClick={() => navigate(`/orders/${item.id}/detail`)}>{item.id}</Typography.Link>,
-        created_at: formatDateTime(item.created_at),
-        transaction_code: <Typography.Link onClick={() => navigate(`/orders/${item.id}/detail`)}>{item.transaction_code}</Typography.Link>,
+        id: item.id,
+        created_at: item.created_at,
+        store_name: item.store_name,
+        transaction_code: item.transaction_code,
         status: item.status,
-        store_name: <Typography.Link onClick={() => navigate(`/stores/${item.store_id}/detail`)}>{item.store_name}</Typography.Link>,
-        total_amount: formatCurrencyCompact(item.total_amount),
+        total_amount: item.total_amount,
         total_washer: item.total_washer,
         total_dryer: item.total_dryer,
-        actions: (
-          <Flex gap={theme.custom.spacing.medium}>
-            <Popconfirm
-              title={t('common.pay')}
-              onConfirm={() => triggerPaymentSuccess(item.id)}
-              onCancel={() => triggerPaymentFailed(item.id)}
-              okText={t('common.confirm')}
-              cancelText={t('common.cancel')}
-            >
-            <Button
-              type="link"
-              icon={<BillCheck size={18} />}
-              style={{
-                color: theme.custom.colors.success.default,
-              }}
-            />
-            </Popconfirm>
-
-            <Popconfirm
-              title={t('common.cancelPayment')}
-              onConfirm={() => triggerPaymentFailed(item.id)}
-              onCancel={() => triggerPaymentFailed(item.id)}
-              okText={t('common.confirm')}
-              cancelText={t('common.cancel')}
-            >
-            <Button
-              type="link"
-              icon={<BillCross size={18} />}
-              style={{
-                color: theme.custom.colors.danger.default,
-              }}
-            />
-            </Popconfirm>
-          </Flex>
-        ),
       })));
     }
   }, [listOrderData]);
@@ -189,7 +296,7 @@ export const OrderListPage: React.FC = () => {
 
   useEffect(() => {
     handleListOrder();
-  }, [page, pageSize]);
+  }, [page, pageSize, statusFilter, paymentStatusFilter, searchText, orderBy, orderDirection]);
 
   return (
     <PortalLayout>
@@ -200,8 +307,54 @@ export const OrderListPage: React.FC = () => {
 
         <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
           <LeftRightSection
-            left={null}
-            right={null}
+            left={(
+              <Input.Search
+                placeholder={t('overview.orderTable.searchPlaceholder')}
+                value={searchText}
+                onChange={(e) => handleSearch(e.target.value)}
+                onSearch={handleSearch}
+                allowClear
+                onClear={handleClear}
+                status={searchError ? 'error' : undefined}
+                style={{ width: 200, marginBottom: theme.custom.spacing.small }}
+              />)}
+            right={(
+              <Flex vertical={isMobile} gap={theme.custom.spacing.small}>
+                <Button
+                  type="text"
+                  icon={<Refresh />}
+                  onClick={handleListOrder}
+                />
+
+                <Select
+                  placeholder={t('overview.orderTable.status')}
+                  style={{ width: 150 }}
+                  allowClear
+                  value={statusFilter}
+                  onChange={(value) => handleStatusFilter(value as OrderStatusEnum)}
+                >
+                  {Object.values(OrderStatusEnum).map((status) => (
+                    <Select.Option key={status} value={status} style={{ textAlign: 'left' }}>
+                      <DynamicTag value={status} />
+                    </Select.Option>
+                  ))}
+                </Select>
+
+                <Select
+                  placeholder={t('overview.orderTable.paymentStatus')}
+                  style={{ width: 180 }}
+                  allowClear
+                  value={paymentStatusFilter}
+                  onChange={(value) => handlePaymentStatusFilter(value as PaymentStatusEnum)}
+                >
+                  {Object.values(PaymentStatusEnum).map((status) => (
+                    <Select.Option key={status} value={status} style={{ textAlign: 'left' }}>
+                      <DynamicTag value={status} />
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Flex>
+            )}
           />
 
           {listOrderLoading && <Skeleton active />}
