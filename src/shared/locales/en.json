@@ -155,7 +155,10 @@
     "confirm": "Confirm",
     "tenantProfile": "Tenant Profile",
     "userResetPassword": "User Reset Password",
-    "orderList": "Order List"
+    "orderList": "Order List",
+    "orders": "Orders",
+    "paid": "Paid",
+    "notPaid": "Not Paid"
   },
   "navigation": {
     "overview": "Overview",

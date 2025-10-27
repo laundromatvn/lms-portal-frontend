@@ -1,9 +1,8 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
-import { Button, Typography } from 'antd';
+import { Button, Flex, Skeleton, Typography } from 'antd';
 
-import { PenNewSquare } from '@solar-icons/react';
+import { PenNewSquare, Refresh } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -15,17 +14,32 @@ interface Props {
   title: string;
   children: React.ReactNode;
   onEdit?: () => void;
+  onRefresh?: () => void;
+  loading?: boolean;
 }
 
-export const BaseDetailSection: React.FC<Props> = ({ title, children, onEdit }: Props) => {
-  const { t } = useTranslation();
+export const BaseDetailSection: React.FC<Props> = ({
+  title,
+  children,
+  onEdit,
+  onRefresh,
+  loading = false,
+}) => {
   const theme = useTheme();
 
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }} loading={loading}>
       <LeftRightSection
         left={<Typography.Title level={3}>{title}</Typography.Title>}
-        right={(<>
+        right={(<Flex justify="end" gap={theme.custom.spacing.small}>
+          {onRefresh && (
+            <Button
+              type="text"
+              onClick={onRefresh}
+              icon={<Refresh size={18} />}
+            />
+          )}
+
           {onEdit && (
             <Button
               type="link"
@@ -33,10 +47,10 @@ export const BaseDetailSection: React.FC<Props> = ({ title, children, onEdit }: 
               icon={<PenNewSquare size={18} />}
             />
           )}
-        </>)}
+        </Flex>)}
       />
 
-      {children}
+      {loading ? <Skeleton active /> : children}
     </Box>
   );
 };

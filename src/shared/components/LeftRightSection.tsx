@@ -3,6 +3,7 @@ import React from 'react';
 import { Flex } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 interface Props {
   left?: React.ReactNode;
@@ -27,17 +28,44 @@ export const LeftRightSection: React.FC<Props> = ({
 }) => {
   const theme = useTheme();
 
+  const isMobile = useIsMobile();
+
   const resolvedGap = gap ?? theme.custom.spacing.large;
 
   return (
     <Flex
-      align={align}
-      justify={justify}
+      vertical={isMobile}
+      align={isMobile ? 'flex-start' : align}
+      justify={isMobile ? 'flex-start' : justify}
       gap={resolvedGap}
       style={{ width: '100%', ...style }}
     >
-      <Flex justify="flex-start" align="center" style={{ flex: 1, ...leftStyle }}>{left}</Flex>
-      <Flex justify="flex-end" align="center" style={{ flex: 1, ...rightStyle }}>{right}</Flex>
+      <Flex
+        vertical={isMobile}
+        wrap={isMobile}
+        justify={isMobile ? 'flex-start' : 'flex-start'}
+        align={isMobile ? 'flex-start' : 'center'}
+        style={{
+          flex: 1,
+          ...leftStyle,
+          width: isMobile ? '100%' : 'auto',
+        }}
+      >
+        {left}
+      </Flex>
+      <Flex
+        vertical={isMobile}
+        wrap={isMobile}
+        justify={isMobile ? 'flex-end' : 'flex-end'}
+        align={isMobile ? 'flex-start' : 'center'}
+        style={{
+          flex: 1,
+          ...rightStyle,
+          width: isMobile ? '100%' : 'auto',
+        }}
+      >
+        {right}
+      </Flex>
     </Flex>
   );
 };

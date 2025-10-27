@@ -20,6 +20,8 @@ export type ListOverviewOrderRequest = {
   query?: string;
   order_by?: string;
   order_direction?: 'asc' | 'desc';
+  page?: number;
+  page_size?: number;
 }
 
 export type ListOverviewOrderResponse = {
@@ -37,12 +39,24 @@ export const useListOverviewOrderApi = <T = ListOverviewOrderResponse>() => {
     error: null,
   });
 
-  const listOverviewOrder = useCallback(async ({ tenant_id, store_id, status, start_date, end_date, payment_status, query, order_by, order_direction }: ListOverviewOrderRequest) => {
+  const listOverviewOrder = useCallback(async ({ tenant_id, store_id, status, start_date, end_date, payment_status, query, order_by, order_direction, page, page_size }: ListOverviewOrderRequest) => {
     setState(prevState => ({ ...prevState, loading: true, error: null }));
 
     const url = `${getBackendUrl()}/api/v1/dashboard/overview/order`
 
-    const queryParams = { tenant_id, store_id, status, start_date, end_date, payment_status, query, order_by, order_direction }
+    const queryParams = {
+      tenant_id,
+      store_id,
+      status,
+      start_date,
+      end_date,
+      payment_status,
+      query,
+      order_by,
+      order_direction,
+      page,
+      page_size,
+    }
 
     try {
       const response = await axiosClient.get<T>(url.replace(getBackendUrl(), ''), { params: queryParams })

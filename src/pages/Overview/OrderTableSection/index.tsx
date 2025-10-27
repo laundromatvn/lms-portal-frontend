@@ -1,12 +1,13 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Skeleton, Typography, Input, Flex, Select, Button } from 'antd';
+import { Typography, Input, Flex, Select, Button } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 
 import { tenantStorage } from '@core/storage/tenantStorage';
 import { useListOverviewOrderApi } from '@shared/hooks/dashboard/useListOverviewOrderApi';
+import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 import { Box } from '@shared/components/Box';
 import { OverviewOrderTable } from './Table';
@@ -25,7 +26,7 @@ interface Props {
 export const OverviewOrderTableSection: React.FC<Props> = ({ style }) => {
   const { t } = useTranslation();
   const theme = useTheme();
-
+  const isMobile = useIsMobile();
   const tenant = tenantStorage.load();
 
   const [searchText, setSearchText] = useState('');
@@ -136,7 +137,7 @@ export const OverviewOrderTableSection: React.FC<Props> = ({ style }) => {
             style={{ width: 200, marginBottom: theme.custom.spacing.small }}
           />)}
         right={(
-          <Flex gap={theme.custom.spacing.small}>
+          <Flex vertical={isMobile} gap={theme.custom.spacing.small}>
             <Button
               icon={<Refresh />}
               onClick={handleListOverviewOrder}
@@ -173,11 +174,11 @@ export const OverviewOrderTableSection: React.FC<Props> = ({ style }) => {
         )}
       />
 
-       <OverviewOrderTable
-         orders={orders}
-         loading={isTableLoading}
-         onSort={(column, direction) => handleSort(column, direction)}
-       />
+      <OverviewOrderTable
+        orders={orders}
+        loading={isTableLoading}
+        onSort={(column, direction) => handleSort(column, direction)}
+      />
     </Box>
   );
 };

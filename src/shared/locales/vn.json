@@ -155,7 +155,10 @@
     "confirm": "Xác nhận",  
     "tenantProfile": "Hồ sơ Tenant",  
     "userResetPassword": "Đặt lại mật khẩu người dùng",
-    "orderList": "Danh sách đơn hàng"
+    "orderList": "Danh sách đơn hàng",
+    "orders": "Đơn hàng",
+    "paid": "Đã thanh toán",
+    "notPaid": "Chưa thanh toán"
   },
   "navigation": {
     "overview": "Tổng quan",

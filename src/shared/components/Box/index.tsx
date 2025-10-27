@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
-import { Flex } from 'antd';
+import { Flex, Skeleton } from 'antd';
 
 interface Props {
   children: React.ReactNode;
@@ -12,9 +12,11 @@ interface Props {
   gap?: number;
   style?: React.CSSProperties;
   border?: boolean;
+  wrap?: boolean;
   onClick?: () => void;
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
+  loading?: boolean;
 }
 
 export const Box: React.FC<Props> = ({
@@ -25,9 +27,11 @@ export const Box: React.FC<Props> = ({
   gap,
   style,
   border = false,
+  wrap = false,
   onClick,
   onMouseEnter,
   onMouseLeave,
+  loading = false,
 }) => {
   const theme = useTheme();
 
@@ -36,6 +40,7 @@ export const Box: React.FC<Props> = ({
     justify={justify}
     align={align}
     gap={gap}
+    wrap={wrap}
     style={{
       padding: theme.custom.spacing.medium ,
       borderRadius: theme.custom.radius.medium,
@@ -49,6 +54,8 @@ export const Box: React.FC<Props> = ({
     onMouseEnter={onMouseEnter}
     onMouseLeave={onMouseLeave}
   >
-    {children}
+    {loading && <Skeleton active />}
+
+    {!loading && children}
   </Flex>;
 };

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { Layout } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 import { Sider } from '@shared/components/common/Sider';
 import { MobileHeader } from '@shared/components/common/MobileHeader';
@@ -18,8 +19,8 @@ interface Props {
 
 export const PortalLayout: React.FC<Props> = ({ children, style }) => {
   const theme = useTheme();
+  const isMobile = useIsMobile();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   const sidebarWidth = sidebarCollapsed ? 80 : 300;
@@ -36,17 +37,6 @@ export const PortalLayout: React.FC<Props> = ({ children, style }) => {
     display: 'flex',
     flexDirection: 'column',
   };
-
-  useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
-
-    return () => window.removeEventListener('resize', checkIsMobile);
-  }, []);
 
   const handleMobileMenuClick = () => {
     setMobileDrawerOpen(true);
