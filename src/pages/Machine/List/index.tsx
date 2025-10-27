@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Flex, Typography, Table, Skeleton, notification, Select, Input } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
-import { CheckCircle } from '@solar-icons/react';
+import { CheckCircle, Refresh } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -135,7 +135,7 @@ export const MachineListPage: React.FC = () => {
     listController,
   } = useListControllerApi<ListControllerResponse>();
 
-  const handleListMachine = () => {
+  const handleListMachine = async () => {
     listMachine({
       page,
       page_size: pageSize,
@@ -220,7 +220,7 @@ export const MachineListPage: React.FC = () => {
         message: t('messages.activateMachineSuccess'),
       });
 
-      listMachine({ page, page_size: pageSize });
+      handleListMachine();
     }
   }, [activateMachineData]);
 
@@ -241,11 +241,17 @@ export const MachineListPage: React.FC = () => {
       <Flex vertical style={{ height: '100%' }}>
         <Typography.Title level={2}>{t('common.machineList')}</Typography.Title>
 
-        <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
+        <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
           <LeftRightSection
             left={null}
             right={(
               <Flex gap={theme.custom.spacing.medium}>
+                <Button
+                  type="text"
+                  onClick={() => handleListMachine()}
+                  icon={<Refresh />}
+                />
+
                 <Select
                   options={[
                     { label: t('common.pendingSetup'), value: MachineStatusEnum.PENDING_SETUP as string },
@@ -323,7 +329,7 @@ export const MachineListPage: React.FC = () => {
               />
             </Box>
           )}
-        </Flex>
+        </Box>
       </Flex>
     </PortalLayout>
   );
