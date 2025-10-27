@@ -42,6 +42,12 @@ import {
   VerificationFailedPage,
 } from '@pages/Common';
 
+import {
+  UserProfilePage,
+  UserEditPage,
+  UserResetPasswordPage,
+} from '@pages/User';
+
 import { type Route } from './index';
 
 export const routes: Route[] = [
@@ -61,6 +67,19 @@ export const routes: Route[] = [
   {
     path: '/auth/verify-otp',
     component: <VerifyOTPPage />,
+  },
+  // User
+  {
+    path: '/user/profile',
+    component: <UserProfilePage />,
+  },
+  {
+    path: '/user/edit',
+    component: <UserEditPage />,
+  },
+  {
+    path: '/user/reset-password',
+    component: <UserResetPasswordPage />,
   },
   // Common
   {

@@ -159,7 +159,10 @@
     "orders": "Orders",
     "paid": "Paid",
     "notPaid": "Not Paid",
-    "syncUpOrder": "Sync Up"
+    "syncUpOrder": "Sync Up",
+    "userProfile": "User Profile",
+    "userPassword": "User Password",
+    "userEdit": "User Edit"
   },
   "navigation": {
     "overview": "Overview",
@@ -178,7 +181,8 @@
     "tenantMembers": "Tenant Members",
     "orderDetail": "Order Detail",
     "language": "Language",
-    "home": "Home"
+    "home": "Home",
+    "userProfile": "User Profile"
   },
   "messages": {
     "incorrectCredentials": "Incorrect credentials",
@@ -244,7 +248,15 @@
     "enterBasePrice": "Enter base price",
     "basePriceMustBeGreaterThanZero": "Base price must be greater than zero",
     "syncUpOrderSuccess": "Order synced up successfully",
-    "syncUpOrderError": "Failed to sync up order"
+    "syncUpOrderError": "Failed to sync up order",
+    "userPasswordIsRequired": "User password is required",
+    "userPasswordMustBeAtLeastEightCharacters": "User password must be at least 8 characters",
+    "userPasswordMustContainUppercase": "User password must contain at least one uppercase letter",
+    "userPasswordMustContainLowercase": "User password must contain at least one lowercase letter",
+    "userPasswordMustContainNumber": "User password must contain at least one number",
+    "userPasswordMustContainSpecialCharacter": "User password must contain at least one special character",
+    "userPasswordConfirmIsRequired": "User password confirmation is required",
+    "userPasswordConfirmMustBeAtLeastEightCharacters": "User password confirmation must be at least 8 characters"
   },
   "overview": {
     "keyMetrics": {

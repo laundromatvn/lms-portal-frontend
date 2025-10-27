@@ -9,8 +9,8 @@ import { type User } from '@shared/types/user';
 export type UpdateUserRequest = {
   name: string;
   phone: string;
-  role: string;
-  status: string;
+  role?: string;
+  status?: string;
 }
 
 export type UpdateUserResponse = User;
@@ -20,8 +20,8 @@ export async function updateUserApi(userId: string, request: UpdateUserRequest):
   const payload = {
     name: request.name,
     phone: request.phone,
-    role: request.role,
-    status: request.status,
+    role: request.role ?? undefined,
+    status: request.status ?? undefined,
   }
 
   const res = await axiosClient.patch<UpdateUserResponse>(url.replace(getBackendUrl(), ''), payload)

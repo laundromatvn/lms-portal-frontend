@@ -6,7 +6,6 @@ import {
   Drawer,
   Menu,
   Typography,
-  Avatar,
   Button,
   Flex,
   type MenuProps,
@@ -23,7 +22,8 @@ import {
   Bill,
   Suitcase,
   UsersGroupTwoRounded,
-  Home
+  Home,
+  User as UserIcon
 } from '@solar-icons/react'
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -119,6 +119,14 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
     },
   ];
 
+  const userProfileMenuItems: MenuItem[] = [
+    {
+      key: 'user/profile',
+      icon: <UserIcon />,
+      label: t('navigation.userProfile'),
+    },
+  ];
+
   useEffect(() => {
     const loadUserData = () => {
       const userData = userStorage.load();
@@ -172,6 +180,8 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
     } else if (user?.role === UserRoleEnum.TENANT_STAFF) {
       items.push(...tenantStaffManagementMenuItems);
     }
+
+    items.push(...userProfileMenuItems);
 
     return items;
   };

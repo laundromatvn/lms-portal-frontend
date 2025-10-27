@@ -22,7 +22,8 @@ import {
   WashingMachine,
   Bill,
   Suitcase,
-  UsersGroupTwoRounded
+  UsersGroupTwoRounded,
+  User as UserIcon
 } from '@solar-icons/react'
 
 import Flag from 'react-world-flags';
@@ -66,7 +67,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
 
   const [selectedMainKey, setSelectedMainKey] = useState<string | null>(null);
   const [selectedTenantKey, setSelectedTenantKey] = useState<string | null>(null);
-
+  const [selectedUserProfileKey, setSelectedUserProfileKey] = useState<string | null>(null);
   const mainMenuItems: MenuItem[] = [
     {
       key: 'overview',
@@ -123,6 +124,14 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'tenants/profile',
       icon: <Suitcase />,
       label: t('navigation.tenantProfile'),
+    },
+  ];
+
+  const userProfileMenuItems: MenuItem[] = [
+    {
+      key: 'user/profile',
+      icon: <UserIcon />,
+      label: t('navigation.userProfile'),
     },
   ];
 
@@ -327,9 +336,24 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
               }
             />
           )}
+
+          <Menu
+            selectedKeys={[selectedUserProfileKey || '']}
+            mode="inline"
+            onClick={(key) => {
+              setSelectedUserProfileKey(key.key as string);
+              navigate(`/${key.key}`);
+            }}
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              borderTop: `1px solid ${theme.custom.colors.neutral[200]}`,
+              marginTop: theme.custom.spacing.medium,
+            }}
+            items={userProfileMenuItems}
+          />
         </div>
 
-        {/* User Admin Section */}
         <div
           style={{
             borderTop: `1px solid ${theme.custom.colors.neutral[200]}`,
