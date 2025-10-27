@@ -31,7 +31,7 @@ export const ControllerAbandonedPage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [controllerId, setControllerId] = useState('');
   const [dataSource, setDataSource] = useState<any[]>([]);
-  const [autoRefresh, setAutoRefresh] = useState(true);
+  const [autoRefresh, setAutoRefresh] = useState(false);
 
   const columns = [
     { title: t('common.deviceId'), dataIndex: 'id', width: 128 },
