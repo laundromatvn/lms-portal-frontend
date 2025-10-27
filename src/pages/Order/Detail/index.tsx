@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button, Flex, Popconfirm, Skeleton, Typography, notification } from 'antd';
 
-import { ArrowLeft, BillCheck, BillCross } from '@solar-icons/react';
+import { ArrowLeft, BillCheck, BillCross, ListDown } from '@solar-icons/react';
 
 import { type Order } from '@shared/types/Order';
 
@@ -13,6 +13,7 @@ import { useTheme } from '@shared/theme/useTheme';
 import { useGetOrderApi } from '@shared/hooks/useGetOrderApi';
 import { useTriggerPaymentSuccessApi } from '@shared/hooks/useTriggerPaymentSuccessApi';
 import { useTriggerPaymentFailedApi } from '@shared/hooks/useTriggerPaymentFailedApi';
+import { useSyncUpOrderApi } from '@shared/hooks/useSyncUpOrderApi';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
@@ -37,16 +38,19 @@ export const OrderDetailPage: React.FC = () => {
   } = useGetOrderApi();
   const {
     data: triggerPaymentSuccessData,
-    loading: triggerPaymentSuccessLoading,
     error: triggerPaymentSuccessError,
     triggerPaymentSuccess,
   } = useTriggerPaymentSuccessApi();
   const {
     data: triggerPaymentFailedData,
-    loading: triggerPaymentFailedLoading,
     error: triggerPaymentFailedError,
     triggerPaymentFailed,
   } = useTriggerPaymentFailedApi();
+  const {
+    data: syncUpOrderData,
+    error: syncUpOrderError,
+    syncUpOrder,
+  } = useSyncUpOrderApi();
 
   useEffect(() => {
     if (orderId) {
@@ -110,6 +114,24 @@ export const OrderDetailPage: React.FC = () => {
     }
   }, [getOrderError]);
 
+  useEffect(() => {
+    if (syncUpOrderData) {
+      api.success({
+        message: t('messages.syncUpOrderSuccess'),
+      });
+
+      getOrder(getOrderData?.id as string);
+    }
+  }, [syncUpOrderData]);
+
+  useEffect(() => {
+    if (syncUpOrderError) {
+      api.error({
+        message: t('messages.syncUpOrderError'),
+      });
+    }
+  }, [syncUpOrderError]);
+
   return (
     <PortalLayout>
       {contextHolder}
@@ -129,6 +151,19 @@ export const OrderDetailPage: React.FC = () => {
           )}
           right={(
             <Flex gap={theme.custom.spacing.medium}>
+              <Button
+                type="default"
+                icon={<ListDown size={18} />}
+                style={{
+                  color: theme.custom.colors.primary.default,
+                  backgroundColor: theme.custom.colors.background.light,
+                  borderColor: theme.custom.colors.primary.default,
+                }}
+                onClick={() => syncUpOrder(orderId)}
+              >
+                {t('common.syncUpOrder')}
+              </Button>
+
               <Popconfirm
                 title={t('common.pay')}
                 onConfirm={() => triggerPaymentSuccess(orderId)}

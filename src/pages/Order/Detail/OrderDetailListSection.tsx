@@ -24,7 +24,6 @@ interface Props {
 
 export const OrderDetailListSection: React.FC<Props> = ({ order }) => {
   const { t } = useTranslation();
-  const theme = useTheme();
   const navigate = useNavigate();
 
   const [dataSource, setDataSource] = useState<any[]>([]);
@@ -48,7 +47,7 @@ export const OrderDetailListSection: React.FC<Props> = ({ order }) => {
     if (listOrderDetailData) {
       setDataSource(listOrderDetailData.data.map((item) => ({
         id: item.id,
-        machine_name: <Typography.Link onClick={() => navigate(`/machines/${item.machine_id}/detail`)}>{item.machine_name}</Typography.Link>,
+        machine_name: <Typography.Link onClick={() => navigate(`/machines/${item.machine_id}/detail`)}>{item.machine_name || '-'}</Typography.Link>,
         machine_type: <DynamicTag value={item.machine_type as string} />,
         price: formatCurrencyCompact(item.price),
         status: <DynamicTag value={item.status} />,

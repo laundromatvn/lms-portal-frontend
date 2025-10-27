@@ -158,7 +158,8 @@
     "orderList": "Order List",
     "orders": "Orders",
     "paid": "Paid",
-    "notPaid": "Not Paid"
+    "notPaid": "Not Paid",
+    "syncUpOrder": "Sync Up"
   },
   "navigation": {
     "overview": "Overview",
@@ -241,7 +242,9 @@
     "resetMachineSuccess": "Machine reset successfully",
     "resetMachineError": "Failed to reset machine",
     "enterBasePrice": "Enter base price",
-    "basePriceMustBeGreaterThanZero": "Base price must be greater than zero"
+    "basePriceMustBeGreaterThanZero": "Base price must be greater than zero",
+    "syncUpOrderSuccess": "Order synced up successfully",
+    "syncUpOrderError": "Failed to sync up order"
   },
   "overview": {
     "keyMetrics": {

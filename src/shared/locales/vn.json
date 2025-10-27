@@ -158,7 +158,8 @@
     "orderList": "Danh sách đơn hàng",
     "orders": "Đơn hàng",
     "paid": "Đã thanh toán",
-    "notPaid": "Chưa thanh toán"
+    "notPaid": "Chưa thanh toán",
+    "syncUpOrder": "Đồng bộ"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -238,7 +239,9 @@
     "resetMachineSuccess": "Máy đã được đặt lại thành công",
     "resetMachineError": "Không thể đặt lại máy",
     "enterBasePrice": "Nhập giá cơ bản",
-    "basePriceMustBeGreaterThanZero": "Giá cơ bản phải lớn hơn 0"
+    "basePriceMustBeGreaterThanZero": "Giá cơ bản phải lớn hơn 0",
+    "syncUpOrderSuccess": "Đơn hàng đã được đồng bộ thành công",
+    "syncUpOrderError": "Không thể đồng bộ đơn hàng"
   },
   "overview": {
     "keyMetrics": {
