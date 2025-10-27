@@ -241,6 +241,7 @@ export const OrderListPage: React.FC = () => {
         id: item.id,
         created_at: item.created_at,
         store_name: item.store_name,
+        store_id: item.store_id,
         transaction_code: item.transaction_code,
         status: item.status,
         total_amount: item.total_amount,
