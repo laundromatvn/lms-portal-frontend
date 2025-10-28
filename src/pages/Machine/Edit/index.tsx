@@ -60,6 +60,7 @@ export const MachineEditPage: React.FC = () => {
         base_price: form.getFieldValue('base_price'),
         status: form.getFieldValue('status'),
         pulse_duration: form.getFieldValue('pulse_duration'),
+        pulse_interval: form.getFieldValue('pulse_interval'),
         coin_value: form.getFieldValue('coin_value'),
       }
     );

@@ -91,6 +91,7 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machine, onSave, on
         base_price: machineData.base_price,
         status: machineData.status,
         pulse_duration: machineData.pulse_duration,
+        pulse_interval: machineData.pulse_interval,
         coin_value: machineData.coin_value,
       });
     }
@@ -178,6 +179,14 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machine, onSave, on
               label={t('common.pulseDuration')}
               name="pulse_duration"
               rules={[{ required: true, message: t('machine.pulseDurationRequired') }]}
+            >
+              <InputNumber size="large" style={{ width: '100%' }} />
+            </Form.Item>
+
+            <Form.Item
+              label={t('common.pulseInterval')}
+              name="pulse_interval"
+              rules={[{ required: true, message: t('machine.pulseIntervalRequired') }]}
             >
               <InputNumber size="large" style={{ width: '100%' }} />
             </Form.Item>

@@ -24,6 +24,7 @@ export const MachineConfigSection: React.FC<Props> = ({ machine }: Props) => {
       <DataWrapper title={t('common.machineType')} value={<DynamicTag value={machine.machine_type} />} />
       <DataWrapper title={t('common.basePrice')} value={formatCurrencyCompact(machine.base_price)} />
       <DataWrapper title={t('common.pulseDuration')} value={machine.pulse_duration} />
+      <DataWrapper title={t('common.pulseInterval')} value={machine.pulse_interval} />
       <DataWrapper title={t('common.coinValue')} value={machine.coin_value} />
     </BaseDetailSection>
   );

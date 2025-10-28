@@ -162,7 +162,8 @@
     "syncUpOrder": "Đồng bộ",
     "userProfile": "Hồ sơ người dùng",
     "userPassword": "Mật khẩu người dùng",
-    "userEdit": "Sửa hồ sơ người dùng"
+    "userEdit": "Sửa hồ sơ người dùng",
+    "pulseInterval": "Khoảng cách xung"
   },
   "navigation": {
     "overview": "Tổng quan",

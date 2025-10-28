@@ -162,7 +162,8 @@
     "syncUpOrder": "Sync Up",
     "userProfile": "User Profile",
     "userPassword": "User Password",
-    "userEdit": "User Edit"
+    "userEdit": "User Edit",
+    "pulseInterval": "Pulse Interval"
   },
   "navigation": {
     "overview": "Overview",

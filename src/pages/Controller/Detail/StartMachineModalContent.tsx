@@ -83,6 +83,10 @@ export const StartMachineModalContent: React.FC<Props> = ({ machine, onClose, on
             <Typography.Text strong>{t('common.pulseDuration')}:</Typography.Text>
             <Typography.Text>{machine.pulse_duration}ms</Typography.Text>
           </Flex>
+          <Flex justify="space-between">
+            <Typography.Text strong>{t('common.pulseInterval')}:</Typography.Text>
+            <Typography.Text>{machine.pulse_interval}ms</Typography.Text>
+          </Flex>
         </Flex>
       </Card>
 

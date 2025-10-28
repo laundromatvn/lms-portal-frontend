@@ -34,6 +34,7 @@ export const EditSection: React.FC<Props> = ({ machine, onSave }: Props) => {
       status: machine.status,
       relay_no: machine.relay_no,
       pulse_duration: machine.pulse_duration,
+      pulse_interval: machine.pulse_interval,
       coin_value: machine.coin_value,
     });
   }, [machine]);
@@ -73,6 +74,15 @@ export const EditSection: React.FC<Props> = ({ machine, onSave }: Props) => {
           name="pulse_duration"
           style={{ width: '100%' }}
           rules={[{ required: true, message: t('common.pulseDurationIsRequired') }]}
+        >
+          <InputNumber size="large" style={{ width: '100%' }} />
+        </Form.Item>
+
+        <Form.Item
+          label={t('common.pulseInterval')}
+          name="pulse_interval"
+          style={{ width: '100%' }}
+          rules={[{ required: true, message: t('common.pulseIntervalIsRequired') }]}
         >
           <InputNumber size="large" style={{ width: '100%' }} />
         </Form.Item>
@@ -122,21 +132,21 @@ export const EditSection: React.FC<Props> = ({ machine, onSave }: Props) => {
         </Form.Item>
 
         <Form.Item
-            label={t('common.basePrice')}
-            name="base_price"
-            style={{ width: '100%' }}
-            rules={[
-              { required: true, message: t('messages.basePriceIsRequired') },
-              {
-                validator: (_, value) => {
-                  if (value <= 0) {
-                    return Promise.reject(new Error(t('messages.basePriceMustBeGreaterThanZero')));
-                  }
-                  return Promise.resolve();
+          label={t('common.basePrice')}
+          name="base_price"
+          style={{ width: '100%' }}
+          rules={[
+            { required: true, message: t('messages.basePriceIsRequired') },
+            {
+              validator: (_, value) => {
+                if (value <= 0) {
+                  return Promise.reject(new Error(t('messages.basePriceMustBeGreaterThanZero')));
                 }
+                return Promise.resolve();
               }
-            ]}
-          >
+            }
+          ]}
+        >
           <InputNumber
             size="large"
             style={{ width: '100%' }}

@@ -13,6 +13,7 @@ export type UpdateMachineRequest = {
   base_price: string;
   status: string;
   pulse_duration: number;
+  pulse_interval: number;
   coin_value: number;
 }
 
@@ -26,6 +27,7 @@ export async function updateMachineApi(machine_id: string, payload: UpdateMachin
     base_price: payload.base_price,
     status: payload.status,
     pulse_duration: payload.pulse_duration,
+    pulse_interval: payload.pulse_interval,
     coin_value: payload.coin_value,
   }
   const res = await axiosClient.patch<UpdateMachineResponse>(url.replace(getBackendUrl(), ''), body)
