@@ -177,7 +177,18 @@
     "conditions": "Conditions",
     "rewards": "Rewards",
     "limits": "Limits",
-    "promotionDetails": "Promotion Details"
+    "promotionDetails": "Promotion Details",
+    "addCondition": "Add Condition",
+    "addReward": "Add Reward",
+    "addLimit": "Add Limit",
+    "type": "Type",
+    "operator": "Operator",
+    "value": "Value",
+    "unit": "Unit",
+    "typeIsRequired": "Type is required",
+    "operatorIsRequired": "Operator is required",
+    "valueIsRequired": "Value is required",
+    "unitIsRequired": "Unit is required"
   },
   "navigation": {
     "overview": "Overview",

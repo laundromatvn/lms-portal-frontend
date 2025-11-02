@@ -1,0 +1,124 @@
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { Button, Flex } from 'antd';
+
+import {
+  CheckCircle,
+  AddCircle,
+} from '@solar-icons/react';
+
+import { useTheme } from '@shared/theme/useTheme';
+
+import { type PromotionCondition } from '@shared/types/promotion/PromotionCondition';
+
+import {
+  ConditionItemCard,
+  ConditionModalContent,
+  PromotionBaseHeader,
+} from '../../components';
+import { BaseModal } from '@shared/components/BaseModal';
+
+interface Props {
+  conditions: PromotionCondition[];
+  onChange: (conditions: PromotionCondition[]) => void;
+}
+
+export const ConditionEditSection: React.FC<Props> = ({ conditions, onChange }: Props) => {
+  const { t } = useTranslation();
+  const theme = useTheme();
+
+  const primaryColor = theme.custom.colors.info.default;
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectedConditionIndex, setSelectedConditionIndex] = useState<number | undefined>(undefined);
+  const [selectedCondition, setSelectedCondition] = useState<PromotionCondition | undefined>(undefined);
+
+  const handleOnDelete = (condition: PromotionCondition) => {
+    onChange(conditions.filter((c) => {
+      return c.type !== condition.type || c.operator !== condition.operator || c.value !== condition.value;
+    }));
+  };
+
+  const handleOnEdit = (index: number, condition: PromotionCondition) => {
+    const newConditions = [...conditions];
+    newConditions[index] = condition;
+    onChange(newConditions); 
+  };
+  
+  const handleOnAdd = (condition: PromotionCondition) => {
+    onChange([...conditions, condition]);
+  };
+
+  const onOpenEdit = (index: number, condition: PromotionCondition) => {
+    setSelectedConditionIndex(index);
+    setSelectedCondition(condition);
+    setShowModal(true);
+  };
+
+  const onOpenAdd = () => {
+    setSelectedCondition(undefined);
+    setShowModal(true);
+  };
+
+  return (
+    <Flex vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+      <PromotionBaseHeader
+        title={t('common.conditions')}
+        icon={<CheckCircle weight='BoldDuotone' size={24} color={primaryColor} />}
+        style={{ marginBottom: theme.custom.spacing.small }}
+      />
+
+      {conditions.map((condition, index) => (
+        <ConditionItemCard
+          key={index}
+          condition={condition}
+          onEdit={() => onOpenEdit(index, condition)}
+          onDelete={() => handleOnDelete(condition)}
+        />
+      ))}
+
+      <Button
+        type="dashed"
+        icon={<AddCircle weight='Outline' size={18} color={primaryColor} />}
+        onClick={onOpenAdd}
+        style={{ width: '100%' }}
+      >
+        {t('common.addCondition')}
+      </Button>
+
+      <BaseModal
+        isModalOpen={showModal}
+        setIsModalOpen={setShowModal}
+        onCancel={() => setShowModal(false)}
+      >
+        {selectedCondition ? (
+          <ConditionModalContent
+            index={selectedConditionIndex}
+            condition={selectedCondition}
+            onSave={(index, condition) => {
+              if (index === undefined) return;
+
+              handleOnEdit(index, condition);
+              setShowModal(false);
+            }}
+            onCancel={() => {
+              setShowModal(false);
+              setSelectedCondition(undefined);
+            }}
+          />
+        ) : (
+          <ConditionModalContent
+            onSave={(_, condition) => {
+              handleOnAdd(condition);
+              setShowModal(false);
+            }}
+            onCancel={() => {
+              setShowModal(false);
+            }}
+          />
+        )}
+      </BaseModal>
+    </Flex>
+  );
+};

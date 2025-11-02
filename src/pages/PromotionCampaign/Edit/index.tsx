@@ -30,6 +30,7 @@ import { type PromotionCampaign } from '@shared/types/promotion/PromotionCampaig
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { EditSection } from './EditSection';
+import { PromotionDetailEditSection } from './PromotionDetailEditSection';
 
 export const PromotionCampaignEditPage: React.FC = () => {
   const { t } = useTranslation();
@@ -55,20 +56,19 @@ export const PromotionCampaignEditPage: React.FC = () => {
   const onSave = (form: FormInstance) => {
     const startTime = form.getFieldValue('start_time');
     const endTime = form.getFieldValue('end_time');
-    
-    updatePromotionCampaign(
-      promotionCampaignId,
-      {
-        name: form.getFieldValue('name'),
-        description: form.getFieldValue('description'),
-        status: form.getFieldValue('status'),
-        start_time: startTime ? dayjs(startTime).format('YYYY-MM-DD HH:mm:ss') : '',
-        end_time: endTime ? dayjs(endTime).format('YYYY-MM-DD HH:mm:ss') : '',
-        conditions: form.getFieldValue('conditions'),
-        rewards: form.getFieldValue('rewards'),
-        limits: form.getFieldValue('limits'),
-      }
-    );
+
+    const payload = {
+      name: form.getFieldValue('name'),
+      description: form.getFieldValue('description'),
+      status: form.getFieldValue('status'),
+      start_time: startTime ? dayjs(startTime).format('YYYY-MM-DD HH:mm:ss') : '',
+      end_time: endTime ? dayjs(endTime).format('YYYY-MM-DD HH:mm:ss') : '',
+      conditions: form.getFieldValue('conditions'),
+      rewards: form.getFieldValue('rewards'),
+      limits: form.getFieldValue('limits'),
+    }
+
+    updatePromotionCampaign(promotionCampaignId, payload);
   }
 
   useEffect(() => {
@@ -128,6 +128,10 @@ export const PromotionCampaignEditPage: React.FC = () => {
         {!promotionCampaignLoading && promotionCampaignData && (
           <>
             <EditSection
+              promotionCampaign={promotionCampaignData as PromotionCampaign}
+              onSave={onSave}
+            />
+            <PromotionDetailEditSection
               promotionCampaign={promotionCampaignData as PromotionCampaign}
               onSave={onSave}
             />

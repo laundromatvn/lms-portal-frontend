@@ -1,8 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 
-import { Flex, Typography } from 'antd';
+import { Flex } from 'antd';
 
 import { CloseCircle } from '@solar-icons/react';
 
@@ -10,8 +9,8 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import { type PromotionLimit } from '@shared/types/promotion/PromotionLimit';
 
-import { PromotionBaseHeader } from './components/PromotionBaseHeader';
-import { PromotionBaseCard } from './components/PromotionBaseCard';
+import { PromotionBaseHeader } from '../components/PromotionBaseHeader';
+import { LimitItemCard } from '../components/LimitItemCard';
 
 interface Props {
   limits: PromotionLimit[];
@@ -20,10 +19,8 @@ interface Props {
 export const LimitDetailSection: React.FC<Props> = ({ limits }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const navigate = useNavigate();
 
   const primaryColor = theme.custom.colors.danger.default;
-  const lightColor = theme.custom.colors.danger.light;
 
   return (
     <Flex vertical gap={theme.custom.spacing.small} style={{ width: '100%' }}>
@@ -33,22 +30,8 @@ export const LimitDetailSection: React.FC<Props> = ({ limits }: Props) => {
         style={{ marginBottom: theme.custom.spacing.small }}
       />
 
-      {limits.map((limit) => (
-        <PromotionBaseCard
-          title={t(`promotionCampaign.limit_types.${limit.type}`)}
-          onEdit={() => {}}
-          onDelete={() => {}}
-          style={{
-            backgroundColor: lightColor,
-            color: primaryColor,
-            borderColor: primaryColor,
-            borderLeft: `4px solid ${primaryColor}`,
-          }}
-        >
-          <Typography.Text>
-            {limit.value} {limit.unit && `(${t(`promotionCampaign.unit.${limit.unit}`)})`}
-          </Typography.Text>
-        </PromotionBaseCard>
+      {limits.map((limit, index) => (
+        <LimitItemCard key={index} limit={limit} />
       ))}
     </Flex>
   );

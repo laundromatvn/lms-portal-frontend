@@ -25,10 +25,21 @@ export const PromotionDetailSection: React.FC<Props> = ({ promotionCampaign }: P
   const navigate = useNavigate();
 
   return (
-    <BaseDetailSection title={t('common.promotionDetails')}>
-      {promotionCampaign.conditions.length > 0 && <ConditionDetailSection conditions={promotionCampaign.conditions as PromotionCondition[]} />}
-      {promotionCampaign.rewards.length > 0 && <RewardDetailSection rewards={promotionCampaign.rewards as PromotionReward[]} />}
-      {promotionCampaign.limits.length > 0 && <LimitDetailSection limits={promotionCampaign.limits as PromotionLimit[]} />}
+    <BaseDetailSection
+      title={t('common.promotionDetails')}
+      onEdit={() => navigate(`/promotion-campaigns/${promotionCampaign.id}/edit`)}
+    >
+      {promotionCampaign.conditions.length > 0 && (
+        <ConditionDetailSection conditions={promotionCampaign.conditions} />
+      )}
+
+      {promotionCampaign.rewards.length > 0 && (
+        <RewardDetailSection rewards={promotionCampaign.rewards} />
+      )}
+
+      {promotionCampaign.limits.length > 0 && (
+        <LimitDetailSection limits={promotionCampaign.limits} />
+      )}
     </BaseDetailSection>
   );
 };

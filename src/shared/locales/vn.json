@@ -177,7 +177,18 @@
     "conditions": "Điều kiện",
     "rewards": "Phần thưởng",
     "limits": "Giới hạn",
-    "promotionDetails": "Chi tiết khuyến mãi"
+    "promotionDetails": "Chi tiết khuyến mãi",
+    "addCondition": "Thêm điều kiện",
+    "addReward": "Thêm phần thưởng",
+    "addLimit": "Thêm giới hạn",
+    "type": "Loại",
+    "operator": "Toán tử",
+    "value": "Giá trị",
+    "unit": "Đơn vị",
+    "typeIsRequired": "Loại là bắt buộc",
+    "operatorIsRequired": "Toán tử là bắt buộc",
+    "valueIsRequired": "Giá trị là bắt buộc",
+    "unitIsRequired": "Đơn vị là bắt buộc"
   },
   "navigation": {
     "overview": "Tổng quan",
