@@ -51,6 +51,7 @@ import {
 import {
   PromotionCampaignListPage,
   PromotionCampaignDetailPage,
+  PromotionCampaignEditPage,
 } from '@pages/PromotionCampaign';
 
 import { type Route } from './index';
@@ -177,5 +178,9 @@ export const routes: Route[] = [
   {
     path: '/promotion-campaigns/:id/detail',
     component: <PromotionCampaignDetailPage />,
+  },
+  {
+    path: '/promotion-campaigns/:id/edit',
+    component: <PromotionCampaignEditPage />,
   },
 ];

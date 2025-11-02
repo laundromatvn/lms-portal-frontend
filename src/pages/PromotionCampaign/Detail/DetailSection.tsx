@@ -2,8 +2,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Typography } from 'antd';
-
 import { useTheme } from '@shared/theme/useTheme';
 
 import { type PromotionCampaign } from '@shared/types/promotion/PromotionCampaign';
@@ -24,8 +22,11 @@ export const DetailSection: React.FC<Props> = ({ promotionCampaign }: Props) => 
   const navigate = useNavigate();
 
   return (
-    <BaseDetailSection title={t('common.basicInformation')}>
-        <DataWrapper title={t('common.name')} value={promotionCampaign.name || '-'} />
+    <BaseDetailSection
+      title={t('common.basicInformation')}
+      onEdit={() => navigate(`/promotion-campaigns/${promotionCampaign.id}/edit`)}
+    >
+      <DataWrapper title={t('common.name')} value={promotionCampaign.name || '-'} />
       <DataWrapper title={t('common.description')} value={promotionCampaign.description || '-'} />
       <DataWrapper title={t('common.status')} >
         <DynamicTag value={promotionCampaign.status} />

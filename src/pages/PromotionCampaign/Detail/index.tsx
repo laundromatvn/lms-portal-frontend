@@ -14,6 +14,7 @@ import { useGetPromotionCampaignApi } from '@shared/hooks/useGetPromotionCampaig
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 
 import { DetailSection } from './DetailSection';
+import { PromotionDetailSection } from './PromotionDetailSection';
 
 export const PromotionCampaignDetailPage: React.FC = () => {
   const { t } = useTranslation();
@@ -49,6 +50,8 @@ export const PromotionCampaignDetailPage: React.FC = () => {
         {!getPromotionCampaignLoading && getPromotionCampaignData && (
           <>
             <DetailSection promotionCampaign={getPromotionCampaignData as PromotionCampaign} />
+
+            <PromotionDetailSection promotionCampaign={getPromotionCampaignData as PromotionCampaign} />
           </>
         )}
       </Flex>

@@ -135,6 +135,9 @@
     "controllerName": "Tên Controller",
     "machineConfig": "Cấu hình máy",
     "pendingSetup": "Chờ cấu hình",
+    "draft": "Bản nháp",
+    "scheduled": "Đã lên lịch",
+    "paused": "Đã tạm dừng",
     "idle": "Đang trống",
     "starting": "Đang khởi động",
     "busy": "Đang sử dụng",
@@ -152,8 +155,8 @@
     "cancelPayment": "Hủy thanh toán",
     "paymentSuccess": "Thanh toán thành công",
     "paymentFailed": "Thanh toán thất bại",
-    "confirm": "Xác nhận",  
-    "tenantProfile": "Hồ sơ Tenant",  
+    "confirm": "Xác nhận",
+    "tenantProfile": "Hồ sơ Tenant",
     "userResetPassword": "Đặt lại mật khẩu người dùng",
     "orderList": "Danh sách đơn hàng",
     "orders": "Đơn hàng",
@@ -164,12 +167,17 @@
     "userPassword": "Mật khẩu người dùng",
     "userEdit": "Sửa hồ sơ người dùng",
     "pulseInterval": "Khoảng cách xung",
-    "promotionCampaign": "Chiến dịch khuyến mãi",
+    "promotionCampaign": "Chương trình khuyến mãi",
     "storeList": "Danh sách cửa hàng",
     "description": "Mô tả",
     "startTime": "Thời gian bắt đầu",
     "endTime": "Thời gian kết thúc",
-    "promotionCampaignDetail": "Chi tiết chiến dịch khuyến mãi"
+    "promotionCampaignDetail": "Chi tiết chương trình khuyến mãi",
+    "promotionCampaignEdit": "Cập nhật chương trình khuyến mãi",
+    "conditions": "Điều kiện",
+    "rewards": "Phần thưởng",
+    "limits": "Giới hạn",
+    "promotionDetails": "Chi tiết khuyến mãi"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -261,7 +269,13 @@
     "userPasswordMustContainNumber": "Mật khẩu người dùng phải chứa ít nhất một số",
     "userPasswordMustContainSpecialCharacter": "Mật khẩu người dùng phải chứa ít nhất một ký tự đặc biệt",
     "userPasswordConfirmIsRequired": "Xác nhận mật khẩu người dùng là bắt buộc",
-    "userPasswordConfirmMustBeAtLeastEightCharacters": "Xác nhận mật khẩu người dùng phải có ít nhất 8 ký tự"
+    "userPasswordConfirmMustBeAtLeastEightCharacters": "Xác nhận mật khẩu người dùng phải có ít nhất 8 ký tự",
+    "getPromotionCampaignError": "Không thể lấy chiến dịch khuyến mãi",
+    "updatePromotionCampaignError": "Không thể cập nhật chiến dịch khuyến mãi",
+    "updatePromotionCampaignSuccess": "Chiến dịch khuyến mãi đã được cập nhật thành công",
+    "descriptionIsRequired": "Mô tả là bắt buộc",
+    "startTimeIsRequired": "Thời gian bắt đầu là bắt buộc",
+    "endTimeIsRequired": "Thời gian kết thúc là bắt buộc"
   },
   "overview": {
     "keyMetrics": {
@@ -326,6 +340,47 @@
       "description": "Thay đổi trạng thái máy theo thời gian",
       "noData": "Không có dữ liệu",
       "pleaseSelectMachineAndStoreToViewData": "Vui lòng chọn một máy và một cửa hàng để xem dữ liệu"
+    }
+  },
+  "promotionCampaign": {
+    "operator": {
+      "EQUAL": "==",
+      "NOT_EQUAL": "!=",
+      "GREATER_THAN": ">",
+      "LESS_THAN": "<",
+      "GREATER_THAN_OR_EQUAL": ">=",
+      "LESS_THAN_OR_EQUAL": "<=",
+      "CONTAINS": "chứa",
+      "NOT_CONTAINS": "không chứa",
+      "IN": "trong",
+      "NOT_IN": "không trong",
+      "BETWEEN": "giữa",
+      "NOT_BETWEEN": "không giữa"
+    },
+    "condition_types": {
+      "TENANTS": "Tenants",
+      "STORES": "Cửa hàng",
+      "USERS": "Người dùng",
+      "TOTAL_AMOUNT": "Tổng số tiền"
+    },
+    "reward_types": {
+      "FIXED_AMOUNT": "Số tiền cố định",
+      "PERCENTAGE_AMOUNT": "Phần trăm tiền"
+    },
+    "limit_types": {
+      "TOTAL_USAGE": "Số lần sử dụng tổng",
+      "USAGE_PER_USER": "Số lần sử dụng mỗi người dùng",
+      "USAGE_PER_STORE": "Số lần sử dụng mỗi cửa hàng",
+      "USAGE_PER_TENANT": "Số lần sử dụng mỗi tenant",
+      "TOTAL_AMOUNT": "Tổng số tiền",
+      "AMOUNT_PER_USER": "Số tiền mỗi người dùng",
+      "AMOUNT_PER_STORE": "Số tiền mỗi cửa hàng"
+    },
+    "unit": {
+      "ORDER": "Đơn hàng",
+      "AMOUNT": "Số tiền",
+      "PERCENTAGE": "%",
+      "VND": "VND"
     }
   }
 }

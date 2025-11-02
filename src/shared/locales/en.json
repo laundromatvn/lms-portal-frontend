@@ -135,6 +135,9 @@
     "controllerName": "Controller Name",
     "machineConfig": "Machine Config",
     "pendingSetup": "Pending Setup",
+    "draft": "Draft",
+    "scheduled": "Scheduled",
+    "paused": "Paused",
     "idle": "Idle",
     "starting": "Starting",
     "busy": "Busy",
@@ -169,7 +172,12 @@
     "description": "Description",
     "startTime": "Start Time",
     "endTime": "End Time",
-    "promotionCampaignDetail": "Promotion Campaign Detail"
+    "promotionCampaignDetail": "Promotion Campaign Detail",
+    "promotionCampaignEdit": "Promotion Campaign Edit",
+    "conditions": "Conditions",
+    "rewards": "Rewards",
+    "limits": "Limits",
+    "promotionDetails": "Promotion Details"
   },
   "navigation": {
     "overview": "Overview",
@@ -264,7 +272,13 @@
     "userPasswordMustContainNumber": "User password must contain at least one number",
     "userPasswordMustContainSpecialCharacter": "User password must contain at least one special character",
     "userPasswordConfirmIsRequired": "User password confirmation is required",
-    "userPasswordConfirmMustBeAtLeastEightCharacters": "User password confirmation must be at least 8 characters"
+    "userPasswordConfirmMustBeAtLeastEightCharacters": "User password confirmation must be at least 8 characters",
+    "getPromotionCampaignError": "Failed to get promotion campaign",
+    "updatePromotionCampaignError": "Failed to update promotion campaign",
+    "updatePromotionCampaignSuccess": "Promotion campaign updated successfully",
+    "descriptionIsRequired": "Description is required",
+    "startTimeIsRequired": "Start time is required",
+    "endTimeIsRequired": "End time is required"
   },
   "overview": {
     "keyMetrics": {
@@ -328,7 +342,48 @@
       "machine": "Machine",
       "description": "Machine status changes over time",
       "noData": "No data available",
-      "pleaseSelectMachineAndStoreToViewData": "Please select a machine and a store to view the data"   
+      "pleaseSelectMachineAndStoreToViewData": "Please select a machine and a store to view the data"
+    }
+  },
+  "promotionCampaign": {
+    "operator": {
+      "EQUAL": "==",
+      "NOT_EQUAL": "!=",
+      "GREATER_THAN": ">",
+      "LESS_THAN": "<",
+      "GREATER_THAN_OR_EQUAL": ">=",
+      "LESS_THAN_OR_EQUAL": "<=",
+      "CONTAINS": "contains",
+      "NOT_CONTAINS": "not contains",
+      "IN": "in",
+      "NOT_IN": "not in",
+      "BETWEEN": "between",
+      "NOT_BETWEEN": "not between"
+    },
+    "condition_types": {
+      "TENANTS": "Tenants",
+      "STORES": "Stores",
+      "USERS": "Users",
+      "TOTAL_AMOUNT": "Total Amount"
+    },
+    "reward_types": {
+      "FIXED_AMOUNT": "Fixed Amount",
+      "PERCENTAGE_AMOUNT": "Percentage Amount"
+    },
+    "limit_types": {
+      "TOTAL_USAGE": "Total Usage",
+      "USAGE_PER_USER": "Usage Per User",
+      "USAGE_PER_STORE": "Usage Per Store",
+      "USAGE_PER_TENANT": "Usage Per Tenant",
+      "TOTAL_AMOUNT": "Total Amount",
+      "AMOUNT_PER_USER": "Amount Per User",
+      "AMOUNT_PER_STORE": "Amount Per Store"
+    },
+    "unit": {
+      "ORDER": "Order",
+      "AMOUNT": "Amount",
+      "PERCENTAGE": "%",
+      "VND": "VND"
     }
   }
 }
