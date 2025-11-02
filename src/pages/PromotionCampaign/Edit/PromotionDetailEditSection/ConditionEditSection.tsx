@@ -34,10 +34,10 @@ export const ConditionEditSection: React.FC<Props> = ({ conditions, onChange }: 
   const [selectedConditionIndex, setSelectedConditionIndex] = useState<number | undefined>(undefined);
   const [selectedCondition, setSelectedCondition] = useState<PromotionCondition | undefined>(undefined);
 
-  const handleOnDelete = (condition: PromotionCondition) => {
-    onChange(conditions.filter((c) => {
-      return c.type !== condition.type || c.operator !== condition.operator || c.value !== condition.value;
-    }));
+  const handleOnDelete = (index: number) => {
+    const newConditions = [...conditions];
+    newConditions.splice(index, 1);
+    onChange(newConditions);
   };
 
   const handleOnEdit = (index: number, condition: PromotionCondition) => {
@@ -74,7 +74,7 @@ export const ConditionEditSection: React.FC<Props> = ({ conditions, onChange }: 
           key={index}
           condition={condition}
           onEdit={() => onOpenEdit(index, condition)}
-          onDelete={() => handleOnDelete(condition)}
+          onDelete={() => handleOnDelete(index)}
         />
       ))}
 

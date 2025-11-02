@@ -57,7 +57,7 @@ export const LeftRightSection: React.FC<Props> = ({
         vertical={isMobile}
         wrap={isMobile}
         justify={isMobile ? 'flex-end' : 'flex-end'}
-        align={isMobile ? 'flex-start' : 'center'}
+        align={isMobile ? 'flex-end' : 'center'}
         style={{
           flex: 1,
           ...rightStyle,

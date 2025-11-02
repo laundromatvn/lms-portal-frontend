@@ -7,13 +7,16 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import { type PromotionReward } from '@shared/types/promotion/PromotionReward';
 
+import { BaseEditSection } from '@shared/components/BaseEditSection';
+
 interface Props {
+  index?: number;
   reward?: PromotionReward;
-  onSave: (reward: PromotionReward) => void;
+  onSave: (index: number | undefined, reward: PromotionReward) => void;
   onCancel: () => void;
 }
 
-export const RewardModalContent: React.FC<Props> = ({ reward, onSave, onCancel }: Props) => {
+export const RewardModalContent: React.FC<Props> = ({ index, reward, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -27,15 +30,14 @@ export const RewardModalContent: React.FC<Props> = ({ reward, onSave, onCancel }
     }
   }, [reward, form]);
 
-  const handleSubmit = () => {
-    form.validateFields().then((values) => {
-      onSave(values as PromotionReward);
-      form.resetFields();
-    });
+  const handleSubmit = async () => {
+    const values = await form.validateFields();
+    onSave(index, values as PromotionReward);
+    form.resetFields();
   };
 
   return (
-    <Flex vertical gap={theme.custom.spacing.medium} style={{ width: '100%', height: '100%' }}>
+    <BaseEditSection title={t('common.reward')} saveButtonText={t('common.save')} onSave={handleSubmit}>
       <Form
         form={form}
         layout="vertical"
@@ -81,13 +83,10 @@ export const RewardModalContent: React.FC<Props> = ({ reward, onSave, onCancel }
         </Form.Item>
       </Form>
 
-      <Flex justify="flex-end" gap={theme.custom.spacing.small}>
+      <Flex justify="flex-end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
         <Button onClick={onCancel}>{t('common.cancel')}</Button>
-        <Button type="primary" onClick={handleSubmit}>
-          {t('common.save')}
-        </Button>
       </Flex>
-    </Flex>
+    </BaseEditSection>
   );
 };
 

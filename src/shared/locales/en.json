@@ -188,7 +188,10 @@
     "typeIsRequired": "Type is required",
     "operatorIsRequired": "Operator is required",
     "valueIsRequired": "Value is required",
-    "unitIsRequired": "Unit is required"
+    "unitIsRequired": "Unit is required",
+    "condition": "Condition",
+    "reward": "Reward",
+    "limit": "Limit"
   },
   "navigation": {
     "overview": "Overview",

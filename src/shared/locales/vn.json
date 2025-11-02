@@ -188,7 +188,10 @@
     "typeIsRequired": "Loại là bắt buộc",
     "operatorIsRequired": "Toán tử là bắt buộc",
     "valueIsRequired": "Giá trị là bắt buộc",
-    "unitIsRequired": "Đơn vị là bắt buộc"
+    "unitIsRequired": "Đơn vị là bắt buộc",
+    "condition": "Điều kiện",
+    "reward": "Phần thưởng",
+    "limit": "Giới hạn"
   },
   "navigation": {
     "overview": "Tổng quan",

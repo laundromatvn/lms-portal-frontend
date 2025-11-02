@@ -7,6 +7,8 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import { type PromotionCondition } from '@shared/types/promotion/PromotionCondition';
 
+import { BaseEditSection } from '@shared/components/BaseEditSection';
+
 interface Props {
   index?: number;
   condition?: PromotionCondition;
@@ -41,7 +43,7 @@ export const ConditionModalContent: React.FC<Props> = ({
   };
 
   return (
-    <Flex vertical gap={theme.custom.spacing.medium} style={{ width: '100%', height: '100%' }}>
+    <BaseEditSection title={t('common.condition')} saveButtonText={t('common.save')} onSave={handleSubmit}>
       <Form
         form={form}
         layout="vertical"
@@ -91,13 +93,10 @@ export const ConditionModalContent: React.FC<Props> = ({
         </Form.Item>
       </Form>
 
-      <Flex justify="flex-end" gap={theme.custom.spacing.small}>
+      <Flex justify="flex-end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
         <Button onClick={onCancel}>{t('common.cancel')}</Button>
-        <Button type="primary" onClick={handleSubmit}>
-          {t('common.save')}
-        </Button>
       </Flex>
-    </Flex>
+    </BaseEditSection>
   );
 };
 

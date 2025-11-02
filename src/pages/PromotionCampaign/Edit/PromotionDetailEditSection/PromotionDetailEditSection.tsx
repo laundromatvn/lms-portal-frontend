@@ -13,8 +13,10 @@ import { type PromotionReward } from '@shared/types/promotion/PromotionReward';
 import { type PromotionLimit } from '@shared/types/promotion/PromotionLimit';
 
 import { BaseEditSection } from '@shared/components/BaseEditSection';
+
 import { ConditionEditSection } from './ConditionEditSection';
-  
+import { RewardEditSection } from './RewardEditSection';
+import { LimitEditSection } from './LimitEditSection';
 interface Props {
   promotionCampaign: PromotionCampaign;
   onSave: (form: FormInstance) => void;
@@ -58,6 +60,16 @@ export const PromotionDetailEditSection: React.FC<Props> = ({
       <ConditionEditSection
         conditions={conditions}
         onChange={(conditions) => setConditions(conditions)}
+      />
+
+      <RewardEditSection
+        rewards={rewards}
+        onChange={(rewards) => setRewards(rewards)}
+      />
+
+      <LimitEditSection
+        limits={limits}
+        onChange={(limits) => setLimits(limits)}
       />
     </BaseEditSection>
   );
