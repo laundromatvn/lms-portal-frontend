@@ -48,6 +48,11 @@ import {
   UserResetPasswordPage,
 } from '@pages/User';
 
+import {
+  PromotionCampaignListPage,
+  PromotionCampaignDetailPage,
+} from '@pages/PromotionCampaign';
+
 import { type Route } from './index';
 
 export const routes: Route[] = [
@@ -163,5 +168,14 @@ export const routes: Route[] = [
   {
     path: '/tenants/:id/edit',
     component: <TenantEditPage />,
-  }
+  },
+  // Promotion Campaign
+  {
+    path: '/promotion-campaigns',
+    component: <PromotionCampaignListPage />,
+  },
+  {
+    path: '/promotion-campaigns/:id/detail',
+    component: <PromotionCampaignDetailPage />,
+  },
 ];

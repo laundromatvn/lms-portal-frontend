@@ -163,7 +163,13 @@
     "userProfile": "Hồ sơ người dùng",
     "userPassword": "Mật khẩu người dùng",
     "userEdit": "Sửa hồ sơ người dùng",
-    "pulseInterval": "Khoảng cách xung"
+    "pulseInterval": "Khoảng cách xung",
+    "promotionCampaign": "Chiến dịch khuyến mãi",
+    "storeList": "Danh sách cửa hàng",
+    "description": "Mô tả",
+    "startTime": "Thời gian bắt đầu",
+    "endTime": "Thời gian kết thúc",
+    "promotionCampaignDetail": "Chi tiết chiến dịch khuyến mãi"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -183,7 +189,8 @@
     "orderDetail": "Chi tiết đơn hàng",
     "language": "Ngôn ngữ",
     "home": "Trang chủ",
-    "userProfile": "Hồ sơ người dùng"
+    "userProfile": "Hồ sơ người dùng",
+    "promotionCampaign": "Khuyến mãi"
   },
   "messages": {
     "incorrectCredentials": "Thông tin đăng nhập không chính xác",

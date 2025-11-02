@@ -21,9 +21,10 @@ import {
   WiFiRouter,
   WashingMachine,
   Bill,
+  Sale,
   Suitcase,
   UsersGroupTwoRounded,
-  User as UserIcon
+  User as UserIcon,
 } from '@solar-icons/react'
 
 import Flag from 'react-world-flags';
@@ -103,6 +104,11 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'orders',
       icon: <Bill />,
       label: t('navigation.orders'),
+    },
+    {
+      key: 'promotion-campaigns',
+      icon: <Sale />,
+      label: t('navigation.promotionCampaign'),
     },
   ];
 

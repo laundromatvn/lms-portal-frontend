@@ -23,7 +23,8 @@ import {
   Suitcase,
   UsersGroupTwoRounded,
   Home,
-  User as UserIcon
+  User as UserIcon,
+  Sale
 } from '@solar-icons/react'
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -95,6 +96,11 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
       key: 'orders',
       icon: <Bill />,
       label: t('navigation.orders'),
+    },
+    {
+      key: 'promotion-campaigns',
+      icon: <Sale />,
+      label: t('navigation.promotionCampaign'),
     },
   ];
 

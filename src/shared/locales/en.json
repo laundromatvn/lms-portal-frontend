@@ -163,7 +163,13 @@
     "userProfile": "User Profile",
     "userPassword": "User Password",
     "userEdit": "User Edit",
-    "pulseInterval": "Pulse Interval"
+    "pulseInterval": "Pulse Interval",
+    "promotionCampaign": "Promotion Campaign",
+    "storeList": "Store List",
+    "description": "Description",
+    "startTime": "Start Time",
+    "endTime": "End Time",
+    "promotionCampaignDetail": "Promotion Campaign Detail"
   },
   "navigation": {
     "overview": "Overview",
@@ -183,7 +189,8 @@
     "orderDetail": "Order Detail",
     "language": "Language",
     "home": "Home",
-    "userProfile": "User Profile"
+    "userProfile": "User Profile",
+    "promotionCampaign": "Promotion Campaign"
   },
   "messages": {
     "incorrectCredentials": "Incorrect credentials",

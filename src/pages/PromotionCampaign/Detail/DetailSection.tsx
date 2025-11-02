@@ -1,0 +1,37 @@
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+
+import { Typography } from 'antd';
+
+import { useTheme } from '@shared/theme/useTheme';
+
+import { type PromotionCampaign } from '@shared/types/promotion/PromotionCampaign';
+
+import { BaseDetailSection } from '@shared/components/BaseDetailSection';
+import { DataWrapper } from '@shared/components/DataWrapper';
+import { DynamicTag } from '@shared/components/DynamicTag';
+
+import { formatDateTime } from '@shared/utils/date';
+
+interface Props {
+  promotionCampaign: PromotionCampaign;
+}
+
+export const DetailSection: React.FC<Props> = ({ promotionCampaign }: Props) => {
+  const { t } = useTranslation();
+  const theme = useTheme();
+  const navigate = useNavigate();
+
+  return (
+    <BaseDetailSection title={t('common.basicInformation')}>
+        <DataWrapper title={t('common.name')} value={promotionCampaign.name || '-'} />
+      <DataWrapper title={t('common.description')} value={promotionCampaign.description || '-'} />
+      <DataWrapper title={t('common.status')} >
+        <DynamicTag value={promotionCampaign.status} />
+      </DataWrapper>
+      <DataWrapper title={t('common.startTime')} value={formatDateTime(promotionCampaign.start_time)} />
+      <DataWrapper title={t('common.endTime')} value={formatDateTime(promotionCampaign.end_time)} />
+    </BaseDetailSection>
+  );
+};
