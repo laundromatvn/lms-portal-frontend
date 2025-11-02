@@ -31,7 +31,7 @@ export const PromotionBaseCard: React.FC<Props> = ({ title, children, style, onE
         {children}
       </Flex>
 
-      <Flex justify="end" align="center" style={{ height: '100%' }}>
+      <Flex justify="end" align="center" gap={theme.custom.spacing.xsmall} style={{ height: '100%' }}>
         {onEdit && <Button type="text" style={{ color: theme.custom.colors.info.default }} icon={<PenNewSquare weight='Outline' size={18} />} onClick={onEdit} />}
 
         {onDelete && <Button type="text" style={{ color: theme.custom.colors.danger.default }} icon={<TrashBinTrash weight='Outline' size={18} />} onClick={onDelete} />}
