@@ -289,7 +289,8 @@
     "updatePromotionCampaignSuccess": "Chiến dịch khuyến mãi đã được cập nhật thành công",
     "descriptionIsRequired": "Mô tả là bắt buộc",
     "startTimeIsRequired": "Thời gian bắt đầu là bắt buộc",
-    "endTimeIsRequired": "Thời gian kết thúc là bắt buộc"
+    "endTimeIsRequired": "Thời gian kết thúc là bắt buộc",
+    "promotionDetailMustHaveAtLeastOneReward": "Chi tiết khuyến mãi phải có ít nhất một phần thưởng"
   },
   "overview": {
     "keyMetrics": {

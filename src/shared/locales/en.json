@@ -292,7 +292,8 @@
     "updatePromotionCampaignSuccess": "Promotion campaign updated successfully",
     "descriptionIsRequired": "Description is required",
     "startTimeIsRequired": "Start time is required",
-    "endTimeIsRequired": "End time is required"
+    "endTimeIsRequired": "End time is required",
+    "promotionDetailMustHaveAtLeastOneReward": "Promotion detail must have at least one reward"
   },
   "overview": {
     "keyMetrics": {

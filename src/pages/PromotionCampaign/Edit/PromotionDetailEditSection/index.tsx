@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import {
   Form,
   type FormInstance,
+  notification,
 } from 'antd';
 
 import { type PromotionCampaign } from '@shared/types/promotion/PromotionCampaign';
@@ -34,6 +35,7 @@ export const PromotionDetailEditSection: React.FC<Props> = ({
   onSave,
 }: Props) => {
   const { t } = useTranslation();
+  const [api, contextHolder] = notification.useNotification();
 
   const [form] = Form.useForm();
 
@@ -47,6 +49,13 @@ export const PromotionDetailEditSection: React.FC<Props> = ({
   } = useGetPromotionMetadataApi<GetPromotionMetadataResponse>();
 
   const handleOnSave = async () => {
+    if (rewards.length === 0) {
+      api.error({
+        message: t('messages.promotionDetailMustHaveAtLeastOneReward'),
+      });
+      return;
+    }
+
     form.setFieldsValue({
       name: promotionCampaign.name,
       description: promotionCampaign.description,
@@ -69,22 +78,25 @@ export const PromotionDetailEditSection: React.FC<Props> = ({
   }, [promotionCampaign]);
 
   return (
-    <BaseEditSection title={t('common.promotionDetails')} onSave={handleOnSave}>
-      <ConditionEditSection
-        conditionOptions={promotionMetadataData?.conditions || []}
-        conditions={conditions}
-        onChange={(conditions) => setConditions(conditions)}
-      />
+    <>
+      {contextHolder}
+      <BaseEditSection title={t('common.promotionDetails')} onSave={handleOnSave}>
+        <ConditionEditSection
+          conditionOptions={promotionMetadataData?.conditions || []}
+          conditions={conditions}
+          onChange={(conditions) => setConditions(conditions)}
+        />
 
-      <RewardEditSection
-        rewards={rewards}
-        onChange={(rewards) => setRewards(rewards)}
-      />
+        <RewardEditSection
+          rewards={rewards}
+          onChange={(rewards) => setRewards(rewards)}
+        />
 
-      <LimitEditSection
-        limits={limits}
-        onChange={(limits) => setLimits(limits)}
-      />
-    </BaseEditSection>
+        <LimitEditSection
+          limits={limits}
+          onChange={(limits) => setLimits(limits)}
+        />
+      </BaseEditSection>
+    </>
   );
 };
