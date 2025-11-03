@@ -35,8 +35,6 @@ export const RewardEditSection: React.FC<Props> = ({ rewards, onChange }: Props)
   const [selectedReward, setSelectedReward] = useState<PromotionReward | undefined>(undefined);
 
   const handleOnDelete = (index: number) => {
-    if (rewards.length <= 1) return;
-
     const newRewards = [...rewards];
     newRewards.splice(index, 1);
     onChange(newRewards);
@@ -76,7 +74,7 @@ export const RewardEditSection: React.FC<Props> = ({ rewards, onChange }: Props)
           key={index}
           reward={reward}
           onEdit={() => onOpenEdit(index, reward)}
-          onDelete={rewards.length > 1 ? () => handleOnDelete(index) : undefined}
+          onDelete={() => handleOnDelete(index)}
         />
       ))}
 
