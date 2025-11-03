@@ -19,11 +19,11 @@ import { useTheme } from '@shared/theme/useTheme';
 import {
   useGetPromotionCampaignApi,
   type GetPromotionCampaignResponse,
-} from '@shared/hooks/useGetPromotionCampaignApi';
+} from '@shared/hooks/promotion/useGetPromotionCampaignApi';
 import {
   useUpdatePromotionCampaignApi,
   type UpdatePromotionCampaignResponse,
-} from '@shared/hooks/useUpdatePromotionCampaignApi';
+} from '@shared/hooks/promotion/useUpdatePromotionCampaignApi';
 
 import { type PromotionCampaign } from '@shared/types/promotion/PromotionCampaign';
 

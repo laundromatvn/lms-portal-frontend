@@ -9,7 +9,7 @@ import { type PromotionCampaign } from '@shared/types/promotion/PromotionCampaig
 
 import { useTheme } from '@shared/theme/useTheme';
 
-import { useGetPromotionCampaignApi } from '@shared/hooks/useGetPromotionCampaignApi';
+import { useGetPromotionCampaignApi } from '@shared/hooks/promotion/useGetPromotionCampaignApi';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 

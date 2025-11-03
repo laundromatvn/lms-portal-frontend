@@ -16,7 +16,7 @@ import { tenantStorage } from '@core/storage/tenantStorage';
 import {
   useListPromotionCampaignApi,
   type ListPromotionCampaignResponse,
-} from '@shared/hooks/useListPromotionCampaignApi';
+} from '@shared/hooks/promotion/useListPromotionCampaignApi';
 
 import { Box } from '@shared/components/Box';
 import type { ColumnsType } from 'antd/es/table';
