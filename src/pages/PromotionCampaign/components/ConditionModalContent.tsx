@@ -1,17 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Form, InputNumber, Select, Button, Flex } from 'antd';
+import { Form, InputNumber, Select, Button, Flex, Input } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 
 import { type PromotionCondition } from '@shared/types/promotion/PromotionCondition';
+import { type PromotionMetadataConditionOption } from '@shared/types/promotion/PromotionMetadata';
+import { ConditionValueTypeEnum } from '@shared/enums/ConditionValueTypeEnum';
 
 import { BaseEditSection } from '@shared/components/BaseEditSection';
+
+import { buildDisplayValue } from '../helpers';
 
 interface Props {
   index?: number;
   condition?: PromotionCondition;
+  conditionOptions?: PromotionMetadataConditionOption[];
   onSave: (index: number | undefined, condition: PromotionCondition) => void;
   onCancel: () => void;
 }
@@ -19,6 +24,7 @@ interface Props {
 export const ConditionModalContent: React.FC<Props> = ({
   index,
   condition,
+  conditionOptions,
   onSave,
   onCancel,
 }: Props) => {
@@ -27,20 +33,54 @@ export const ConditionModalContent: React.FC<Props> = ({
 
   const [form] = Form.useForm();
 
+  const [conditionTypes, setConditionTypes] = useState<{ label: string; value: string }[]>([]);
+  const [operators, setOperators] = useState<{ label: string; value: string }[]>([]);
+  const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
+
+  const [selectedConditionOption, setSelectedConditionOption] = useState<PromotionMetadataConditionOption | undefined>(undefined);
+
   useEffect(() => {
     if (condition) {
       form.setFieldsValue(condition);
+      setSelectedConditionOption(conditionOptions?.find((conditionOption) => conditionOption.condition_type === condition?.type) || undefined);
     } else {
       form.resetFields();
     }
   }, [condition, form]);
 
-  const handleSubmit = () => {
-    form.validateFields().then((values) => {
-      onSave(index, values as PromotionCondition);
-      form.resetFields();
-    });
+  const handleSubmit = async () => {
+    const values = await form.validateFields();
+    const conditionOption = conditionOptions?.find((conditionOption) => conditionOption.condition_type === values.type);
+
+    onSave(index, {
+      ...values,
+      display_value: conditionOption ? buildDisplayValue(conditionOption, values.value) : '',
+    } as PromotionCondition);
+    form.resetFields();
   };
+
+  useEffect(() => {
+    if (!selectedConditionOption) return;
+
+    setOperators(selectedConditionOption?.operators?.map((operator) => ({
+      label: t(`promotionCampaign.operator.${operator}`),
+      value: operator,
+    })) || []);
+
+    setOptions(selectedConditionOption?.options?.map((option) => ({
+      label: option.label,
+      value: option.value,
+    })) || []);
+  }, [selectedConditionOption]);
+
+  useEffect(() => {
+    if (!conditionOptions) return;
+
+    setConditionTypes(conditionOptions.map((condition) => ({
+      label: t(`promotionCampaign.condition_types.${condition.condition_type}`),
+      value: condition.condition_type,
+    })));
+  }, [conditionOptions]);
 
   return (
     <BaseEditSection title={t('common.condition')} saveButtonText={t('common.save')} onSave={handleSubmit}>
@@ -57,12 +97,10 @@ export const ConditionModalContent: React.FC<Props> = ({
         >
           <Select
             size="large"
-            options={[
-              { label: t('promotionCampaign.condition_types.TENANTS'), value: 'TENANTS' },
-              { label: t('promotionCampaign.condition_types.STORES'), value: 'STORES' },
-              { label: t('promotionCampaign.condition_types.USERS'), value: 'USERS' },
-              { label: t('promotionCampaign.condition_types.TOTAL_AMOUNT'), value: 'TOTAL_AMOUNT' },
-            ]}
+            options={conditionTypes}
+            onChange={(value) => {
+              setSelectedConditionOption(conditionOptions?.find((condition) => condition.condition_type === value) || undefined);
+            }}
           />
         </Form.Item>
 
@@ -73,24 +111,34 @@ export const ConditionModalContent: React.FC<Props> = ({
         >
           <Select
             size="large"
-            options={[
-              { label: t('promotionCampaign.operator.EQUAL'), value: 'EQUAL' },
-              { label: t('promotionCampaign.operator.NOT_EQUAL'), value: 'NOT_EQUAL' },
-              { label: t('promotionCampaign.operator.GREATER_THAN'), value: 'GREATER_THAN' },
-              { label: t('promotionCampaign.operator.LESS_THAN'), value: 'LESS_THAN' },
-              { label: t('promotionCampaign.operator.GREATER_THAN_OR_EQUAL'), value: 'GREATER_THAN_OR_EQUAL' },
-              { label: t('promotionCampaign.operator.LESS_THAN_OR_EQUAL'), value: 'LESS_THAN_OR_EQUAL' },
-            ]}
+            options={operators}
           />
         </Form.Item>
 
-        <Form.Item
-          label={t('common.value')}
-          name="value"
-          rules={[{ required: true, message: t('common.valueIsRequired') }]}
-        >
-          <InputNumber size="large" style={{ width: '100%' }} />
-        </Form.Item>
+        {selectedConditionOption && (
+          <Form.Item
+            label={t('common.value')}
+            name="value"
+            rules={[{ required: true, message: t('common.valueIsRequired') }]}
+          >
+            {selectedConditionOption?.value_type === ConditionValueTypeEnum.NUMBER && (
+              <InputNumber size="large" style={{ width: '100%' }} />
+            )}
+
+            {selectedConditionOption?.value_type === ConditionValueTypeEnum.STRING && (
+              <Input size="large" style={{ width: '100%' }} />
+            )}
+
+            {selectedConditionOption?.value_type === ConditionValueTypeEnum.OPTIONS && (
+              <Select
+                size="large"
+                style={{ width: '100%' }}
+                options={options}
+                mode="multiple"
+              />
+            )}
+          </Form.Item>
+        )}
       </Form>
 
       <Flex justify="flex-end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>

@@ -1,9 +1,24 @@
-import type { PromotionCondition } from "@shared/types/promotion/PromotionCondition";
-import type { PromotionReward } from "@shared/types/promotion/PromotionReward";
-import type { PromotionLimit } from "@shared/types/promotion/PromotionLimit";
+import { type ConditionValueTypeEnum } from '@shared/enums/ConditionValueTypeEnum';
+
+export type PromotionMetadataConditionOption = {
+  condition_type: string;
+  operators: any[];
+  options: any[];
+  value_type: ConditionValueTypeEnum;
+};
+
+export type PromotionMetadataRewardOption = {
+  reward_type: string;
+  units: any[];
+};
+
+export type PromotionMetadataLimitOption = {
+  limit_type: string;
+  units: any[];
+};
 
 export type PromotionMetadata = {
-  conditions: PromotionCondition[];
-  rewards: PromotionReward[];
-  limits: PromotionLimit[];
+  conditions: PromotionMetadataConditionOption[];
+  rewards: PromotionMetadataRewardOption[];
+  limits: PromotionMetadataLimitOption[];
 };

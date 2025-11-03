@@ -11,6 +11,7 @@ import { type PromotionCondition } from '@shared/types/promotion/PromotionCondit
 
 import { PromotionBaseHeader } from '../components/PromotionBaseHeader';
 import { ConditionItemCard } from '../components/ConditionItemCard';
+import { buildConditionDescription } from '../helpers';
 
 interface Props {
   conditions: PromotionCondition[];
@@ -31,7 +32,11 @@ export const ConditionDetailSection: React.FC<Props> = ({ conditions }: Props) =
       />
 
       {conditions.map((condition, index) => (
-        <ConditionItemCard key={index} condition={condition} />
+        <ConditionItemCard
+          key={index}
+          title={t(`promotionCampaign.condition_types.${condition.type}`)}
+          description={buildConditionDescription(condition, t)}
+        />
       ))}
     </Flex>
   );

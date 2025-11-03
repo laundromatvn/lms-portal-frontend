@@ -366,15 +366,14 @@
       "LESS_THAN_OR_EQUAL": "<=",
       "CONTAINS": "chứa",
       "NOT_CONTAINS": "không chứa",
-      "IN": "trong",
-      "NOT_IN": "không trong",
-      "BETWEEN": "giữa",
-      "NOT_BETWEEN": "không giữa"
+      "IN": "thuộc",
+      "NOT_IN": "không thuộc",
+      "BETWEEN": "nằm trong khoảng",
+      "NOT_BETWEEN": "không nằm trong khoảng"
     },
     "condition_types": {
       "TENANTS": "Tenants",
       "STORES": "Cửa hàng",
-      "USERS": "Người dùng",
       "TOTAL_AMOUNT": "Tổng số tiền"
     },
     "reward_types": {

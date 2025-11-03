@@ -1,22 +1,19 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
 import { Typography } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 
-import { type PromotionCondition } from '@shared/types/promotion/PromotionCondition';
-
 import { PromotionBaseCard } from './PromotionBaseCard';
 
 interface Props {
-  condition: PromotionCondition;
+  title: string;
+  description: string;
   onEdit?: () => void;
   onDelete?: () => void;
 }
 
-export const ConditionItemCard: React.FC<Props> = ({ condition, onEdit, onDelete }: Props) => {
-  const { t } = useTranslation();
+export const ConditionItemCard: React.FC<Props> = ({ title, description, onEdit, onDelete }: Props) => {
   const theme = useTheme();
 
   const primaryColor = theme.custom.colors.info.default;
@@ -24,8 +21,7 @@ export const ConditionItemCard: React.FC<Props> = ({ condition, onEdit, onDelete
 
   return (
     <PromotionBaseCard
-      key={JSON.stringify(condition)}
-      title={t(`promotionCampaign.condition_types.${condition.type}`)}
+      title={title}
       onEdit={onEdit}
       onDelete={onDelete}
       style={{
@@ -36,7 +32,7 @@ export const ConditionItemCard: React.FC<Props> = ({ condition, onEdit, onDelete
       }}
     >
       <Typography.Text>
-        {t(`promotionCampaign.operator.${condition.operator}`)} {condition.value}
+        {description}
       </Typography.Text>
     </PromotionBaseCard>
   );

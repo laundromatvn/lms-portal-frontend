@@ -8,15 +8,22 @@ import {
 } from 'antd';
 
 import { type PromotionCampaign } from '@shared/types/promotion/PromotionCampaign';
+import { type PromotionMetadata } from '@shared/types/promotion/PromotionMetadata';
 import { type PromotionCondition } from '@shared/types/promotion/PromotionCondition';
 import { type PromotionReward } from '@shared/types/promotion/PromotionReward';
 import { type PromotionLimit } from '@shared/types/promotion/PromotionLimit';
+
+import {
+  useGetPromotionMetadataApi,
+  type GetPromotionMetadataResponse
+} from '@shared/hooks/promotion/useGetPromotionMetadataApi';
 
 import { BaseEditSection } from '@shared/components/BaseEditSection';
 
 import { ConditionEditSection } from './ConditionEditSection';
 import { RewardEditSection } from './RewardEditSection';
 import { LimitEditSection } from './LimitEditSection';
+
 interface Props {
   promotionCampaign: PromotionCampaign;
   onSave: (form: FormInstance) => void;
@@ -34,6 +41,11 @@ export const PromotionDetailEditSection: React.FC<Props> = ({
   const [rewards, setRewards] = useState<PromotionReward[]>([]);
   const [limits, setLimits] = useState<PromotionLimit[]>([]);
 
+  const {
+    getPromotionMetadata,
+    data: promotionMetadataData,
+  } = useGetPromotionMetadataApi<GetPromotionMetadataResponse>();
+
   const handleOnSave = async () => {
     form.setFieldsValue({
       name: promotionCampaign.name,
@@ -50,6 +62,7 @@ export const PromotionDetailEditSection: React.FC<Props> = ({
   };
 
   useEffect(() => {
+    getPromotionMetadata();
     setConditions(promotionCampaign.conditions);
     setRewards(promotionCampaign.rewards);
     setLimits(promotionCampaign.limits);
@@ -58,6 +71,7 @@ export const PromotionDetailEditSection: React.FC<Props> = ({
   return (
     <BaseEditSection title={t('common.promotionDetails')} onSave={handleOnSave}>
       <ConditionEditSection
+        conditionOptions={promotionMetadataData?.conditions || []}
         conditions={conditions}
         onChange={(conditions) => setConditions(conditions)}
       />

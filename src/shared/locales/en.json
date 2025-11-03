@@ -377,7 +377,6 @@
     "condition_types": {
       "TENANTS": "Tenants",
       "STORES": "Stores",
-      "USERS": "Users",
       "TOTAL_AMOUNT": "Total Amount"
     },
     "reward_types": {

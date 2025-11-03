@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, Flex } from 'antd';
@@ -11,20 +11,25 @@ import {
 import { useTheme } from '@shared/theme/useTheme';
 
 import { type PromotionCondition } from '@shared/types/promotion/PromotionCondition';
+import { type PromotionMetadataConditionOption } from '@shared/types/promotion/PromotionMetadata';
+
+import { BaseModal } from '@shared/components/BaseModal';
 
 import {
   ConditionItemCard,
   ConditionModalContent,
   PromotionBaseHeader,
 } from '../../components';
-import { BaseModal } from '@shared/components/BaseModal';
+
+import { buildConditionDescription } from '../../helpers';
 
 interface Props {
   conditions: PromotionCondition[];
+  conditionOptions: PromotionMetadataConditionOption[];
   onChange: (conditions: PromotionCondition[]) => void;
 }
 
-export const ConditionEditSection: React.FC<Props> = ({ conditions, onChange }: Props) => {
+export const ConditionEditSection: React.FC<Props> = ({ conditions, conditionOptions, onChange }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -61,6 +66,10 @@ export const ConditionEditSection: React.FC<Props> = ({ conditions, onChange }: 
     setShowModal(true);
   };
 
+  useEffect(() => {
+    console.log('conditionOptions in condition edit section', conditionOptions);
+  }, [conditionOptions]);
+
   return (
     <Flex vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
       <PromotionBaseHeader
@@ -71,8 +80,8 @@ export const ConditionEditSection: React.FC<Props> = ({ conditions, onChange }: 
 
       {conditions.map((condition, index) => (
         <ConditionItemCard
-          key={index}
-          condition={condition}
+          title={t(`promotionCampaign.condition_types.${condition.type}`)}
+          description={buildConditionDescription(condition, t)}
           onEdit={() => onOpenEdit(index, condition)}
           onDelete={() => handleOnDelete(index)}
         />
@@ -96,6 +105,7 @@ export const ConditionEditSection: React.FC<Props> = ({ conditions, onChange }: 
           <ConditionModalContent
             index={selectedConditionIndex}
             condition={selectedCondition}
+            conditionOptions={conditionOptions}
             onSave={(index, condition) => {
               if (index === undefined) return;
 
@@ -109,6 +119,7 @@ export const ConditionEditSection: React.FC<Props> = ({ conditions, onChange }: 
           />
         ) : (
           <ConditionModalContent
+            conditionOptions={conditionOptions}
             onSave={(_, condition) => {
               handleOnAdd(condition);
               setShowModal(false);
