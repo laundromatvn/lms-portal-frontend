@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Table, Dropdown, Typography, notification, Flex } from 'antd';
+import { Button, Table, Dropdown, Typography, notification, Flex, Input, Select } from 'antd';
 import type { MenuProps } from 'antd';
 
 import { AddCircle, MenuDots, Refresh, TrashBinTrash } from '@solar-icons/react';
@@ -25,6 +25,7 @@ import { DynamicTag } from '@shared/components/DynamicTag';
 
 import { formatDateTime } from '@shared/utils/date';
 import LeftRightSection from '@shared/components/LeftRightSection';
+import { PromotionCampaignStatusEnum } from '@shared/enums/PromotionCampaignStatusEnum';
 
 export const PromotionCampaignListTable: React.FC = () => {
   const theme = useTheme();
@@ -39,6 +40,9 @@ export const PromotionCampaignListTable: React.FC = () => {
   const [pageSize, setPageSize] = useState(10);
   const [orderBy, setOrderBy] = useState<string | undefined>(undefined);
   const [orderDirection, setOrderDirection] = useState<'asc' | 'desc' | undefined>(undefined);
+  const [search, setSearch] = useState<string>('');
+  const [searchError, setSearchError] = useState<string | undefined>(undefined);
+  const [statusFilter, setStatusFilter] = useState<string | undefined>(undefined);
 
   const {
     data: listPromotionCampaignData,
@@ -52,14 +56,38 @@ export const PromotionCampaignListTable: React.FC = () => {
     loading: deletePromotionCampaignLoading,
   } = useDeletePromotionCampaignApi<void>();
 
+  const validateSearchText = (text: string): boolean => {
+    if (!text) return true;
+    return text.length >= 3;
+  };
+
   const handleListPromotionCampaign = () => {
+    const query = search && search.length >= 3 ? search : undefined;
     listPromotionCampaign({
       tenant_id: tenant?.id,
       page,
       page_size: pageSize,
       order_by: orderBy,
       order_direction: orderDirection,
+      query,
+      status: statusFilter as PromotionCampaignStatusEnum,
     });
+  }
+
+  const handleSearch = (searchValue: string) => {
+    if (searchValue && !validateSearchText(searchValue)) {
+      setSearchError('Please enter at least 3 characters');
+      return;
+    }
+    
+    setSearchError(undefined);
+    setSearch(searchValue);
+    setPage(1);
+  }
+
+  const handleStatusFilter = (status: PromotionCampaignStatusEnum | undefined) => {
+    setStatusFilter(status);
+    setPage(1);
   }
 
   const columns: ColumnsType<PromotionCampaign> = [
@@ -156,8 +184,10 @@ export const PromotionCampaignListTable: React.FC = () => {
   ];
 
   useEffect(() => {
-    handleListPromotionCampaign();
-  }, [page, pageSize, orderBy, orderDirection]);
+    if (!search || search.length >= 3) {
+      handleListPromotionCampaign();
+    }
+  }, [page, pageSize, orderBy, orderDirection, search, statusFilter]);
 
   useEffect(() => {
     if (!deletePromotionCampaignData) return;
@@ -181,7 +211,32 @@ export const PromotionCampaignListTable: React.FC = () => {
       {contextHolder}
 
       <LeftRightSection
-        left={null}
+        left={(
+          <Flex gap={theme.custom.spacing.small}>
+            <Input.Search
+              placeholder={t('common.search')}
+              value={search}
+              onChange={(e) => {
+                const value = e.target.value;
+                setSearch(value);
+                if (value && value.length > 0 && value.length < 3) {
+                  setSearchError('Please enter at least 3 characters');
+                } else {
+                  setSearchError(undefined);
+                }
+              }}
+              onSearch={handleSearch}
+              allowClear
+              onClear={() => {
+                setSearch('');
+                setSearchError(undefined);
+                setStatusFilter(undefined);
+                setPage(1);
+              }}
+              status={searchError ? 'error' : undefined}
+            />
+          </Flex>
+        )}
         right={(
           <Flex gap={theme.custom.spacing.small}>
             <Button
@@ -190,7 +245,27 @@ export const PromotionCampaignListTable: React.FC = () => {
               onClick={() => handleListPromotionCampaign()}
               loading={listPromotionCampaignLoading}
             />
+            <Select
+              placeholder={t('common.status')}
+              style={{ width: 150 }}
+              allowClear
+              value={statusFilter}
+              onChange={(value) => handleStatusFilter(value as PromotionCampaignStatusEnum)}
+            >
+              {Object.values(PromotionCampaignStatusEnum).map((status) => (
+                <Select.Option key={status} value={status} style={{ textAlign: 'left' }}>
+                  <DynamicTag value={status} />
+                </Select.Option>
+              ))}
+            </Select>
+          </Flex>
+        )}
+      />
 
+      <LeftRightSection
+        left={null}
+        right={(
+          <Flex gap={theme.custom.spacing.small}>
             <Button
               type="primary"
               icon={<AddCircle color={theme.custom.colors.text.inverted} />}
@@ -222,7 +297,6 @@ export const PromotionCampaignListTable: React.FC = () => {
             setOrderBy(sorter.field as string);
             setOrderDirection(sorter.order === 'ascend' ? 'asc' : 'desc');
           } else if (sorter && 'order' in sorter && !sorter.order) {
-            // Clear sorting when clicking the same column again
             setOrderBy(undefined);
             setOrderDirection(undefined);
           }
