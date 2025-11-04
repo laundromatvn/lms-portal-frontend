@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Table, Dropdown, Typography } from 'antd';
 import type { MenuProps } from 'antd';
 
-import { MenuDots } from '@solar-icons/react';
+import { AddCircle, MenuDots } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -23,6 +23,7 @@ import type { ColumnsType } from 'antd/es/table';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
 import { formatDateTime } from '@shared/utils/date';
+import LeftRightSection from '@shared/components/LeftRightSection';
 
 export const PromotionCampaignListTable: React.FC = () => {
   const theme = useTheme();
@@ -139,6 +140,21 @@ export const PromotionCampaignListTable: React.FC = () => {
 
   return (
     <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+      <LeftRightSection
+        left={null}
+        right={(
+          <>
+            <Button
+              type="primary"
+              icon={<AddCircle color={theme.custom.colors.text.inverted} />}
+              onClick={() => navigate('/promotion-campaigns/add')}
+            >
+              {t('common.addPromotionCampaign')}
+            </Button>
+          </>
+        )}
+      />
+
       <Table
         bordered
         dataSource={listPromotionCampaignData?.data || []}

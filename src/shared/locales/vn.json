@@ -174,6 +174,8 @@
     "endTime": "Thời gian kết thúc",
     "promotionCampaignDetail": "Chi tiết chương trình khuyến mãi",
     "promotionCampaignEdit": "Cập nhật chương trình khuyến mãi",
+    "promotionCampaignAdd": "Thêm chương trình khuyến mãi",
+    "addPromotionCampaign": "Thêm chương trình khuyến mãi",
     "conditions": "Điều kiện",
     "rewards": "Phần thưởng",
     "limits": "Giới hạn",
@@ -191,7 +193,14 @@
     "unitIsRequired": "Đơn vị là bắt buộc",
     "condition": "Điều kiện",
     "reward": "Phần thưởng",
-    "limit": "Giới hạn"
+    "limit": "Giới hạn",
+    "nameIsRequired": "Tên là bắt buộc",
+    "descriptionIsRequired": "Mô tả là bắt buộc",
+    "statusIsRequired": "Trạng thái là bắt buộc",
+    "startTimeIsRequired": "Thời gian bắt đầu là bắt buộc",
+    "selectDate": "Chọn ngày",
+    "selectStartDate": "Chọn ngày bắt đầu",
+    "selectEndDate": "Chọn ngày kết thúc"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -287,6 +296,8 @@
     "getPromotionCampaignError": "Không thể lấy chiến dịch khuyến mãi",
     "updatePromotionCampaignError": "Không thể cập nhật chiến dịch khuyến mãi",
     "updatePromotionCampaignSuccess": "Chiến dịch khuyến mãi đã được cập nhật thành công",
+    "createPromotionCampaignError": "Không thể tạo chiến dịch khuyến mãi",
+    "createPromotionCampaignSuccess": "Chiến dịch khuyến mãi đã được tạo thành công",
     "descriptionIsRequired": "Mô tả là bắt buộc",
     "startTimeIsRequired": "Thời gian bắt đầu là bắt buộc",
     "endTimeIsRequired": "Thời gian kết thúc là bắt buộc",

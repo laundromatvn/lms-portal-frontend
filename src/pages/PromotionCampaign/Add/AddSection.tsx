@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import dayjs from 'dayjs';
 
 import {
   Form,
@@ -10,37 +9,26 @@ import {
   type FormInstance,
 } from 'antd';
 
-import { type PromotionCampaign } from '@shared/types/promotion/PromotionCampaign';
-
 import { BaseEditSection } from '@shared/components/BaseEditSection';
 import { PromotionCampaignStatusEnum } from '@shared/enums/PromotionCampaignStatusEnum';
 
 interface Props {
-  promotionCampaign: PromotionCampaign;
-  onSave: (form: FormInstance) => void;
+  formRef?: React.RefObject<FormInstance | null>;
 }
 
-export const EditSection: React.FC<Props> = ({ promotionCampaign, onSave }: Props) => {
+export const AddSection: React.FC<Props> = ({ formRef }: Props) => {
   const { t } = useTranslation();
 
   const [form] = Form.useForm();
 
   useEffect(() => {
-    form.setFieldsValue({
-      id: promotionCampaign.id,
-      name: promotionCampaign.name,
-      description: promotionCampaign.description,
-      status: promotionCampaign.status,
-      start_time: promotionCampaign.start_time ? dayjs(promotionCampaign.start_time) : undefined,
-      end_time: promotionCampaign.end_time ? dayjs(promotionCampaign.end_time) : undefined,
-      conditions: promotionCampaign.conditions,
-      rewards: promotionCampaign.rewards,
-      limits: promotionCampaign.limits,
-    });
-  }, [promotionCampaign]);
+    if (formRef) {
+      (formRef as React.MutableRefObject<FormInstance | null>).current = form;
+    }
+  }, [form, formRef]);
 
   return (
-    <BaseEditSection title={t('common.basicInformation')} onSave={() => onSave(form)}>
+    <BaseEditSection title={t('common.basicInformation')} showSaveButton={false}>
       <Form form={form} layout="vertical" style={{ width: '100%', maxWidth: 600 }}>
         <Form.Item
           label={t('common.name')}
@@ -65,16 +53,14 @@ export const EditSection: React.FC<Props> = ({ promotionCampaign, onSave }: Prop
           name="status"
           style={{ width: '100%' }}
           rules={[{ required: true, message: t('common.statusIsRequired') }]}
+          initialValue={PromotionCampaignStatusEnum.DRAFT}
         >
           <Select
             size="large"
             style={{ width: '100%' }}
+            disabled
             options={[
               { label: t('common.draft'), value: PromotionCampaignStatusEnum.DRAFT },
-              { label: t('common.scheduled'), value: PromotionCampaignStatusEnum.SCHEDULED },
-              { label: t('common.active'), value: PromotionCampaignStatusEnum.ACTIVE },
-              { label: t('common.paused'), value: PromotionCampaignStatusEnum.PAUSED },
-              { label: t('common.inactive'), value: PromotionCampaignStatusEnum.INACTIVE },
             ]}
           />
         </Form.Item>
@@ -111,3 +97,4 @@ export const EditSection: React.FC<Props> = ({ promotionCampaign, onSave }: Prop
     </BaseEditSection>
   );
 };
+
