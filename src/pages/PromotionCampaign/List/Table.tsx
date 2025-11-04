@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Table, Dropdown, Typography } from 'antd';
+import { Button, Table, Dropdown, Typography, notification, Flex } from 'antd';
 import type { MenuProps } from 'antd';
 
-import { AddCircle, MenuDots } from '@solar-icons/react';
+import { AddCircle, MenuDots, Refresh, TrashBinTrash } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -17,6 +17,7 @@ import {
   useListPromotionCampaignApi,
   type ListPromotionCampaignResponse,
 } from '@shared/hooks/promotion/useListPromotionCampaignApi';
+import { useDeletePromotionCampaignApi } from '@shared/hooks/useDeletePromotionCampaignApi';
 
 import { Box } from '@shared/components/Box';
 import type { ColumnsType } from 'antd/es/table';
@@ -30,7 +31,32 @@ export const PromotionCampaignListTable: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const [api, contextHolder] = notification.useNotification();
+
   const tenant = tenantStorage.load();
+
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const {
+    data: listPromotionCampaignData,
+    loading: listPromotionCampaignLoading,
+    listPromotionCampaign,
+  } = useListPromotionCampaignApi<ListPromotionCampaignResponse>();
+  const {
+    deletePromotionCampaign,
+    data: deletePromotionCampaignData,
+    error: deletePromotionCampaignError,
+    loading: deletePromotionCampaignLoading,
+  } = useDeletePromotionCampaignApi<void>();
+
+  const handleListPromotionCampaign = () => {
+    listPromotionCampaign({
+      tenant_id: tenant?.id,
+      page,
+      page_size: pageSize,
+    });
+  }
 
   const columns: ColumnsType<PromotionCampaign> = [
     {
@@ -84,66 +110,75 @@ export const PromotionCampaignListTable: React.FC = () => {
       width: 128,
       render: (value) => value ? formatDateTime(value) : '-',
     },
-    // {
-    //   title: t('common.actions'),
-    //   dataIndex: 'actions',
-    //   key: 'actions',
-    //   width: 128,
-    //   render: (_value, record) => {
-    //     const items: MenuProps['items'] = [
-    //       {
-    //         key: 'detail',
-    //         label: t('common.detail'),
-    //       },
-    //       {
-    //         key: 'edit',
-    //         label: t('common.edit'),
-    //       },
-    //     ];
+    {
+      title: t('common.actions'),
+      dataIndex: 'actions',
+      key: 'actions',
+      width: 128,
+      render: (_value, record) => {
+        const items: MenuProps['items'] = [
+          {
+            key: 'delete',
+            label: t('common.delete'),
+            onClick: () => deletePromotionCampaign(record.id),
+            icon: <TrashBinTrash weight="Outline" size={18} />,
+            style: {
+              color: theme.custom.colors.danger.default,
+            },
+          }
+        ];
 
-    //     return (
-    //       <Dropdown
-    //         menu={{ items }}
-    //         trigger={['click']}
-    //       >
-    //         <Button
-    //           type="link"
-    //           icon={<MenuDots weight="Bold" />}
-    //         />
-    //       </Dropdown>
-    //     );
-    //   },
-    // },
+        return (
+          <Dropdown
+            menu={{ items }}
+            trigger={['click']}
+          >
+            <Button
+              type="link"
+              icon={<MenuDots weight="Bold" />}
+            />
+          </Dropdown>
+        );
+      },
+    },
   ];
-
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-
-  const {
-    data: listPromotionCampaignData,
-    loading: listPromotionCampaignLoading,
-    error: listPromotionCampaignError,
-    listPromotionCampaign,
-  } = useListPromotionCampaignApi<ListPromotionCampaignResponse>();
-
-  const handleListPromotionCampaign = () => {
-    listPromotionCampaign({
-      tenant_id: tenant?.id,
-      page,
-      page_size: pageSize,
-    });
-  }
 
   useEffect(() => {
     handleListPromotionCampaign();
   }, []);
 
+  useEffect(() => {
+    if (!deletePromotionCampaignData) return;
+
+    api.success({
+      message: t('messages.deletePromotionCampaignSuccess'),
+    });
+    handleListPromotionCampaign();
+  }, [deletePromotionCampaignData]);
+
+  useEffect(() => {
+    if (deletePromotionCampaignError) {
+      api.error({
+        message: t('messages.deletePromotionCampaignError'),
+      });
+    }
+  }, [deletePromotionCampaignError]);
+
   return (
     <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+      {contextHolder}
+
       <LeftRightSection
         left={null}
         right={(
-          <>
+          <Flex gap={theme.custom.spacing.small}>
+            <Button
+              type="text"
+              icon={<Refresh color={theme.custom.colors.text.inverted} />}
+              onClick={() => handleListPromotionCampaign()}
+              loading={listPromotionCampaignLoading}
+            />
+
             <Button
               type="primary"
               icon={<AddCircle color={theme.custom.colors.text.inverted} />}
@@ -151,7 +186,7 @@ export const PromotionCampaignListTable: React.FC = () => {
             >
               {t('common.addPromotionCampaign')}
             </Button>
-          </>
+          </Flex>
         )}
       />
 
