@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Button, Flex, Skeleton, Typography, notification } from 'antd';
+import { Button, Flex, Skeleton, Typography, notification, Dropdown } from 'antd';
+import type { MenuProps } from 'antd';
 
 import {
   ArrowLeft,
@@ -10,6 +11,7 @@ import {
   PauseCircle,
   PlayCircle,
   TrashBinTrash,
+  Widget6,
 } from '@solar-icons/react';
 
 import { type PromotionCampaign } from '@shared/types/promotion/PromotionCampaign';
@@ -168,56 +170,74 @@ export const PromotionCampaignDetailPage: React.FC = () => {
             </Button>
           )}
           right={!getPromotionCampaignLoading && getPromotionCampaignData ? (
-            <Flex justify="end" gap={theme.custom.spacing.small} wrap="wrap">
+            <Dropdown
+              menu={{
+                items: [
+                  {
+                    key: 'schedule',
+                    label: t('common.schedule'),
+                    onClick: () => schedulePromotionCampaign(promotionCampaignId),
+                    icon: <Calendar weight="Outline" size={18} />,
+                    style: {
+                      color: theme.custom.colors.info.default,
+                      backgroundColor: theme.custom.colors.background.light,
+                    },
+                    disabled: schedulePromotionCampaignLoading,
+                  },
+                  {
+                    key: 'pause',
+                    label: t('common.pause'),
+                    onClick: () => pausePromotionCampaign(promotionCampaignId),
+                    icon: <PauseCircle weight="Outline" size={18} />,
+                    style: {
+                      color: theme.custom.colors.warning.default,
+                      backgroundColor: theme.custom.colors.background.light,
+                    },
+                    disabled: pausePromotionCampaignLoading,
+                  },
+                  {
+                    key: 'resume',
+                    label: t('common.resume'),
+                    onClick: () => resumePromotionCampaign(promotionCampaignId),
+                    icon: <PlayCircle weight="Outline" size={18} />,
+                    style: {
+                      color: theme.custom.colors.success.default,
+                      backgroundColor: theme.custom.colors.background.light,
+                    },
+                    disabled: resumePromotionCampaignLoading,
+                  },
+                  {
+                    key: 'delete',
+                    label: t('common.delete'),
+                    onClick: () => deletePromotionCampaign(promotionCampaignId),
+                    icon: <TrashBinTrash weight="Outline" size={18} />,
+                    style: {
+                      color: theme.custom.colors.danger.default,
+                      backgroundColor: theme.custom.colors.background.light,
+                    },
+                    disabled: deletePromotionCampaignLoading,
+                  },
+                ] as MenuProps['items'],
+              }}
+              trigger={['click']}
+            >
               <Button
                 type="default"
-                icon={<Calendar weight="Outline" />}
-                onClick={() => schedulePromotionCampaign(promotionCampaignId)}
-                loading={schedulePromotionCampaignLoading}
+                icon={<Widget6 weight="BoldDuotone" />}
+                loading={
+                  schedulePromotionCampaignLoading ||
+                  pausePromotionCampaignLoading ||
+                  resumePromotionCampaignLoading ||
+                  deletePromotionCampaignLoading
+                }
                 style={{
-                  borderColor: theme.custom.colors.info.default,
+                  backgroundColor: theme.custom.colors.background.light,
                   color: theme.custom.colors.info.default,
-                  backgroundColor: theme.custom.colors.background.light,
                 }}
               >
-                {t('common.schedule')}
+                {t('common.actions')}
               </Button>
-              <Button
-                type="default"
-                icon={<PauseCircle weight="Outline" />}
-                onClick={() => pausePromotionCampaign(promotionCampaignId)}
-                loading={pausePromotionCampaignLoading}
-                style={{
-                  borderColor: theme.custom.colors.warning.default,
-                  color: theme.custom.colors.warning.default,
-                  backgroundColor: theme.custom.colors.background.light,
-                }}
-              >
-                {t('common.pause')}
-              </Button>
-              <Button
-                type="default"
-                icon={<PlayCircle weight="Outline" />}
-                onClick={() => resumePromotionCampaign(promotionCampaignId)}
-                loading={resumePromotionCampaignLoading}
-                style={{
-                  borderColor: theme.custom.colors.success.default,
-                  color: theme.custom.colors.success.default,
-                  backgroundColor: theme.custom.colors.background.light,
-                }}
-              >
-                {t('common.resume')}
-              </Button>
-              <Button
-                type="primary"
-                danger
-                icon={<TrashBinTrash weight="Outline" />}
-                onClick={() => deletePromotionCampaign(promotionCampaignId)}
-                loading={deletePromotionCampaignLoading}
-              >
-                {t('common.delete')}
-              </Button>
-            </Flex>
+            </Dropdown>
           ) : null}
         />
 
