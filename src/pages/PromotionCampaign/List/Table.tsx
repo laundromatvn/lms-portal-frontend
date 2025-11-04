@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import dayjs, { type Dayjs } from 'dayjs';
 
-import { Button, Table, Dropdown, Typography, notification, Flex, Input, Select } from 'antd';
+import { Button, Table, Dropdown, Typography, notification, Flex, Input, Select, DatePicker } from 'antd';
 import type { MenuProps } from 'antd';
 
 import { AddCircle, MenuDots, Refresh, TrashBinTrash } from '@solar-icons/react';
@@ -43,6 +44,8 @@ export const PromotionCampaignListTable: React.FC = () => {
   const [search, setSearch] = useState<string>('');
   const [searchError, setSearchError] = useState<string | undefined>(undefined);
   const [statusFilter, setStatusFilter] = useState<string | undefined>(undefined);
+  const [startTime, setStartTime] = useState<Dayjs | null>(null);
+  const [endTime, setEndTime] = useState<Dayjs | null>(null);
 
   const {
     data: listPromotionCampaignData,
@@ -63,6 +66,13 @@ export const PromotionCampaignListTable: React.FC = () => {
 
   const handleListPromotionCampaign = () => {
     const query = search && search.length >= 3 ? search : undefined;
+    const start_time = startTime
+      ? startTime.format('YYYY-MM-DD HH:mm:ss')
+      : undefined;
+    const end_time = endTime
+      ? endTime.format('YYYY-MM-DD HH:mm:ss')
+      : undefined;
+    
     listPromotionCampaign({
       tenant_id: tenant?.id,
       page,
@@ -71,6 +81,8 @@ export const PromotionCampaignListTable: React.FC = () => {
       order_direction: orderDirection,
       query,
       status: statusFilter as PromotionCampaignStatusEnum,
+      start_time,
+      end_time,
     });
   }
 
@@ -87,6 +99,16 @@ export const PromotionCampaignListTable: React.FC = () => {
 
   const handleStatusFilter = (status: PromotionCampaignStatusEnum | undefined) => {
     setStatusFilter(status);
+    setPage(1);
+  }
+
+  const handleStartTimeChange = (date: Dayjs | null) => {
+    setStartTime(date);
+    setPage(1);
+  }
+
+  const handleEndTimeChange = (date: Dayjs | null) => {
+    setEndTime(date);
     setPage(1);
   }
 
@@ -187,7 +209,7 @@ export const PromotionCampaignListTable: React.FC = () => {
     if (!search || search.length >= 3) {
       handleListPromotionCampaign();
     }
-  }, [page, pageSize, orderBy, orderDirection, search, statusFilter]);
+  }, [page, pageSize, orderBy, orderDirection, search, statusFilter, startTime, endTime]);
 
   useEffect(() => {
     if (!deletePromotionCampaignData) return;
@@ -231,6 +253,8 @@ export const PromotionCampaignListTable: React.FC = () => {
                 setSearch('');
                 setSearchError(undefined);
                 setStatusFilter(undefined);
+                setStartTime(null);
+                setEndTime(null);
                 setPage(1);
               }}
               status={searchError ? 'error' : undefined}
@@ -244,6 +268,24 @@ export const PromotionCampaignListTable: React.FC = () => {
               icon={<Refresh color={theme.custom.colors.text.inverted} />}
               onClick={() => handleListPromotionCampaign()}
               loading={listPromotionCampaignLoading}
+            />
+            <DatePicker
+              placeholder={t('common.startTime')}
+              format="YYYY-MM-DD HH:mm:ss"
+              showTime
+              value={startTime}
+              onChange={handleStartTimeChange}
+              style={{ width: 200 }}
+              allowClear
+            />
+            <DatePicker
+              placeholder={t('common.endTime')}
+              format="YYYY-MM-DD HH:mm:ss"
+              showTime
+              value={endTime}
+              onChange={handleEndTimeChange}
+              style={{ width: 200 }}
+              allowClear
             />
             <Select
               placeholder={t('common.status')}
