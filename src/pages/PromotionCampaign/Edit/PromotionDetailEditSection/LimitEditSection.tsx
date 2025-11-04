@@ -31,7 +31,7 @@ export const LimitEditSection: React.FC<Props> = ({ limitOptions, limits, onChan
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const primaryColor = theme.custom.colors.danger.default;
+  const primaryColor = theme.custom.colors.warning.default;
 
   const [showModal, setShowModal] = useState(false);
   const [selectedLimitIndex, setSelectedLimitIndex] = useState<number | undefined>(undefined);

@@ -20,7 +20,7 @@ export const LimitDetailSection: React.FC<Props> = ({ limits }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const primaryColor = theme.custom.colors.danger.default;
+  const primaryColor = theme.custom.colors.warning.default;
 
   return (
     <Flex vertical gap={theme.custom.spacing.small} style={{ width: '100%' }}>

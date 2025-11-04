@@ -19,8 +19,8 @@ export const LimitItemCard: React.FC<Props> = ({ limit, onEdit, onDelete }: Prop
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const primaryColor = theme.custom.colors.danger.default;
-  const lightColor = theme.custom.colors.danger.light;
+  const primaryColor = theme.custom.colors.warning.default;
+  const lightColor = theme.custom.colors.warning.light;
 
   return (
     <PromotionBaseCard
