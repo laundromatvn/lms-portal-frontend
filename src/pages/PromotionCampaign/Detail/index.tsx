@@ -2,8 +2,19 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Button, Flex, Skeleton, Typography, notification, Dropdown } from 'antd';
-import type { MenuProps } from 'antd';
+import {
+  Button,
+  Flex,
+  Skeleton,
+  Typography,
+  notification,
+  Dropdown,
+  type MenuProps,
+} from 'antd';
+
+import {
+  CaretDownFilled,
+} from '@ant-design/icons';
 
 import {
   ArrowLeft,
@@ -219,7 +230,7 @@ export const PromotionCampaignDetailPage: React.FC = () => {
             >
               <Button
                 type="default"
-                icon={<Widget6 weight="BoldDuotone" />}
+                icon={<CaretDownFilled /> }
                 loading={
                   schedulePromotionCampaignLoading ||
                   pausePromotionCampaignLoading ||
