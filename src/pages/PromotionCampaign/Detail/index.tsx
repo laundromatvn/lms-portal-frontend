@@ -22,7 +22,6 @@ import {
   PauseCircle,
   PlayCircle,
   TrashBinTrash,
-  Widget6,
 } from '@solar-icons/react';
 
 import { type PromotionCampaign } from '@shared/types/promotion/PromotionCampaign';

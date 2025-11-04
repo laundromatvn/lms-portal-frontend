@@ -91,6 +91,42 @@ export const EditSection: React.FC<Props> = ({ promotionCampaign, onSave }: Prop
             format="YYYY-MM-DD HH:mm:ss"
             showTime
             placeholder={t('common.selectStartDate')}
+            disabledDate={(current) => current && current < dayjs().startOf('day')}
+            disabledTime={(date) => {
+              if (date && date.isSame(dayjs(), 'day')) {
+                const now = dayjs();
+                return {
+                  disabledHours: () => {
+                    const hours = [];
+                    for (let i = 0; i < now.hour(); i++) {
+                      hours.push(i);
+                    }
+                    return hours;
+                  },
+                  disabledMinutes: (selectedHour: number) => {
+                    if (selectedHour === now.hour()) {
+                      const minutes = [];
+                      for (let i = 0; i <= now.minute(); i++) {
+                        minutes.push(i);
+                      }
+                      return minutes;
+                    }
+                    return [];
+                  },
+                  disabledSeconds: (selectedHour: number, selectedMinute: number) => {
+                    if (selectedHour === now.hour() && selectedMinute === now.minute()) {
+                      const seconds = [];
+                      for (let i = 0; i <= now.second(); i++) {
+                        seconds.push(i);
+                      }
+                      return seconds;
+                    }
+                    return [];
+                  },
+                };
+              }
+              return {};
+            }}
           />
         </Form.Item>
 
@@ -105,6 +141,42 @@ export const EditSection: React.FC<Props> = ({ promotionCampaign, onSave }: Prop
             format="YYYY-MM-DD HH:mm:ss"
             showTime
             placeholder={t('common.selectEndDate')}
+            disabledDate={(current) => current && current < dayjs().startOf('day')}
+            disabledTime={(date) => {
+              if (date && date.isSame(dayjs(), 'day')) {
+                const now = dayjs();
+                return {
+                  disabledHours: () => {
+                    const hours = [];
+                    for (let i = 0; i < now.hour(); i++) {
+                      hours.push(i);
+                    }
+                    return hours;
+                  },
+                  disabledMinutes: (selectedHour: number) => {
+                    if (selectedHour === now.hour()) {
+                      const minutes = [];
+                      for (let i = 0; i <= now.minute(); i++) {
+                        minutes.push(i);
+                      }
+                      return minutes;
+                    }
+                    return [];
+                  },
+                  disabledSeconds: (selectedHour: number, selectedMinute: number) => {
+                    if (selectedHour === now.hour() && selectedMinute === now.minute()) {
+                      const seconds = [];
+                      for (let i = 0; i <= now.second(); i++) {
+                        seconds.push(i);
+                      }
+                      return seconds;
+                    }
+                    return [];
+                  },
+                };
+              }
+              return {};
+            }}
           />
         </Form.Item>
       </Form>
