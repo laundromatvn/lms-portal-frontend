@@ -94,6 +94,7 @@ export const PromotionDetailEditSection: React.FC<Props> = ({
         />
 
         <LimitEditSection
+          limitOptions={promotionMetadataData?.limits || []}
           limits={limits}
           onChange={(limits) => setLimits(limits)}
         />

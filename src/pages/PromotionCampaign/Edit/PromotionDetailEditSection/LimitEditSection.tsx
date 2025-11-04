@@ -11,20 +11,23 @@ import {
 import { useTheme } from '@shared/theme/useTheme';
 
 import { type PromotionLimit } from '@shared/types/promotion/PromotionLimit';
+import { type PromotionMetadataLimitOption } from '@shared/types/promotion/PromotionMetadata';
+
+import { BaseModal } from '@shared/components/BaseModal';
 
 import {
   LimitItemCard,
   LimitModalContent,
   PromotionBaseHeader,
 } from '../../components';
-import { BaseModal } from '@shared/components/BaseModal';
 
 interface Props {
+  limitOptions: PromotionMetadataLimitOption[];
   limits: PromotionLimit[];
   onChange: (limits: PromotionLimit[]) => void;
 }
 
-export const LimitEditSection: React.FC<Props> = ({ limits, onChange }: Props) => {
+export const LimitEditSection: React.FC<Props> = ({ limitOptions, limits, onChange }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -90,10 +93,14 @@ export const LimitEditSection: React.FC<Props> = ({ limits, onChange }: Props) =
       <BaseModal
         isModalOpen={showModal}
         setIsModalOpen={setShowModal}
-        onCancel={() => setShowModal(false)}
+        onCancel={() => {
+          setShowModal(false);
+          setSelectedLimit(undefined);
+        }}
       >
         {selectedLimit ? (
           <LimitModalContent
+            limitOptions={limitOptions}
             index={selectedLimitIndex}
             limit={selectedLimit}
             onSave={(index, limit) => {
@@ -101,6 +108,7 @@ export const LimitEditSection: React.FC<Props> = ({ limits, onChange }: Props) =
 
               handleOnEdit(index, limit);
               setShowModal(false);
+              setSelectedLimit(undefined);
             }}
             onCancel={() => {
               setShowModal(false);
@@ -109,12 +117,15 @@ export const LimitEditSection: React.FC<Props> = ({ limits, onChange }: Props) =
           />
         ) : (
           <LimitModalContent
+            limitOptions={limitOptions}
             onSave={(_, limit) => {
               handleOnAdd(limit);
               setShowModal(false);
+              setSelectedLimit(undefined);
             }}
             onCancel={() => {
               setShowModal(false);
+              setSelectedLimit(undefined);
             }}
           />
         )}

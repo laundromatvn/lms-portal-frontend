@@ -387,8 +387,10 @@
       "USAGE_PER_STORE": "Số lần sử dụng mỗi cửa hàng",
       "USAGE_PER_TENANT": "Số lần sử dụng mỗi tenant",
       "TOTAL_AMOUNT": "Tổng số tiền",
+      "AMOUNT_PER_ORDER": "Số tiền mỗi đơn hàng",
       "AMOUNT_PER_USER": "Số tiền mỗi người dùng",
-      "AMOUNT_PER_STORE": "Số tiền mỗi cửa hàng"
+      "AMOUNT_PER_STORE": "Số tiền mỗi cửa hàng",
+      "AMOUNT_PER_TENANT": "Số tiền mỗi tenant"
     },
     "unit": {
       "ORDER": "Đơn hàng",

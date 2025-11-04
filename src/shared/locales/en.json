@@ -390,8 +390,10 @@
       "USAGE_PER_STORE": "Usage Per Store",
       "USAGE_PER_TENANT": "Usage Per Tenant",
       "TOTAL_AMOUNT": "Total Amount",
+      "AMOUNT_PER_ORDER": "Amount Per Order",
       "AMOUNT_PER_USER": "Amount Per User",
-      "AMOUNT_PER_STORE": "Amount Per Store"
+      "AMOUNT_PER_STORE": "Amount Per Store",
+      "AMOUNT_PER_TENANT": "Amount Per Tenant"
     },
     "unit": {
       "ORDER": "Order",
