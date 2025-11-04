@@ -37,6 +37,8 @@ export const PromotionCampaignListTable: React.FC = () => {
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [orderBy, setOrderBy] = useState<string | undefined>(undefined);
+  const [orderDirection, setOrderDirection] = useState<'asc' | 'desc' | undefined>(undefined);
 
   const {
     data: listPromotionCampaignData,
@@ -55,6 +57,8 @@ export const PromotionCampaignListTable: React.FC = () => {
       tenant_id: tenant?.id,
       page,
       page_size: pageSize,
+      order_by: orderBy,
+      order_direction: orderDirection,
     });
   }
 
@@ -64,6 +68,8 @@ export const PromotionCampaignListTable: React.FC = () => {
       dataIndex: 'name',
       key: 'name',
       width: 256,
+      sorter: true,
+      sortOrder: orderBy === 'name' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (_, record) => <Typography.Link onClick={() => navigate(`/promotion-campaigns/${record.id}/detail`)}>{record.name}</Typography.Link>,
     },
     {
@@ -94,6 +100,8 @@ export const PromotionCampaignListTable: React.FC = () => {
       dataIndex: 'status',
       key: 'status',
       width: 128,
+      sorter: true,
+      sortOrder: orderBy === 'status' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (value) => <DynamicTag value={value} />,
     },
     {
@@ -101,6 +109,8 @@ export const PromotionCampaignListTable: React.FC = () => {
       dataIndex: 'start_time',
       key: 'start_time',
       width: 128,
+      sorter: true,
+      sortOrder: orderBy === 'start_time' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (value) => formatDateTime(value),
     },
     {
@@ -108,6 +118,8 @@ export const PromotionCampaignListTable: React.FC = () => {
       dataIndex: 'end_time',
       key: 'end_time',
       width: 128,
+      sorter: true,
+      sortOrder: orderBy === 'end_time' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (value) => value ? formatDateTime(value) : '-',
     },
     {
@@ -145,7 +157,7 @@ export const PromotionCampaignListTable: React.FC = () => {
 
   useEffect(() => {
     handleListPromotionCampaign();
-  }, []);
+  }, [page, pageSize, orderBy, orderDirection]);
 
   useEffect(() => {
     if (!deletePromotionCampaignData) return;
@@ -205,12 +217,18 @@ export const PromotionCampaignListTable: React.FC = () => {
             setPageSize(pageSize);
           },
         }}
-        onChange={(pagination) => {
-          listPromotionCampaign({
-            tenant_id: tenantStorage.load()?.id,
-            page: pagination.current,
-            page_size: pagination.pageSize,
-          });
+        onChange={(pagination, _filters, sorter) => {
+          if (sorter && 'field' in sorter && sorter.field) {
+            setOrderBy(sorter.field as string);
+            setOrderDirection(sorter.order === 'ascend' ? 'asc' : 'desc');
+          } else if (sorter && 'order' in sorter && !sorter.order) {
+            // Clear sorting when clicking the same column again
+            setOrderBy(undefined);
+            setOrderDirection(undefined);
+          }
+          
+          setPage(pagination.current || 1);
+          setPageSize(pagination.pageSize || 10);
         }}
       />
     </Box>
