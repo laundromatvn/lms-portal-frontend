@@ -32,7 +32,7 @@ export const DetailSection: React.FC<Props> = ({ promotionCampaign }: Props) => 
         <DynamicTag value={promotionCampaign.status} />
       </DataWrapper>
       <DataWrapper title={t('common.startTime')} value={formatDateTime(promotionCampaign.start_time)} />
-      <DataWrapper title={t('common.endTime')} value={formatDateTime(promotionCampaign.end_time)} />
+      <DataWrapper title={t('common.endTime')} value={promotionCampaign.end_time ? formatDateTime(promotionCampaign.end_time) : '-'} />
     </BaseDetailSection>
   );
 };

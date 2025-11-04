@@ -15,7 +15,7 @@ export type UpdatePromotionCampaignRequest = {
   description: string;
   status: PromotionCampaignStatusEnum;
   start_time: string;
-  end_time: string;
+  end_time: string | null;
   conditions: PromotionCondition[];
   rewards: PromotionReward[];
   limits: PromotionLimit[];

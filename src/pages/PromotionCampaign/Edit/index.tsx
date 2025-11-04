@@ -62,7 +62,7 @@ export const PromotionCampaignEditPage: React.FC = () => {
       description: form.getFieldValue('description'),
       status: form.getFieldValue('status'),
       start_time: startTime ? dayjs(startTime).format('YYYY-MM-DD HH:mm:ss') : '',
-      end_time: endTime ? dayjs(endTime).format('YYYY-MM-DD HH:mm:ss') : '',
+      end_time: endTime ? dayjs(endTime).format('YYYY-MM-DD HH:mm:ss') : null,
       conditions: form.getFieldValue('conditions'),
       rewards: form.getFieldValue('rewards'),
       limits: form.getFieldValue('limits'),

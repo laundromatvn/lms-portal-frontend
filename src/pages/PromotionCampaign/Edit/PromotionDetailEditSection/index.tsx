@@ -88,6 +88,7 @@ export const PromotionDetailEditSection: React.FC<Props> = ({
         />
 
         <RewardEditSection
+          rewardOptions={promotionMetadataData?.rewards || []}
           rewards={rewards}
           onChange={(rewards) => setRewards(rewards)}
         />

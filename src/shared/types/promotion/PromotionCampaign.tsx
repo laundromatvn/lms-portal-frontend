@@ -17,7 +17,7 @@ export type PromotionCampaign = {
     status: PromotionCampaignStatusEnum
     tenant_id: string | null
     start_time: string
-    end_time: string
+    end_time: string | null
     conditions: PromotionCondition[]
     rewards: PromotionReward[]
     limits: PromotionLimit[]

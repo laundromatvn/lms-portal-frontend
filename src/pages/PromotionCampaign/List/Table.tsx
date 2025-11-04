@@ -81,7 +81,7 @@ export const PromotionCampaignListTable: React.FC = () => {
       dataIndex: 'end_time',
       key: 'end_time',
       width: 128,
-      render: (value) => formatDateTime(value),
+      render: (value) => value ? formatDateTime(value) : '-',
     },
     // {
     //   title: t('common.actions'),

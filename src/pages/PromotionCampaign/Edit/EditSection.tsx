@@ -97,7 +97,6 @@ export const EditSection: React.FC<Props> = ({ promotionCampaign, onSave }: Prop
           label={t('common.endTime')}
           name="end_time"
           style={{ width: '100%' }}
-          rules={[{ required: true, message: t('common.endTimeIsRequired') }]}
         >
           <DatePicker
             size="large"

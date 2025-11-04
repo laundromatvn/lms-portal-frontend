@@ -11,20 +11,23 @@ import {
 import { useTheme } from '@shared/theme/useTheme';
 
 import { type PromotionReward } from '@shared/types/promotion/PromotionReward';
+import { type PromotionMetadataRewardOption } from '@shared/types/promotion/PromotionMetadata';
+
+import { BaseModal } from '@shared/components/BaseModal';
 
 import {
   RewardItemCard,
   RewardModalContent,
   PromotionBaseHeader,
 } from '../../components';
-import { BaseModal } from '@shared/components/BaseModal';
 
 interface Props {
+  rewardOptions: PromotionMetadataRewardOption[];
   rewards: PromotionReward[];
   onChange: (rewards: PromotionReward[]) => void;
 }
 
-export const RewardEditSection: React.FC<Props> = ({ rewards, onChange }: Props) => {
+  export const RewardEditSection: React.FC<Props> = ({ rewardOptions, rewards, onChange }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -94,6 +97,7 @@ export const RewardEditSection: React.FC<Props> = ({ rewards, onChange }: Props)
       >
         {selectedReward ? (
           <RewardModalContent
+            rewardOptions={rewardOptions}
             index={selectedRewardIndex}
             reward={selectedReward}
             onSave={(index, reward) => {
@@ -109,6 +113,7 @@ export const RewardEditSection: React.FC<Props> = ({ rewards, onChange }: Props)
           />
         ) : (
           <RewardModalContent
+            rewardOptions={rewardOptions}
             onSave={(_, reward) => {
               handleOnAdd(reward);
               setShowModal(false);
