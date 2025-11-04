@@ -269,6 +269,19 @@ export const PromotionCampaignListTable: React.FC = () => {
               onClick={() => handleListPromotionCampaign()}
               loading={listPromotionCampaignLoading}
             />
+            <Select
+              placeholder={t('common.status')}
+              style={{ width: 150 }}
+              allowClear
+              value={statusFilter}
+              onChange={(value) => handleStatusFilter(value as PromotionCampaignStatusEnum)}
+            >
+              {Object.values(PromotionCampaignStatusEnum).map((status) => (
+                <Select.Option key={status} value={status} style={{ textAlign: 'left' }}>
+                  <DynamicTag value={status} />
+                </Select.Option>
+              ))}
+            </Select>
             <DatePicker
               placeholder={t('common.startTime')}
               format="YYYY-MM-DD HH:mm:ss"
@@ -287,19 +300,6 @@ export const PromotionCampaignListTable: React.FC = () => {
               style={{ width: 200 }}
               allowClear
             />
-            <Select
-              placeholder={t('common.status')}
-              style={{ width: 150 }}
-              allowClear
-              value={statusFilter}
-              onChange={(value) => handleStatusFilter(value as PromotionCampaignStatusEnum)}
-            >
-              {Object.values(PromotionCampaignStatusEnum).map((status) => (
-                <Select.Option key={status} value={status} style={{ textAlign: 'left' }}>
-                  <DynamicTag value={status} />
-                </Select.Option>
-              ))}
-            </Select>
           </Flex>
         )}
       />
