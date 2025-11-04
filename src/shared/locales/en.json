@@ -200,7 +200,10 @@
     "startTimeIsRequired": "Start time is required",
     "selectDate": "Select date",
     "selectStartDate": "Select start date",
-    "selectEndDate": "Select end date"
+    "selectEndDate": "Select end date",
+    "schedule": "Schedule",
+    "pause": "Pause",
+    "resume": "Resume"
   },
   "navigation": {
     "overview": "Overview",
@@ -304,7 +307,15 @@
     "descriptionIsRequired": "Description is required",
     "startTimeIsRequired": "Start time is required",
     "endTimeIsRequired": "End time is required",
-    "promotionDetailMustHaveAtLeastOneReward": "Promotion detail must have at least one reward"
+    "promotionDetailMustHaveAtLeastOneReward": "Promotion detail must have at least one reward",
+    "deletePromotionCampaignSuccess": "Promotion campaign deleted successfully",
+    "deletePromotionCampaignError": "Failed to delete promotion campaign",
+    "pausePromotionCampaignSuccess": "Promotion campaign paused successfully",
+    "pausePromotionCampaignError": "Failed to pause promotion campaign",
+    "resumePromotionCampaignSuccess": "Promotion campaign resumed successfully",
+    "resumePromotionCampaignError": "Failed to resume promotion campaign",
+    "schedulePromotionCampaignSuccess": "Promotion campaign scheduled successfully",
+    "schedulePromotionCampaignError": "Failed to schedule promotion campaign"
   },
   "overview": {
     "keyMetrics": {

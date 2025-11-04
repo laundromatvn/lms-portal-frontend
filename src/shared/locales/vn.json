@@ -200,7 +200,10 @@
     "startTimeIsRequired": "Thời gian bắt đầu là bắt buộc",
     "selectDate": "Chọn ngày",
     "selectStartDate": "Chọn ngày bắt đầu",
-    "selectEndDate": "Chọn ngày kết thúc"
+    "selectEndDate": "Chọn ngày kết thúc",
+    "schedule": "Lên lịch",
+    "pause": "Tạm dừng",
+    "resume": "Tiếp tục"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -301,7 +304,15 @@
     "descriptionIsRequired": "Mô tả là bắt buộc",
     "startTimeIsRequired": "Thời gian bắt đầu là bắt buộc",
     "endTimeIsRequired": "Thời gian kết thúc là bắt buộc",
-    "promotionDetailMustHaveAtLeastOneReward": "Chi tiết khuyến mãi phải có ít nhất một phần thưởng"
+    "promotionDetailMustHaveAtLeastOneReward": "Chi tiết khuyến mãi phải có ít nhất một phần thưởng",
+    "deletePromotionCampaignSuccess": "Chiến dịch khuyến mãi đã được xóa thành công",
+    "deletePromotionCampaignError": "Không thể xóa chiến dịch khuyến mãi",
+    "pausePromotionCampaignSuccess": "Chiến dịch khuyến mãi đã được tạm dừng thành công",
+    "pausePromotionCampaignError": "Không thể tạm dừng chiến dịch khuyến mãi",
+    "resumePromotionCampaignSuccess": "Chiến dịch khuyến mãi đã được tiếp tục thành công",
+    "resumePromotionCampaignError": "Không thể tiếp tục chiến dịch khuyến mãi",
+    "schedulePromotionCampaignSuccess": "Chiến dịch khuyến mãi đã được lên lịch thành công",
+    "schedulePromotionCampaignError": "Không thể lên lịch chiến dịch khuyến mãi"
   },
   "overview": {
     "keyMetrics": {

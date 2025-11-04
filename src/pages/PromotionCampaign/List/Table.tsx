@@ -6,7 +6,15 @@ import dayjs, { type Dayjs } from 'dayjs';
 import { Button, Table, Dropdown, Typography, notification, Flex, Input, Select, DatePicker } from 'antd';
 import type { MenuProps } from 'antd';
 
-import { AddCircle, MenuDots, Refresh, TrashBinTrash } from '@solar-icons/react';
+import {
+  AddCircle,
+  MenuDots,
+  Refresh,
+  TrashBinTrash,
+  PauseCircle,
+  PlayCircle,
+  Calendar,
+} from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -18,7 +26,10 @@ import {
   useListPromotionCampaignApi,
   type ListPromotionCampaignResponse,
 } from '@shared/hooks/promotion/useListPromotionCampaignApi';
-import { useDeletePromotionCampaignApi } from '@shared/hooks/useDeletePromotionCampaignApi';
+import { useDeletePromotionCampaignApi } from '@shared/hooks/promotion/useDeletePromotionCampaignApi';
+import { useSchedulePromotionCampaignApi } from '@shared/hooks/promotion/useSchedulePromotionCampaignApi';
+import { usePausePromotionCampaignApi } from '@shared/hooks/promotion/usePausePromotionCampaignApi';
+import { useResumePromotionCampaignApi } from '@shared/hooks/promotion/useResumePromotionCampaignApi';
 
 import { Box } from '@shared/components/Box';
 import type { ColumnsType } from 'antd/es/table';
@@ -58,6 +69,24 @@ export const PromotionCampaignListTable: React.FC = () => {
     error: deletePromotionCampaignError,
     loading: deletePromotionCampaignLoading,
   } = useDeletePromotionCampaignApi<void>();
+  const {
+    pausePromotionCampaign,
+    data: pausePromotionCampaignData,
+    error: pausePromotionCampaignError,
+    loading: pausePromotionCampaignLoading,
+  } = usePausePromotionCampaignApi();
+  const {
+    resumePromotionCampaign,
+    data: resumePromotionCampaignData,
+    error: resumePromotionCampaignError,
+    loading: resumePromotionCampaignLoading,
+  } = useResumePromotionCampaignApi();
+  const {
+    schedulePromotionCampaign,
+    data: schedulePromotionCampaignData,
+    error: schedulePromotionCampaignError,
+    loading: schedulePromotionCampaignLoading,
+  } = useSchedulePromotionCampaignApi();
 
   const validateSearchText = (text: string): boolean => {
     if (!text) return true;
@@ -72,7 +101,7 @@ export const PromotionCampaignListTable: React.FC = () => {
     const end_time = endTime
       ? endTime.format('YYYY-MM-DD HH:mm:ss')
       : undefined;
-    
+
     listPromotionCampaign({
       tenant_id: tenant?.id,
       page,
@@ -91,7 +120,7 @@ export const PromotionCampaignListTable: React.FC = () => {
       setSearchError('Please enter at least 3 characters');
       return;
     }
-    
+
     setSearchError(undefined);
     setSearch(searchValue);
     setPage(1);
@@ -129,7 +158,7 @@ export const PromotionCampaignListTable: React.FC = () => {
       width: 256,
       render: (_, record) => (
         <div
-          style={{ 
+          style={{
             width: '100%',
             textAlign: 'left',
             display: '-webkit-box',
@@ -180,6 +209,33 @@ export const PromotionCampaignListTable: React.FC = () => {
       render: (_value, record) => {
         const items: MenuProps['items'] = [
           {
+            key: 'schedule',
+            label: t('common.schedule'),
+            onClick: () => schedulePromotionCampaign(record.id),
+            icon: <Calendar weight="Outline" size={18} />,
+            style: {
+              color: theme.custom.colors.info.default,
+            },
+          },
+          {
+            key: 'pause',
+            label: t('common.pause'),
+            onClick: () => pausePromotionCampaign(record.id),
+            icon: <PauseCircle weight="Outline" size={18} />,
+            style: {
+              color: theme.custom.colors.warning.default,
+            },
+          },
+          {
+            key: 'resume',
+            label: t('common.resume'),
+            onClick: () => resumePromotionCampaign(record.id),
+            icon: <PlayCircle weight="Outline" size={18} />,
+            style: {
+              color: theme.custom.colors.success.default,
+            },
+          },
+          {
             key: 'delete',
             label: t('common.delete'),
             onClick: () => deletePromotionCampaign(record.id),
@@ -187,7 +243,7 @@ export const PromotionCampaignListTable: React.FC = () => {
             style: {
               color: theme.custom.colors.danger.default,
             },
-          }
+          },
         ];
 
         return (
@@ -212,11 +268,12 @@ export const PromotionCampaignListTable: React.FC = () => {
   }, [page, pageSize, orderBy, orderDirection, search, statusFilter, startTime, endTime]);
 
   useEffect(() => {
-    if (!deletePromotionCampaignData) return;
+    if (deletePromotionCampaignData) {
+      api.success({
+        message: t('messages.deletePromotionCampaignSuccess'),
+      });
+    }
 
-    api.success({
-      message: t('messages.deletePromotionCampaignSuccess'),
-    });
     handleListPromotionCampaign();
   }, [deletePromotionCampaignData]);
 
@@ -227,6 +284,54 @@ export const PromotionCampaignListTable: React.FC = () => {
       });
     }
   }, [deletePromotionCampaignError]);
+
+  useEffect(() => {
+    if (pausePromotionCampaignData) {
+      api.success({
+        message: t('messages.pausePromotionCampaignSuccess'),
+      });
+    }
+  }, [pausePromotionCampaignData]);
+
+  useEffect(() => {
+    if (pausePromotionCampaignError) {
+      api.error({
+        message: t('messages.pausePromotionCampaignError'),
+      });
+    }
+  }, [pausePromotionCampaignError]);
+
+  useEffect(() => {
+    if (resumePromotionCampaignData) {
+      api.success({
+        message: t('messages.resumePromotionCampaignSuccess'),
+      });
+    }
+  }, [resumePromotionCampaignData]);
+
+  useEffect(() => {
+    if (resumePromotionCampaignError) {
+      api.error({
+        message: t('messages.resumePromotionCampaignError'),
+      });
+    }
+  }, [resumePromotionCampaignError]);
+
+  useEffect(() => {
+    if (schedulePromotionCampaignData) {
+      api.success({
+        message: t('messages.schedulePromotionCampaignSuccess'),
+      });
+    }
+  }, [schedulePromotionCampaignData]);
+
+  useEffect(() => {
+    if (schedulePromotionCampaignError) {
+      api.error({
+        message: t('messages.schedulePromotionCampaignError'),
+      });
+    }
+  }, [schedulePromotionCampaignError]);
 
   return (
     <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
@@ -342,7 +447,7 @@ export const PromotionCampaignListTable: React.FC = () => {
             setOrderBy(undefined);
             setOrderDirection(undefined);
           }
-          
+
           setPage(pagination.current || 1);
           setPageSize(pagination.pageSize || 10);
         }}
