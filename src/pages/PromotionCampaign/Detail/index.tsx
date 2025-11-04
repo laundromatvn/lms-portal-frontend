@@ -180,7 +180,6 @@ export const PromotionCampaignDetailPage: React.FC = () => {
                     icon: <Calendar weight="Outline" size={18} />,
                     style: {
                       color: theme.custom.colors.info.default,
-                      backgroundColor: theme.custom.colors.background.light,
                     },
                     disabled: schedulePromotionCampaignLoading,
                   },
@@ -191,7 +190,6 @@ export const PromotionCampaignDetailPage: React.FC = () => {
                     icon: <PauseCircle weight="Outline" size={18} />,
                     style: {
                       color: theme.custom.colors.warning.default,
-                      backgroundColor: theme.custom.colors.background.light,
                     },
                     disabled: pausePromotionCampaignLoading,
                   },
@@ -202,7 +200,6 @@ export const PromotionCampaignDetailPage: React.FC = () => {
                     icon: <PlayCircle weight="Outline" size={18} />,
                     style: {
                       color: theme.custom.colors.success.default,
-                      backgroundColor: theme.custom.colors.background.light,
                     },
                     disabled: resumePromotionCampaignLoading,
                   },
@@ -213,7 +210,6 @@ export const PromotionCampaignDetailPage: React.FC = () => {
                     icon: <TrashBinTrash weight="Outline" size={18} />,
                     style: {
                       color: theme.custom.colors.danger.default,
-                      backgroundColor: theme.custom.colors.background.light,
                     },
                     disabled: deletePromotionCampaignLoading,
                   },
