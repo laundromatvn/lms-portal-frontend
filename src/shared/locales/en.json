@@ -87,6 +87,7 @@
     "bankAccountName": "Bank Account Name",
     "remove": "Remove",
     "cancel": "Cancel",
+    "filter": "Filter",
     "addPaymentMethod": "Add Payment Method",
     "duplicatePaymentMethodError": "This payment method already exists",
     "qr": "QR Code",

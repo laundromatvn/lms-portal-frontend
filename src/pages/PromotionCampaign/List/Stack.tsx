@@ -34,6 +34,7 @@ import { useResumePromotionCampaignApi } from '@shared/hooks/promotion/useResume
 import { Box } from '@shared/components/Box';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { Stack, StackCard } from '@shared/components/Stack';
+import { CollapsableFilterSection } from '@shared/components/CollapsableFilterSection';
 
 import { formatDateTime } from '@shared/utils/date';
 import LeftRightSection from '@shared/components/LeftRightSection';
@@ -404,37 +405,39 @@ export const PromotionCampaignListStack: React.FC = () => {
               }}
               loading={listPromotionCampaignLoading}
             />
-            <Select
-              placeholder={t('common.status')}
-              style={{ width: 150 }}
-              allowClear
-              value={statusFilter}
-              onChange={(value) => handleStatusFilter(value as PromotionCampaignStatusEnum)}
-            >
-              {Object.values(PromotionCampaignStatusEnum).map((status) => (
-                <Select.Option key={status} value={status} style={{ textAlign: 'left' }}>
-                  <DynamicTag value={status} />
-                </Select.Option>
-              ))}
-            </Select>
-            <DatePicker
-              placeholder={t('common.startTime')}
-              format="YYYY-MM-DD HH:mm:ss"
-              showTime
-              value={startTime}
-              onChange={handleStartTimeChange}
-              style={{ width: 200 }}
-              allowClear
-            />
-            <DatePicker
-              placeholder={t('common.endTime')}
-              format="YYYY-MM-DD HH:mm:ss"
-              showTime
-              value={endTime}
-              onChange={handleEndTimeChange}
-              style={{ width: 200 }}
-              allowClear
-            />
+            <CollapsableFilterSection onFilter={handleListPromotionCampaign}>
+              <Select
+                placeholder={t('common.status')}
+                style={{ width: 150 }}
+                allowClear
+                value={statusFilter}
+                onChange={(value) => handleStatusFilter(value as PromotionCampaignStatusEnum)}
+              >
+                {Object.values(PromotionCampaignStatusEnum).map((status) => (
+                  <Select.Option key={status} value={status} style={{ textAlign: 'left' }}>
+                    <DynamicTag value={status} />
+                  </Select.Option>
+                ))}
+              </Select>
+              <DatePicker
+                placeholder={t('common.startTime')}
+                format="YYYY-MM-DD HH:mm:ss"
+                showTime
+                value={startTime}
+                onChange={handleStartTimeChange}
+                style={{ width: 200 }}
+                allowClear
+              />
+              <DatePicker
+                placeholder={t('common.endTime')}
+                format="YYYY-MM-DD HH:mm:ss"
+                showTime
+                value={endTime}
+                onChange={handleEndTimeChange}
+                style={{ width: 200 }}
+                allowClear
+              />
+            </CollapsableFilterSection>
           </Flex>
         )}
       />

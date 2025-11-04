@@ -87,6 +87,7 @@
     "bankAccountName": "Tên chủ tài khoản",
     "remove": "Xóa",
     "cancel": "Hủy",
+    "filter": "Lọc",
     "addPaymentMethod": "Thêm phương thức thanh toán",
     "duplicatePaymentMethodError": "Phương thức thanh toán này đã tồn tại",
     "qr": "Mã QR",
