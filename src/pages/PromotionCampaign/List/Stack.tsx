@@ -202,6 +202,8 @@ export const PromotionCampaignListStack: React.FC = () => {
       api.success({
         message: t('messages.pausePromotionCampaignSuccess'),
       });
+      setAllItems([]);
+      setPage(1);
       handleListPromotionCampaign();
     }
   }, [pausePromotionCampaignData]);
@@ -219,6 +221,8 @@ export const PromotionCampaignListStack: React.FC = () => {
       api.success({
         message: t('messages.resumePromotionCampaignSuccess'),
       });
+      setAllItems([]);
+      setPage(1);
       handleListPromotionCampaign();
     }
   }, [resumePromotionCampaignData]);
@@ -236,6 +240,8 @@ export const PromotionCampaignListStack: React.FC = () => {
       api.success({
         message: t('messages.schedulePromotionCampaignSuccess'),
       });
+      setAllItems([]);
+      setPage(1);
       handleListPromotionCampaign();
     }
   }, [schedulePromotionCampaignData]);

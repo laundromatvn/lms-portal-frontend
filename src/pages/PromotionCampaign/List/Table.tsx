@@ -290,6 +290,7 @@ export const PromotionCampaignListTable: React.FC = () => {
       api.success({
         message: t('messages.pausePromotionCampaignSuccess'),
       });
+      handleListPromotionCampaign();
     }
   }, [pausePromotionCampaignData]);
 
@@ -306,6 +307,7 @@ export const PromotionCampaignListTable: React.FC = () => {
       api.success({
         message: t('messages.resumePromotionCampaignSuccess'),
       });
+      handleListPromotionCampaign();
     }
   }, [resumePromotionCampaignData]);
 
@@ -322,6 +324,7 @@ export const PromotionCampaignListTable: React.FC = () => {
       api.success({
         message: t('messages.schedulePromotionCampaignSuccess'),
       });
+      handleListPromotionCampaign();
     }
   }, [schedulePromotionCampaignData]);
 
