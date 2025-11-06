@@ -45,12 +45,14 @@ export const LimitModalContent: React.FC<Props> = ({ limitOptions, index, limit,
   };
 
   useEffect(() => {
-    if (!selectedLimitOption) {
+    // Only clear units and form values if no limit is being edited
+    // This prevents clearing values when initializing from an existing limit
+    if (!selectedLimitOption && !limit) {
       setUnits([]);
       form.setFieldsValue({ unit: undefined, value: undefined });
       return;
     }
-  }, [selectedLimitOption, form]);
+  }, [selectedLimitOption, limit, form]);
 
   useEffect(() => {
     if (!limitOptions) return;
@@ -59,7 +61,27 @@ export const LimitModalContent: React.FC<Props> = ({ limitOptions, index, limit,
       label: t(`promotionCampaign.limit_types.${limitOption.limit_type}`),
       value: limitOption.limit_type,
     })));
-  }, [limitOptions]);
+  }, [limitOptions, t]);
+
+  // Initialize selectedLimitOption when editing an existing limit
+  useEffect(() => {
+    if (limit && limit.type && limitOptions && limitOptions.length > 0) {
+      const limitOption = limitOptions.find((option) => option.limit_type === limit.type);
+      if (limitOption) {
+        setSelectedLimitOption(limitOption);
+        const newUnits = limitOption.units?.map((unit) => ({
+          label: t(`promotionCampaign.unit.${unit}`),
+          value: unit,
+        })) || [];
+        setUnits(newUnits);
+      }
+    } else if (!limit) {
+      // Reset when no limit is provided (adding new limit)
+      setSelectedLimitOption(undefined);
+      setUnits([]);
+    }
+  }, [limit, limitOptions, t]);
+
   return (
     <BaseEditSection title={t('common.limit')} saveButtonText={t('common.save')} onSave={handleSubmit}>
       <Form

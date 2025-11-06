@@ -46,8 +46,12 @@ export const RewardModalContent: React.FC<Props> = ({ rewardOptions, index, rewa
 
   useEffect(() => {
     if (!selectedRewardOption) {
-      setUnits([]);
-      form.setFieldsValue({ unit: undefined, value: undefined });
+      // Only clear units and form values if no reward is being edited
+      // This prevents clearing values when initializing from an existing reward
+      if (!reward) {
+        setUnits([]);
+        form.setFieldsValue({ unit: undefined, value: undefined });
+      }
       return;
     }
 
@@ -62,7 +66,7 @@ export const RewardModalContent: React.FC<Props> = ({ rewardOptions, index, rewa
     if (newUnits.length === 1 && !form.getFieldValue('unit')) {
       form.setFieldValue('unit', newUnits[0].value);
     }
-  }, [selectedRewardOption, form, t]);
+  }, [selectedRewardOption, reward, form, t]);
 
   useEffect(() => {
     if (!rewardOptions) return;
@@ -71,7 +75,26 @@ export const RewardModalContent: React.FC<Props> = ({ rewardOptions, index, rewa
       label: t(`promotionCampaign.reward_types.${rewardOption.reward_type}`),
       value: rewardOption.reward_type,
     })));
-  }, [rewardOptions]);
+  }, [rewardOptions, t]);
+
+  // Initialize selectedRewardOption when editing an existing reward
+  useEffect(() => {
+    if (reward && reward.type && rewardOptions && rewardOptions.length > 0) {
+      const rewardOption = rewardOptions.find((option) => option.reward_type === reward.type);
+      if (rewardOption) {
+        setSelectedRewardOption(rewardOption);
+        const newUnits = rewardOption.units?.map((unit) => ({
+          label: t(`promotionCampaign.unit.${unit}`),
+          value: unit,
+        })) || [];
+        setUnits(newUnits);
+      }
+    } else if (!reward) {
+      // Reset when no reward is provided (adding new reward)
+      setSelectedRewardOption(undefined);
+      setUnits([]);
+    }
+  }, [reward, rewardOptions, t]);
 
   return (
     <BaseEditSection title={t('common.reward')} saveButtonText={t('common.save')} onSave={handleSubmit}>
