@@ -75,6 +75,7 @@ export const EditSection: React.FC<Props> = ({ promotionCampaign, onSave }: Prop
               { label: t('common.active'), value: PromotionCampaignStatusEnum.ACTIVE },
               { label: t('common.paused'), value: PromotionCampaignStatusEnum.PAUSED },
               { label: t('common.inactive'), value: PromotionCampaignStatusEnum.INACTIVE },
+              { label: t('common.finished'), value: PromotionCampaignStatusEnum.FINISHED },
             ]}
           />
         </Form.Item>

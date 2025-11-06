@@ -22,13 +22,13 @@ export const buildConditionDescription = (condition: PromotionCondition, t: TFun
 export const buildDisplayValue = (conditionOption: PromotionMetadataConditionOption, value: any) => {
   switch (conditionOption.value_type) {
     case ConditionValueTypeEnum.NUMBER:
-      return value;
+      return String(value);
     case ConditionValueTypeEnum.STRING:
-      return value;
+      return String(value);
     case ConditionValueTypeEnum.OPTIONS:
       const selectedOptions = conditionOption.options.filter((option) => value.includes(option.value));
       return selectedOptions.map((option) => option.label).join(', ');
     default:
-      return value;
+      return String(value);
   }
 };
