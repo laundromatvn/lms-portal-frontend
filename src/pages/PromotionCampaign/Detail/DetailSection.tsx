@@ -2,8 +2,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { useTheme } from '@shared/theme/useTheme';
-
 import { type PromotionCampaign } from '@shared/types/promotion/PromotionCampaign';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
@@ -11,6 +9,7 @@ import { DataWrapper } from '@shared/components/DataWrapper';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
 import { formatDateTime } from '@shared/utils/date';
+import { PromotionCampaignStatusEnum } from '@shared/enums/PromotionCampaignStatusEnum';
 
 interface Props {
   promotionCampaign: PromotionCampaign;
@@ -18,13 +17,25 @@ interface Props {
 
 export const DetailSection: React.FC<Props> = ({ promotionCampaign }: Props) => {
   const { t } = useTranslation();
-  const theme = useTheme();
   const navigate = useNavigate();
+
+  const canEdit = (status: PromotionCampaignStatusEnum) => {
+    switch (status) {
+      case PromotionCampaignStatusEnum.DRAFT:
+      case PromotionCampaignStatusEnum.SCHEDULED:
+      case PromotionCampaignStatusEnum.PAUSED:
+        return true;
+      default:
+        return false;
+    }
+  }
 
   return (
     <BaseDetailSection
       title={t('common.basicInformation')}
-      onEdit={() => navigate(`/promotion-campaigns/${promotionCampaign.id}/edit`)}
+      onEdit={canEdit(promotionCampaign.status)
+        ? () => navigate(`/promotion-campaigns/${promotionCampaign.id}/edit`)
+        : undefined}
     >
       <DataWrapper title={t('common.name')} value={promotionCampaign.name || '-'} />
       <DataWrapper title={t('common.description')} value={promotionCampaign.description || '-'} />

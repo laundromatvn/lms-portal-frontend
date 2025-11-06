@@ -39,6 +39,7 @@ import LeftRightSection from '@shared/components/LeftRightSection';
 
 import { DetailSection } from './DetailSection';
 import { PromotionDetailSection } from './PromotionDetailSection';
+import { PromotionCampaignStatusEnum } from '@shared/enums/PromotionCampaignStatusEnum';
 
 export const PromotionCampaignDetailPage: React.FC = () => {
   const { t } = useTranslation();
@@ -181,6 +182,8 @@ export const PromotionCampaignDetailPage: React.FC = () => {
           )}
           right={!getPromotionCampaignLoading && getPromotionCampaignData ? (
             <Dropdown
+              trigger={['click']}
+              disabled={getPromotionCampaignData?.status === PromotionCampaignStatusEnum.FINISHED}
               menu={{
                 items: [
                   {
@@ -225,11 +228,10 @@ export const PromotionCampaignDetailPage: React.FC = () => {
                   },
                 ] as MenuProps['items'],
               }}
-              trigger={['click']}
             >
               <Button
                 type="default"
-                icon={<CaretDownFilled /> }
+                icon={<CaretDownFilled />}
                 loading={
                   schedulePromotionCampaignLoading ||
                   pausePromotionCampaignLoading ||

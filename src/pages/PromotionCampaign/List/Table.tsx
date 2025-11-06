@@ -254,6 +254,7 @@ export const PromotionCampaignListTable: React.FC = () => {
             <Button
               type="link"
               icon={<MenuDots weight="Bold" />}
+              disabled={record.status === PromotionCampaignStatusEnum.FINISHED}
             />
           </Dropdown>
         );

@@ -58,7 +58,7 @@ export const PromotionCampaignListStack: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState<string | undefined>(undefined);
   const [startTime, setStartTime] = useState<Dayjs | null>(null);
   const [endTime, setEndTime] = useState<Dayjs | null>(null);
-  
+
   // Accumulate all loaded items for infinite scroll
   const [allItems, setAllItems] = useState<PromotionCampaign[]>([]);
 
@@ -326,7 +326,7 @@ export const PromotionCampaignListStack: React.FC = () => {
           >
             {item.description || '-'}
           </Typography.Text>
-          
+
           <Flex vertical gap={theme.custom.spacing.xsmall}>
             <Flex justify="space-between" wrap="wrap" gap={theme.custom.spacing.xsmall}>
               <Typography.Text type="secondary" style={{ fontSize: theme.custom.fontSize.small }}>
@@ -358,6 +358,7 @@ export const PromotionCampaignListStack: React.FC = () => {
               type="text"
               icon={<MenuDots weight="Bold" />}
               onClick={(e) => e.stopPropagation()}
+              disabled={item.status === PromotionCampaignStatusEnum.FINISHED}
             />
           </Dropdown>
         </StackCard.Action>
