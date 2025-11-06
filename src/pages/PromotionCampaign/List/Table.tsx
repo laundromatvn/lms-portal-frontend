@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import dayjs, { type Dayjs } from 'dayjs';
+import { type Dayjs } from 'dayjs';
 
 import { Button, Table, Dropdown, Typography, notification, Flex, Input, Select, DatePicker } from 'antd';
 import type { MenuProps } from 'antd';
