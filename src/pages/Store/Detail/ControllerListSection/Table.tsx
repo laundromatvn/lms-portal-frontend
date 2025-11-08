@@ -20,7 +20,7 @@ interface Props {
   store: Store;
 }
 
-export const ControllerListSection: React.FC<Props> = ({ store }) => {
+export const ControllerListTableView: React.FC<Props> = ({ store }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();

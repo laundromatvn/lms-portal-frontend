@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Flex, Spin } from 'antd';
+import { Flex, Spin, Typography } from 'antd';
 import { useTheme } from '@shared/theme/useTheme';
 
 export interface StackCardProps {
@@ -157,19 +157,17 @@ export function Stack<T>({
   }, [data.length, initialDisplayCount]);
 
   const displayedItems = data.slice(0, displayCount);
-  const shouldShowObserver = (hasMore || data.length > displayCount) && !loading;
+  // Only use observer for local data pagination (when !hasMore), not for API pagination
+  const shouldShowObserver = !hasMore && data.length > displayCount && !loading;
 
-  // Intersection Observer for infinite scroll
+  // Intersection Observer for infinite scroll (only for local data)
   useEffect(() => {
     if (!shouldShowObserver) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          if (hasMore && !loading && onLoadMore) {
-            // For API pagination, call onLoadMore
-            onLoadMore();
-          } else if (!hasMore && !loading && data.length > displayCount) {
+          if (!loading && data.length > displayCount) {
             // For local data, just increase display count
             setDisplayCount((prev) => Math.min(prev + initialDisplayCount, data.length));
           }
@@ -191,7 +189,7 @@ export function Stack<T>({
         observer.unobserve(currentTarget);
       }
     };
-  }, [hasMore, loading, onLoadMore, data.length, displayCount, initialDisplayCount, shouldShowObserver]);
+  }, [loading, data.length, displayCount, initialDisplayCount, shouldShowObserver]);
 
   return (
     <Flex
@@ -215,9 +213,21 @@ export function Stack<T>({
         <div ref={observerTarget} style={{ height: 1, width: '100%' }} />
       )}
 
-      {loading && (
+      {loading && !hasMore && (
         <Flex justify="center" style={{ padding: theme.custom.spacing.large }}>
-          <Spin />
+          <Spin spinning={loading} />
+        </Flex>
+      )}
+
+      {hasMore && onLoadMore && (
+        <Flex justify="center" style={{ padding: theme.custom.spacing.medium }}>
+          {loading ? (
+            <Spin spinning={loading} />
+          ) : (
+            <Typography.Link onClick={onLoadMore} style={{ cursor: 'pointer' }}>
+              View More
+            </Typography.Link>
+          )}
         </Flex>
       )}
     </Flex>

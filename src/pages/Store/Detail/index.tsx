@@ -17,7 +17,7 @@ import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DetailSection } from './DetailSection';
 import { PaymentMethodSection } from './PaymentMethodSection';
-import { ControllerListSection } from './ControllerListSection';
+import { ControllerListSection } from './ControllerListSection/index';
 import { MachineListSection } from './MachineListSection';
 import { ArrowLeft } from '@solar-icons/react';
 
