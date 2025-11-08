@@ -401,7 +401,9 @@
     "condition_types": {
       "TENANTS": "Tenants",
       "STORES": "Stores",
-      "TOTAL_AMOUNT": "Total Amount"
+      "TOTAL_AMOUNT": "Total Amount",
+      "MACHINE_TYPES": "Machine Types",
+      "TIME_IN_DAY": "Time in Day"
     },
     "reward_types": {
       "FIXED_AMOUNT": "Fixed Amount",

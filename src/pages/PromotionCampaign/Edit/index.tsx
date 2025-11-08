@@ -57,6 +57,16 @@ export const PromotionCampaignEditPage: React.FC = () => {
     const startTime = form.getFieldValue('start_time');
     const endTime = form.getFieldValue('end_time');
 
+    const conditions = form.getFieldValue('conditions');
+    const rewards = form.getFieldValue('rewards');
+    const limits = form.getFieldValue('limits');
+
+    console.log("rewards in on save", rewards);
+    console.log("limits in on save", limits);
+    console.log("start time in on save", startTime);
+    console.log("end time in on save", endTime);
+    console.log("conditions in on save", conditions);
+
     const payload = {
       name: form.getFieldValue('name'),
       description: form.getFieldValue('description'),

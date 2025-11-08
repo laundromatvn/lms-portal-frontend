@@ -398,7 +398,9 @@
     "condition_types": {
       "TENANTS": "Tenants",
       "STORES": "Cửa hàng",
-      "TOTAL_AMOUNT": "Tổng số tiền"
+      "TOTAL_AMOUNT": "Tổng số tiền",
+      "MACHINE_TYPES": "Loại máy",
+      "TIME_IN_DAY": "Thời gian trong ngày"
     },
     "reward_types": {
       "FIXED_AMOUNT": "Số tiền cố định",

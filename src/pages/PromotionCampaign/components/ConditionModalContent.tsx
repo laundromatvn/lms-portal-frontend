@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Form, InputNumber, Select, Button, Flex, Input } from 'antd';
+import {
+  Form,
+  InputNumber,
+  Select,
+  Button,
+  Flex,
+  Input,
+  TimePicker,
+} from 'antd';
+
+import dayjs from 'dayjs';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -41,22 +51,54 @@ export const ConditionModalContent: React.FC<Props> = ({
 
   useEffect(() => {
     if (condition) {
-      form.setFieldsValue(condition);
-      setSelectedConditionOption(conditionOptions?.find((conditionOption) => conditionOption.condition_type === condition?.type) || undefined);
+      const conditionOption = conditionOptions?.find((conditionOption) => conditionOption.condition_type === condition?.type);
+      setSelectedConditionOption(conditionOption || undefined);
+
+      // Convert ISO date strings to dayjs objects for TIME_IN_DAY value type
+      const formValues = { ...condition };
+      if (conditionOption?.value_type === ConditionValueTypeEnum.TIME_IN_DAY && Array.isArray(condition.value)) {
+        try {
+          formValues.value = [
+            dayjs(condition.value[0]),
+            dayjs(condition.value[1]),
+          ];
+        } catch (error) {
+          console.error("Error converting time to dayjs object", error);
+        }
+      }
+
+      form.setFieldsValue(formValues);
     } else {
       form.resetFields();
     }
-  }, [condition, form]);
+  }, [condition, conditionOptions, form]);
 
   const handleSubmit = async () => {
     const values = await form.validateFields();
     const conditionOption = conditionOptions?.find((conditionOption) => conditionOption.condition_type === values.type);
+    const displayValue = conditionOption ? buildDisplayValue(conditionOption, values.value) : '';
 
-    onSave(index, {
+    const payload = {
       ...values,
-      display_value: conditionOption ? buildDisplayValue(conditionOption, values.value) : '',
-    } as PromotionCondition);
+      display_value: displayValue,
+    }
+
+    onSave(index, payload);
     form.resetFields();
+  };
+
+  const buildInitialValues = () => {
+    if (!condition) return {type: undefined, operator: undefined, value: undefined};
+
+    if (selectedConditionOption?.value_type === ConditionValueTypeEnum.TIME_IN_DAY) {
+      return {
+        type: condition.type,
+        operator: condition.operator,
+        value: [dayjs(condition.value[0]), dayjs(condition.value[1])],
+      };
+    }
+
+    return condition;
   };
 
   useEffect(() => {
@@ -88,7 +130,7 @@ export const ConditionModalContent: React.FC<Props> = ({
         form={form}
         layout="vertical"
         style={{ width: '100%' }}
-        initialValues={condition || {}}
+        initialValues={buildInitialValues()}
       >
         <Form.Item
           label={t('common.type')}
@@ -135,6 +177,15 @@ export const ConditionModalContent: React.FC<Props> = ({
                 style={{ width: '100%' }}
                 options={options}
                 mode="multiple"
+              />
+            )}
+
+            {selectedConditionOption?.value_type === ConditionValueTypeEnum.TIME_IN_DAY && (
+              <TimePicker.RangePicker
+                size="large"
+                style={{ width: '100%' }}
+                format="HH:mm"
+                placeholder={[t('common.startTime'), t('common.endTime')]}
               />
             )}
           </Form.Item>

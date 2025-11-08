@@ -66,10 +66,6 @@ export const ConditionEditSection: React.FC<Props> = ({ conditions, conditionOpt
     setShowModal(true);
   };
 
-  useEffect(() => {
-    console.log('conditionOptions in condition edit section', conditionOptions);
-  }, [conditionOptions]);
-
   return (
     <Flex vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
       <PromotionBaseHeader
@@ -109,8 +105,8 @@ export const ConditionEditSection: React.FC<Props> = ({ conditions, conditionOpt
             onSave={(index, condition) => {
               if (index === undefined) return;
 
-              handleOnEdit(index, condition);
               setShowModal(false);
+              handleOnEdit(index, condition);
             }}
             onCancel={() => {
               setShowModal(false);
@@ -121,8 +117,8 @@ export const ConditionEditSection: React.FC<Props> = ({ conditions, conditionOpt
           <ConditionModalContent
             conditionOptions={conditionOptions}
             onSave={(_, condition) => {
-              handleOnAdd(condition);
               setShowModal(false);
+              handleOnAdd(condition);
             }}
             onCancel={() => {
               setShowModal(false);

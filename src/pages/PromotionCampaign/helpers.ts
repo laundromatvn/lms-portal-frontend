@@ -1,5 +1,7 @@
 import type { TFunction } from "i18next";
 
+import dayjs from "dayjs";
+
 import { ConditionValueTypeEnum } from "@shared/enums/ConditionValueTypeEnum";
 import { type PromotionCondition } from "@shared/types/promotion/PromotionCondition";
 import type { PromotionMetadataConditionOption } from "@shared/types/promotion/PromotionMetadata";
@@ -28,6 +30,8 @@ export const buildDisplayValue = (conditionOption: PromotionMetadataConditionOpt
     case ConditionValueTypeEnum.OPTIONS:
       const selectedOptions = conditionOption.options.filter((option) => value.includes(option.value));
       return selectedOptions.map((option) => option.label).join(', ');
+    case ConditionValueTypeEnum.TIME_IN_DAY:
+      return `${dayjs(value[0]).format('HH:mm')} - ${dayjs(value[1]).format('HH:mm')}`;
     default:
       return String(value);
   }
