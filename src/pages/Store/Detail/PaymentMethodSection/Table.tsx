@@ -12,7 +12,7 @@ interface Props {
   store: Store;
 }
 
-export const PaymentMethodSection: React.FC<Props> = ({ store }: Props) => {
+export const PaymentMethodTableView: React.FC<Props> = ({ store }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
