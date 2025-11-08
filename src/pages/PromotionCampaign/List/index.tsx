@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Flex, Typography } from 'antd';
 
-import { useTheme } from '@shared/theme/useTheme';
-
 import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
@@ -14,10 +12,8 @@ import { PromotionCampaignListStack } from './Stack';
 
 export const PromotionCampaignListPage: React.FC = () => {
   const { t } = useTranslation();
-  const theme = useTheme();
 
   const isMobile = useIsMobile();
-
 
   return (
     <PortalLayout>
