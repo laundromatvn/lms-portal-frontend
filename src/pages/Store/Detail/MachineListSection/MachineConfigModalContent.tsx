@@ -109,7 +109,7 @@ export const MachineConfigModalContent: React.FC<Props> = ({ machineId, onSave, 
         paddingRight: theme.custom.spacing.medium,
       }}
     >
-      <Typography.Title level={3}>Machine Config {machineId}</Typography.Title>
+      <Typography.Title level={3}>{t('common.machineConfig', { machineName: machineData?.name || `${t('common.machine')} ${machineData?.relay_no}` })}</Typography.Title>
 
       {contextHolder}
 

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
-import { Button, Flex, Select, Table, Typography, notification } from 'antd';
+import { Button, Divider, Flex, Select, Typography, notification } from 'antd';
 
 import {
   Refresh,
@@ -32,6 +33,8 @@ import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { BaseModal } from '@shared/components/BaseModal';
 import LeftRightSection from '@shared/components/LeftRightSection';
+import { Stack, StackCard } from '@shared/components/Stack';
+
 import { MachineConfigModalContent } from './MachineConfigModalContent';
 import { StartMachineModalContent } from './StartMachineModalContent';
 
@@ -40,30 +43,22 @@ interface Props {
   store: Store;
 }
 
-export const MachineListSection: React.FC<Props> = ({ store }) => {
+export const MachineListStackView: React.FC<Props> = ({ store }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const [api, contextHolder] = notification.useNotification();
 
   const [dataSource, setDataSource] = useState<any[]>([]);
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(8);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isStartMachineModalOpen, setIsStartMachineModalOpen] = useState(false);
   const [selectedMachineId, setSelectedMachineId] = useState<string | null>(null);
   const [selectedMachine, setSelectedMachine] = useState<any | null>(null);
   const [selectedControllerId, setSelectedControllerId] = useState<string | null>(null);
-
-  const columns = [
-    { title: t('common.relayNo'), dataIndex: 'relay_no', width: 48 },
-    { title: t('common.name'), dataIndex: 'name' },
-    { title: t('common.machineType'), dataIndex: 'machine_type', width: 128 },
-    { title: t('common.basePrice'), dataIndex: 'base_price', width: 128 },
-    { title: t('common.status'), dataIndex: 'status', render: (status: string) => <DynamicTag value={status} />, width: 128 },
-    { title: t('common.actions'), dataIndex: 'actions', width: 256 },
-  ];
 
   const {
     data: listControllerData,
@@ -95,38 +90,12 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
   useEffect(() => {
     if (listMachineData) {
       setDataSource(listMachineData.data.map((item) => ({
+        id: item.id,
         relay_no: item.relay_no,
         name: item.name,
         machine_type: item.machine_type,
-        base_price: formatCurrencyCompact(item.base_price),
+        base_price: item.base_price,
         status: item.status,
-        actions: (
-          <Flex gap={theme.custom.spacing.medium}>
-            <Button
-              type="link"
-              onClick={() => {
-                setIsStartMachineModalOpen(true);
-                setSelectedMachineId(item.id);
-                setSelectedMachine(item);
-              }}
-            >
-              <Play weight="Bold" color={theme.custom.colors.success.default} />
-            </Button>
-            <Button
-              type="link"
-              onClick={() => activateMachine(item.id)}
-              loading={activateMachineLoading}
-            >
-              <Refresh weight="Bold" color={theme.custom.colors.success.default} />
-            </Button>
-            <Button type="link" onClick={() => {
-              setIsModalOpen(true);
-              setSelectedMachineId(item.id);
-            }}>
-              <Settings />
-            </Button>
-          </Flex>
-        ),
       })));
     }
   }, [listMachineData]);
@@ -188,25 +157,63 @@ export const MachineListSection: React.FC<Props> = ({ store }) => {
         rightStyle={{ gap: theme.custom.spacing.small }}
       />
 
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-        pagination={{
-          pageSize,
-          current: page,
-          total: listMachineData?.total,
-          onChange: (page, pageSize) => {
-            setPage(page);
-            setPageSize(pageSize);
-            listMachine({
-              controller_id: selectedControllerId as string,
-              page,
-              page_size: pageSize
-            });
-          },
-        }}
+      <Stack
+        data={dataSource}
         loading={listMachineLoading}
-        style={{ width: '100%' }}
+        initialDisplayCount={pageSize}
+        hasMore={page < (listMachineData?.total_pages || 0)}
+        onLoadMore={() => setPage(page + 1)}
+        renderItem={(item) => (
+          <StackCard>
+            <StackCard.Header>
+              <Typography.Link onClick={() => navigate(`/machines/${item.id}/detail`)} strong>
+                {item.name || `${t('common.machine')} ${item.relay_no}`}
+              </Typography.Link>
+            </StackCard.Header>
+            <StackCard.Content>
+              <Flex justify="space-between" align="center" wrap="wrap" gap={theme.custom.spacing.xsmall}>
+                <DynamicTag value={item.machine_type} />
+                <DynamicTag value={item.status} />
+              </Flex>
+
+              <Typography.Text type="secondary">{t('common.basePrice')}: {formatCurrencyCompact(item.base_price)}</Typography.Text>
+            </StackCard.Content>
+
+            <Divider style={{ margin: 0 }} />
+
+            <StackCard.Action>
+              <Button
+                type="text"
+                icon={<Refresh />}
+                onClick={() => {
+                  activateMachine(item.id);
+                }}
+              />
+
+              <Button
+                type="text"
+                icon={<Play weight="Bold" />}
+                onClick={() => {
+                  setIsStartMachineModalOpen(true);
+                  setSelectedMachineId(item.id);
+                  setSelectedMachine(item);;
+                }}
+                style={{
+                  color: theme.custom.colors.success.default,
+                }}
+              />
+
+              <Button
+                type="text"
+                icon={<Settings />}
+                onClick={() => {
+                  setIsModalOpen(true);
+                  setSelectedMachineId(item.id);
+                }}
+              />
+            </StackCard.Action>
+          </StackCard>
+        )}
       />
 
       {selectedMachineId && (

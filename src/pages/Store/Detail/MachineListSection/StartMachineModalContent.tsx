@@ -63,13 +63,13 @@ export const StartMachineModalContent: React.FC<Props> = ({ machine, onClose, on
       gap={theme.custom.spacing.medium}
       style={{
         width: '100%',
-        minWidth: 500,
+        // minWidth: 500,
       }}
     >
       <Typography.Title level={3}>Start Machine - {machine.name}</Typography.Title>
 
       {/* Machine Information */}
-      <Card size="small" title={t('common.machineInfo')}>
+      <Card size="small" title={t('common.machineInfo')} style={{ width: '100%' }}>
         <Flex vertical gap={theme.custom.spacing.small}>
           <Flex justify="space-between">
             <Typography.Text strong>{t('common.basePrice')}:</Typography.Text>

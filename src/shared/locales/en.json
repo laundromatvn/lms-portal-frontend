@@ -204,7 +204,8 @@
     "selectEndDate": "Select end date",
     "schedule": "Schedule",
     "pause": "Pause",
-    "resume": "Resume"
+    "resume": "Resume",
+    "machine": "Machine"
   },
   "navigation": {
     "overview": "Overview",
