@@ -84,6 +84,8 @@ export const StartOrderMachinesModalContent: React.FC<Props> = ({ order }) => {
       <Typography.Title level={3}>{t('overview.orderTable.orderDetail', { orderId: order.transaction_code })}</Typography.Title>
 
       <Box vertical gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
+        <Typography.Text strong>{t('common.orderDetail')}</Typography.Text>
+
         <Typography.Text type="secondary">{t('overview.orderTable.orderDetail', { orderId: order.transaction_code })}</Typography.Text>
         <Typography.Text type="secondary">{t('overview.orderTable.status')}: <DynamicTag value={order.status} /> </Typography.Text>
 
@@ -95,6 +97,8 @@ export const StartOrderMachinesModalContent: React.FC<Props> = ({ order }) => {
       </Box>
 
       <Box vertical gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+        <Typography.Text strong>{t('common.machineList')}</Typography.Text>
+
         {listOrderDetailData?.data.map((detail, index) => (
           <Box border vertical justify="space-between" gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
             <Flex justify="space-between" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
