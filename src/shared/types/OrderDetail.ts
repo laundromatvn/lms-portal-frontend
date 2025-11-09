@@ -13,4 +13,5 @@ export type OrderDetail = {
   price: string
   machine_name: string | null
   machine_type: MachineTypeEnum | null
+  machine_relay_no: number | null
 }

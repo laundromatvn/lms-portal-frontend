@@ -372,7 +372,8 @@
       "totalDryer": "Total Dryer",
       "searchPlaceholder": "Search orders (min 3 words)",
       "searchMinWordsError": "Please enter at least 3 words to search",
-      "action": "Action"
+      "action": "Action",
+      "orderDetail": "Order: {{orderId}}"
     },
     "machineStatus": {
       "title": "Machine Status Timeline",

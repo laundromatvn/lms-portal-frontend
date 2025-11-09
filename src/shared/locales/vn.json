@@ -369,7 +369,8 @@
       "totalDryer": "Số máy sấy",
       "searchPlaceholder": "Tìm kiếm đơn hàng (tối thiểu 3 từ)",
       "searchMinWordsError": "Vui lòng nhập ít nhất 3 từ để tìm kiếm",
-      "action": "Hành động"
+      "action": "Hành động",
+      "orderDetail": "Đơn hàng: {{orderId}}"
     },
     "machineStatus": {
       "title": "Timeline Trạng thái Máy",
