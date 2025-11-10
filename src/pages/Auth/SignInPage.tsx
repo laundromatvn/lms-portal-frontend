@@ -46,9 +46,7 @@ export const SignInPage: React.FC = () => {
   } = useSignInApi();
   const {
     getLMSProfile,
-    loading: getLMSProfileLoading,
     data: getLMSProfileData,
-    error: getLMSProfileError,
   } = useGetLMSProfileApi();
   const {
     getMe,
@@ -71,11 +69,6 @@ export const SignInPage: React.FC = () => {
     });
   };
 
-  const fetchData = async () => {
-    await getMe();
-    await getLMSProfile();
-  }
-
   const handleSuccessfulAuth = async () => {
     try {
       const bundle: TokenBundle = {
@@ -93,8 +86,10 @@ export const SignInPage: React.FC = () => {
       navigate('/verification-failed');
     }
 
-    await fetchData();
+    getMe();
+  };
 
+  const goNext = () => {
     try {
       if (redirectTo) {
         if (redirectTo.startsWith('/')) {
@@ -109,7 +104,7 @@ export const SignInPage: React.FC = () => {
       console.warn('Invalid redirect_to parameter:', redirectTo);
       navigate('/overview');
     }
-  };
+  }
 
   useEffect(() => {
     if (sessionId) {
@@ -136,7 +131,7 @@ export const SignInPage: React.FC = () => {
     if (getLMSProfileData) {
       userStorage.save(getLMSProfileData.user);
       tenantStorage.save(getLMSProfileData.tenant);
-      handleSuccessfulAuth();
+      goNext();
     }
   }, [getLMSProfileData]);
 
@@ -144,7 +139,7 @@ export const SignInPage: React.FC = () => {
     if (getMeData) {
       userStorage.save(getMeData);
       if (getMeData.role === UserRoleEnum.ADMIN) {
-        handleSuccessfulAuth();
+        goNext();
       } else {
         getLMSProfile();
       }
