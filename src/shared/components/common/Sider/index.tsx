@@ -318,7 +318,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
               backgroundColor: 'transparent',
               border: 'none',
             }}
-            items={mainMenuItems}
+            items={mainMenuItems.filter(item => user?.role !== UserRoleEnum.ADMIN || item.key !== 'overview')}
           />
 
           {(user?.role === UserRoleEnum.TENANT_ADMIN || user?.role === UserRoleEnum.TENANT_STAFF) && (

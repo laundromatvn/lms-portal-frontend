@@ -179,7 +179,7 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
   };
 
   const getMenuItems = (): MenuItem[] => {
-    const items: MenuItem[] = [...mainMenuItems];
+    const items: MenuItem[] = mainMenuItems.filter(item => user?.role !== UserRoleEnum.ADMIN || item.key !== 'overview');
 
     if (user?.role === UserRoleEnum.TENANT_ADMIN) {
       items.push(...tenantAdminManagementMenuItems);
@@ -361,24 +361,26 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
             {t('navigation.logout')}
           </Button>
 
-          <Button
-            type="primary"
-            icon={<Home />}
-            onClick={() => {
-              navigate('/overview');
-              onClose();
-            }}
-            style={{
-              width: '100%',
-              height: 48,
-              fontSize: 16,
-              color: theme.custom.colors.text.inverted,
-              padding: theme.custom.spacing.medium,
-              borderRadius: theme.custom.radius.full,
-            }}
-          >
-            {t('navigation.home')}
-          </Button>
+          {user?.role !== UserRoleEnum.ADMIN && (
+            <Button
+              type="primary"
+              icon={<Home />}
+              onClick={() => {
+                navigate('/overview');
+                onClose();
+              }}
+              style={{
+                width: '100%',
+                height: 48,
+                fontSize: 16,
+                color: theme.custom.colors.text.inverted,
+                padding: theme.custom.spacing.medium,
+                borderRadius: theme.custom.radius.full,
+              }}
+            >
+              {t('navigation.home')}
+            </Button>
+          )}
         </Flex>
       </Flex>
     </Drawer>

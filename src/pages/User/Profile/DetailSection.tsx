@@ -6,6 +6,7 @@ import { userStorage } from '@core/storage/userStorage';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DataWrapper } from '@shared/components/DataWrapper';
+import { DynamicTag } from '@shared/components/DynamicTag';
 
 export const UserProfileDetailSection: React.FC = () => {
   const { t } = useTranslation();
@@ -16,6 +17,9 @@ export const UserProfileDetailSection: React.FC = () => {
     <BaseDetailSection title={t('common.basicInformation')} onEdit={() => navigate(`/user/edit`)}>
       <DataWrapper title={t('common.email')} value={user?.email || '-'} />
       <DataWrapper title={t('common.phone')} value={user?.phone || '-'} />
+      <DataWrapper title={t('common.role')}>
+        <DynamicTag value={user?.role || '-'} />
+      </DataWrapper>
     </BaseDetailSection>
   );
 };
