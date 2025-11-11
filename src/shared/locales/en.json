@@ -225,7 +225,13 @@
     "firmwareDetail": "Firmware Detail",
     "objectName": "Object Name",
     "fileSize": "File Size",
-    "checksum": "Checksum"
+    "checksum": "Checksum",
+    "provisionedControllers": "Provisioned Controllers",
+    "flashNewFirmware": "Flash New Firmware",
+    "flash": "Flash",
+    "flashAllControllers": "Flash all Controllers",
+    "release": "Release",
+    "deprecate": "Deprecate"
   },
   "navigation": {
     "overview": "Overview",
@@ -346,7 +352,13 @@
     "createFirmwareError": "Failed to create firmware",
     "createFirmwareSuccess": "Firmware created successfully",
     "deleteFirmwareError": "Failed to delete firmware",
-    "deleteFirmwareSuccess": "Firmware deleted successfully"
+    "deleteFirmwareSuccess": "Firmware deleted successfully",
+    "flashFirmwareSuccess": "Firmware flashed successfully",
+    "flashFirmwareError": "Failed to flash firmware",
+    "releaseFirmwareSuccess": "Firmware released successfully",
+    "releaseFirmwareError": "Failed to release firmware",
+    "deprecateFirmwareSuccess": "Firmware deprecated successfully",
+    "deprecateFirmwareError": "Failed to deprecate firmware"
   },
   "overview": {
     "keyMetrics": {

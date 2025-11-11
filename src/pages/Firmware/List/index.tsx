@@ -17,6 +17,14 @@ import {
   useDeleteFirmwareApi,
   type DeleteFirmwareResponse,
 } from '@shared/hooks/firmware/useDeleteFirmwareApi';
+import {
+  useDeprecateFirmwareApi,
+  type DeprecateFirmwareResponse,
+} from '@shared/hooks/firmware/useDeprecateFirmwareApi';
+import {
+  useReleaseFirmwareApi,
+  type ReleaseFirmwareResponse,
+} from '@shared/hooks/firmware/useReleaseFirmwareApi';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import LeftRightSection from '@shared/components/LeftRightSection';
@@ -47,11 +55,23 @@ export const FirmwareListPage: React.FC = () => {
     error: deleteFirmwareError,
     loading: deleteFirmwareLoading,
   } = useDeleteFirmwareApi<DeleteFirmwareResponse>();
+  const {
+    deprecateFirmware,
+    data: deprecateFirmwareData,
+    loading: deprecateFirmwareLoading,
+    error: deprecateFirmwareError,
+  } = useDeprecateFirmwareApi();
+  const {
+    releaseFirmware,
+    data: releaseFirmwareData,
+    loading: releaseFirmwareLoading,
+    error: releaseFirmwareError,
+  } = useReleaseFirmwareApi();
 
   const handleListFirmware = () => {
     listFirmware(filters);
   }
-  
+
   useEffect(() => {
     handleListFirmware();
   }, [filters]);
@@ -73,6 +93,42 @@ export const FirmwareListPage: React.FC = () => {
 
     handleListFirmware();
   }, [deleteFirmwareData]);
+
+  useEffect(() => {
+    if (deprecateFirmwareData) {
+      api.success({
+        message: t('messages.deprecateFirmwareSuccess'),
+      });
+    }
+
+    handleListFirmware();
+  }, [deprecateFirmwareData]);
+
+  useEffect(() => {
+    if (releaseFirmwareData) {
+      api.success({
+        message: t('messages.releaseFirmwareSuccess'),
+      });
+    }
+
+    handleListFirmware();
+  }, [releaseFirmwareData]);
+
+  useEffect(() => {
+    if (deprecateFirmwareError) {
+      api.error({
+        message: t('messages.deprecateFirmwareError'),
+      });
+    }
+  }, [deprecateFirmwareError]);
+
+  useEffect(() => {
+    if (releaseFirmwareError) {
+      api.error({
+        message: t('messages.releaseFirmwareError'),
+      });
+    }
+  }, [releaseFirmwareError]);
 
   return (
     <PortalLayout>
@@ -99,9 +155,11 @@ export const FirmwareListPage: React.FC = () => {
 
         <FirmwareListTable
           data={listFirmwareData}
-          loading={listFirmwareLoading || deleteFirmwareLoading}
+          loading={listFirmwareLoading || deleteFirmwareLoading || releaseFirmwareLoading || deprecateFirmwareLoading}
           onFiltersChange={setFilters}
           onDeleteFirmware={(firmwareId) => deleteFirmware(firmwareId)}
+          onReleaseFirmware={(firmwareId) => releaseFirmware(firmwareId)}
+          onDeprecateFirmware={(firmwareId) => deprecateFirmware(firmwareId)}
         />
       </Box>
     </PortalLayout >

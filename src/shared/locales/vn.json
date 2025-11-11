@@ -225,7 +225,13 @@
     "firmwareDetail": "Chi tiết Firmware",
     "objectName": "Tên đối tượng",
     "fileSize": "Kích thước tệp",
-    "checksum": "Checksum"
+    "checksum": "Checksum",
+    "provisionedControllers": "Controllers đã cấp phát",
+    "flashNewFirmware": "Flash New Firmware",
+    "flash": "Flash",
+    "flashAllControllers": "Flash tất cả Controllers",
+    "release": "Release",
+    "deprecate": "Deprecate"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -343,7 +349,13 @@
     "createFirmwareError": "Không thể tạo Firmware",
     "createFirmwareSuccess": "Firmware đã được tạo thành công",
     "deleteFirmwareError": "Không thể xóa Firmware",
-    "deleteFirmwareSuccess": "Firmware đã được xóa thành công"
+    "deleteFirmwareSuccess": "Firmware đã được xóa thành công",
+    "flashFirmwareSuccess": "Firmware đã được flash thành công",
+    "flashFirmwareError": "Không thể flash Firmware",
+    "releaseFirmwareSuccess": "Firmware đã được release thành công",
+    "releaseFirmwareError": "Không thể release Firmware",
+    "deprecateFirmwareSuccess": "Firmware đã được deprecate thành công",
+    "deprecateFirmwareError": "Không thể deprecate Firmware"
   },
   "overview": {
     "keyMetrics": {

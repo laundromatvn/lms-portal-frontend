@@ -6,6 +6,7 @@ import {
   Button,
   Dropdown,
   Flex,
+  notification,
   Table,
   Typography,
 } from 'antd';
@@ -13,6 +14,8 @@ import {
 import {
   MenuDots,
   TrashBinTrash,
+  Rocket2,
+  ArchiveDown,
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -29,12 +32,23 @@ interface Props {
   loading: boolean;
   onFiltersChange: (filters: ListFirmwareRequest) => void;
   onDeleteFirmware: (firmwareId: string) => void;
+  onReleaseFirmware: (firmwareId: string) => void;
+  onDeprecateFirmware: (firmwareId: string) => void;
 }
 
-export const FirmwareListTable: React.FC<Props> = ({ data, loading, onFiltersChange, onDeleteFirmware }) => {
+export const FirmwareListTable: React.FC<Props> = ({
+  data,
+  loading,
+  onFiltersChange,
+  onDeleteFirmware,
+  onReleaseFirmware,
+  onDeprecateFirmware,
+}) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
+
+  const [api, contextHolder] = notification.useNotification();
 
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -84,6 +98,24 @@ export const FirmwareListTable: React.FC<Props> = ({ data, loading, onFiltersCha
               menu={{
                 items: [
                   {
+                    key: 'release',
+                    label: t('common.release'),
+                    onClick: () => onReleaseFirmware(record.id),
+                    icon: <Rocket2 weight="Outline" color={theme.custom.colors.success.default} />,
+                    style: {
+                      color: theme.custom.colors.success.default,
+                    },
+                  },
+                  {
+                    key: 'deprecate',
+                    label: t('common.deprecate'),
+                    onClick: () => onDeprecateFirmware(record.id),
+                    icon: <ArchiveDown weight="Outline" color={theme.custom.colors.warning.default} />,
+                    style: {
+                      color: theme.custom.colors.warning.default,
+                    },
+                  },
+                  {
                     key: 'delete',
                     label: t('common.delete'),
                     onClick: () => onDeleteFirmware(record.id),
@@ -113,32 +145,35 @@ export const FirmwareListTable: React.FC<Props> = ({ data, loading, onFiltersCha
   }, [orderBy, orderDirection]);
 
   return (
-    <Table
-      columns={columns as any}
-      dataSource={data?.data || []}
-      style={{ width: '100%' }}
-      loading={loading}
-      pagination={{
-        pageSize: pageSize,
-        current: page,
-        total: data?.total || 0,
-        onChange: (page, pageSize) => {
-          setPage(page);
-          setPageSize(pageSize);
-        },
-      }}
-      onChange={(pagination, _filters, sorter) => {
-        if (sorter && 'field' in sorter && sorter.field) {
-          setOrderBy(sorter.field as string);
-          setOrderDirection(sorter.order === 'ascend' ? 'asc' : 'desc');
-        } else if (sorter && 'order' in sorter && !sorter.order) {
-          setOrderBy(undefined);
-          setOrderDirection(undefined);
-        }
+    <>
+      {contextHolder}
+      <Table
+        columns={columns as any}
+        dataSource={data?.data || []}
+        style={{ width: '100%' }}
+        loading={loading}
+        pagination={{
+          pageSize: pageSize,
+          current: page,
+          total: data?.total || 0,
+          onChange: (page, pageSize) => {
+            setPage(page);
+            setPageSize(pageSize);
+          },
+        }}
+        onChange={(pagination, _filters, sorter) => {
+          if (sorter && 'field' in sorter && sorter.field) {
+            setOrderBy(sorter.field as string);
+            setOrderDirection(sorter.order === 'ascend' ? 'asc' : 'desc');
+          } else if (sorter && 'order' in sorter && !sorter.order) {
+            setOrderBy(undefined);
+            setOrderDirection(undefined);
+          }
 
-        setPage(pagination.current || 1);
-        setPageSize(pagination.pageSize || 10);
-      }}
-    />
+          setPage(pagination.current || 1);
+          setPageSize(pagination.pageSize || 10);
+        }}
+      />
+    </>
   );
 };
