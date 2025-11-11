@@ -55,6 +55,10 @@ import {
   PromotionCampaignAddPage,
 } from '@pages/PromotionCampaign';
 
+import {
+  FirmwareListPage,
+} from '@pages/Firmware';
+
 import { type Route } from './index';
 
 export const routes: Route[] = [
@@ -187,5 +191,10 @@ export const routes: Route[] = [
   {
     path: '/promotion-campaigns/:id/edit',
     component: <PromotionCampaignEditPage />,
+  },
+  // Firmware
+  {
+    path: '/firmware',
+    component: <FirmwareListPage />,
   },
 ];

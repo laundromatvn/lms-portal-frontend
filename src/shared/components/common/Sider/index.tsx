@@ -25,6 +25,8 @@ import {
   Suitcase,
   UsersGroupTwoRounded,
   User as UserIcon,
+  Settings,
+  ZipFile
 } from '@solar-icons/react'
 
 import Flag from 'react-world-flags';
@@ -69,6 +71,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
   const [selectedMainKey, setSelectedMainKey] = useState<string | null>(null);
   const [selectedTenantKey, setSelectedTenantKey] = useState<string | null>(null);
   const [selectedUserProfileKey, setSelectedUserProfileKey] = useState<string | null>(null);
+  const [selectedSystemManagementKey, setSelectedSystemManagementKey] = useState<string | null>(null);
   const mainMenuItems: MenuItem[] = [
     {
       key: 'overview',
@@ -138,6 +141,14 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'user/profile',
       icon: <UserIcon />,
       label: t('navigation.userProfile'),
+    },
+  ];
+
+  const systemManagementMenuItems: MenuItem[] = [
+    {
+      key: 'firmware',
+      icon: <ZipFile />,
+      label: t('navigation.firmware'),
     },
   ];
 
@@ -340,6 +351,24 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
                 ? tenantAdminManagementMenuItems
                 : tenantStaffManagementMenuItems
               }
+            />
+          )}
+
+          {user?.role === UserRoleEnum.ADMIN && (
+            <Menu
+              selectedKeys={[selectedSystemManagementKey || '']}
+              mode="inline"
+              onClick={(key) => {
+                setSelectedSystemManagementKey(key.key as string);
+                navigate(`/${key.key}`);
+              }}
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                borderTop: `1px solid ${theme.custom.colors.neutral[200]}`,
+                marginTop: theme.custom.spacing.medium,
+              }}
+              items={systemManagementMenuItems}
             />
           )}
 

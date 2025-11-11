@@ -205,7 +205,10 @@
     "schedule": "Schedule",
     "pause": "Pause",
     "resume": "Resume",
-    "machine": "Machine"
+    "machine": "Machine",
+    "firmware": "Firmware",
+    "version": "Version",
+    "addNewVersion": "Add New Version"
   },
   "navigation": {
     "overview": "Overview",
@@ -226,7 +229,8 @@
     "language": "Language",
     "home": "Home",
     "userProfile": "User Profile",
-    "promotionCampaign": "Promotion Campaign"
+    "promotionCampaign": "Promotion Campaign",
+    "firmware": "Firmware"
   },
   "messages": {
     "incorrectCredentials": "Incorrect credentials",

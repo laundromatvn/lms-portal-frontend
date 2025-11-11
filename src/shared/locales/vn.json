@@ -205,7 +205,10 @@
     "schedule": "Lên lịch",
     "pause": "Tạm dừng",
     "resume": "Tiếp tục",
-    "machine": "Máy"
+    "machine": "Máy",
+    "firmware": "Firmware",
+    "version": "Phiên bản",
+    "addNewVersion": "Thêm phiên bản mới"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -226,7 +229,8 @@
     "language": "Ngôn ngữ",
     "home": "Trang chủ",
     "userProfile": "Hồ sơ người dùng",
-    "promotionCampaign": "Khuyến mãi"
+    "promotionCampaign": "Khuyến mãi",
+    "firmware": "Firmware"
   },
   "messages": {
     "incorrectCredentials": "Thông tin đăng nhập không chính xác",
