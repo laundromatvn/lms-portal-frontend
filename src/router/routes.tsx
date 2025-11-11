@@ -57,6 +57,9 @@ import {
 
 import {
   FirmwareListPage,
+  FirmwareAddPage,
+  FirmwareDetailPage,
+  FirmwareEditPage,
 } from '@pages/Firmware';
 
 import { type Route } from './index';
@@ -196,5 +199,17 @@ export const routes: Route[] = [
   {
     path: '/firmware',
     component: <FirmwareListPage />,
+  },
+  {
+    path: '/firmware/add',
+    component: <FirmwareAddPage />,
+  },
+  {
+    path: '/firmware/:id/detail',
+    component: <FirmwareDetailPage />,
+  },
+  {
+    path: '/firmware/:id/edit',
+    component: <FirmwareEditPage />,
   },
 ];

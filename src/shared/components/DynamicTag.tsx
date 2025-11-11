@@ -29,27 +29,32 @@ export const DynamicTag: React.FC<Props> = ({ value, color, style }) => {
       case 'waiting_for_payment_detail':
       case 'waiting_for_purchase':
       case 'paused':
+      case 'out_of_date':
         return theme.custom.colors.warning.default;
       case 'error':
       case 'failed':
       case 'payment_failed':
       case 'cancelled':
       case 'out_of_service':
+      case 'deprecated':
         return theme.custom.colors.danger.default;
       case 'success':
       case 'payment_success':
       case 'active':
       case 'idle':
       case 'tenant_admin':
+      case 'released':
+      case 'patch':
         return theme.custom.colors.success.default;
       case 'waiting_for_payment':
       case 'washer':
       case 'tenant_staff':
       case 'scheduled':
+      case 'minor':
         return theme.custom.colors.info.default;
       case 'admin':
-        return theme.custom.colors.accent_1.default;
       case 'finished':
+      case 'major':
         return theme.custom.colors.accent_1.default;
       default:
         return theme.custom.colors.neutral[400];

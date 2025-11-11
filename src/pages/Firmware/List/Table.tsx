@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,21 +7,39 @@ import {
   Dropdown,
   Flex,
   Table,
-  theme,
   Typography,
 } from 'antd';
 
 import {
   MenuDots,
+  TrashBinTrash,
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
+
+import {
+  type ListFirmwareRequest,
+  type ListFirmwareResponse,
+} from '@shared/hooks/firmware/useListFirmwareApi';
+
 import { DynamicTag } from '@shared/components/DynamicTag';
 
-export const FirmwareListTable: React.FC = () => {
+interface Props {
+  data: ListFirmwareResponse | null;
+  loading: boolean;
+  onFiltersChange: (filters: ListFirmwareRequest) => void;
+  onDeleteFirmware: (firmwareId: string) => void;
+}
+
+export const FirmwareListTable: React.FC<Props> = ({ data, loading, onFiltersChange, onDeleteFirmware }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
+
+  const [page, setPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(10);
+  const [orderBy, setOrderBy] = useState<string | undefined>(undefined);
+  const [orderDirection, setOrderDirection] = useState<string | undefined>(undefined);
 
   const columns = [
     {
@@ -30,22 +48,28 @@ export const FirmwareListTable: React.FC = () => {
       key: 'name',
       width: 128,
       render: (_: string, record: any) => (
-        <Typography.Link onClick={() => navigate(`/firmwares/${record.id}/detail`)}>
+        <Typography.Link onClick={() => navigate(`/firmware/${record.id}/detail`)}>
           {record.name}
         </Typography.Link>
       ),
+      sorter: true,
+      sortOrder: orderBy === 'name' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
     },
     {
       title: t('common.version'),
       dataIndex: 'version',
       key: 'version',
       width: 128,
+      sorter: true,
+      sortOrder: orderBy === 'version' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
     },
     {
       title: t('common.status'),
       dataIndex: 'status',
       key: 'status',
       width: 128,
+      sorter: true,
+      sortOrder: orderBy === 'status' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (_: string, record: any) => <DynamicTag value={record.status} />,
     },
     {
@@ -56,20 +80,65 @@ export const FirmwareListTable: React.FC = () => {
       render: (_: string, record: any) => {
         return (
           <Flex gap={theme.custom.spacing.medium}>
-            <Button type="link" icon={<MenuDots size={18} />} />
+            <Dropdown
+              menu={{
+                items: [
+                  {
+                    key: 'delete',
+                    label: t('common.delete'),
+                    onClick: () => onDeleteFirmware(record.id),
+                    icon: <TrashBinTrash size={18} />,
+                    style: {
+                      color: theme.custom.colors.danger.default,
+                    },
+                  },
+                ],
+              }}
+            >
+              <Button type="link" icon={<MenuDots size={18} />} />
+            </Dropdown>
           </Flex>
         );
       }
     },
   ];
 
-  const [dataSource, setDataSource] = useState<any[]>([]);
+  useEffect(() => {
+    onFiltersChange({
+      page: data?.page || 1,
+      page_size: data?.page_size || 10,
+      order_by: orderBy,
+      order_direction: orderDirection as 'asc' | 'desc',
+    });
+  }, [orderBy, orderDirection]);
 
   return (
     <Table
-      columns={columns}
-      dataSource={dataSource}
+      columns={columns as any}
+      dataSource={data?.data || []}
       style={{ width: '100%' }}
+      loading={loading}
+      pagination={{
+        pageSize: pageSize,
+        current: page,
+        total: data?.total || 0,
+        onChange: (page, pageSize) => {
+          setPage(page);
+          setPageSize(pageSize);
+        },
+      }}
+      onChange={(pagination, _filters, sorter) => {
+        if (sorter && 'field' in sorter && sorter.field) {
+          setOrderBy(sorter.field as string);
+          setOrderDirection(sorter.order === 'ascend' ? 'asc' : 'desc');
+        } else if (sorter && 'order' in sorter && !sorter.order) {
+          setOrderBy(undefined);
+          setOrderDirection(undefined);
+        }
+
+        setPage(pagination.current || 1);
+        setPageSize(pagination.pageSize || 10);
+      }}
     />
   );
 };

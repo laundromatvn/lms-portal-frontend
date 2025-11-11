@@ -208,7 +208,24 @@
     "machine": "Máy",
     "firmware": "Firmware",
     "version": "Phiên bản",
-    "addNewVersion": "Thêm phiên bản mới"
+    "addNewVersion": "Thêm phiên bản mới",
+    "uploadFirmware": "Tải lên Firmware",
+    "upload": "Tải lên",
+    "uploadedSuccessfully": "Tải lên thành công",
+    "uploading": "Đang tải lên...",
+    "versionType": "Loại phiên bản",
+    "versionTypeIsRequired": "Loại phiên bản là bắt buộc",
+    "major": "Major",
+    "minor": "Minor",
+    "patch": "Patch",
+    "released": "Released",
+    "outOfDate": "Out of Date",
+    "deprecated": "Deprecated",
+    "firmwareEdit": "Cập nhật Firmware",
+    "firmwareDetail": "Chi tiết Firmware",
+    "objectName": "Tên đối tượng",
+    "fileSize": "Kích thước tệp",
+    "checksum": "Checksum"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -318,7 +335,15 @@
     "resumePromotionCampaignSuccess": "Chiến dịch khuyến mãi đã được tiếp tục thành công",
     "resumePromotionCampaignError": "Không thể tiếp tục chiến dịch khuyến mãi",
     "schedulePromotionCampaignSuccess": "Chiến dịch khuyến mãi đã được lên lịch thành công",
-    "schedulePromotionCampaignError": "Không thể lên lịch chiến dịch khuyến mãi"
+    "schedulePromotionCampaignError": "Không thể lên lịch chiến dịch khuyến mãi",
+    "updateFirmwareError": "Không thể cập nhật Firmware",
+    "updateFirmwareSuccess": "Firmware đã được cập nhật thành công",
+    "getFirmwareError": "Không thể lấy Firmware",
+    "getFirmwareSuccess": "Firmware đã được lấy thành công",
+    "createFirmwareError": "Không thể tạo Firmware",
+    "createFirmwareSuccess": "Firmware đã được tạo thành công",
+    "deleteFirmwareError": "Không thể xóa Firmware",
+    "deleteFirmwareSuccess": "Firmware đã được xóa thành công"
   },
   "overview": {
     "keyMetrics": {

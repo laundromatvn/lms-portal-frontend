@@ -208,7 +208,24 @@
     "machine": "Machine",
     "firmware": "Firmware",
     "version": "Version",
-    "addNewVersion": "Add New Version"
+    "addNewVersion": "Add New Version",
+    "uploadFirmware": "Upload Firmware",
+    "upload": "Upload",
+    "uploadedSuccessfully": "Uploaded Successfully",
+    "uploading": "Uploading...",
+    "versionType": "Version Type",
+    "versionTypeIsRequired": "Version type is required",
+    "major": "Major",
+    "minor": "Minor",
+    "patch": "Patch",
+    "released": "Released",
+    "outOfDate": "Out of Date",
+    "deprecated": "Deprecated",
+    "firmwareEdit": "Firmware Edit",
+    "firmwareDetail": "Firmware Detail",
+    "objectName": "Object Name",
+    "fileSize": "File Size",
+    "checksum": "Checksum"
   },
   "navigation": {
     "overview": "Overview",
@@ -321,7 +338,15 @@
     "resumePromotionCampaignSuccess": "Promotion campaign resumed successfully",
     "resumePromotionCampaignError": "Failed to resume promotion campaign",
     "schedulePromotionCampaignSuccess": "Promotion campaign scheduled successfully",
-    "schedulePromotionCampaignError": "Failed to schedule promotion campaign"
+    "schedulePromotionCampaignError": "Failed to schedule promotion campaign",
+    "updateFirmwareError": "Failed to update firmware",
+    "updateFirmwareSuccess": "Firmware updated successfully",
+    "getFirmwareError": "Failed to get firmware",
+    "getFirmwareSuccess": "Firmware fetched successfully",
+    "createFirmwareError": "Failed to create firmware",
+    "createFirmwareSuccess": "Firmware created successfully",
+    "deleteFirmwareError": "Failed to delete firmware",
+    "deleteFirmwareSuccess": "Firmware deleted successfully"
   },
   "overview": {
     "keyMetrics": {
