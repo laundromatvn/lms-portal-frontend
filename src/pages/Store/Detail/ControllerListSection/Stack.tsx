@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Flex, Table, Typography } from 'antd';
+import { Flex, Typography } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 
