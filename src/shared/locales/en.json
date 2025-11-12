@@ -231,7 +231,12 @@
     "flash": "Flash",
     "flashAllControllers": "Flash all Controllers",
     "release": "Release",
-    "deprecate": "Deprecate"
+    "deprecate": "Deprecate",
+    "controllerStatus": "Controller Status",
+    "deploymentStatus": "Deployment Status",
+    "provisioningControllers": "Provisioning Controllers",
+    "autoRefreshEveryXSeconds": "(*) Auto refresh every {{seconds}} seconds",
+    "autoRefreshDisabled": "Auto refresh disabled"
   },
   "navigation": {
     "overview": "Overview",

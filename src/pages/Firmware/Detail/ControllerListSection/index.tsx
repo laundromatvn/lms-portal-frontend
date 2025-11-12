@@ -1,12 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import type { Firmware } from '@shared/types/Firmware';
-
-import {
-  useListProvisionedControllerApi,
-  type ListProvisionedControllerResponse,
-} from '@shared/hooks/firmware/useListProvisionedControllerApi';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 
@@ -20,7 +15,7 @@ export const ControllerListSection: React.FC<Props> = ({ firmware }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <BaseDetailSection title={t('common.provisionedControllers')}>
+    <BaseDetailSection title={t('common.provisioningControllers')}>
       <ControllerListTableView firmware={firmware} />
     </BaseDetailSection>
   );

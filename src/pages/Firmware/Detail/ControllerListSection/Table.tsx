@@ -7,6 +7,7 @@ import {
   Table,
   Typography,
   Button,
+  Switch,
 } from 'antd';
 
 import {
@@ -19,14 +20,17 @@ import { useTheme } from '@shared/theme/useTheme';
 import type { Firmware } from '@shared/types/Firmware';
 
 import {
-  useListProvisionedControllerApi,
-  type ListProvisionedControllerResponse,
-} from '@shared/hooks/firmware/useListProvisionedControllerApi';
+  useListProvisioningControllerApi,
+  type ListProvisioningControllerResponse,
+} from '@shared/hooks/firmware/useListProvisioningControllerApi';
 
 import { LeftRightSection } from '@shared/components/LeftRightSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
 import { FlashControllersModalContent } from './FlashControllersModalContent';
+
+const AUTO_REFRESH_INTERVAL_MS = 2000;
+const AUTO_REFRESH_INTERVAL_SECONDS = AUTO_REFRESH_INTERVAL_MS / 1000;
 
 interface Props {
   firmware: Firmware | null;
@@ -74,10 +78,16 @@ export const ControllerListTableView: React.FC<Props> = ({ firmware }: Props) =>
       ),
     },
     {
-      title: t('common.status'),
+      title: t('common.controllerStatus'),
       dataIndex: 'status',
       width: 128,
       render: (text: string) => <DynamicTag value={text} />,
+    },
+    {
+      title: t('common.deploymentStatus'),
+      dataIndex: 'deployment_status',
+      width: 128,
+      render: (text: string) => text ? <DynamicTag value={text} /> : '-',
     },
   ];
 
@@ -85,21 +95,31 @@ export const ControllerListTableView: React.FC<Props> = ({ firmware }: Props) =>
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
 
-  const {
-    listProvisionedController,
-    data: listProvisionedControllerData,
-    loading: listProvisionedControllerLoading,
-  } = useListProvisionedControllerApi<ListProvisionedControllerResponse>();
+  const [autoRefresh, setAutoRefresh] = useState(false);
 
-  const handleListProvisionedController = () => {
+  const {
+    listProvisioningController,
+    data: listProvisioningControllerData,
+  } = useListProvisioningControllerApi<ListProvisioningControllerResponse>();
+
+  const handleListProvisioningController = () => {
     if (!firmware) return;
 
-    listProvisionedController(firmware.id, { page, page_size: pageSize });
+    listProvisioningController(firmware.id, { page, page_size: pageSize });
   }
 
   useEffect(() => {
-    handleListProvisionedController();
+    handleListProvisioningController();
   }, [firmware, page, pageSize]);
+
+  useEffect(() => {
+    if (autoRefresh) {
+      const interval = setInterval(() => {
+        handleListProvisioningController();
+      }, AUTO_REFRESH_INTERVAL_MS);
+      return () => clearInterval(interval);
+    }
+  }, [autoRefresh]);
 
   return (
     <Flex
@@ -108,13 +128,26 @@ export const ControllerListTableView: React.FC<Props> = ({ firmware }: Props) =>
       style={{ width: '100%' }}
     >
       <LeftRightSection
-        left={null}
+        left={(
+          <Flex gap={theme.custom.spacing.medium} align="center">
+            <Switch
+              checked={autoRefresh}
+              onChange={setAutoRefresh}
+            />
+            <Typography.Text type="secondary">
+                  {autoRefresh
+                    ? t('common.autoRefreshEveryXSeconds', { seconds: AUTO_REFRESH_INTERVAL_SECONDS })
+                    : t('common.autoRefreshDisabled')
+                  }
+                </Typography.Text>
+          </Flex>
+        )}
         right={(
-          <Flex gap={theme.custom.spacing.medium}>
+          <Flex gap={theme.custom.spacing.medium} align="center">
             <Button
               type="text"
               icon={<Refresh size={18} />}
-              onClick={handleListProvisionedController}
+              onClick={handleListProvisioningController}
             />
 
             <Button
@@ -133,14 +166,13 @@ export const ControllerListTableView: React.FC<Props> = ({ firmware }: Props) =>
       />
 
       <Table
-        dataSource={listProvisionedControllerData?.data || []}
+        dataSource={listProvisioningControllerData?.data || []}
         columns={columns}
         style={{ width: '100%' }}
-        loading={listProvisionedControllerLoading}
         pagination={{
           pageSize: pageSize,
           current: page,
-          total: listProvisionedControllerData?.total || 0,
+          total: listProvisioningControllerData?.total || 0,
           onChange: (page, pageSize) => {
             setPage(page);
             setPageSize(pageSize);

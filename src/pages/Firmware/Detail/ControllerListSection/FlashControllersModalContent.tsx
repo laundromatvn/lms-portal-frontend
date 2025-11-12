@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import {
   Button,
@@ -32,6 +33,7 @@ import {
 import { BaseModal } from '@shared/components/BaseModal';
 import { LeftRightSection } from '@shared/components/LeftRightSection';
 import { Box } from '@shared/components/Box';
+import { DynamicTag } from '@shared/components/DynamicTag';
 
 interface Props {
   firmware: Firmware | null;
@@ -46,6 +48,7 @@ export const FlashControllersModalContent: React.FC<Props> = ({
 }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -131,10 +134,10 @@ export const FlashControllersModalContent: React.FC<Props> = ({
   };
 
   const columns = [
-    { title: t('common.deviceId'), dataIndex: 'device_id', width: 128 },
-    { title: t('common.status'), dataIndex: 'status', width: 128 },
-    { title: t('common.controllerName'), dataIndex: 'name', width: 256 },
-    { title: t('common.totalRelays'), dataIndex: 'total_relays', width: 48 },
+    { title: t('common.storeName'), dataIndex: 'store_name', width: 128, render: (text: string, record: any) => <Typography.Link onClick={() => navigate(`/stores/${record.store_id}/detail`)}>{text || '-'}</Typography.Link> },
+    { title: t('common.deviceId'), dataIndex: 'device_id', width: 128, render: (text: string, record: any) => <Typography.Link onClick={() => navigate(`/controllers/${record.id}/detail`)}>{text || '-'}</Typography.Link> },
+    { title: t('common.controllerName'), dataIndex: 'name', width: 256, render: (text: string, record: any) => <Typography.Link onClick={() => navigate(`/controllers/${record.id}/detail`)}>{text || '-'}</Typography.Link> },
+    { title: t('common.status'), dataIndex: 'status', width: 128, render: (text: string) => <DynamicTag value={text} />  },
   ];
 
   return (
