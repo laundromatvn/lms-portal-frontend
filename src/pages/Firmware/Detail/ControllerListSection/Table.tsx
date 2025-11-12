@@ -129,7 +129,7 @@ export const ControllerListTableView: React.FC<Props> = ({ firmware }: Props) =>
                   },
                   disabled: ![FirmwareDeploymentStatusEnum.NEW, FirmwareDeploymentStatusEnum.REBOOTING].includes(record.deployment_status as any),
                 },
-              ],  
+              ],
             }}
           >
             <Button type="link" icon={<MenuDots size={18} />} />
@@ -198,11 +198,11 @@ export const ControllerListTableView: React.FC<Props> = ({ firmware }: Props) =>
               onChange={setAutoRefresh}
             />
             <Typography.Text type="secondary">
-                  {autoRefresh
-                    ? t('common.autoRefreshEveryXSeconds', { seconds: AUTO_REFRESH_INTERVAL_SECONDS })
-                    : t('common.autoRefreshDisabled')
-                  }
-                </Typography.Text>
+              {autoRefresh
+                ? t('common.autoRefreshEveryXSeconds', { seconds: AUTO_REFRESH_INTERVAL_SECONDS })
+                : t('common.autoRefreshDisabled')
+              }
+            </Typography.Text>
           </Flex>
         )}
         right={(
@@ -228,20 +228,22 @@ export const ControllerListTableView: React.FC<Props> = ({ firmware }: Props) =>
         )}
       />
 
-      <Table
-        dataSource={listProvisioningControllerData?.data || []}
-        columns={columns}
-        style={{ width: '100%' }}
-        pagination={{
-          pageSize: pageSize,
-          current: page,
-          total: listProvisioningControllerData?.total || 0,
-          onChange: (page, pageSize) => {
-            setPage(page);
-            setPageSize(pageSize);
-          },
-        }}
-      />
+      <Flex style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+        <Table
+          dataSource={listProvisioningControllerData?.data || []}
+          columns={columns}
+          style={{ width: '100%' }}
+          pagination={{
+            pageSize: pageSize,
+            current: page,
+            total: listProvisioningControllerData?.total || 0,
+            onChange: (page, pageSize) => {
+              setPage(page);
+              setPageSize(pageSize);
+            },
+          }}
+        />
+      </Flex>
 
       {isModalOpen && (
         <FlashControllersModalContent

@@ -8,6 +8,7 @@ import {
   Refresh,
   Settings,
   Play,
+  ArrowLeft,
 } from '@solar-icons/react'
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -151,7 +152,7 @@ export const MachineListSection: React.FC<Props> = ({ controller }) => {
       {contextHolder}
 
       <LeftRightSection
-        left={(null)}
+        left={null}
         right={(
           <>
             <Button
@@ -163,26 +164,28 @@ export const MachineListSection: React.FC<Props> = ({ controller }) => {
         rightStyle={{ gap: theme.custom.spacing.small }}
       />
 
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-        pagination={{
-          pageSize,
-          current: page,
-          total: listMachineData?.total,
-          onChange: (page, pageSize) => {
-            setPage(page);
-            setPageSize(pageSize);
-            listMachine({
-              controller_id: controller.id,
-              page,
-              page_size: pageSize
-            });
-          },
-        }}
-        loading={listMachineLoading}
-        style={{ width: '100%' }}
-      />
+      <Flex style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+        <Table
+          dataSource={dataSource}
+          columns={columns}
+          pagination={{
+            pageSize,
+            current: page,
+            total: listMachineData?.total,
+            onChange: (page, pageSize) => {
+              setPage(page);
+              setPageSize(pageSize);
+              listMachine({
+                controller_id: controller.id,
+                page,
+                page_size: pageSize
+              });
+            },
+          }}
+          loading={listMachineLoading}
+          style={{ width: '100%' }}
+        />
+      </Flex>
 
       {selectedMachine && isModalOpen && (
         <BaseModal

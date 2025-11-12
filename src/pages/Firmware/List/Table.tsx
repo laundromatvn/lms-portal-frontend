@@ -6,7 +6,6 @@ import {
   Button,
   Dropdown,
   Flex,
-  notification,
   Table,
   Typography,
 } from 'antd';
@@ -47,8 +46,6 @@ export const FirmwareListTable: React.FC<Props> = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
-
-  const [api, contextHolder] = notification.useNotification();
 
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -145,8 +142,7 @@ export const FirmwareListTable: React.FC<Props> = ({
   }, [orderBy, orderDirection]);
 
   return (
-    <>
-      {contextHolder}
+    <Flex style={{ width: '100%', height: '100%', overflow: 'auto' }}>
       <Table
         columns={columns as any}
         dataSource={data?.data || []}
@@ -174,6 +170,6 @@ export const FirmwareListTable: React.FC<Props> = ({
           setPageSize(pagination.pageSize || 10);
         }}
       />
-    </>
+    </Flex>
   );
 };
