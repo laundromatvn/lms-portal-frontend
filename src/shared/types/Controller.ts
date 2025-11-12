@@ -6,7 +6,10 @@ export type Controller = {
   status: string;
   device_id: string;
   name: string | null;
+  total_relays: number;
   store_id: string | null;
   store_name: string | null;
-  total_relays: number;
+  firmware_id: string | null;
+  firmware_name: string | null;
+  firmware_version: string | null;
 }

@@ -37,21 +37,13 @@ export const ControllerListStackView: React.FC<Props> = ({ store }) => {
   } = useListControllerApi<ListControllerResponse>();
 
   useEffect(() => {
-    if (listControllerData) {
-      const mappedData = listControllerData.data.map((item) => ({
-        id: item.id,
-        device_id: item.device_id || '-',
-        status: item.status,
-        name: item.name || '-',
-        total_relays: item.total_relays,
-      }));
+    if (!listControllerData) return;
 
-      // If it's page 1, replace the data. Otherwise, append to existing data
-      if (listControllerData.page === 1) {
-        setDataSource(mappedData);
-      } else {
-        setDataSource((prev) => [...prev, ...mappedData]);
-      }
+    // If it's page 1, replace the data. Otherwise, append to existing data
+    if (listControllerData.page === 1) {
+      setDataSource(listControllerData.data);
+    } else {
+      setDataSource((prev) => [...prev, ...listControllerData.data]);
     }
   }, [listControllerData]);
 
@@ -74,12 +66,14 @@ export const ControllerListStackView: React.FC<Props> = ({ store }) => {
           <StackCard style={{ padding: theme.custom.spacing.small }}>
             <StackCard.Header>
               <Typography.Link onClick={() => navigate(`/controllers/${item.id}/detail`)} strong>
-                {item.name || item.device_id}
+                {`${item.name} (${item.device_id})` || '-'}
               </Typography.Link>
             </StackCard.Header>
             <StackCard.Content>
               <Flex justify="space-between" wrap="wrap" gap={theme.custom.spacing.xsmall}>
-                <Typography.Text type="secondary">{item.device_id}</Typography.Text>
+                <Typography.Link onClick={() => navigate(`/firmware/${item.firmware_id}/detail`)}>
+                  {`${item.firmware_name} (${item.firmware_version})` || '-'}
+                </Typography.Link>
                 <DynamicTag value={item.status} />
               </Flex>
             </StackCard.Content>

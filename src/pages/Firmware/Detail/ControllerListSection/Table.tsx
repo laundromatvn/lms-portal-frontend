@@ -8,11 +8,15 @@ import {
   Typography,
   Button,
   Switch,
+  Dropdown,
+  notification,
 } from 'antd';
 
 import {
   Rocket2,
   Refresh,
+  CloseCircle,
+  MenuDots,
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -23,11 +27,16 @@ import {
   useListProvisioningControllerApi,
   type ListProvisioningControllerResponse,
 } from '@shared/hooks/firmware/useListProvisioningControllerApi';
+import {
+  useCancelUpdateFirmwareApi,
+  type CancelUpdateFirmwareResponse,
+} from '@shared/hooks/firmware/useCancelUpdateFirmwareApi';
 
 import { LeftRightSection } from '@shared/components/LeftRightSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
 import { FlashControllersModalContent } from './FlashControllersModalContent';
+import { FirmwareDeploymentStatusEnum } from '@shared/enums/FirmwareDeploymentStatusEnum';
 
 const AUTO_REFRESH_INTERVAL_MS = 2000;
 const AUTO_REFRESH_INTERVAL_SECONDS = AUTO_REFRESH_INTERVAL_MS / 1000;
@@ -40,6 +49,18 @@ export const ControllerListTableView: React.FC<Props> = ({ firmware }: Props) =>
   const theme = useTheme();
   const { t } = useTranslation();
   const navigate = useNavigate();
+
+  const [api, contextHolder] = notification.useNotification();
+
+  const {
+    listProvisioningController,
+    data: listProvisioningControllerData,
+  } = useListProvisioningControllerApi<ListProvisioningControllerResponse>();
+  const {
+    cancelUpdateFirmware,
+    data: cancelUpdateFirmwareData,
+    error: cancelUpdateFirmwareError,
+  } = useCancelUpdateFirmwareApi();
 
   const columns = [
     {
@@ -89,6 +110,33 @@ export const ControllerListTableView: React.FC<Props> = ({ firmware }: Props) =>
       width: 128,
       render: (text: string) => text ? <DynamicTag value={text} /> : '-',
     },
+    {
+      title: t('common.actions'),
+      dataIndex: 'actions',
+      width: 128,
+      render: (_: string, record: any) => (
+        <Flex gap={theme.custom.spacing.medium}>
+          <Dropdown
+            menu={{
+              items: [
+                {
+                  key: 'cancel',
+                  label: t('common.cancel'),
+                  onClick: () => cancelUpdateFirmware(record.deployment_id),
+                  icon: <CloseCircle weight="BoldDuotone" size={18} color={theme.custom.colors.danger.default} />,
+                  style: {
+                    color: theme.custom.colors.danger.default,
+                  },
+                  disabled: ![FirmwareDeploymentStatusEnum.NEW, FirmwareDeploymentStatusEnum.REBOOTING].includes(record.deployment_status as any),
+                },
+              ],  
+            }}
+          >
+            <Button type="link" icon={<MenuDots size={18} />} />
+          </Dropdown>
+        </Flex>
+      ),
+    },
   ];
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -96,11 +144,6 @@ export const ControllerListTableView: React.FC<Props> = ({ firmware }: Props) =>
   const [pageSize, setPageSize] = useState(5);
 
   const [autoRefresh, setAutoRefresh] = useState(false);
-
-  const {
-    listProvisioningController,
-    data: listProvisioningControllerData,
-  } = useListProvisioningControllerApi<ListProvisioningControllerResponse>();
 
   const handleListProvisioningController = () => {
     if (!firmware) return;
@@ -121,12 +164,32 @@ export const ControllerListTableView: React.FC<Props> = ({ firmware }: Props) =>
     }
   }, [autoRefresh]);
 
+  useEffect(() => {
+    if (cancelUpdateFirmwareError) {
+      api.error({
+        message: t('common.cancelUpdateFirmwareError'),
+        description: cancelUpdateFirmwareError.message,
+      });
+    }
+  }, [cancelUpdateFirmwareError]);
+
+  useEffect(() => {
+    if (cancelUpdateFirmwareData) {
+      api.success({
+        message: t('common.cancelUpdateFirmwareSuccess'),
+      });
+      handleListProvisioningController();
+    }
+  }, [cancelUpdateFirmwareData]);
+
   return (
     <Flex
       vertical
       gap={theme.custom.spacing.medium}
       style={{ width: '100%' }}
     >
+      {contextHolder}
+
       <LeftRightSection
         left={(
           <Flex gap={theme.custom.spacing.medium} align="center">

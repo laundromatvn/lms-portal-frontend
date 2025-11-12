@@ -29,12 +29,74 @@ export const ControllerListPage: React.FC = () => {
   const [dataSource, setDataSource] = useState<any[]>([]);
 
   const columns = [
-    { title: t('common.storeName'), dataIndex: 'store_name', width: 156 },
-    { title: t('common.deviceId'), dataIndex: 'device_id', width: 128 },
-    { title: t('common.controllerName'), dataIndex: 'name', width: 256 },
-    { title: t('common.totalRelays'), dataIndex: 'total_relays', width: 48 },
-    { title: t('common.status'), dataIndex: 'status', width: 128 },
-    { title: t('common.actions'), dataIndex: 'actions', width: 128 },
+    {
+      title: t('common.storeName'),
+      dataIndex: 'store_name',
+      width: 156,
+      render: (text: string, record: any) => (
+        <Typography.Link onClick={() => navigate(`/stores/${record.store_id}/detail`)}>
+          {text || '-'}
+        </Typography.Link>
+      ),
+    },
+    { 
+      title: t('common.deviceId'),
+      dataIndex: 'device_id',
+      width: 128,
+      render: (text: string, record: any) => (
+        <Typography.Link onClick={() => navigate(`/controllers/${record.id}/detail`)}>
+          {text || '-'}
+        </Typography.Link>
+      ),
+    },
+    {
+      title: t('common.controllerName'),
+      dataIndex: 'name',
+      width: 256,
+      render: (text: string, record: any) => (
+        <Typography.Link onClick={() => navigate(`/controllers/${record.id}/detail`)}>
+          {text || '-'}
+        </Typography.Link>
+      ),
+    },
+    {
+      title: t('common.totalRelays'),
+      dataIndex: 'total_relays',
+      width: 48,
+    },
+    {
+      title: t('common.status'),
+      dataIndex: 'status',
+      width: 128,
+      render: (text: string) => <DynamicTag value={text} />,
+    },
+    {
+      title: t('common.firmware'),
+      dataIndex: 'firmware_name',
+      width: 128,
+      render: (text: string, record: any) => (
+        <Typography.Link onClick={() => navigate(`/firmware/${record.firmware_id}/detail`)}>
+          {`${record.firmware_name} (${record.firmware_version})` || '-'}
+        </Typography.Link>
+      ),
+    },
+    {
+      title: t('common.actions'),
+      dataIndex: 'actions',
+      width: 128,
+      render: (text: string, record: any) => (
+        <Popconfirm
+          title={t('controller.deleteControllerConfirm')}
+          onConfirm={() => deleteController(record.id)}
+          okText={t('common.delete')}
+          cancelText={t('common.cancel')}
+        >
+          <Button type="link" danger loading={deleteControllerLoading}>
+            <TrashBinTrash weight="Outline" color={theme.custom.colors.danger.default} />
+          </Button>
+        </Popconfirm>
+      ),
+    },
   ];
 
   const {
@@ -70,30 +132,6 @@ export const ControllerListPage: React.FC = () => {
       });
     }
   }, [deleteControllerError]);
-
-  useEffect(() => {
-    if (listControllerData) {
-      setDataSource(listControllerData.data.map((item) => ({
-        device_id: <Typography.Link onClick={() => navigate(`/controllers/${item.id}/detail`)}>{item.device_id || '-'}</Typography.Link>,
-        store_name: <Typography.Link onClick={() => navigate(`/stores/${item.store_id}/detail`)}>{item.store_name || '-'}</Typography.Link>,
-        name: item.name || '-',
-        total_relays: item.total_relays,
-        status: <DynamicTag value={item.status} />,
-        actions: (
-          <Popconfirm
-            title={t('controller.deleteControllerConfirm')}
-            onConfirm={() => deleteController(item.id)}
-            okText={t('common.delete')}
-            cancelText={t('common.cancel')}
-          >
-            <Button type="link" danger loading={deleteControllerLoading}>
-              <TrashBinTrash weight="Outline" color={theme.custom.colors.danger.default} />
-            </Button>
-          </Popconfirm>
-        ),
-      })));
-    }
-  }, [listControllerData]);
 
   useEffect(() => {
     if (listControllerError) {
@@ -132,7 +170,7 @@ export const ControllerListPage: React.FC = () => {
 
           <Table
             bordered
-            dataSource={dataSource}
+            dataSource={listControllerData?.data || []}
             columns={columns}
             loading={listControllerLoading || deleteControllerLoading}
             pagination={{

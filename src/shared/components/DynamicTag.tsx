@@ -55,6 +55,7 @@ export const DynamicTag: React.FC<Props> = ({ value, color, style }) => {
       case 'admin':
       case 'finished':
       case 'major':
+      case 'completed':
         return theme.custom.colors.accent_1.default;
       default:
         return theme.custom.colors.neutral[400];
