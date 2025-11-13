@@ -236,7 +236,15 @@
     "deploymentStatus": "Trạng thái Deployment",
     "provisioningControllers": "Controllers đang cấp phát",
     "autoRefreshEveryXSeconds": "(*) Tự động cập nhật mỗi {{seconds}} giây",
-    "autoRefreshDisabled": "Tự động cập nhật đã bị vô hiệu hóa"
+    "autoRefreshDisabled": "Tự động cập nhật đã bị vô hiệu hóa",
+    "merchantCode": "Merchant Code",
+    "terminalCode": "Terminal Code",
+    "initSecretKey": "Init Secret Key",
+    "querySecretKey": "Query Secret Key",
+    "ipnv3SecretKey": "IPNV3 Secret Key",
+    "viet_qr": "VietQR",
+    "vnpay": "VNPAY",
+    "internal_promotion": "Internal Promotion"
   },
   "navigation": {
     "overview": "Tổng quan",

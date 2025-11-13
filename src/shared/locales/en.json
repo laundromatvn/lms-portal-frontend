@@ -236,7 +236,15 @@
     "deploymentStatus": "Deployment Status",
     "provisioningControllers": "Provisioning Controllers",
     "autoRefreshEveryXSeconds": "(*) Auto refresh every {{seconds}} seconds",
-    "autoRefreshDisabled": "Auto refresh disabled"
+    "autoRefreshDisabled": "Auto refresh disabled",
+    "merchantCode": "Merchant Code",
+    "terminalCode": "Terminal Code",
+    "initSecretKey": "Init Secret Key",
+    "querySecretKey": "Query Secret Key",
+    "ipnv3SecretKey": "IPNV3 Secret Key",
+    "viet_qr": "VietQR",
+    "vnpay": "VNPAY",
+    "internal_promotion": "Internal Promotion"
   },
   "navigation": {
     "overview": "Overview",
