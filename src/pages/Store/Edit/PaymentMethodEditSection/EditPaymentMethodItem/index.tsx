@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -11,95 +11,78 @@ import {
   notification,
 } from 'antd';
 
-import { PlusOutlined } from '@ant-design/icons';
+import { SaveOutlined, CloseOutlined } from '@ant-design/icons';
 
 import { useTheme } from '@shared/theme/useTheme';
 
 import { type PaymentMethod } from '@shared/types/PaymentMethod';
-
 import { PaymentMethodEnum } from '@shared/enums/PaymentMethodEnum';
+
 import { PaymentProviderEnum } from '@shared/enums/PaymentProviderEnum';
 
-import { AddVietQRQRMethodDetails } from '../components/QR/AddVietQRQRMethodDetails';
 import { AddVNPAYCardMethodDetails } from '../components/Card/AddVNPAYCardMethodDetails';
+import { AddVietQRQRMethodDetails } from '../components/QR/AddVietQRQRMethodDetails';
 
 import { buildPaymentMethodDetails } from '../helpers';
 
 interface Props {
+  paymentMethod: PaymentMethod;
+  index: number;
   paymentMethods: PaymentMethod[];
-  onAdd: (paymentMethod: PaymentMethod) => void;
-  onCancel: () => void;
+  onSave: (index: number, updatedPaymentMethod: PaymentMethod) => void;
+  onCancel: (index: number) => void;
 }
 
-export const NewPaymentMethodItem: React.FC<Props> = ({
+export const EditPaymentMethodItem: React.FC<Props> = ({
+  paymentMethod,
+  index,
   paymentMethods,
-  onAdd,
+  onSave,
   onCancel
 }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const [api, contextHolder] = notification.useNotification();
-
   const [form] = Form.useForm();
 
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodEnum | null>(null);
-  const [paymentProvider, setPaymentProvider] = useState<PaymentProviderEnum | null>(null);
+  const [api, contextHolder] = notification.useNotification();
 
   const handleSubmit = (values: any) => {
     const paymentMethod = values.payment_method;
     const paymentProvider = values.payment_provider;
 
-    if (paymentMethods.some((method) => method.payment_method === paymentMethod)) {
-      api.error({
-        message: t('common.duplicatePaymentMethodError'),
-      });
-      return;
-    }
+    const updatedPaymentMethod = buildPaymentMethodDetails(paymentMethod, paymentProvider, values);
 
-    const newPaymentMethod = buildPaymentMethodDetails(paymentMethod, paymentProvider, values);
-
-    if (!newPaymentMethod) {
+    if (!updatedPaymentMethod) {
       api.error({
         message: t('messages.unsupportedPaymentMethodOrProvider'),
       });
       return;
     }
 
-    onAdd(newPaymentMethod);
-    form.resetFields();
-    onCancel();
+    onSave(index, updatedPaymentMethod);
 
     api.success({
-      message: t('common.paymentMethodAddedSuccessfully'),
+      message: t('common.paymentMethodSavedSuccessfully'),
     });
   };
 
   const handleCancel = () => {
-    form.resetFields();
-    onCancel();
-  };
-
-  const handleValuesChange = (changedFields: any, _: any) => {
-    if (changedFields.payment_method) {
-      setPaymentMethod(changedFields.payment_method);
-    }
-
-    if (changedFields.payment_provider) {
-      setPaymentProvider(changedFields.payment_provider);
-    };
+    onCancel(index);
   };
 
   const renderPaymentMethodDetails = () => {
-    if (!paymentMethod || !paymentProvider) {
+    if (!paymentMethod.payment_method || !paymentMethod.payment_provider) {
       return null;
     }
 
-    if (paymentMethod === PaymentMethodEnum.QR && paymentProvider === PaymentProviderEnum.VIET_QR) {
+    if (paymentMethod.payment_method === PaymentMethodEnum.QR
+      && paymentMethod.payment_provider === PaymentProviderEnum.VIET_QR) {
       return <AddVietQRQRMethodDetails />;
     }
 
-    if (paymentMethod === PaymentMethodEnum.CARD && paymentProvider === PaymentProviderEnum.VNPAY) {
+    if (paymentMethod.payment_method === PaymentMethodEnum.CARD
+      && paymentMethod.payment_provider === PaymentProviderEnum.VNPAY) {
       return <AddVNPAYCardMethodDetails />;
     }
 
@@ -107,8 +90,16 @@ export const NewPaymentMethodItem: React.FC<Props> = ({
       <Typography.Text>
         {t('messages.unsupportedPaymentMethodOrProvider')}
       </Typography.Text>
-    )
+    );
   };
+
+  useEffect(() => {
+    form.setFieldsValue({
+      payment_method: paymentMethod.payment_method,
+      payment_provider: paymentMethod.payment_provider,
+      ...paymentMethod.details,
+    });
+  }, [paymentMethod, form]);
 
   return (
     <Card size="small" style={{ width: '100%' }}>
@@ -118,7 +109,6 @@ export const NewPaymentMethodItem: React.FC<Props> = ({
         form={form}
         layout="vertical"
         onFinish={handleSubmit}
-        onValuesChange={handleValuesChange}
       >
         <Form.Item
           name="payment_method"
@@ -133,6 +123,7 @@ export const NewPaymentMethodItem: React.FC<Props> = ({
               { label: t('common.qr'), value: PaymentMethodEnum.QR },
               { label: t('common.card'), value: PaymentMethodEnum.CARD },
             ]}
+            disabled
           />
         </Form.Item>
 
@@ -149,18 +140,19 @@ export const NewPaymentMethodItem: React.FC<Props> = ({
               { label: t('common.viet_qr'), value: PaymentProviderEnum.VIET_QR },
               { label: t('common.vnpay'), value: PaymentProviderEnum.VNPAY },
             ]}
+            disabled
           />
         </Form.Item>
 
         {renderPaymentMethodDetails()}
 
         <Flex justify="end" style={{ width: '100%' }} gap={theme.custom.spacing.medium}>
-          <Button onClick={handleCancel}>
+          <Button onClick={handleCancel} icon={<CloseOutlined />}>
             {t('common.cancel')}
           </Button>
 
-          <Button type="primary" htmlType="submit" icon={<PlusOutlined />}>
-            {t('common.add')}
+          <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
+            {t('common.save')}
           </Button>
         </Flex>
       </Form>
