@@ -244,7 +244,8 @@
     "ipnv3SecretKey": "IPNV3 Secret Key",
     "viet_qr": "VietQR",
     "vnpay": "VNPAY",
-    "internal_promotion": "Internal Promotion"
+    "internal_promotion": "Internal Promotion",
+    "paymentProvider": "Nhà cung cấp thanh toán"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -368,7 +369,13 @@
     "releaseFirmwareSuccess": "Firmware đã được release thành công",
     "releaseFirmwareError": "Không thể release Firmware",
     "deprecateFirmwareSuccess": "Firmware đã được deprecate thành công",
-    "deprecateFirmwareError": "Không thể deprecate Firmware"
+    "deprecateFirmwareError": "Không thể deprecate Firmware",
+    "unsupportedPaymentMethodOrProvider": "Phương thức thanh toán hoặc nhà cung cấp không được hỗ trợ",
+    "merchantCodeIsRequired": "Mã merchant là bắt buộc",
+    "terminalCodeIsRequired": "Mã terminal là bắt buộc",
+    "initSecretKeyIsRequired": "Mã khởi tạo là bắt buộc",
+    "querySecretKeyIsRequired": "Mã query là bắt buộc",
+    "ipnv3SecretKeyIsRequired": "Mã IPNV3 là bắt buộc"
   },
   "overview": {
     "keyMetrics": {

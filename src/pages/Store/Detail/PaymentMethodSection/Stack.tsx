@@ -2,9 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Dropdown, Typography } from 'antd';
-
-import { MenuDots, PenNewSquare } from '@solar-icons/react';
+import { Typography } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 

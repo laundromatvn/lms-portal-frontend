@@ -9,6 +9,10 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import { type PaymentMethod } from '@shared/types/PaymentMethod';
 import { PaymentMethodEnum } from '@shared/enums/PaymentMethodEnum';
+import { PaymentProviderEnum } from '@shared/enums/PaymentProviderEnum';
+
+import { QRDetails } from '@shared/components/PaymentMethodDetails/QRDetails';
+import { CardVNPAYDetails } from '@shared/components/PaymentMethodDetails/CardVNPAYDetails';
 
 interface Props {
   paymentMethod: PaymentMethod;
@@ -49,10 +53,12 @@ export const PaymentMethodDetailItem: React.FC<Props> = ({
       size="small"
     >
       <Flex vertical gap={theme.custom.spacing.medium}>
-        <Typography.Text>{t('common.bankCode')}: {paymentMethod.details.bank_code}</Typography.Text>
-        <Typography.Text>{t('common.bankName')}: {paymentMethod.details.bank_name}</Typography.Text>
-        <Typography.Text>{t('common.bankAccountNumber')}: {paymentMethod.details.bank_account_number}</Typography.Text>
-        <Typography.Text>{t('common.bankAccountName')}: {paymentMethod.details.bank_account_name}</Typography.Text>
+        {paymentMethod.payment_method === PaymentMethodEnum.QR
+          && <QRDetails paymentMethod={paymentMethod} />}
+
+        {(paymentMethod.payment_method === PaymentMethodEnum.CARD
+          && paymentMethod.payment_provider === PaymentProviderEnum.VNPAY)
+          && <CardVNPAYDetails paymentMethod={paymentMethod} />}
       </Flex>
     </Card>
   );

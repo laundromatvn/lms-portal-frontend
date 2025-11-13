@@ -244,7 +244,8 @@
     "ipnv3SecretKey": "IPNV3 Secret Key",
     "viet_qr": "VietQR",
     "vnpay": "VNPAY",
-    "internal_promotion": "Internal Promotion"
+    "internal_promotion": "Internal Promotion",
+    "paymentProvider": "Payment Provider"
   },
   "navigation": {
     "overview": "Overview",
@@ -371,7 +372,13 @@
     "releaseFirmwareSuccess": "Firmware released successfully",
     "releaseFirmwareError": "Failed to release firmware",
     "deprecateFirmwareSuccess": "Firmware deprecated successfully",
-    "deprecateFirmwareError": "Failed to deprecate firmware"
+    "deprecateFirmwareError": "Failed to deprecate firmware",
+    "unsupportedPaymentMethodOrProvider": "Unsupported payment method or provider",
+    "merchantCodeIsRequired": "Merchant code is required",
+    "terminalCodeIsRequired": "Terminal code is required",
+    "initSecretKeyIsRequired": "Init secret key is required",
+    "querySecretKeyIsRequired": "Query secret key is required",
+    "ipnv3SecretKeyIsRequired": "IPNV3 secret key is required"
   },
   "overview": {
     "keyMetrics": {
