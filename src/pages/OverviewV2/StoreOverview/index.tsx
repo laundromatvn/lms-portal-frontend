@@ -16,6 +16,7 @@ import type { Store } from '@shared/types/store';
 import { LeftRightSection } from '@shared/components/LeftRightSection';
 
 import { StoreKeyMetrics } from './StoreKeyMetrics';
+import { TopOrderOverview } from './TopOrderOverview';
 
 interface Props {
   store: Store;
@@ -51,6 +52,7 @@ export const StoreOverview: React.FC<Props> = ({ store, onBack }) => {
       />
 
       <StoreKeyMetrics store={store} />
+      <TopOrderOverview store={store} />
     </Flex>
   );
 };

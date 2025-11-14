@@ -32,6 +32,7 @@
     "deleteControllerConfirm": "Bạn có chắc chắn muốn xóa controller này không?"
   },
   "common": {
+    "loadMore": "Xem thêm",
     "signIn": "Đăng nhập",
     "password": "Mật khẩu",
     "email": "Email",
@@ -443,6 +444,26 @@
       "description": "Thay đổi trạng thái máy theo thời gian",
       "noData": "Không có dữ liệu",
       "pleaseSelectMachineAndStoreToViewData": "Vui lòng chọn một máy và một cửa hàng để xem dữ liệu"
+    }
+  },
+  "overviewV2": {
+    "keyMetrics": "Chỉ số chính",
+    "laundryManagementSystem": "Hệ thống quản lý giặt sấy",
+    "revenueByDay": "Doanh thu theo ngày",
+    "revenueByMonth": "Doanh thu theo tháng",
+    "totalOrdersToday": "Tổng đơn hàng (hôm nay)",
+    "revenueByDayDescription": "Doanh thu (Hôm nay)",
+    "revenueByMonthDescription": "Doanh thu (Tháng)",
+    "totalOrdersTodayDescription": "Đang xử lý / Tổng (Hôm nay)",
+    "topOrderOverview": "Đơn hàng (top {{topOrders}})",
+    "noWashers": "Số máy giặt: {{noWashers}}",
+    "noDryers": "Số máy sấy: {{noDryers}}",
+    "totalWashers": "Tổng máy giặt",
+    "totalWashersDescription": "Đang xử lý / Tổng",
+    "totalDryers": "Tổng máy sấy",
+    "totalDryersDescription": "Đang xử lý / Tổng",
+    "messages": {
+      "selectAStoresToViewData": "Chọn một cửa hàng để xem dữ liệu"
     }
   },
   "promotionCampaign": {

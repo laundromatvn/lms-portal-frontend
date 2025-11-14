@@ -24,6 +24,8 @@ import {
 import { KeyMetricList } from './KeyMetricList';
 
 import type { StoreKeyMetrics as StoreKeyMetricsType } from './types';
+import { LiquidKeyMetricList } from './LiquidKeyMetricList';
+
 import formatCurrencyCompact from '@shared/utils/currency';
 
 interface Props {
@@ -35,6 +37,7 @@ export const StoreKeyMetrics: React.FC<Props> = ({ store }) => {
   const theme = useTheme();
 
   const [keyMetrics, setKeyMetrics] = useState<StoreKeyMetricsType[]>([]);
+  const [liquidKeyMetrics, setLiquidKeyMetrics] = useState<StoreKeyMetricsType[]>([]);
 
   const {
     getDashboardOverviewKeyMetrics,
@@ -68,6 +71,19 @@ export const StoreKeyMetrics: React.FC<Props> = ({ store }) => {
           icon: <CartCheck size={32} weight="BoldDuotone" />,
         },
       ]);
+
+      setLiquidKeyMetrics([
+        {
+          label: t('overviewV2.totalWashers'),
+          value: Math.round((dashboardOverviewKeyMetrics.total_in_progress_washers / dashboardOverviewKeyMetrics.total_washers) * 100).toString(),
+          description: t('overviewV2.totalWashersDescription'),
+        },
+        {
+          label: t('overviewV2.totalDryers'),
+          value: Math.round((dashboardOverviewKeyMetrics.total_in_progress_dryers / dashboardOverviewKeyMetrics.total_dryers) * 100).toString(),
+          description: t('overviewV2.totalDryersDescription'),
+        },
+      ]);
     }
   }, [dashboardOverviewKeyMetrics]);
 
@@ -80,7 +96,10 @@ export const StoreKeyMetrics: React.FC<Props> = ({ store }) => {
       {dashboardOverviewKeyMetricsLoading ? (
         <Skeleton active style={{ width: '100%' }} />
       ) : (
-        <KeyMetricList keyMetrics={keyMetrics} />
+        <>
+          <KeyMetricList keyMetrics={keyMetrics} />
+          <LiquidKeyMetricList keyMetrics={liquidKeyMetrics} />
+        </>
       )}
     </Flex>
   );
