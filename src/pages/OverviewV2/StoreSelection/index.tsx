@@ -54,7 +54,10 @@ export const StoreSelection: React.FC<Props> = ({ onSelectStore }) => {
       align="center"
       justify="center"
       gap={theme.custom.spacing.small}
-      style={{ width: '100%', height: '100%' }}
+      style={{
+        width: '100%',
+        height: '100%',
+      }}
     >
       <Typography.Title level={3} style={{ marginBottom: 0 }}>
         {t('overviewV2.laundryManagementSystem')}

@@ -26,7 +26,10 @@ export const StoreKeyMetricsItem: React.FC<Props> = ({ title, value, description
       gap={theme.custom.spacing.xlarge}
       style={{
         width: '100%',
+        maxWidth: 400,
+        maxHeight: 400,
         padding: theme.custom.spacing.large,
+        overflow: 'hidden',
       }}
     >
       <Flex vertical gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
@@ -35,6 +38,9 @@ export const StoreKeyMetricsItem: React.FC<Props> = ({ title, value, description
           style={{
             fontSize: theme.custom.fontSize.medium,
             color: theme.custom.colors.text.tertiary,
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
           }}
         >
           {title}
@@ -45,12 +51,24 @@ export const StoreKeyMetricsItem: React.FC<Props> = ({ title, value, description
           style={{
             fontSize: theme.custom.fontSize.xxlarge,
             color: theme.custom.colors.success.default,
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
           }}
         >
           {value}
         </Typography.Text>
 
-        <Typography.Text type="secondary">{description}</Typography.Text>
+        <Typography.Text 
+          type="secondary"
+          style={{
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+          }}
+        >
+          {description}
+        </Typography.Text>
       </Flex>
 
       <Box

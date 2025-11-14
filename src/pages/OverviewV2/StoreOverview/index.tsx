@@ -27,7 +27,11 @@ export const StoreOverview: React.FC<Props> = ({ store, onBack }) => {
   const { t } = useTranslation();
 
   return (
-    <Flex vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+    <Flex
+      vertical
+      gap={theme.custom.spacing.medium}
+      style={{width: '100%'}}
+    >
       <Typography.Title level={3} style={{ marginBottom: 0 }}>
         {store.name}
       </Typography.Title>

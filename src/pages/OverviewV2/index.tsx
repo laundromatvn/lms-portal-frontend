@@ -19,7 +19,7 @@ export const OverviewPage: React.FC = () => {
 
   return (
     <PortalLayout>
-      <Flex vertical gap="large" style={{ width: '100%' }}>
+      <Flex vertical gap="large" style={{ width: '100%', height: '100%' }}>
         {!selectedStore && <StoreSelection onSelectStore={(store) => setSelectedStore(store)} />}
 
         {selectedStore && <StoreOverview store={selectedStore} onBack={() => setSelectedStore(undefined)} />}

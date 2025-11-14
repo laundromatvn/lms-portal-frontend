@@ -21,26 +21,20 @@ import {
   useGetDashboardOverviewKeyMetricsApi
 } from '@shared/hooks/dashboard/useGetDashboardOverviewKeyMetricsApi';
 
-import { StoreKeyMetricsItem } from './Item';
+import { KeyMetricList } from './KeyMetricList';
 
+import type { StoreKeyMetrics as StoreKeyMetricsType } from './types';
 import formatCurrencyCompact from '@shared/utils/currency';
 
 interface Props {
   store: Store;
 }
 
-type KeyMetrics = {
-  label: string;
-  value: string;
-  description?: string;
-  icon?: React.ReactNode;
-}
-
 export const StoreKeyMetrics: React.FC<Props> = ({ store }) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const [keyMetrics, setKeyMetrics] = useState<KeyMetrics[]>([]);
+  const [keyMetrics, setKeyMetrics] = useState<StoreKeyMetricsType[]>([]);
 
   const {
     getDashboardOverviewKeyMetrics,
@@ -83,17 +77,11 @@ export const StoreKeyMetrics: React.FC<Props> = ({ store }) => {
         {t('overviewV2.keyMetrics')}
       </Typography.Text>
 
-      {dashboardOverviewKeyMetricsLoading && <Skeleton active style={{ width: '100%' }} />}
-
-      {keyMetrics.map((item) => (
-        <StoreKeyMetricsItem
-          key={item.label}
-          title={item.label}
-          value={item.value}
-          description={item.description}
-          icon={item.icon}
-        />
-      ))}
+      {dashboardOverviewKeyMetricsLoading ? (
+        <Skeleton active style={{ width: '100%' }} />
+      ) : (
+        <KeyMetricList keyMetrics={keyMetrics} />
+      )}
     </Flex>
   );
 };
