@@ -27,6 +27,7 @@ const buildVietQRPaymentMethodDetails = (values: any) => {
   return {
     payment_method: PaymentMethodEnum.QR,
     payment_provider: PaymentProviderEnum.VIET_QR,
+    is_enabled: values.is_enabled,
     details: {
       bank_code: bankCode,
       bank_name: bankName,
@@ -46,6 +47,7 @@ const buildVNPAYPaymentMethodDetails = (values: any) => {
   return {
     payment_method: PaymentMethodEnum.CARD,
     payment_provider: PaymentProviderEnum.VNPAY,
+    is_enabled: values.is_enabled,
     details: {
       merchant_code: merchantCode,
       terminal_code: terminalCode,

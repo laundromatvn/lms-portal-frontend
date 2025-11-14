@@ -18,7 +18,8 @@ export const DynamicTag: React.FC<Props> = ({ value, color, style }) => {
   const dynamicColor = useMemo(() => {
     switch (value.toLowerCase()) {
       case 'inactive':
-        case 'new':
+      case 'new':
+      case 'disabled':
         return theme.custom.colors.neutral.default;
       case 'abandoned':
       case 'pending':
@@ -45,6 +46,7 @@ export const DynamicTag: React.FC<Props> = ({ value, color, style }) => {
       case 'tenant_admin':
       case 'released':
       case 'patch':
+      case 'enabled':
         return theme.custom.colors.success.default;
       case 'waiting_for_payment':
       case 'washer':

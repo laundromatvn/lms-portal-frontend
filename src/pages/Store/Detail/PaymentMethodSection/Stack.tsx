@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Typography } from 'antd';
+import { Flex, Typography } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -15,6 +15,7 @@ import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { Stack, StackCard } from '@shared/components/Stack';
 import { QRDetails } from '@shared/components/PaymentMethodDetails/QRDetails';
 import { CardVNPAYDetails } from '@shared/components/PaymentMethodDetails/CardVNPAYDetails';
+import { DynamicTag } from '@shared/components/DynamicTag';
 
 interface Props {
   store: Store;
@@ -32,9 +33,13 @@ export const PaymentMethodStackView: React.FC<Props> = ({ store }: Props) => {
         renderItem={(paymentMethod) => (
           <StackCard>
             <StackCard.Header>
-              <Typography.Text strong>
-                {`${t(`common.${paymentMethod.payment_method.toLowerCase()}`)} - ${t(`common.${paymentMethod.payment_provider.toLowerCase()}`)}`}
-              </Typography.Text>
+              <Flex justify="space-between" align="center" wrap="wrap" gap={theme.custom.spacing.xsmall}>
+                <Typography.Text strong>
+                  {`${t(`common.${paymentMethod.payment_method.toLowerCase()}`)} - ${t(`common.${paymentMethod.payment_provider.toLowerCase()}`)}`}
+                </Typography.Text>
+
+                <DynamicTag value={paymentMethod.is_enabled ? 'enabled' : 'disabled'} />
+              </Flex>
             </StackCard.Header>
 
             <StackCard.Content>

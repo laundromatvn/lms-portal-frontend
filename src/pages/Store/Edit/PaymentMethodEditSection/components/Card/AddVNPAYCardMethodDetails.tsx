@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import {
   Form,
   Input,
+  Switch,
   Typography,
 } from 'antd';
 
@@ -54,6 +55,14 @@ export const AddVNPAYCardMethodDetails: React.FC = () => {
         ]}
       >
         <Input placeholder={t('common.ipnv3SecretKey')} />
+      </Form.Item>
+
+      <Form.Item name="is_enabled" label={t('common.isEnabled')}
+        rules={[
+          { required: true, message: t('messages.isEnabledIsRequired') },
+        ]}
+      >
+        <Switch />
       </Form.Item>
     </>
   );

@@ -245,7 +245,8 @@
     "viet_qr": "VietQR",
     "vnpay": "VNPAY",
     "internal_promotion": "Internal Promotion",
-    "paymentProvider": "Nhà cung cấp thanh toán"
+    "paymentProvider": "Nhà cung cấp thanh toán",
+    "isEnabled": "Trạng thái hoạt động"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -375,7 +376,8 @@
     "terminalCodeIsRequired": "Mã terminal là bắt buộc",
     "initSecretKeyIsRequired": "Mã khởi tạo là bắt buộc",
     "querySecretKeyIsRequired": "Mã query là bắt buộc",
-    "ipnv3SecretKeyIsRequired": "Mã IPNV3 là bắt buộc"
+    "ipnv3SecretKeyIsRequired": "Mã IPNV3 là bắt buộc",
+    "isEnabledIsRequired": "Trạng thái hoạt động là bắt buộc"
   },
   "overview": {
     "keyMetrics": {

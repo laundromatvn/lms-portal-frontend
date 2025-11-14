@@ -19,5 +19,6 @@ export type CardVNPAYPaymentMethodDetail = {
 export type PaymentMethod = {
   payment_method: PaymentMethodEnum;
   payment_provider: PaymentProviderEnum;
+  is_enabled: boolean;
   details: QRPaymentMethodDetail | CardVNPAYPaymentMethodDetail;
 };

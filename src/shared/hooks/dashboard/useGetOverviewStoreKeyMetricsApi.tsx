@@ -9,7 +9,8 @@ import axiosClient from '@core/axiosClient'
 import type { OverviewStoreKeyMetrics } from '@shared/types/dashboard/OverviewStoreKeyMetrics';
 
 export type GetOverviewStoreKeyMetricsRequest = {
-  tenant_id: string;
+  tenant_id?: string;
+  store_id?: string;
 }
 
 export type GetOverviewStoreKeyMetricsResponse = {
@@ -23,15 +24,13 @@ export const useGetOverviewStoreKeyMetricsApi = <T = GetOverviewStoreKeyMetricsR
     error: null,
   });
 
-    const getOverviewStoreKeyMetrics = useCallback(async ({ tenant_id }: GetOverviewStoreKeyMetricsRequest) => {
+    const getOverviewStoreKeyMetrics = useCallback(async (params: GetOverviewStoreKeyMetricsRequest) => {
     setState(prevState => ({ ...prevState, loading: true, error: null }));
 
     const url = `${getBackendUrl()}/api/v1/dashboard/overview/store-key-metrics`
 
-    const queryParams = { tenant_id }
-
     try {
-      const response = await axiosClient.get<T>(url.replace(getBackendUrl(), ''), { params: queryParams })
+      const response = await axiosClient.get<T>(url.replace(getBackendUrl(), ''), { params })
 
       setState({ data: response.data as T, loading: false, error: null });
       return response.data as T

@@ -245,7 +245,8 @@
     "viet_qr": "VietQR",
     "vnpay": "VNPAY",
     "internal_promotion": "Internal Promotion",
-    "paymentProvider": "Payment Provider"
+    "paymentProvider": "Payment Provider",
+    "isEnabled": "Is Enabled"
   },
   "navigation": {
     "overview": "Overview",
@@ -378,7 +379,8 @@
     "terminalCodeIsRequired": "Terminal code is required",
     "initSecretKeyIsRequired": "Init secret key is required",
     "querySecretKeyIsRequired": "Query secret key is required",
-    "ipnv3SecretKeyIsRequired": "IPNV3 secret key is required"
+    "ipnv3SecretKeyIsRequired": "IPNV3 secret key is required",
+    "isEnabledIsRequired": "Is enabled is required"
   },
   "overview": {
     "keyMetrics": {
@@ -444,6 +446,19 @@
       "description": "Machine status changes over time",
       "noData": "No data available",
       "pleaseSelectMachineAndStoreToViewData": "Please select a machine and a store to view the data"
+    }
+  },
+  "overviewV2": {
+    "keyMetrics": "Key Metrics",
+    "laundryManagementSystem": "Laundry Management System",
+    "revenueByDay": "Revenue By Day",
+    "revenueByMonth": "Revenue By Month",
+    "totalOrdersToday": "Total Orders Today",
+    "revenueByDayDescription": "Revenue (Today)",
+    "revenueByMonthDescription": "Revenue (Month)",
+    "totalOrdersTodayDescription": "In progress / Total (Today)",
+    "messages": {
+      "selectAStoresToViewData": "Select a store to view the data"
     }
   },
   "promotionCampaign": {

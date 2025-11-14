@@ -5,6 +5,7 @@ import {
   Form,
   Input,
   Select,
+  Switch,
 } from 'antd';
 
 import bankData from '@public/banks.json';
@@ -64,6 +65,16 @@ export const AddVietQRQRMethodDetails: React.FC = () => {
         rules={[{ required: true, message: `${t('common.bankAccountName')} is required` }]}
       >
         <Input placeholder={t('common.bankAccountName')} />
+      </Form.Item>
+
+      <Form.Item
+        name="is_enabled"
+        label={t('common.isEnabled')}
+        rules={[
+          { required: true, message: t('messages.isEnabledIsRequired') },
+        ]}
+      >
+        <Switch />
       </Form.Item>
     </>
   );

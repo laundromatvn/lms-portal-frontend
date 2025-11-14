@@ -83,7 +83,6 @@ export const PaymentMethodEditSection: React.FC<Props> = ({ store, onChange, onS
               key={index}
               paymentMethod={paymentMethod}
               index={index}
-              paymentMethods={paymentMethods}
               onSave={handleSaveEdit}
               onCancel={handleCancelEdit}
             />

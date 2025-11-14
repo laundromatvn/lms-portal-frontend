@@ -28,7 +28,6 @@ import { buildPaymentMethodDetails } from '../helpers';
 interface Props {
   paymentMethod: PaymentMethod;
   index: number;
-  paymentMethods: PaymentMethod[];
   onSave: (index: number, updatedPaymentMethod: PaymentMethod) => void;
   onCancel: (index: number) => void;
 }
@@ -36,7 +35,6 @@ interface Props {
 export const EditPaymentMethodItem: React.FC<Props> = ({
   paymentMethod,
   index,
-  paymentMethods,
   onSave,
   onCancel
 }: Props) => {
@@ -97,6 +95,7 @@ export const EditPaymentMethodItem: React.FC<Props> = ({
     form.setFieldsValue({
       payment_method: paymentMethod.payment_method,
       payment_provider: paymentMethod.payment_provider,
+      is_enabled: paymentMethod.is_enabled,
       ...paymentMethod.details,
     });
   }, [paymentMethod, form]);
