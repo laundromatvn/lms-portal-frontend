@@ -5,26 +5,24 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Flex, Typography } from 'antd';
 
 import {
-  Dollar,
-  TrashBinTrash,
+  Play,
+  Settings
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
-import type { OverviewOrder } from '@shared/types/dashboard/OverviewOrder';
+import type { Machine } from '@shared/types/machine';
 
 import { Box } from '@shared/components/Box';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
 import formatCurrencyCompact from '@shared/utils/currency';
 
-import { formatDateTime } from '@shared/utils/date';
-
 interface Props {
-  order: OverviewOrder;
+  machine: Machine;
 }
 
-export const TopOrderOverviewItem: React.FC<Props> = ({ order }) => {
+export const MachineOverviewItem: React.FC<Props> = ({ machine }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -34,31 +32,44 @@ export const TopOrderOverviewItem: React.FC<Props> = ({ order }) => {
       vertical
       border
       justify="space-between"
+      align="center"
       gap={theme.custom.spacing.small}
       style={{
         width: '100%',
-        minHeight: 128,
         padding: theme.custom.spacing.medium,
-        overflow: 'hidden',
       }}
     >
       <Flex justify="space-between" align="center" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
-        <Typography.Link strong onClick={() => navigate(`/orders/${order.id}/detail`)}>
-          {order.transaction_code}
+        <Typography.Link strong onClick={() => navigate(`/machines/${machine.id}/detail`)}>
+          {machine.name || "No name" } - ({`${t('common.machine')} ${machine.relay_no}`})
         </Typography.Link>
-        <DynamicTag value={order.status} />
+        <DynamicTag value={machine.status} />
       </Flex>
 
-      <Typography.Text type="secondary">{formatDateTime(order.created_at)}</Typography.Text>
-
-      <Typography.Text type="secondary">
-        {t('overviewV2.noWashers', { noWashers: order.total_washer })} | {t('overviewV2.noDryers', { noDryers: order.total_dryer })}
-      </Typography.Text>
+      <Flex gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
+        <Typography.Text type="secondary">
+          {machine.machine_type}
+        </Typography.Text>
+      </Flex>
 
       <Flex justify="space-between" align="center" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
         <Typography.Text strong style={{ color: theme.custom.colors.success.default }}>
-          {formatCurrencyCompact(order.total_amount)}
+          {formatCurrencyCompact(machine.base_price)}
         </Typography.Text>
+
+        <Flex gap={theme.custom.spacing.small}>
+          <Button
+            type="default"
+            icon={<Play />}
+            onClick={() => { }}
+          />
+
+          <Button
+            type="default"
+            icon={<Settings />}
+            onClick={() => { }}
+          />
+        </Flex>
       </Flex>
     </Box>
   );

@@ -75,12 +75,12 @@ export const StoreKeyMetrics: React.FC<Props> = ({ store }) => {
       setLiquidKeyMetrics([
         {
           label: t('overviewV2.totalWashers'),
-          value: Math.round((dashboardOverviewKeyMetrics.total_in_progress_washers / dashboardOverviewKeyMetrics.total_washers) * 100).toString(),
+          value: Math.round(dashboardOverviewKeyMetrics.total_in_progress_washers / dashboardOverviewKeyMetrics.total_washers * 100) / 100,
           description: t('overviewV2.totalWashersDescription'),
         },
         {
           label: t('overviewV2.totalDryers'),
-          value: Math.round((dashboardOverviewKeyMetrics.total_in_progress_dryers / dashboardOverviewKeyMetrics.total_dryers) * 100).toString(),
+          value: Math.round(dashboardOverviewKeyMetrics.total_in_progress_dryers / dashboardOverviewKeyMetrics.total_dryers * 100) / 100,
           description: t('overviewV2.totalDryersDescription'),
         },
       ]);

@@ -1,6 +1,6 @@
 export type StoreKeyMetrics = {
   label: string;
-  value: string;
+  value: any;
   description?: string;
   icon?: React.ReactNode;
 }

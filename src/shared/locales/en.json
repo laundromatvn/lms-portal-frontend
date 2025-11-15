@@ -465,6 +465,10 @@
     "totalWashersDescription": "In progress / Total",
     "totalDryers": "Total Dryers",
     "totalDryersDescription": "In progress / Total",
+    "machineOverview": "Machine Overview",
+    "pulseDuration": "Pulse Duration: {{pulseDuration}}",
+    "pulseInterval": "Pulse Interval: {{pulseInterval}}",
+    "coinValue": "Coin Value: {{coinValue}}",
     "messages": {
       "selectAStoresToViewData": "Select a store to view the data"
     }

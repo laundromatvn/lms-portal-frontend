@@ -462,6 +462,7 @@
     "totalWashersDescription": "Đang xử lý / Tổng",
     "totalDryers": "Tổng máy sấy",
     "totalDryersDescription": "Đang xử lý / Tổng",
+    "machineOverview": "Tổng quan máy",
     "messages": {
       "selectAStoresToViewData": "Chọn một cửa hàng để xem dữ liệu"
     }

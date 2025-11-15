@@ -22,7 +22,7 @@ export const LiquidKeyMetricList: React.FC<Props> = ({ keyMetrics }) => {
       {keyMetrics.map((keyMetric) => (
         <LiquidItem
           title={keyMetric.label}
-          percent={Number(keyMetric.value)}
+          percent={keyMetric.value}
           description={keyMetric.description}
         />
       ))}
