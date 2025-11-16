@@ -6,37 +6,26 @@ import { useTheme } from '@shared/theme/useTheme';
 import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 import { Sider } from '@shared/components/common/Sider';
-import { MobileHeader } from '@shared/components/common/MobileHeader';
 import { MobileDrawer } from '@shared/components/common/MobileDrawer';
 import { MobileFAB } from '@shared/components/common/MobileFAB';
+import { MainHeader } from '../common/MainHeader';
 
 const { Content } = Layout;
 
 interface Props {
   children: React.ReactNode;
+  title?: string;
+  onBack?: () => void;
   style?: React.CSSProperties;
 }
 
-export const PortalLayout: React.FC<Props> = ({ children, style }) => {
+export const PortalLayout: React.FC<Props> = ({ children, title, onBack, style }) => {
   const theme = useTheme();
   const isMobile = useIsMobile();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   const sidebarWidth = sidebarCollapsed ? 80 : 300;
-
-  const desktopLayoutStyle = {
-    minHeight: '100vh',
-    width: '100vw',
-    backgroundColor: theme.custom.colors.background.surface,
-  };
-  const mobileLayoutStyle = {
-    minHeight: '100vh',
-    width: '100vw',
-    backgroundColor: theme.custom.colors.background.surface,
-    display: 'flex',
-    flexDirection: 'column',
-  };
 
   const handleMobileMenuClick = () => {
     setMobileDrawerOpen(true);
@@ -48,13 +37,32 @@ export const PortalLayout: React.FC<Props> = ({ children, style }) => {
 
   return (
     <Layout
-      style={isMobile ? mobileLayoutStyle : desktopLayoutStyle}
+      style={{
+        display: 'flex',
+        flexDirection: 'column' as const,
+        minHeight: '100vh',
+        width: isMobile ? '100vw' : `calc(100vw - ${sidebarWidth}px)`,
+        backgroundColor: theme.custom.colors.background.surface,
+        ...style,
+      }}
     >
       {!isMobile && <Sider onCollapseChange={setSidebarCollapsed} />}
-      
-      {isMobile && (
-        <MobileHeader onMenuClick={handleMobileMenuClick} />
-      )}
+
+      <div
+        style={{
+          marginLeft: isMobile ? 0 : sidebarWidth,
+          transition: 'margin-left 0.2s ease',
+        }}
+      >
+        <MainHeader
+          title={title}
+          onBack={onBack}
+          style={{
+            width: '100%',
+            height: 64,
+          }}
+        />
+      </div>
 
       <Content
         className="portal-content"
@@ -65,9 +73,7 @@ export const PortalLayout: React.FC<Props> = ({ children, style }) => {
           alignContent: 'flex-start',
           gap: theme.custom.spacing.medium,
           width: '100%',
-          height: isMobile ? 'calc(100vh - 64px)' : 'calc(100vh - 64px - 48px)',
           marginLeft: isMobile ? 0 : sidebarWidth,
-          marginTop: isMobile ? 64 : theme.custom.spacing.xxxlarge,
           marginBottom: theme.custom.spacing.xxxlarge,
           padding: theme.custom.spacing.medium,
           backgroundColor: theme.custom.colors.background.surface,
