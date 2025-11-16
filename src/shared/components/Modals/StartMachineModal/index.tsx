@@ -21,12 +21,14 @@ interface Props {
   machine: Machine;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onStartSuccess: () => void;
 }
 
 export const StartMachineModal: React.FC<Props> = ({
   machine,
   isModalOpen,
   setIsModalOpen,
+  onStartSuccess,
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -50,6 +52,8 @@ export const StartMachineModal: React.FC<Props> = ({
     api.success({
       message: t('messages.startMachineSuccess'),
     });
+
+    onStartSuccess?.();
   }, [startMachineData]);
 
   useEffect(() => {

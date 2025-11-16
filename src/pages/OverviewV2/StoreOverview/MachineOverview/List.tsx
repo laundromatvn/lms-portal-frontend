@@ -13,9 +13,11 @@ import { MachineOverviewItem } from './Item';
 interface Props {
   machines: Machine[];
   loading: boolean;
+  onStartSuccess: () => void;
+  onSaveMachine: () => void;
 }
 
-export const MachineOverviewList: React.FC<Props> = ({ machines, loading }) => {
+export const MachineOverviewList: React.FC<Props> = ({ machines, loading, onStartSuccess, onSaveMachine }) => {
   const theme = useTheme();
 
   return (
@@ -26,7 +28,11 @@ export const MachineOverviewList: React.FC<Props> = ({ machines, loading }) => {
       style={{ width: '100%' }}
     >
       {machines.map((machine) => (
-        <MachineOverviewItem machine={machine} />
+        <MachineOverviewItem
+          machine={machine}
+          onStartSuccess={onStartSuccess}
+          onSaveMachine={onSaveMachine}
+        />
       ))}
     </Box>
   );

@@ -16,19 +16,23 @@ import type { Machine } from '@shared/types/machine';
 import { Box } from '@shared/components/Box';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { StartMachineModal } from '@shared/components/Modals/StartMachineModal';
+import { MachineSettingModal } from '@shared/components/Modals/MachineSettingModal';
 
 import formatCurrencyCompact from '@shared/utils/currency';
 
 interface Props {
   machine: Machine;
+  onStartSuccess: () => void;
+  onSaveMachine: () => void;
 }
 
-export const MachineOverviewItem: React.FC<Props> = ({ machine }) => {
+export const MachineOverviewItem: React.FC<Props> = ({ machine, onStartSuccess, onSaveMachine }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
 
   const [isStartMachineModalOpen, setIsStartMachineModalOpen] = useState(false);
+  const [isMachineSettingModalOpen, setIsMachineSettingModalOpen] = useState(false);
 
   return (
     <>
@@ -71,7 +75,7 @@ export const MachineOverviewItem: React.FC<Props> = ({ machine }) => {
             <Button
               type="default"
               icon={<Settings />}
-              onClick={() => { }}
+              onClick={() => setIsMachineSettingModalOpen(true)}
             />
           </Flex>
         </Flex>
@@ -81,6 +85,14 @@ export const MachineOverviewItem: React.FC<Props> = ({ machine }) => {
         machine={machine}
         isModalOpen={isStartMachineModalOpen}
         setIsModalOpen={setIsStartMachineModalOpen}
+        onStartSuccess={onStartSuccess}
+      />
+
+      <MachineSettingModal
+        machine={machine}
+        isModalOpen={isMachineSettingModalOpen}
+        setIsModalOpen={setIsMachineSettingModalOpen}
+        onSave={onSaveMachine}
       />
     </>
   );
