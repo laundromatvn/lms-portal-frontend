@@ -15,12 +15,14 @@ const { Header: AntdHeader } = Layout;
 
 interface Props {
   title?: string;
+  onTitleClick?: () => void;
   onBack?: () => void;
   style?: React.CSSProperties;
 }
 
 export const MainHeader: React.FC<Props> = ({
   title,
+  onTitleClick,
   onBack,
   style,
 }) => {
@@ -56,10 +58,23 @@ export const MainHeader: React.FC<Props> = ({
         </Button>
       )}
 
-      {title && (
+      {title && onTitleClick === undefined && (
         <Typography.Text strong style={{ fontSize: theme.custom.fontSize.large }}>
           {title}
         </Typography.Text>
+      )}
+
+      {title && onTitleClick && (
+        <Typography.Link
+          strong
+          style={{
+            fontSize: theme.custom.fontSize.large,
+            cursor: 'pointer',
+          }}
+          onClick={onTitleClick}
+        >
+          {title}
+        </Typography.Link>
       )}
     </AntdHeader>
   );

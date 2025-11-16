@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import type { Store } from '@shared/types/store';
 
@@ -9,12 +9,13 @@ import { StoreSelection } from './StoreSelection';
 import { StoreOverview } from './StoreOverview';
 
 export const OverviewPage: React.FC = () => {
-  const { t } = useTranslation();
   const [selectedStore, setSelectedStore] = useState<Store>();
+  const navigate = useNavigate();
 
   return (
     <PortalLayout
       title={selectedStore?.name}
+      onTitleClick={selectedStore ? () => navigate(`/stores/${selectedStore.id}/detail`) : undefined}
       style={{ justifyContent: 'center' }}
       onBack={selectedStore ? () => setSelectedStore(undefined) : undefined}
     >

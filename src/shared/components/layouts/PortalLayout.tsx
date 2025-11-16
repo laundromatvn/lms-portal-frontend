@@ -18,11 +18,12 @@ const FOOTER_HEIGHT = 64;
 interface Props {
   children: React.ReactNode;
   title?: string;
+  onTitleClick?: () => void;
   onBack?: () => void;
   style?: React.CSSProperties;
 }
 
-export const PortalLayout: React.FC<Props> = ({ children, title, onBack, style }) => {
+export const PortalLayout: React.FC<Props> = ({ children, title, onTitleClick, onBack, style }) => {
   const theme = useTheme();
   const isMobile = useIsMobile();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -53,6 +54,7 @@ export const PortalLayout: React.FC<Props> = ({ children, title, onBack, style }
 
       <MainHeader
         title={title}
+        onTitleClick={onTitleClick}
         onBack={onBack}
         style={{
           marginLeft: isMobile ? 0 : sidebarWidth,
