@@ -52,6 +52,8 @@ export const MachineOverview: React.FC<Props> = ({ store }) => {
       <MachineOverviewList
         machines={listMachineData?.data || []}
         loading={listMachineLoading}
+        onStartSuccess={handleListMachine}
+        onSaveMachine={handleListMachine}
       />
     </Flex>
   );
