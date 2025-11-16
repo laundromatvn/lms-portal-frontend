@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Layout } from 'antd';
+import { Layout, Flex } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 import { useIsMobile } from '@shared/hooks/useIsMobile';
@@ -48,21 +48,14 @@ export const PortalLayout: React.FC<Props> = ({ children, title, onBack, style }
     >
       {!isMobile && <Sider onCollapseChange={setSidebarCollapsed} />}
 
-      <div
+      <MainHeader
+        title={title}
+        onBack={onBack}
         style={{
           marginLeft: isMobile ? 0 : sidebarWidth,
           transition: 'margin-left 0.2s ease',
         }}
-      >
-        <MainHeader
-          title={title}
-          onBack={onBack}
-          style={{
-            width: '100%',
-            height: 64,
-          }}
-        />
-      </div>
+      />
 
       <Content
         className="portal-content"
@@ -73,9 +66,10 @@ export const PortalLayout: React.FC<Props> = ({ children, title, onBack, style }
           alignContent: 'flex-start',
           gap: theme.custom.spacing.medium,
           width: '100%',
+          height: 'calc(100vh - 64px)',
           marginLeft: isMobile ? 0 : sidebarWidth,
-          marginBottom: theme.custom.spacing.xxxlarge,
           padding: theme.custom.spacing.medium,
+          paddingBottom: theme.custom.spacing.xxxlarge,
           backgroundColor: theme.custom.colors.background.surface,
           overflow: 'auto',
           transition: 'margin-left 0.2s ease',

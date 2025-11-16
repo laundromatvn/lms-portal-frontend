@@ -1,29 +1,26 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import {
-  Flex,
-  Typography,
-} from 'antd';
-
 import type { Store } from '@shared/types/store';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
-import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 import { StoreSelection } from './StoreSelection';
 import { StoreOverview } from './StoreOverview';
 
 export const OverviewPage: React.FC = () => {
+  const { t } = useTranslation();
   const [selectedStore, setSelectedStore] = useState<Store>();
 
   return (
-    <PortalLayout>
-      <Flex vertical gap="large" style={{ width: '100%', height: '100%' }}>
-        {!selectedStore && <StoreSelection onSelectStore={(store) => setSelectedStore(store)} />}
+    <PortalLayout
+      title={selectedStore?.name || t('navigation.overview')}
+      style={{ justifyContent: 'center' }}
+      onBack={selectedStore ? () => setSelectedStore(undefined) : undefined}
+    >
+      {!selectedStore && <StoreSelection onSelectStore={(store) => setSelectedStore(store)} />}
 
-        {selectedStore && <StoreOverview store={selectedStore} onBack={() => setSelectedStore(undefined)} />}
-      </Flex>
+      {selectedStore && <StoreOverview store={selectedStore} />}
     </PortalLayout>
   );
 };

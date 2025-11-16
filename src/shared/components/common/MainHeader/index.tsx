@@ -34,19 +34,38 @@ export const MainHeader: React.FC<Props> = ({
         position: 'sticky',
         top: 0,
         zIndex: 1000,
+        width: '100%',
+        height: 64,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
         ...style,
       }}
     >
       {onBack && (
-        <Button type="link" onClick={onBack}>
-          <AltArrowLeft />
+        <Button
+          type="text"
+          onClick={onBack}
+          style={{
+            padding: 0,
+            paddingRight: theme.custom.spacing.xsmall,
+          }}
+        >
+          <AltArrowLeft size={18} />
         </Button>
       )}
 
       {title && (
-        <Typography.Title level={3} style={{ marginBottom: 0 }}>
+        <Typography.Text
+          strong
+          style={{
+            marginBottom: 0,
+            fontSize: theme.custom.fontSize.large,
+            ...style,
+          }}
+        >
           {title}
-        </Typography.Title>
+        </Typography.Text>
       )}
     </AntdHeader>
   );
