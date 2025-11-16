@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import {
-  Flex,
-  Typography,
-  Skeleton,
-} from 'antd';
+import {Flex} from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 
 import type { Store } from '@shared/types/store';
+
+import {
+  useListMachineApi,
+  type ListMachineResponse,
+} from '@shared/hooks/useListMachineApi';
+
+import { BaseSectionTitle } from '@shared/components/BaseSectionTitle';
 
 import { MachineOverviewList } from './List';
 
@@ -21,13 +24,35 @@ export const MachineOverview: React.FC<Props> = ({ store }) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
+  const {
+    listMachine,
+    data: listMachineData,
+    loading: listMachineLoading,
+  } = useListMachineApi<ListMachineResponse>();
+
+  const handleListMachine = async () => {
+    await listMachine({
+      store_id: store.id,
+      page: 1,
+      page_size: 100,
+    });
+  };
+
+  useEffect(() => {
+    handleListMachine();
+  }, [store]);
+
   return (
     <Flex vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-      <Typography.Text strong style={{ fontSize: theme.custom.fontSize.large }}>
-        {t('overviewV2.machineOverview')}
-      </Typography.Text>
+      <BaseSectionTitle
+        title={t('overviewV2.machineOverview')}
+        onRefresh={handleListMachine}
+      />
 
-      <MachineOverviewList store={store} />
+      <MachineOverviewList
+        machines={listMachineData?.data || []}
+        loading={listMachineLoading}
+      />
     </Flex>
   );
 };
