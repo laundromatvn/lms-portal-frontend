@@ -32,7 +32,9 @@ export const KeyMetricsSection: React.FC<Props> = ({ style }) => {
   } = useGetDashboardOverviewKeyMetricsApi();
 
   const handleGetDashboardOverviewKeyMetrics = async () => {
-    await getDashboardOverviewKeyMetrics(tenant?.id as string);
+    await getDashboardOverviewKeyMetrics({
+      tenant_id: tenant?.id as string,
+    });
   };
 
   useEffect(() => {
