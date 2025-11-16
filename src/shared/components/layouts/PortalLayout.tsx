@@ -12,6 +12,9 @@ import { MainHeader } from '../common/MainHeader';
 
 const { Content } = Layout;
 
+const HEADER_HEIGHT = 64;
+const FOOTER_HEIGHT = 64;
+
 interface Props {
   children: React.ReactNode;
   title?: string;
@@ -54,6 +57,7 @@ export const PortalLayout: React.FC<Props> = ({ children, title, onBack, style }
         style={{
           marginLeft: isMobile ? 0 : sidebarWidth,
           transition: 'margin-left 0.2s ease',
+          height: HEADER_HEIGHT,
         }}
       />
 
@@ -66,10 +70,11 @@ export const PortalLayout: React.FC<Props> = ({ children, title, onBack, style }
           alignContent: 'flex-start',
           gap: theme.custom.spacing.medium,
           width: '100%',
-          height: 'calc(100vh - 64px)',
+          height: `calc(100vh - ${HEADER_HEIGHT}px - ${FOOTER_HEIGHT}px)`,
           marginLeft: isMobile ? 0 : sidebarWidth,
           padding: theme.custom.spacing.medium,
           paddingBottom: theme.custom.spacing.xxxlarge,
+          marginBottom: 64,
           backgroundColor: theme.custom.colors.background.surface,
           overflow: 'auto',
           transition: 'margin-left 0.2s ease',

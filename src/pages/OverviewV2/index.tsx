@@ -14,7 +14,7 @@ export const OverviewPage: React.FC = () => {
 
   return (
     <PortalLayout
-      title={selectedStore?.name || t('navigation.overview')}
+      title={selectedStore?.name}
       style={{ justifyContent: 'center' }}
       onBack={selectedStore ? () => setSelectedStore(undefined) : undefined}
     >

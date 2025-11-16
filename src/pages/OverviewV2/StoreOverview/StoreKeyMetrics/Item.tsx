@@ -22,11 +22,10 @@ export const StoreKeyMetricsItem: React.FC<Props> = ({ title, value, description
     <Box
       border
       justify="space-between"
-      align="center"
-      gap={theme.custom.spacing.xlarge}
+      align="flex-start"
       style={{
         width: '100%',
-        maxWidth: 400,
+        minWidth: 240,
         maxHeight: 400,
         padding: theme.custom.spacing.large,
         overflow: 'hidden',

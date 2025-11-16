@@ -29,16 +29,17 @@ export const MainHeader: React.FC<Props> = ({
   return (
     <AntdHeader
       style={{
-        backgroundColor: theme.custom.colors.background.light,
-        padding: theme.custom.spacing.medium,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
         position: 'sticky',
         top: 0,
         zIndex: 1000,
         width: '100%',
         height: 64,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
+        backgroundColor: theme.custom.colors.background.light,
+        padding: theme.custom.spacing.medium,
+        boxShadow: theme.custom.shadows.small,
         ...style,
       }}
     >
@@ -56,14 +57,7 @@ export const MainHeader: React.FC<Props> = ({
       )}
 
       {title && (
-        <Typography.Text
-          strong
-          style={{
-            marginBottom: 0,
-            fontSize: theme.custom.fontSize.large,
-            ...style,
-          }}
-        >
+        <Typography.Text strong style={{ fontSize: theme.custom.fontSize.large }}>
           {title}
         </Typography.Text>
       )}
