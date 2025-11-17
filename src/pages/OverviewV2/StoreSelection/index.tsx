@@ -39,9 +39,7 @@ export const StoreSelection: React.FC<Props> = ({ onSelectStore }) => {
   } = useListStoreApi<ListStoreResponse>();
 
   const handleListStore = () => {
-    if (!tenant) return;
-
-    listStore({ tenant_id: tenant.id, page: 1, page_size: 100 });
+    listStore({ page: 1, page_size: 100 });
   }
 
   useEffect(() => {

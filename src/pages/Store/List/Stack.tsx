@@ -6,8 +6,6 @@ import { Flex, Typography, notification } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 
-import { tenantStorage } from '@core/storage/tenantStorage';
-
 import { useListStoreApi, type ListStoreResponse } from '@shared/hooks/useListStoreApi';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
@@ -18,8 +16,6 @@ export const StoreListStack: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
-
-  const tenant = tenantStorage.load();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -43,11 +39,7 @@ export const StoreListStack: React.FC = () => {
   } = useListStoreApi<ListStoreResponse>();
 
   const handleListStore = () => {
-    if (tenant) {
-      listStore({ tenant_id: tenant.id, page, page_size: pageSize });
-    } else {
-      listStore({ page, page_size: pageSize });
-    }
+    listStore({ page, page_size: pageSize });
   }
 
   useEffect(() => {
