@@ -23,14 +23,6 @@ export const StoreListStack: React.FC = () => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  const columns = [
-    { title: t('common.tenantName'), dataIndex: 'tenant_name', width: 128 },
-    { title: t('common.name'), dataIndex: 'name', width: 256 },
-    { title: t('common.status'), dataIndex: 'status', width: 72 },
-    { title: t('common.address'), dataIndex: 'address', width: 400 },
-    { title: t('common.contactPhoneNumber'), dataIndex: 'contact_phone_number', width: 128 },
-  ];
-
   const {
     data: listStoreData,
     loading: listStoreLoading,
@@ -49,7 +41,6 @@ export const StoreListStack: React.FC = () => {
         name: item.name || '-',
         address: item.address || '-',
         contact_phone_number: item.contact_phone_number || '-',
-        tenant_name: item.tenant_name || '-',
         status: item.status,
       })));
     }
