@@ -52,25 +52,13 @@ export const StoreDetailPage: React.FC = () => {
   }, [storeId]);
 
   return (
-    <PortalLayout>
+    <PortalLayout
+    title={storeData?.name}
+    onBack={() => navigate(-1)}
+    >
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <Typography.Title level={2}>Store Detail</Typography.Title>
-
-        <LeftRightSection
-          left={(
-            <Button
-              type="link"
-              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
-              onClick={() => navigate(-1)}
-            >
-              {t('common.back')}
-            </Button>
-          )}
-          right={null}
-        />
-
         {storeLoading && <Skeleton active />}
 
         {!storeLoading && storeData && (

@@ -129,25 +129,10 @@ export const ControllerAbandonedPage: React.FC = () => {
   }, [autoRefresh, isOpen, listAbandondedControllerLoading, listAbandondedController]);
 
   return (
-    <PortalLayout>
+    <PortalLayout title={t('controller.abandonedController')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <Typography.Title level={2}>{t('controller.abandonedController')}</Typography.Title>
-
-        <LeftRightSection
-          left={(
-            <Button
-              type="link"
-              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
-              onClick={() => navigate(-1)}
-            >
-              {t('common.back')}
-            </Button>
-          )}
-          right={null}
-        />
-
         <Box
           vertical
           gap={theme.custom.spacing.large}

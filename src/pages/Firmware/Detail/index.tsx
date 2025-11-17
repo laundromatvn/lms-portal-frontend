@@ -2,10 +2,9 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Button, Dropdown, Flex, notification, Skeleton, Typography } from 'antd';
+import { Button, Dropdown, Flex, notification, Skeleton } from 'antd';
 
 import {
-  ArrowLeft,
   MenuDots,
   Rocket2,
   ArchiveDown,
@@ -23,15 +22,12 @@ import {
 } from '@shared/hooks/firmware/useGetFirmwareApi';
 import {
   useReleaseFirmwareApi,
-  type ReleaseFirmwareResponse,
 } from '@shared/hooks/firmware/useReleaseFirmwareApi';
 import {
   useDeprecateFirmwareApi,
-  type DeprecateFirmwareResponse,
 } from '@shared/hooks/firmware/useDeprecateFirmwareApi';
 import {
   useDeleteFirmwareApi,
-  type DeleteFirmwareResponse,
 } from '@shared/hooks/firmware/useDeleteFirmwareApi';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
@@ -149,21 +145,11 @@ export const FirmwareDetailPage: React.FC = () => {
   }, [deleteFirmwareData]);
 
   return (
-    <PortalLayout>
+    <PortalLayout title={firmwareData?.name} onBack={() => navigate(-1)}>
       {contextHolder}
 
-      <Typography.Title level={2}>{t('common.firmwareDetail')}</Typography.Title>
-
       <LeftRightSection
-        left={
-          <Button
-            type="link"
-            icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
-            onClick={() => navigate(-1)}
-          >
-            {t('common.back')}
-          </Button>
-        }
+        left={null}
         right={(
           <Flex gap={theme.custom.spacing.medium}>
             <Button

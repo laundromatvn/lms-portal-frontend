@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
-import { Typography, notification } from 'antd';
-
-import { useTheme } from '@shared/theme/useTheme';
+import { notification } from 'antd';
 
 import { userStorage } from '@core/storage/userStorage';
 
@@ -19,7 +18,7 @@ import { UserProfilePasswordSection } from './PasswordSection';
 
 export const UserProfilePage: React.FC = () => {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const navigate = useNavigate();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -50,10 +49,8 @@ export const UserProfilePage: React.FC = () => {
   }, [getUserData]);
 
   return (
-    <PortalLayout>
+    <PortalLayout title={t('navigation.userProfile')} onBack={() => navigate(-1)}>
       {contextHolder}
-
-      <Typography.Title level={2}>{t('navigation.userProfile')}</Typography.Title>
 
       <UserProfileDetailSection />
 

@@ -4,16 +4,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import {
   notification,
-  Button,
   Skeleton,
-  Typography,
-  Form,
   type FormInstance,
 } from 'antd';
-
-import { ArrowLeft } from '@solar-icons/react';
-
-import { useTheme } from '@shared/theme/useTheme';
 
 import type { Firmware } from '@shared/types/Firmware';
 
@@ -27,18 +20,14 @@ import {
 } from '@shared/hooks/firmware/useUpdateFirmwareApi';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
-import { LeftRightSection } from '@shared/components/LeftRightSection';
 
 import { EditFirmwareBasicInformationSection } from './BasicInformationSection';
 
 export const FirmwareEditPage: React.FC = () => {
   const { t } = useTranslation();
-  const theme = useTheme();
   const navigate = useNavigate();
 
   const [api, contextHolder] = notification.useNotification();
-
-  const [form] = Form.useForm();
 
   const firmwareId = useParams().id;
 
@@ -97,23 +86,8 @@ export const FirmwareEditPage: React.FC = () => {
   }, [firmwareId]);
 
     return (
-    <PortalLayout>
+    <PortalLayout title={firmwareData?.name || firmwareId} onBack={() => navigate(-1)}>
       {contextHolder}
-
-      <Typography.Title level={2}>{t('common.firmwareEdit')}</Typography.Title>
-
-      <LeftRightSection
-        left={(
-          <Button
-            type="link"
-            icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
-            onClick={() => navigate(-1)}
-          >
-            {t('common.back')}
-          </Button>
-        )}
-        right={null}
-      />
 
       {firmwareLoading && <Skeleton active />}
 

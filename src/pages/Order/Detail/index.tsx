@@ -133,22 +133,12 @@ export const OrderDetailPage: React.FC = () => {
   }, [syncUpOrderError]);
 
   return (
-    <PortalLayout>
+    <PortalLayout title={getOrderData?.transaction_code || orderId} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <Typography.Title level={2}>{t('common.orderDetail')}</Typography.Title>
-
         <LeftRightSection
-          left={(
-            <Button
-              type="link"
-              icon={<ArrowLeft size={18} />}
-              onClick={() => navigate(-1)}
-            >
-              {t('common.back')}
-            </Button>
-          )}
+          left={null}
           right={(
             <Flex gap={theme.custom.spacing.medium}>
               <Button

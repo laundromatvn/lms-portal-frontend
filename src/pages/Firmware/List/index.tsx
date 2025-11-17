@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Flex, Typography, notification } from 'antd';
+import { Button, Flex, notification } from 'antd';
 
 import { AddCircle, Refresh } from '@solar-icons/react';
 
@@ -131,10 +131,8 @@ export const FirmwareListPage: React.FC = () => {
   }, [releaseFirmwareError]);
 
   return (
-    <PortalLayout>
+    <PortalLayout title={t('common.firmware')} onBack={() => navigate(-1)}>
       {contextHolder}
-
-      <Typography.Title level={2}>{t('common.firmware')}</Typography.Title>
 
       <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
         <LeftRightSection

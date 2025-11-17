@@ -97,25 +97,10 @@ export const ControllerEditPage: React.FC = () => {
   }, [controllerId]);
 
   return (
-    <PortalLayout>
+    <PortalLayout title={controllerData?.name || controllerId} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <Typography.Title level={2}>Controller Edit</Typography.Title>
-
-        <LeftRightSection
-          left={(
-            <Button
-              type="link"
-              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
-              onClick={() => navigate(-1)}
-            >
-              {t('common.back')}
-            </Button>
-          )}
-          right={null}
-        />
-
         {controllerLoading && <Skeleton active />}
 
         {!controllerLoading && controllerData && (

@@ -106,25 +106,13 @@ export const StoreEditPage: React.FC = () => {
   }, [storeData]);
 
   return (
-    <PortalLayout>
+    <PortalLayout
+      title={storeData?.name}
+      onBack={() => navigate(-1)}
+    >
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <Typography.Title level={2}>Store Edit</Typography.Title>
-
-        <LeftRightSection
-          left={(
-            <Button
-              type="link"
-              onClick={() => navigate(-1)}
-              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
-            >
-              {t('common.back')}
-            </Button>
-          )}
-          right={null}
-        />
-
         {storeLoading && <Skeleton active />}
 
         {!storeLoading && storeData && (

@@ -25,25 +25,13 @@ export const StoreAddPage: React.FC = () => {
   const [api, contextHolder] = notification.useNotification();
 
   return (
-    <PortalLayout>
+    <PortalLayout
+      title={t('common.addStore')}
+      onBack={() => navigate(-1)}
+    >
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <Typography.Title level={2}>Store Add</Typography.Title>
-
-        <LeftRightSection
-          left={(
-            <Button
-              type="link"
-              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
-              onClick={() => navigate(-1)}
-            >
-              {t('common.back')}
-            </Button>
-          )}
-          right={null}
-        />
-
         <AddSection
           onSuccess={() => {
             api.success({

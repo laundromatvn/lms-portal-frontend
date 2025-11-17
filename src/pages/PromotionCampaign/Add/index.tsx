@@ -6,12 +6,11 @@ import dayjs from 'dayjs';
 import {
   Button,
   Flex,
-  Typography,
   notification,
   type FormInstance,
 } from 'antd';
 
-import { ArrowLeft, AddCircle } from '@solar-icons/react';
+import { AddCircle } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -104,25 +103,12 @@ export const PromotionCampaignAddPage: React.FC = () => {
   }, [createPromotionCampaignData]);
 
   return (
-    <PortalLayout>
+    <PortalLayout title={t('common.promotionCampaignAdd')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
         <LeftRightSection
-          left={<Typography.Title level={2}>{t('common.promotionCampaignAdd')}</Typography.Title>}
-          right={null}
-        />
-
-        <LeftRightSection
-          left={(
-            <Button
-              type="link"
-              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
-              onClick={() => navigate(-1)}
-            >
-              {t('common.back')}
-            </Button>
-          )}
+          left={null}
           right={(
             <Button
               type="primary"

@@ -1,8 +1,8 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Flex, Typography, Table, Skeleton, notification } from 'antd';
+import { Button, Flex, Table, Skeleton, notification } from 'antd';
 
 import {
   AddCircle,
@@ -20,7 +20,7 @@ import {
 import { tenantStorage } from '@core/storage/tenantStorage';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
-import LeftRightSection from '@shared/components/LeftRightSection';
+import { LeftRightSection } from '@shared/components/LeftRightSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { BaseModal } from '@shared/components/BaseModal';
 import { Box } from '@shared/components/Box';
@@ -137,12 +137,10 @@ export const TenantMemberListPage: React.FC = () => {
   }, [isModalOpen]);
 
   return (
-    <PortalLayout>
+    <PortalLayout title={t('navigation.tenantMembers')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical style={{ height: '100%' }}>
-        <Typography.Title level={2}>{t('navigation.tenantMembers')}</Typography.Title>
-
         <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
           <LeftRightSection
             left={null}

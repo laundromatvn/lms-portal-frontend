@@ -1,17 +1,13 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {
-  Button,
   Flex,
-  Typography,
   Skeleton,
   notification,
   type FormInstance,
 } from 'antd';
-
-import { ArrowLeft } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -25,7 +21,6 @@ import {
 } from '@shared/hooks/useResetPasswordApi';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
-import LeftRightSection from '@shared/components/LeftRightSection';
 import { ResetPasswordSection } from './ResetPasswordSection';
 
 export const UserResetPasswordPage: React.FC = () => {
@@ -66,25 +61,10 @@ export const UserResetPasswordPage: React.FC = () => {
   }, [resetPasswordData]);
 
   return (
-    <PortalLayout>
+    <PortalLayout title={t('common.userResetPassword')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <Typography.Title level={2}>{t('common.userResetPassword')}</Typography.Title>
-
-        <LeftRightSection
-          left={(
-            <Button
-              type="link"
-              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
-              onClick={() => navigate(-1)}
-            >
-              {t('common.back')}
-            </Button>
-          )}
-          right={null}
-        />
-
         {!user && <Skeleton active />}
 
         {user && (

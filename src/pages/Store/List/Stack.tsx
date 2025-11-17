@@ -76,12 +76,10 @@ export const StoreListStack: React.FC = () => {
   }, [page, pageSize]);
 
   return (
-    <PortalLayout>
+    <PortalLayout title={t('common.storeList')}>
       {contextHolder}
 
       <Flex vertical style={{ height: '100%' }}>
-        <Typography.Title level={2}>{t('common.storeList')}</Typography.Title>
-
         <Stack
           data={tableData || []}
           renderItem={(item) => (

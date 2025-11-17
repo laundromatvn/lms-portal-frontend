@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
-import { Flex, Skeleton, Typography, notification } from 'antd';
+import { Flex, Skeleton, notification } from 'antd';
 
 import { tenantStorage } from '@core/storage/tenantStorage';
 
@@ -17,6 +18,7 @@ import { DetailSection } from './DetailSection';
 export const TenantProfilePage: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const localTenant = tenantStorage.load();
   const [api, contextHolder] = notification.useNotification();
@@ -49,12 +51,10 @@ export const TenantProfilePage: React.FC = () => {
   }, [getTenantError]);
 
   return (
-    <PortalLayout>
+    <PortalLayout title={t('navigation.tenantProfile')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <Typography.Title level={2}>{t('navigation.tenantProfile')}</Typography.Title>
-
         {getTenantLoading && <Skeleton active />}
 
         {!getTenantLoading && getTenantData && (

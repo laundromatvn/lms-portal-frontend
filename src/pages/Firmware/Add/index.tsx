@@ -1,15 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import {
-  Typography,
   Form,
   Button,
   notification,
 } from 'antd';
 
-import { AddCircle, ArrowLeft } from '@solar-icons/react';
+import { AddCircle } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -19,11 +18,8 @@ import {
   type AddFirmwareResponse,
 } from '@shared/hooks/firmware/useAddFirmwareApi';
 
-import { FirmwareStatusEnum } from '@shared/enums/FirmwareStatusEnum';
-import { FirmwareVersionTypeEnum } from '@shared/enums/FirmwareVersionTypeEnum';
-
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
-import LeftRightSection from '@shared/components/LeftRightSection';
+import { LeftRightSection } from '@shared/components/LeftRightSection';
 
 import { AddFirmwareBasicInformationSection } from './BasicInformationSection';
 import { UploadFirmwareSection } from './UploadFirmwareSection';
@@ -76,21 +72,11 @@ export const FirmwareAddPage: React.FC = () => {
   }, [addFirmwareData]);
 
   return (
-    <PortalLayout>
+    <PortalLayout title={t('common.firmwareAdd')} onBack={() => navigate(-1)}>
       {contextHolder}
 
-      <Typography.Title level={2}>{t('common.firmware')}</Typography.Title>
-
       <LeftRightSection
-        left={
-          <Button
-            type="link"
-            icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
-            onClick={() => navigate(-1)}
-          >
-            {t('common.back')}
-          </Button>
-        }
+        left={null}
         right={(
           <Button
             type="primary"

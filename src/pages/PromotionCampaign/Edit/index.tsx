@@ -4,15 +4,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 
 import {
-  Button,
   Flex,
-  Typography,
   Skeleton,
   notification,
   type FormInstance,
 } from 'antd';
 
-import { ArrowLeft } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -28,7 +25,6 @@ import {
 import { type PromotionCampaign } from '@shared/types/promotion/PromotionCampaign';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
-import LeftRightSection from '@shared/components/LeftRightSection';
 import { EditSection } from './EditSection';
 import { PromotionDetailEditSection } from './PromotionDetailEditSection';
 
@@ -114,25 +110,10 @@ export const PromotionCampaignEditPage: React.FC = () => {
   }, [promotionCampaignId]);
 
   return (
-    <PortalLayout>
+    <PortalLayout title={promotionCampaignData?.name || promotionCampaignId} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <Typography.Title level={2}>{t('common.promotionCampaignEdit')}</Typography.Title>
-
-        <LeftRightSection
-          left={(
-            <Button
-              type="link"
-              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
-              onClick={() => navigate(-1)}
-            >
-              {t('common.back')}
-            </Button>
-          )}
-          right={null}
-        />
-
         {promotionCampaignLoading && <Skeleton active />}
 
         {!promotionCampaignLoading && promotionCampaignData && (

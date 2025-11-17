@@ -235,12 +235,10 @@ export const MachineListPage: React.FC = () => {
   }, []);
 
   return (
-    <PortalLayout>
+    <PortalLayout title={t('common.machineList')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical style={{ height: '100%' }}>
-        <Typography.Title level={2}>{t('common.machineList')}</Typography.Title>
-
         <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
           <LeftRightSection
             left={null}

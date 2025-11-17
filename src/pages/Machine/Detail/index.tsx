@@ -110,22 +110,12 @@ export const MachineDetailPage: React.FC = () => {
   }, [activateMachineData, machineId]);
 
   return (
-    <PortalLayout>
+    <PortalLayout title={machineData?.name} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <Typography.Title level={2}>{t('common.machineDetail')}</Typography.Title>
-
         <LeftRightSection
-          left={(
-            <Button
-              type="link"
-              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
-              onClick={() => navigate(-1)}
-            >
-              {t('common.back')}
-            </Button>
-          )}
+          left={null}
           right={(<Flex gap={theme.custom.spacing.medium}>
             <Button
               type="default"

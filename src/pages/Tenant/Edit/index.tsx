@@ -3,15 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import {
-  Button,
-  Flex,
-  Typography,
+  Flex, 
   Skeleton,
   notification,
   type FormInstance,
 } from 'antd';
-
-import { ArrowLeft } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -27,7 +23,6 @@ import {
 } from '@shared/hooks/useUpdateTenantApi';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
-import LeftRightSection from '@shared/components/LeftRightSection';
 import { EditSection } from './EditSection';
 
 export const TenantEditPage: React.FC = () => {
@@ -99,25 +94,10 @@ export const TenantEditPage: React.FC = () => {
   }, [tenantId]);
 
   return (
-    <PortalLayout>
+    <PortalLayout title={tenantData?.name} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <Typography.Title level={2}>Tenant Edit</Typography.Title>
-
-        <LeftRightSection
-          left={(
-            <Button
-              type="link"
-              onClick={() => navigate(-1)}
-              icon={<ArrowLeft color={theme.custom.colors.text.primary} />}
-            >
-              {t('common.back')}
-            </Button>
-          )}
-          right={null}
-        />
-
         {tenantLoading && <Skeleton active />}
 
         {!tenantLoading && tenantData && (
