@@ -469,6 +469,9 @@
     "pulseDuration": "Pulse Duration: {{pulseDuration}}",
     "pulseInterval": "Pulse Interval: {{pulseInterval}}",
     "coinValue": "Coin Value: {{coinValue}}",
+    "overview": "Overview",
+    "order": "Order",
+    "machine": "Machine",
     "messages": {
       "selectAStoresToViewData": "Select a store to view the data"
     }

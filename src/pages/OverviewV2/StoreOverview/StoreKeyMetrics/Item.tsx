@@ -33,7 +33,6 @@ export const StoreKeyMetricsItem: React.FC<Props> = ({ title, value, description
     >
       <Flex vertical gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
         <Typography.Text
-          strong
           style={{
             fontSize: theme.custom.fontSize.medium,
             color: theme.custom.colors.text.tertiary,
@@ -46,10 +45,10 @@ export const StoreKeyMetricsItem: React.FC<Props> = ({ title, value, description
         </Typography.Text>
 
         <Typography.Text
-          strong
           style={{
-            fontSize: theme.custom.fontSize.xxlarge,
-            color: theme.custom.colors.success.default,
+            fontSize: theme.custom.fontSize.xxxlarge,
+            fontWeight: theme.custom.fontWeight.xxlarge,
+            color: theme.custom.colors.info[700],
             whiteSpace: 'nowrap',
             textOverflow: 'ellipsis',
             overflow: 'hidden',

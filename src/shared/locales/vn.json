@@ -447,6 +447,9 @@
     }
   },
   "overviewV2": {
+    "overview": "Tổng quan",
+    "order": "Đơn hàng",
+    "machine": "Máy",
     "keyMetrics": "Chỉ số chính",
     "laundryManagementSystem": "Hệ thống quản lý giặt sấy",
     "revenueByDay": "Doanh thu theo ngày",

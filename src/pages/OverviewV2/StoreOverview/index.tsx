@@ -1,31 +1,22 @@
 import React from 'react';
 
-import { Flex } from 'antd';
-
-import { useTheme } from '@shared/theme/useTheme';
+import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 import type { Store } from '@shared/types/store';
 
-import { StoreKeyMetrics } from './StoreKeyMetrics';
-import { TopOrderOverview } from './TopOrderOverview';
-import { MachineOverview } from './MachineOverview';
+import { StoreOverviewMobileView } from './StoreOverviewMobileView';
+import { StoreOverviewDesktopView } from './StoreOverviewDesktopView';
 
 interface Props {
   store: Store;
 }
 
 export const StoreOverview: React.FC<Props> = ({ store }) => {
-  const theme = useTheme();
+  const isMobile = useIsMobile();
 
-  return (
-    <Flex
-      vertical
-      gap={theme.custom.spacing.medium}
-      style={{ width: '100%', height: '100%' }}
-    >
-      <StoreKeyMetrics store={store} />
-      <TopOrderOverview store={store} />
-      <MachineOverview store={store} />
-    </Flex>
+  return isMobile ? (
+    <StoreOverviewMobileView store={store} />
+  ) : (
+    <StoreOverviewDesktopView store={store} />
   );
 };
