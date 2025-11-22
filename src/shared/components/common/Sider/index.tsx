@@ -22,6 +22,7 @@ import {
   WashingMachine,
   Bill,
   Sale,
+  ShieldCheck,
   Suitcase,
   UsersGroupTwoRounded,
   User as UserIcon,
@@ -154,6 +155,12 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'firmware',
       icon: <ZipFile />,
       label: t('navigation.firmware'),
+      requiredAccess: 'portal_system_management',
+    },
+    {
+      key: 'permissions',
+      icon: <ShieldCheck />,
+      label: t('navigation.permissions'),
       requiredAccess: 'portal_system_management',
     },
     {

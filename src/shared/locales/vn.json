@@ -269,7 +269,8 @@
     "home": "Trang chủ",
     "userProfile": "Tài khoản",
     "promotionCampaign": "Khuyến mãi",
-    "firmware": "Firmware"
+    "firmware": "Firmware",
+    "permissions": "Permissions"
   },
   "messages": {
     "incorrectCredentials": "Thông tin đăng nhập không chính xác",
@@ -513,5 +514,8 @@
       "PERCENTAGE": "%",
       "VND": "VND"
     }
+  },
+  "permission": {
+    "addNewPermission": "Tạo quyền mới"
   }
 }

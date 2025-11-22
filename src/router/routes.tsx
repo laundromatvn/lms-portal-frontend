@@ -63,6 +63,10 @@ import {
   FirmwareEditPage,
 } from '@pages/Firmware';
 
+import {
+  PermissionListPage,
+} from '@pages/Permission';
+
 import { type Route } from './index';
 
 export const routes: Route[] = [
@@ -212,5 +216,10 @@ export const routes: Route[] = [
   {
     path: '/firmware/:id/edit',
     component: <FirmwareEditPage />,
+  },
+  // Permission
+  {
+    path: '/permissions',
+    component: <PermissionListPage />,
   },
 ];

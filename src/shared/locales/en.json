@@ -472,6 +472,7 @@
     "overview": "Overview",
     "order": "Order",
     "machine": "Machine",
+    "permissions": "Permissions",
     "messages": {
       "selectAStoresToViewData": "Select a store to view the data"
     }
@@ -518,6 +519,25 @@
       "AMOUNT": "Amount",
       "PERCENTAGE": "%",
       "VND": "VND"
+    }
+  },
+  "permission": {
+    "edit": "Edit",
+    "name": "Name",
+    "code": "Code",
+    "description": "Description",
+    "isEnabled": "Is Enabled",
+    "addNewPermission": "New Permission",
+    "createNewPermission": "Create New Permission",
+    "create": "Create",
+    "messages": {
+      "updatePermissionSuccess": "Permission updated successfully",
+      "updatePermissionError": "Failed to update permission",
+      "nameIsRequired": "Name is required",
+      "codeIsRequired": "Code is required",
+      "isEnabledIsRequired": "Is enabled is required",
+      "createPermissionSuccess": "Permission created successfully",
+      "createPermissionError": "Failed to create permission"
     }
   }
 }
