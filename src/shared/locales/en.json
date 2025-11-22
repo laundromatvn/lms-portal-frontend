@@ -269,7 +269,8 @@
     "home": "Home",
     "userProfile": "User Profile",
     "promotionCampaign": "Promotion Campaign",
-    "firmware": "Firmware"
+    "firmware": "Firmware",
+    "permissions": "Permissions"
   },
   "messages": {
     "incorrectCredentials": "Incorrect credentials",

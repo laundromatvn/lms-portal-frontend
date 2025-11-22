@@ -19,6 +19,7 @@ import LeftRightSection from '@shared/components/LeftRightSection';
 
 import { CreateNewPermissionModal } from './CreateNewPermissionModal';
 import { EditNewPermissionModal } from './EditNewPermissionModal';
+import { DynamicTag } from '@shared/components/DynamicTag';
 
 export const PermissionListView: React.FC = () => {
   const { t } = useTranslation();
@@ -200,14 +201,18 @@ export const PermissionListView: React.FC = () => {
           dataSource={permissions}
           renderItem={(item) => (
             <List.Item>
-              <Typography.Link
-                onClick={() => {
-                  setSelectedPermission(item);
-                  setIsEditNewPermissionModalOpen(true);
-                }}
-              >
-                {`${item.id}. ${item.name}`}
-              </Typography.Link>
+              <Flex justify="space-between" align="flex-start" gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+                <Typography.Link
+                  onClick={() => {
+                    setSelectedPermission(item);
+                    setIsEditNewPermissionModalOpen(true);
+                  }}
+                >
+                  {`${item.id}. ${item.name}`}
+                </Typography.Link>
+
+                <DynamicTag value={item.is_enabled ? 'enabled' : 'disabled'} />
+              </Flex>
             </List.Item>
           )}
           style={{ width: '100%' }}
