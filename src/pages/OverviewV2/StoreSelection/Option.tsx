@@ -18,14 +18,12 @@ import { Box } from '@shared/components/Box';
 
 interface Props {
   store: Store;
-  selected: boolean;
   onSelect: () => void;
   style?: React.CSSProperties;
 }
 
 export const StoreSelectionSectionOption: React.FC<Props> = ({
   store,
-  selected,
   onSelect,
   style,
 }) => {
@@ -33,16 +31,14 @@ export const StoreSelectionSectionOption: React.FC<Props> = ({
   const [isHovered, setIsHovered] = useState(false);
 
   const borderColor = useMemo(() => {
-    if (selected) return theme.custom.colors.primary.default;
     if (isHovered) return theme.custom.colors.primary.default;
     return theme.custom.colors.neutral[200];
-  }, [isHovered, selected]);
+  }, [isHovered]);
 
   const backgroundColor = useMemo(() => {
-    if (selected) return theme.custom.colors.primary.light;
     if (isHovered) return theme.custom.colors.primary.light;
     return theme.custom.colors.background.light;
-  }, [isHovered, selected]);
+  }, [isHovered]);
 
   return (
     <Box

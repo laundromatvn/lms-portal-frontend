@@ -9,8 +9,6 @@ import {
 
 import { useTheme } from '@shared/theme/useTheme';
 
-import { tenantStorage } from '@core/storage/tenantStorage';
-
 import { type Store } from '@shared/types/store';
 
 import {
@@ -21,30 +19,14 @@ import {
 import { StoreSelectionSectionOption } from './Option';
 
 interface Props {
+  stores: Store[];
+  loading: boolean;
   onSelectStore: (store: Store) => void;
 }
 
-export const StoreSelection: React.FC<Props> = ({ onSelectStore }) => {
+export const StoreSelection: React.FC<Props> = ({ stores, loading, onSelectStore }) => {
   const theme = useTheme();
   const { t } = useTranslation();
-
-  const tenant = tenantStorage.load();
-
-  const [selectedStore, setSelectedStore] = useState<Store>();
-
-  const {
-    listStore,
-    data: listStoreData,
-    loading: listStoreLoading,
-  } = useListStoreApi<ListStoreResponse>();
-
-  const handleListStore = () => {
-    listStore({ page: 1, page_size: 100 });
-  }
-
-  useEffect(() => {
-    handleListStore();
-  }, []);
 
   return (
     <Flex
@@ -62,17 +44,13 @@ export const StoreSelection: React.FC<Props> = ({ onSelectStore }) => {
         {t('overviewV2.messages.selectAStoresToViewData')}
       </Typography.Text>
 
-      {listStoreLoading && <Skeleton active style={{ width: '100%', maxWidth: 600 }} />}
+      {loading && <Skeleton active style={{ width: '100%', maxWidth: 600 }} />}
 
-      {!listStoreLoading && listStoreData?.data.map((store) => (
+      {!loading && stores.map((store) => (
         <StoreSelectionSectionOption
           key={store.id}
           store={store}
-          selected={selectedStore?.id === store.id}
-          onSelect={() => {
-            setSelectedStore(store);
-            onSelectStore(store);
-          }}
+          onSelect={() => onSelectStore(store)}
           style={{ maxWidth: 600 }}
         />
       ))}
