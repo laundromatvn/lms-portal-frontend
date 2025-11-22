@@ -23,7 +23,7 @@ import formatCurrencyCompact from '@shared/utils/currency';
 interface Props {
   machine: Machine;
   onStartSuccess: () => void;
-  onSaveMachine: () => void;
+  onSaveMachine?: () => void;
 }
 
 export const MachineOverviewItem: React.FC<Props> = ({ machine, onStartSuccess, onSaveMachine }) => {
@@ -72,11 +72,13 @@ export const MachineOverviewItem: React.FC<Props> = ({ machine, onStartSuccess, 
               onClick={() => setIsStartMachineModalOpen(true)}
             />
 
-            <Button
-              type="default"
-              icon={<Settings />}
-              onClick={() => setIsMachineSettingModalOpen(true)}
-            />
+            {onSaveMachine && (
+              <Button
+                type="default"
+                icon={<Settings />}
+                onClick={() => setIsMachineSettingModalOpen(true)}
+              />
+            )}
           </Flex>
         </Flex>
       </Box>
@@ -88,12 +90,14 @@ export const MachineOverviewItem: React.FC<Props> = ({ machine, onStartSuccess, 
         onStartSuccess={onStartSuccess}
       />
 
-      <MachineSettingModal
-        machine={machine}
-        isModalOpen={isMachineSettingModalOpen}
-        setIsModalOpen={setIsMachineSettingModalOpen}
-        onSave={onSaveMachine}
-      />
+      {onSaveMachine && (
+        <MachineSettingModal
+          machine={machine}
+          isModalOpen={isMachineSettingModalOpen}
+          setIsModalOpen={setIsMachineSettingModalOpen}
+          onSave={onSaveMachine}
+        />
+      )}
     </>
   );
 };

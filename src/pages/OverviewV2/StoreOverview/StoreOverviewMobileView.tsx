@@ -7,7 +7,7 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import type { Store } from '@shared/types/store';
 
-import type { GetPortalDashboardAccessResponse } from '@shared/hooks/access/useGetPortalDashboardAccess';
+import type { PortalDashboardAccess } from '@shared/types/access/PortalDashboardAccess';
 
 import { StoreKeyMetrics } from './StoreKeyMetrics';
 import { TopOrderOverview } from './TopOrderOverview';
@@ -15,7 +15,7 @@ import { MachineOverview } from './MachineOverview';
 
 interface Props {
   store: Store;
-  portalDashboardAccess: GetPortalDashboardAccessResponse;
+  portalDashboardAccess: PortalDashboardAccess;
 }
 
 export const StoreOverviewMobileView: React.FC<Props> = ({ store, portalDashboardAccess }) => {
@@ -51,7 +51,9 @@ export const StoreOverviewMobileView: React.FC<Props> = ({ store, portalDashboar
 
       {selectedTab === 'key_metrics' && portalDashboardAccess?.portal_dashboard_overview && <StoreKeyMetrics store={store} />}
       {selectedTab === 'top_orders' && portalDashboardAccess?.portal_dashboard_order_management && <TopOrderOverview store={store} />}
-      {selectedTab === 'machines' && portalDashboardAccess?.portal_dashboard_machine_management && <MachineOverview store={store} />}
+      {selectedTab === 'machines' && portalDashboardAccess?.portal_dashboard_machine_management && (
+        <MachineOverview store={store} portalDashboardAccess={portalDashboardAccess} />
+      )}
     </Flex>
   );
 };

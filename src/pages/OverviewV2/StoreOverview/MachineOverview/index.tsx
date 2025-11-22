@@ -6,6 +6,7 @@ import {Flex} from 'antd';
 import { useTheme } from '@shared/theme/useTheme';
 
 import type { Store } from '@shared/types/store';
+import type { PortalDashboardAccess } from '@shared/types/access/PortalDashboardAccess';
 
 import {
   useListMachineApi,
@@ -18,9 +19,10 @@ import { MachineOverviewList } from './List';
 
 interface Props {
   store: Store;
+  portalDashboardAccess: PortalDashboardAccess;
 }
 
-export const MachineOverview: React.FC<Props> = ({ store }) => {
+export const MachineOverview: React.FC<Props> = ({ store, portalDashboardAccess }) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -53,7 +55,7 @@ export const MachineOverview: React.FC<Props> = ({ store }) => {
         machines={listMachineData?.data || []}
         loading={listMachineLoading}
         onStartSuccess={handleListMachine}
-        onSaveMachine={handleListMachine}
+        onSaveMachine={portalDashboardAccess?.portal_dashboard_machine_setting ? handleListMachine : undefined}
       />
     </Flex>
   );

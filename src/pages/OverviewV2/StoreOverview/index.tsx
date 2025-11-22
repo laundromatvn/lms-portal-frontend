@@ -4,10 +4,8 @@ import { Skeleton } from 'antd';
 
 import { useIsMobile } from '@shared/hooks/useIsMobile';
 
-import {
-  useGetPortalDashboardAccessApi,
-  type GetPortalDashboardAccessResponse,
-} from '@shared/hooks/access/useGetPortalDashboardAccess';
+import { useGetPortalDashboardAccessApi } from '@shared/hooks/access/useGetPortalDashboardAccess';
+import type { PortalDashboardAccess } from '@shared/types/access/PortalDashboardAccess';
 
 import type { Store } from '@shared/types/store';
 
@@ -38,12 +36,12 @@ export const StoreOverview: React.FC<Props> = ({ store }) => {
   return isMobile ? (
     <StoreOverviewMobileView
       store={store}
-      portalDashboardAccess={portalDashboardAccessData as GetPortalDashboardAccessResponse}
+      portalDashboardAccess={portalDashboardAccessData as PortalDashboardAccess}
     />
   ) : (
     <StoreOverviewDesktopView
       store={store}
-      portalDashboardAccess={portalDashboardAccessData as GetPortalDashboardAccessResponse}
+      portalDashboardAccess={portalDashboardAccessData as PortalDashboardAccess}
     />
   );
 };

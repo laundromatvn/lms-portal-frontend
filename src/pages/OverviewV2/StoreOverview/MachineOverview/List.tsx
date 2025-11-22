@@ -14,7 +14,7 @@ interface Props {
   machines: Machine[];
   loading: boolean;
   onStartSuccess: () => void;
-  onSaveMachine: () => void;
+  onSaveMachine?: () => void;
 }
 
 export const MachineOverviewList: React.FC<Props> = ({ machines, loading, onStartSuccess, onSaveMachine }) => {

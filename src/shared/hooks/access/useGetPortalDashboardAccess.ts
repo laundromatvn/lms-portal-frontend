@@ -5,13 +5,9 @@ import { getBackendUrl } from '@shared/utils/env'
 import { type ApiState } from '@shared/hooks/types'
 import axiosClient from '@core/axiosClient'
 
-export type GetPortalDashboardAccessResponse = {
-  portal_dashboard_overview: boolean;
-  portal_dashboard_order_management: boolean;
-  portal_dashboard_machine_management: boolean;
-}
+import type { PortalDashboardAccess } from '@shared/types/access/PortalDashboardAccess'
 
-export const useGetPortalDashboardAccessApi = <T = GetPortalDashboardAccessResponse>() => {
+export const useGetPortalDashboardAccessApi = <T = PortalDashboardAccess>() => {
   const [state, setState] = useState<ApiState<T>>({
     data: null,
     loading: false,
@@ -24,12 +20,12 @@ export const useGetPortalDashboardAccessApi = <T = GetPortalDashboardAccessRespo
     const url = `${getBackendUrl()}/api/v1/dashboard/access`
 
     try {
-      const response = await axiosClient.get<GetPortalDashboardAccessResponse>(
+      const response = await axiosClient.get<PortalDashboardAccess>(
         url.replace(getBackendUrl(), ''),
       )
 
       setState({ data: response.data as T, loading: false, error: null });
-      return response.data as GetPortalDashboardAccessResponse
+      return response.data as PortalDashboardAccess
     } catch (error: any) {
       setState({ data: null, loading: false, error: new Error(error.message) });
       throw error;
