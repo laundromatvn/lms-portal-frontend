@@ -42,7 +42,7 @@ import { tokenStorage } from '@core/storage/tokenStorage';
 import { type User } from '@shared/types/user';
 
 import { DynamicTag } from '@shared/components/DynamicTag';
-import { useGetPortalPermissionAccessAppApi } from '@shared/hooks/access/useGetPortalPermissionAccessApp';
+import { useGetPortalAccessAppApi } from '@shared/hooks/access/useGetPortalAccessApp';
 
 const { Sider: AntdSider } = Layout;
 const { Text } = Typography;
@@ -52,7 +52,7 @@ interface MenuItemConfig {
   icon?: React.ReactNode;
   label?: string;
   children?: Array<{ key: string; label: string }>;
-  featureFlag?: keyof GetPortalPermissionAccessAppResponse;
+  requiredAccess?: keyof GetPortalAccessAppResponse;
   type?: 'divider' | 'item';
 }
 
@@ -61,7 +61,7 @@ interface Props {
   onCollapseChange?: (collapsed: boolean) => void;
 }
 
-interface GetPortalPermissionAccessAppResponse {
+interface GetPortalAccessAppResponse {
   portal_laundry_foundation_management: boolean;
   portal_system_management: boolean;
 }
@@ -77,9 +77,9 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
 
   const tenant = tenantStorage.load();
   const {
-    data: featureFlags,
-    getPortalPermissionAccessApp,
-  } = useGetPortalPermissionAccessAppApi();
+    data: portalAccessData,
+    getPortalAccessApp,
+  } = useGetPortalAccessAppApi();
 
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
 
@@ -88,19 +88,19 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'overview',
       icon: <Widget />,
       label: t('navigation.overview'),
-      featureFlag: 'portal_laundry_foundation_management',
+      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'stores',
       icon: <Shop2 />,
       label: t('navigation.stores'),
-      featureFlag: 'portal_laundry_foundation_management',
+      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'controllers',
       icon: <WiFiRouter />,
       label: t('navigation.controllers'),
-      featureFlag: 'portal_laundry_foundation_management',
+      requiredAccess: 'portal_laundry_foundation_management',
       children: [
         {
           key: 'controllers',
@@ -116,74 +116,74 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'machines',
       icon: <WashingMachine />,
       label: t('navigation.machines'),
-      featureFlag: 'portal_laundry_foundation_management',
+      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'orders',
       icon: <Bill />,
       label: t('navigation.orders'),
-      featureFlag: 'portal_laundry_foundation_management',
+      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'promotion-campaigns',
       icon: <Sale />,
       label: t('navigation.promotionCampaign'),
-      featureFlag: 'portal_laundry_foundation_management',
+      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       type: 'divider',
-      featureFlag: 'portal_laundry_foundation_management',
+      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'tenants/profile',
       icon: <Suitcase />,
       label: t('navigation.tenantProfile'),
-      featureFlag: 'portal_laundry_foundation_management',
+      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'tenant-members',
       icon: <UsersGroupTwoRounded />,
       label: t('navigation.tenantMembers'),
-      featureFlag: 'portal_laundry_foundation_management',
+      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       type: 'divider',
-      featureFlag: 'portal_system_management',
+      requiredAccess: 'portal_system_management',
     },
     {
       key: 'firmware',
       icon: <ZipFile />,
       label: t('navigation.firmware'),
-      featureFlag: 'portal_system_management',
+      requiredAccess: 'portal_system_management',
     },
     {
       type: 'divider',
-      featureFlag: 'portal_system_management',
+      requiredAccess: 'portal_system_management',
     },
     {
       key: 'user/profile',
       icon: <UserIcon />,
       label: t('navigation.userProfile'),
-      featureFlag: 'portal_laundry_foundation_management',
+      requiredAccess: 'portal_laundry_foundation_management',
     },
   ], [t]);
 
   const menuItems = React.useMemo(() => {
     return allMenuItems
       .filter((item) => {
-        if (!item.featureFlag) return true;
+        if (!item.requiredAccess) return true;
         if (item.type === 'divider') {
           const index = allMenuItems.indexOf(item);
           const beforeItems = allMenuItems.slice(0, index).filter(i => i.type !== 'divider');
           const afterItems = allMenuItems.slice(index + 1).filter(i => i.type !== 'divider');
-          const beforeVisible = beforeItems.some(i => !i.featureFlag || featureFlags?.[i.featureFlag]);
-          const afterVisible = afterItems.some(i => !i.featureFlag || featureFlags?.[i.featureFlag]);
+          const beforeVisible = beforeItems.some(i => !i.requiredAccess || portalAccessData?.[i.requiredAccess]);
+          const afterVisible = afterItems.some(i => !i.requiredAccess || portalAccessData?.[i.requiredAccess]);
           return beforeVisible && afterVisible;
         }
-        return featureFlags?.[item.featureFlag] ?? false;
+        return portalAccessData?.[item.requiredAccess] ?? false;
       })
       .map((item) => {
-        const { featureFlag, ...menuItem } = item;
+        const { requiredAccess, ...menuItem } = item;
         if (item.type === 'divider') {
           return { type: 'divider' as const };
         }
@@ -195,7 +195,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
           children: menuItem.children,
         };
       }) as MenuProps['items'];
-  }, [featureFlags, allMenuItems]);
+  }, [portalAccessData, allMenuItems]);
 
   useEffect(() => {
     const loadUserData = () => {
@@ -226,8 +226,8 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
   }, []);
 
   useEffect(() => {
-    getPortalPermissionAccessApp();
-  }, [getPortalPermissionAccessApp]);
+    getPortalAccessApp();
+  }, [getPortalAccessApp]);
 
   useEffect(() => {
     const pathname = location.pathname;

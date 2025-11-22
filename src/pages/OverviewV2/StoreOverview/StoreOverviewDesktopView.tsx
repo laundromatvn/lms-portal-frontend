@@ -6,22 +6,25 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import type { Store } from '@shared/types/store';
 
+import type { GetPortalDashboardAccessResponse } from '@shared/hooks/access/useGetPortalDashboardAccess';
+
 import { StoreKeyMetrics } from './StoreKeyMetrics';
 import { TopOrderOverview } from './TopOrderOverview';
 import { MachineOverview } from './MachineOverview';
 
 interface Props {
   store: Store;
+  portalDashboardAccess: GetPortalDashboardAccessResponse;
 }
 
-export const StoreOverviewDesktopView: React.FC<Props> = ({ store }) => {
+export const StoreOverviewDesktopView: React.FC<Props> = ({ store, portalDashboardAccess }) => {
   const theme = useTheme();
 
   return (
     <Flex vertical gap={theme.custom.spacing.medium} style={{ width: '100%', height: '100%' }}>
-      <StoreKeyMetrics store={store} />
-      <TopOrderOverview store={store} />
-      <MachineOverview store={store} />
+      {portalDashboardAccess?.portal_dashboard_overview && <StoreKeyMetrics store={store} />}
+      {portalDashboardAccess?.portal_dashboard_order_management && <TopOrderOverview store={store} />}
+      {portalDashboardAccess?.portal_dashboard_machine_management && <MachineOverview store={store} />}
     </Flex>
   );
 };
