@@ -25,7 +25,6 @@ import {
   Suitcase,
   UsersGroupTwoRounded,
   User as UserIcon,
-  Settings,
   ZipFile
 } from '@solar-icons/react'
 
@@ -41,20 +40,30 @@ import { tenantStorage } from '@core/storage/tenantStorage';
 import { tokenStorage } from '@core/storage/tokenStorage';
 
 import { type User } from '@shared/types/user';
-import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
 
 import { DynamicTag } from '@shared/components/DynamicTag';
+import { useGetPortalPermissionAccessAppApi } from '@shared/hooks/access/useGetPortalPermissionAccessApp';
 
 const { Sider: AntdSider } = Layout;
 const { Text } = Typography;
 
-type MenuItem = Required<MenuProps>['items'][number] & {
-  children?: MenuItem[];
-};
+interface MenuItemConfig {
+  key?: string;
+  icon?: React.ReactNode;
+  label?: string;
+  children?: Array<{ key: string; label: string }>;
+  featureFlag?: keyof GetPortalPermissionAccessAppResponse;
+  type?: 'divider' | 'item';
+}
 
 interface Props {
   style?: React.CSSProperties;
   onCollapseChange?: (collapsed: boolean) => void;
+}
+
+interface GetPortalPermissionAccessAppResponse {
+  portal_laundry_foundation_management: boolean;
+  portal_system_management: boolean;
 }
 
 export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
@@ -67,26 +76,31 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
   const [user, setUser] = useState<User | null>(null);
 
   const tenant = tenantStorage.load();
+  const {
+    data: featureFlags,
+    getPortalPermissionAccessApp,
+  } = useGetPortalPermissionAccessAppApi();
 
-  const [selectedMainKey, setSelectedMainKey] = useState<string | null>(null);
-  const [selectedTenantKey, setSelectedTenantKey] = useState<string | null>(null);
-  const [selectedUserProfileKey, setSelectedUserProfileKey] = useState<string | null>(null);
-  const [selectedSystemManagementKey, setSelectedSystemManagementKey] = useState<string | null>(null);
-  const mainMenuItems: MenuItem[] = [
+  const [selectedKey, setSelectedKey] = useState<string | null>(null);
+
+  const allMenuItems: MenuItemConfig[] = React.useMemo(() => [
     {
       key: 'overview',
       icon: <Widget />,
       label: t('navigation.overview'),
+      featureFlag: 'portal_laundry_foundation_management',
     },
     {
       key: 'stores',
       icon: <Shop2 />,
       label: t('navigation.stores'),
+      featureFlag: 'portal_laundry_foundation_management',
     },
     {
       key: 'controllers',
       icon: <WiFiRouter />,
       label: t('navigation.controllers'),
+      featureFlag: 'portal_laundry_foundation_management',
       children: [
         {
           key: 'controllers',
@@ -102,55 +116,86 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'machines',
       icon: <WashingMachine />,
       label: t('navigation.machines'),
+      featureFlag: 'portal_laundry_foundation_management',
     },
     {
       key: 'orders',
       icon: <Bill />,
       label: t('navigation.orders'),
+      featureFlag: 'portal_laundry_foundation_management',
     },
     {
       key: 'promotion-campaigns',
       icon: <Sale />,
       label: t('navigation.promotionCampaign'),
+      featureFlag: 'portal_laundry_foundation_management',
     },
-  ];
-
-  const tenantAdminManagementMenuItems: MenuItem[] = [
+    {
+      type: 'divider',
+      featureFlag: 'portal_laundry_foundation_management',
+    },
     {
       key: 'tenants/profile',
       icon: <Suitcase />,
       label: t('navigation.tenantProfile'),
+      featureFlag: 'portal_laundry_foundation_management',
     },
     {
       key: 'tenant-members',
       icon: <UsersGroupTwoRounded />,
       label: t('navigation.tenantMembers'),
+      featureFlag: 'portal_laundry_foundation_management',
     },
-  ];
-
-  const tenantStaffManagementMenuItems: MenuItem[] = [
     {
-      key: 'tenants/profile',
-      icon: <Suitcase />,
-      label: t('navigation.tenantProfile'),
+      type: 'divider',
+      featureFlag: 'portal_system_management',
     },
-  ];
-
-  const userProfileMenuItems: MenuItem[] = [
-    {
-      key: 'user/profile',
-      icon: <UserIcon />,
-      label: t('navigation.userProfile'),
-    },
-  ];
-
-  const systemManagementMenuItems: MenuItem[] = [
     {
       key: 'firmware',
       icon: <ZipFile />,
       label: t('navigation.firmware'),
+      featureFlag: 'portal_system_management',
     },
-  ];
+    {
+      type: 'divider',
+      featureFlag: 'portal_system_management',
+    },
+    {
+      key: 'user/profile',
+      icon: <UserIcon />,
+      label: t('navigation.userProfile'),
+      featureFlag: 'portal_laundry_foundation_management',
+    },
+  ], [t]);
+
+  const menuItems = React.useMemo(() => {
+    return allMenuItems
+      .filter((item) => {
+        if (!item.featureFlag) return true;
+        if (item.type === 'divider') {
+          const index = allMenuItems.indexOf(item);
+          const beforeItems = allMenuItems.slice(0, index).filter(i => i.type !== 'divider');
+          const afterItems = allMenuItems.slice(index + 1).filter(i => i.type !== 'divider');
+          const beforeVisible = beforeItems.some(i => !i.featureFlag || featureFlags?.[i.featureFlag]);
+          const afterVisible = afterItems.some(i => !i.featureFlag || featureFlags?.[i.featureFlag]);
+          return beforeVisible && afterVisible;
+        }
+        return featureFlags?.[item.featureFlag] ?? false;
+      })
+      .map((item) => {
+        const { featureFlag, ...menuItem } = item;
+        if (item.type === 'divider') {
+          return { type: 'divider' as const };
+        }
+
+        return {
+          key: menuItem.key,
+          icon: menuItem.icon,
+          label: menuItem.label,
+          children: menuItem.children,
+        };
+      }) as MenuProps['items'];
+  }, [featureFlags, allMenuItems]);
 
   useEffect(() => {
     const loadUserData = () => {
@@ -180,22 +225,36 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
     };
   }, []);
 
-  // Sync selectedKey with current location
+  useEffect(() => {
+    getPortalPermissionAccessApp();
+  }, [getPortalPermissionAccessApp]);
+
   useEffect(() => {
     const pathname = location.pathname;
     const pathSegments = pathname.split('/').filter(Boolean);
-    const firstSegment = pathSegments[0];
-
-    // Check if it's a tenant route
-    if (firstSegment === 'tenant') {
-      setSelectedMainKey(null);
-      setSelectedTenantKey(pathSegments.join('/'));
-    } else {
-      // Main menu route
-      setSelectedMainKey(firstSegment || null);
-      setSelectedTenantKey(null);
+    const fullPath = pathSegments.join('/');
+    
+    let matchingKey: string | null = null;
+    
+    for (const item of allMenuItems) {
+      if (item.type === 'divider') continue;
+      
+      if (item.key === fullPath) {
+        matchingKey = item.key as string;
+        break;
+      }
+      
+      if (item.children) {
+        const childMatch = item.children.find((child) => child && child.key === fullPath);
+        if (childMatch) {
+          matchingKey = childMatch.key as string;
+          break;
+        }
+      }
     }
-  }, [location.pathname]);
+
+    setSelectedKey(matchingKey);
+  }, [location.pathname, allMenuItems]);
 
   const handleLogout = () => {
     userStorage.clear();
@@ -247,7 +306,6 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
           padding: theme.custom.spacing.medium,
         }}
       >
-        {/* Header */}
         <Flex
           justify="space-between"
           align="center"
@@ -315,77 +373,20 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
           />
         </Flex>
 
-        {/* Main Menu */}
         <div style={{ flex: 1, overflow: 'auto' }}>
           <Menu
-            selectedKeys={[selectedMainKey || '']}
+            selectedKeys={selectedKey ? [selectedKey] : []}
             mode="inline"
-            onClick={(key) => {
-              setSelectedMainKey(key.key as string);
-              setSelectedTenantKey(null);
-              navigate(`/${key.key}`);
+            onClick={(info) => {
+              const key = info.key as string;
+              setSelectedKey(key);
+              navigate(`/${key}`);
             }}
             style={{
               backgroundColor: 'transparent',
               border: 'none',
             }}
-            items={mainMenuItems.filter(item => user?.role !== UserRoleEnum.ADMIN || item.key !== 'overview')}
-          />
-
-          {(user?.role === UserRoleEnum.TENANT_ADMIN || user?.role === UserRoleEnum.TENANT_STAFF) && (
-            <Menu
-              selectedKeys={[selectedTenantKey || '']}
-              mode="inline"
-              onClick={(key) => {
-                setSelectedTenantKey(key.key as string);
-                setSelectedMainKey(null);
-                navigate(`/${key.key}`);
-              }}
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                borderTop: `1px solid ${theme.custom.colors.neutral[200]}`,
-                marginTop: theme.custom.spacing.medium,
-              }}
-              items={user?.role === UserRoleEnum.TENANT_ADMIN
-                ? tenantAdminManagementMenuItems
-                : tenantStaffManagementMenuItems
-              }
-            />
-          )}
-
-          {user?.role === UserRoleEnum.ADMIN && (
-            <Menu
-              selectedKeys={[selectedSystemManagementKey || '']}
-              mode="inline"
-              onClick={(key) => {
-                setSelectedSystemManagementKey(key.key as string);
-                navigate(`/${key.key}`);
-              }}
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                borderTop: `1px solid ${theme.custom.colors.neutral[200]}`,
-                marginTop: theme.custom.spacing.medium,
-              }}
-              items={systemManagementMenuItems}
-            />
-          )}
-
-          <Menu
-            selectedKeys={[selectedUserProfileKey || '']}
-            mode="inline"
-            onClick={(key) => {
-              setSelectedUserProfileKey(key.key as string);
-              navigate(`/${key.key}`);
-            }}
-            style={{
-              backgroundColor: 'transparent',
-              border: 'none',
-              borderTop: `1px solid ${theme.custom.colors.neutral[200]}`,
-              marginTop: theme.custom.spacing.medium,
-            }}
-            items={userProfileMenuItems}
+            items={menuItems}
           />
         </div>
 
@@ -396,7 +397,6 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
             marginTop: theme.custom.spacing.medium,
           }}
         >
-          {/* User Info */}
           <div
             style={{
               display: 'flex',
@@ -436,7 +436,6 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
             )}
           </div>
 
-          {/* Logout Button */}
           <Flex
             justify="flex-start"
             align="center"
