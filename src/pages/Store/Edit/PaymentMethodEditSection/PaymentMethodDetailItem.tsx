@@ -13,6 +13,7 @@ import { PaymentProviderEnum } from '@shared/enums/PaymentProviderEnum';
 
 import { QRDetails } from '@shared/components/PaymentMethodDetails/QRDetails';
 import { CardVNPAYDetails } from '@shared/components/PaymentMethodDetails/CardVNPAYDetails';
+import { QRVNPAYDetails } from '@shared/components/PaymentMethodDetails/QRVNPAYDetails';
 
 interface Props {
   paymentMethod: PaymentMethod;
@@ -54,11 +55,16 @@ export const PaymentMethodDetailItem: React.FC<Props> = ({
     >
       <Flex vertical gap={theme.custom.spacing.medium}>
         {paymentMethod.payment_method === PaymentMethodEnum.QR
+          && paymentMethod.payment_provider === PaymentProviderEnum.VIET_QR
           && <QRDetails paymentMethod={paymentMethod} />}
 
         {(paymentMethod.payment_method === PaymentMethodEnum.CARD
           && paymentMethod.payment_provider === PaymentProviderEnum.VNPAY)
           && <CardVNPAYDetails paymentMethod={paymentMethod} />}
+
+        {(paymentMethod.payment_method === PaymentMethodEnum.QR
+          && paymentMethod.payment_provider === PaymentProviderEnum.VNPAY)
+          && <QRVNPAYDetails paymentMethod={paymentMethod} />}
       </Flex>
     </Card>
   );

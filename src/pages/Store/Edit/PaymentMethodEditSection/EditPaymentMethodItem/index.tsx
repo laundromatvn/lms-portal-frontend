@@ -21,6 +21,7 @@ import { PaymentMethodEnum } from '@shared/enums/PaymentMethodEnum';
 import { PaymentProviderEnum } from '@shared/enums/PaymentProviderEnum';
 
 import { AddVNPAYCardMethodDetails } from '../components/Card/AddVNPAYCardMethodDetails';
+import { AddVNPayQRMethodDetails } from '../components/QR/AddVNPAYQRMethodDetails';
 import { AddVietQRQRMethodDetails } from '../components/QR/AddVietQRQRMethodDetails';
 
 import { buildPaymentMethodDetails } from '../helpers';
@@ -77,6 +78,11 @@ export const EditPaymentMethodItem: React.FC<Props> = ({
     if (paymentMethod.payment_method === PaymentMethodEnum.QR
       && paymentMethod.payment_provider === PaymentProviderEnum.VIET_QR) {
       return <AddVietQRQRMethodDetails />;
+    }
+
+    if (paymentMethod.payment_method === PaymentMethodEnum.QR
+      && paymentMethod.payment_provider === PaymentProviderEnum.VNPAY) {
+      return <AddVNPayQRMethodDetails />;
     }
 
     if (paymentMethod.payment_method === PaymentMethodEnum.CARD
