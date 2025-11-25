@@ -5,8 +5,8 @@ import { Flex, Skeleton } from 'antd';
 
 import {
   CashOut,
-  CourseUp,
   CartCheck,
+  CheckCircle,
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -44,6 +44,20 @@ export const StoreKeyMetrics: React.FC<Props> = ({ store, filters }) => {
     loading: dashboardOverviewKeyMetricsLoading,
   } = useGetDashboardOverviewKeyMetricsApi();
 
+  const dateLabel = () => {
+    if (filters.find((filter) => filter.value === 'today')) {
+      return t('overviewV2.today');
+    } else if (filters.find((filter) => filter.value === 'this_week')) {
+      return t('overviewV2.thisWeek');
+    } else if (filters.find((filter) => filter.value === 'this_month')) {
+      return t('overviewV2.thisMonth');
+    } else if (filters.find((filter) => filter.value === 'this_year')) {
+      return t('overviewV2.thisYear');
+    }
+
+    return '';
+  };
+
   const handleGetDashboardOverviewKeyMetrics = async () => {
     const queryParams = {
       store_id: store.id,
@@ -75,22 +89,19 @@ export const StoreKeyMetrics: React.FC<Props> = ({ store, filters }) => {
 
     setKeyMetrics([
       {
-        label: t('overviewV2.revenueByDay'),
+        label: t('overviewV2.revenue', { date: dateLabel() }),
         value: formatCurrencyCompact(dashboardOverviewKeyMetrics.revenue_by_day),
-        description: t('overviewV2.revenueByDayDescription'),
         icon: <CashOut size={32} weight="BoldDuotone" />,
       },
       {
-        label: t('overviewV2.revenueByMonth'),
-        value: formatCurrencyCompact(dashboardOverviewKeyMetrics.revenue_by_month),
-        description: t('overviewV2.revenueByMonthDescription'),
-        icon: <CourseUp size={32} weight="BoldDuotone" />,
+        label: t('overviewV2.totalOrders', { date: dateLabel() }),
+        value: `${dashboardOverviewKeyMetrics.total_in_progress_orders} / ${dashboardOverviewKeyMetrics.today_orders}`,
+        icon: <CartCheck size={32} weight="BoldDuotone" />,
       },
       {
-        label: t('overviewV2.totalOrdersToday'),
-        value: `${dashboardOverviewKeyMetrics.total_in_progress_orders} / ${dashboardOverviewKeyMetrics.today_orders}`,
-        description: t('overviewV2.totalOrdersTodayDescription'),
-        icon: <CartCheck size={32} weight="BoldDuotone" />,
+        label: t('overviewV2.finishedOrdersRate', { date: dateLabel() }),
+        value: `${Math.round((dashboardOverviewKeyMetrics.total_finished_orders / dashboardOverviewKeyMetrics.today_orders) * 100)}%`,
+        icon: <CheckCircle size={32} weight="BoldDuotone" />,
       },
     ]);
 

@@ -468,6 +468,13 @@
     "totalDryers": "Tổng máy sấy",
     "totalDryersDescription": "Đang xử lý / Tổng",
     "machineOverview": "Tổng quan máy",
+    "today": "Hôm nay",
+    "thisWeek": "Tuần này",
+    "thisMonth": "Tháng này",
+    "thisYear": "Năm này",
+    "revenue": "Doanh thu ({{date}})",
+    "totalOrders": "Tổng đơn hàng ({{date}})",
+    "finishedOrdersRate": "Tỷ lệ hoàn thành ({{date}})",
     "messages": {
       "selectAStoresToViewData": "Chọn một cửa hàng để xem dữ liệu"
     }

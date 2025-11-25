@@ -19,10 +19,11 @@ export const Chip: React.FC<Props> = ({ label, value, selected, onChange }) => {
       key={value}
       type={selected ? 'primary' : 'default'}
       shape="round"
+      size="large"
       onClick={() => onChange(value)}
       style={{
         fontWeight: selected ? theme.custom.fontWeight.large : theme.custom.fontWeight.medium,
-        backgroundColor: selected ? theme.custom.colors.info.light : theme.custom.colors.background.surface,
+        backgroundColor: selected ? theme.custom.colors.info.light : theme.custom.colors.background.light,
         color: selected ? theme.custom.colors.info.default : theme.custom.colors.text.primary,
         borderColor: selected ? theme.custom.colors.info.light : theme.custom.colors.neutral[300],
         padding: '4px 16px',
