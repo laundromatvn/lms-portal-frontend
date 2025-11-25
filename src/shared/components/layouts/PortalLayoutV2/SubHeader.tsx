@@ -1,6 +1,9 @@
 import React from 'react';
-import { LeftOutlined } from '@ant-design/icons';
+
 import { Flex, Typography, Button } from 'antd';
+
+import { AltArrowLeft } from '@solar-icons/react';
+
 import { useTheme } from '@shared/theme/useTheme';
 
 interface SubHeaderProps {
@@ -30,10 +33,11 @@ export const SubHeader: React.FC<SubHeaderProps> = ({ title, extra, onBack, onTi
         {onBack && (
           <Button
             type="text"
-            icon={<LeftOutlined />}
             onClick={onBack}
-            style={{ marginRight: theme.custom.spacing.small }}
-          />
+            style={{ padding: 0, paddingRight: theme.custom.spacing.xsmall }}
+          >
+            <AltArrowLeft size={18} />
+          </Button>
         )}
 
         {title && onTitleClick === undefined && (

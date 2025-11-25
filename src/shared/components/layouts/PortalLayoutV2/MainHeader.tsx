@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { Button, Flex, Typography } from 'antd';
-import { LeftOutlined, MenuOutlined } from '@ant-design/icons';
+
+import { AltArrowLeft, HamburgerMenu } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 import { useIsMobile } from '@shared/hooks/useIsMobile';
@@ -35,14 +36,17 @@ export const MainHeader: React.FC<HeaderProps> = ({ title, showLogo, onTitleClic
         {isMobile && showLogo && (
           <Button
             type="text"
-            icon={<MenuOutlined />}
             onClick={onTitleClick}
-            style={{ marginRight: theme.custom.spacing.small }}
-          />
+            style={{ padding: 0, paddingRight: theme.custom.spacing.xsmall }}
+          >
+            <HamburgerMenu size={18} />
+          </Button>
         )}
 
         {onBack && (
-          <Button type="text" icon={<LeftOutlined />} onClick={onBack} />
+          <Button type="text" onClick={onBack} style={{ padding: 0, paddingRight: theme.custom.spacing.xsmall }}>
+            <AltArrowLeft size={18} />
+          </Button>
         )}
 
         {title && onTitleClick === undefined && (
