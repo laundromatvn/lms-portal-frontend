@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { Layout, Flex } from 'antd';
+import { Layout } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 import { Sider } from '@shared/components/common/Sider';
 import { MobileDrawer } from '@shared/components/common/MobileDrawer';
-import { MobileFAB } from '@shared/components/common/MobileFAB';
 import { MainHeader } from '../common/MainHeader';
 
 const { Content } = Layout;
@@ -24,6 +24,7 @@ interface Props {
 }
 
 export const PortalLayout: React.FC<Props> = ({ children, title, onTitleClick, onBack, style }) => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useIsMobile();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -37,6 +38,30 @@ export const PortalLayout: React.FC<Props> = ({ children, title, onTitleClick, o
 
   const handleMobileDrawerClose = () => {
     setMobileDrawerOpen(false);
+  };
+
+  const getTitle = () => {
+    if (title) {
+      return title;
+    }
+
+    if (isMobile) {
+      return t('common.washgo247');
+    }
+
+    return undefined;
+  };
+
+  const getOnTitleClick = () => {
+    if (onTitleClick) {
+      return onTitleClick;
+    }
+
+    if (isMobile && !title) {
+      return handleMobileMenuClick;
+    }
+
+    return undefined;
   };
 
   return (
@@ -53,8 +78,8 @@ export const PortalLayout: React.FC<Props> = ({ children, title, onTitleClick, o
       {!isMobile && <Sider onCollapseChange={setSidebarCollapsed} />}
 
       <MainHeader
-        title={title}
-        onTitleClick={onTitleClick}
+        title={getTitle()}
+        onTitleClick={getOnTitleClick()}
         onBack={onBack}
         style={{
           marginLeft: isMobile ? 0 : sidebarWidth,
@@ -87,14 +112,10 @@ export const PortalLayout: React.FC<Props> = ({ children, title, onTitleClick, o
       </Content>
 
       {isMobile && (
-        <>
-          {!mobileDrawerOpen && <MobileFAB onClick={handleMobileMenuClick} />}
-
-          <MobileDrawer
-            open={mobileDrawerOpen}
-            onClose={handleMobileDrawerClose}
-          />
-        </>
+        <MobileDrawer
+          open={mobileDrawerOpen}
+          onClose={handleMobileDrawerClose}
+        />
       )}
     </Layout>
   );

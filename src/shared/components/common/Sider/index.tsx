@@ -14,8 +14,6 @@ import {
 
 import {
   Widget,
-  ArrowLeft,
-  ArrowRight,
   Logout,
   Shop2,
   WiFiRouter,
@@ -29,10 +27,7 @@ import {
   ZipFile
 } from '@solar-icons/react'
 
-import Flag from 'react-world-flags';
-
 import { useTheme } from '@shared/theme/useTheme';
-import i18n from '@shared/services/i18n';
 
 import { STORAGE_KEY as USER_STORAGE_KEY } from '@core/storage/userStorage';
 
@@ -44,6 +39,8 @@ import { type User } from '@shared/types/user';
 
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { useGetPortalAccessAppApi } from '@shared/hooks/access/useGetPortalAccessApp';
+
+import { SiderHeader } from './Header';
 
 const { Sider: AntdSider } = Layout;
 const { Text } = Typography;
@@ -313,72 +310,11 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
           padding: theme.custom.spacing.medium,
         }}
       >
-        <Flex
-          justify="space-between"
-          align="center"
-          style={{
-            marginBottom: theme.custom.spacing.large,
-            paddingBottom: theme.custom.spacing.medium,
-            borderBottom: `1px solid ${theme.custom.colors.neutral[200]}`,
-          }}
-        >
-          {!collapsed && (
-            <Flex align="center" gap={theme.custom.spacing.small}>
-              {i18n.language === 'vn' ? (
-                <Flag
-                  code="vn"
-                  style={{
-                    ...flagStyle,
-                    border: '2px solid #fff',
-                  }}
-                  onClick={() => {
-                    i18n.changeLanguage('en');
-                  }} />
-              ) : (
-                <Flag
-                  code="gb"
-                  style={{
-                    ...flagStyle,
-                    border: '2px solid #fff',
-                  }}
-                  onClick={() => {
-                    i18n.changeLanguage('vn');
-                  }} />
-              )}
-
-              <Flex vertical justify="center" gap={theme.custom.spacing.xxsmall}>
-                <Text
-                  strong
-                  style={{
-                    color: theme.custom.colors.text.primary,
-                    fontSize: '16px',
-                  }}
-                >
-                  LMS Portal
-                </Text>
-
-                {tenant && (
-                  <Typography.Text type="secondary" style={{ fontSize: theme.custom.fontSize.medium }}>
-                    {tenant.name}
-                  </Typography.Text>
-                )}
-              </Flex>
-            </Flex>
-          )}
-
-          <Button
-            type="text"
-            icon={collapsed ? <ArrowRight /> : <ArrowLeft />}
-            onClick={() => {
-              const newCollapsed = !collapsed;
-              setCollapsed(newCollapsed);
-              onCollapseChange?.(newCollapsed);
-            }}
-            style={{
-              color: theme.custom.colors.text.secondary,
-            }}
-          />
-        </Flex>
+        <SiderHeader
+          tenant={tenant}
+          collapsed={collapsed}
+          onCollapseChange={setCollapsed}
+        />
 
         <div style={{ flex: 1, overflow: 'auto' }}>
           <Menu

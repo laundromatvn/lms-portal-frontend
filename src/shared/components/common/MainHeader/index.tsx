@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   Button,
@@ -7,7 +8,10 @@ import {
   Typography,
 } from 'antd';
 
-import { AltArrowLeft } from '@solar-icons/react';
+import {
+  AltArrowLeft,
+  HamburgerMenu,
+} from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -26,6 +30,7 @@ export const MainHeader: React.FC<Props> = ({
   onBack,
   style,
 }) => {
+  const { t } = useTranslation();
   const theme = useTheme();
 
   return (
