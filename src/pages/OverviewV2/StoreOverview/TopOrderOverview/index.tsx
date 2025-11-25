@@ -6,6 +6,7 @@ import { Flex } from 'antd';
 import { useTheme } from '@shared/theme/useTheme';
 
 import type { Store } from '@shared/types/store';
+import type { StoreOverviewFilter } from '../types';
 
 import { useListOverviewOrderApi } from '@shared/hooks/dashboard/useListOverviewOrderApi';
 
@@ -14,9 +15,10 @@ import { BaseSectionTitle } from '@shared/components/BaseSectionTitle';
 
 interface Props {
   store: Store;
+  filters: StoreOverviewFilter[];
 }
 
-export const TopOrderOverview: React.FC<Props> = ({ store }) => {
+export const TopOrderOverview: React.FC<Props> = ({ store, filters }) => {
   const { t } = useTranslation();
   const theme = useTheme();
 

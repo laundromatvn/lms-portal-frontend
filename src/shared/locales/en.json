@@ -475,6 +475,11 @@
     "order": "Order",
     "machine": "Machine",
     "permissions": "Permissions",
+    "moreFilters": "More Filters",
+    "today": "Today",
+    "thisWeek": "This Week",
+    "thisMonth": "This Month",
+    "thisYear": "This Year",
     "messages": {
       "selectAStoresToViewData": "Select a store to view the data"
     }

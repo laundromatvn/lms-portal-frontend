@@ -7,6 +7,7 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import type { Store } from '@shared/types/store';
 import type { PortalDashboardAccess } from '@shared/types/access/PortalDashboardAccess';
+import type { StoreOverviewFilter } from '../types';
 
 import {
   useListMachineApi,
@@ -20,9 +21,10 @@ import { MachineOverviewList } from './List';
 interface Props {
   store: Store;
   portalDashboardAccess: PortalDashboardAccess;
+  filters: StoreOverviewFilter[];
 }
 
-export const MachineOverview: React.FC<Props> = ({ store, portalDashboardAccess }) => {
+export const MachineOverview: React.FC<Props> = ({ store, portalDashboardAccess, filters }) => {
   const { t } = useTranslation();
   const theme = useTheme();
 

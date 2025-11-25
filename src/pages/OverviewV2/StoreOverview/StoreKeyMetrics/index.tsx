@@ -21,15 +21,17 @@ import { KeyMetricList } from './KeyMetricList';
 
 import type { StoreKeyMetrics as StoreKeyMetricsType } from './types';
 import { LiquidKeyMetricList } from './LiquidKeyMetricList';
+import type { StoreOverviewFilter } from '../types';
 
 import formatCurrencyCompact from '@shared/utils/currency';
 import { BaseSectionTitle } from '@shared/components/BaseSectionTitle';
 
 interface Props {
   store: Store;
+  filters: StoreOverviewFilter[];
 }
 
-export const StoreKeyMetrics: React.FC<Props> = ({ store }) => {
+export const StoreKeyMetrics: React.FC<Props> = ({ store, filters }) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
