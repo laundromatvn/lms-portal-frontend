@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 import { Flex, Segmented } from 'antd';
 
+import { CartCheck, CashOut, WashingMachine } from '@solar-icons/react';
+
 import { useTheme } from '@shared/theme/useTheme';
 
 import type { Store } from '@shared/types/store';
@@ -33,13 +35,23 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
   const theme = useTheme();
   const { t } = useTranslation();
 
-  const tabOptions = [
-    { label: t('overviewV2.overview'), value: 'key_metrics', enabled: portalDashboardAccess?.portal_dashboard_overview },
-    { label: t('overviewV2.order'), value: 'top_orders', enabled: portalDashboardAccess?.portal_dashboard_order_management },
-    { label: t('overviewV2.machine'), value: 'machines', enabled: portalDashboardAccess?.portal_dashboard_machine_management },
-  ];
+  const [selectedTab, setSelectedTab] = useState<string>('key_metrics');
 
-  const [selectedTab, setSelectedTab] = useState<any>(tabOptions.find((option) => option.enabled)?.value || tabOptions[0].value);
+  const tabOptions = [
+    {
+      label: t('overviewV2.overview'),
+      value: 'key_metrics',
+      enabled: portalDashboardAccess?.portal_dashboard_overview,
+    },
+    {
+      label: t('overviewV2.order'),
+      value: 'top_orders', enabled: portalDashboardAccess?.portal_dashboard_order_management
+    },
+    {
+      label: t('overviewV2.machine'),
+      value: 'machines', enabled: portalDashboardAccess?.portal_dashboard_machine_management
+    },
+  ];
 
   return (
     <Flex
@@ -64,10 +76,11 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
           setSelectedTab(value);
         }}
         style={{
-          width: 'fit-content',
           backgroundColor: theme.custom.colors.background.light,
+          padding: theme.custom.spacing.xxsmall,
         }}
         size="large"
+        shape="round"
       />
 
       {selectedTab === 'key_metrics' && portalDashboardAccess?.portal_dashboard_overview && (
