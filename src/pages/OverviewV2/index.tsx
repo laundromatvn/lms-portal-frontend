@@ -9,6 +9,7 @@ import {
 } from '@shared/hooks/useListStoreApi';
 
 import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 
 import { StoreSelection } from './StoreSelection';
 import { StoreOverview } from './StoreOverview';
@@ -41,7 +42,7 @@ export const OverviewPage: React.FC = () => {
   }, [storeId, listStoreData]);
 
   return (
-    <PortalLayout
+    <PortalLayoutV2
       title={selectedStore?.name}
       onTitleClick={selectedStore ? () => navigate(`/stores/${selectedStore.id}/detail`) : undefined}
       onBack={selectedStore ? () => setSelectedStore(undefined) : undefined}
@@ -58,6 +59,6 @@ export const OverviewPage: React.FC = () => {
       )}
 
       {selectedStore && <StoreOverview store={selectedStore} />}
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };
