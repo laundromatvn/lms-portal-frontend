@@ -35,16 +35,32 @@ export const MachineOverview: React.FC<Props> = ({ store, portalDashboardAccess,
   } = useListMachineApi<ListMachineResponse>();
 
   const handleListMachine = async () => {
-    await listMachine({
+    const queryParams = {
       store_id: store.id,
       page: 1,
       page_size: 100,
-    });
+    } as Record<string, any>;
+
+    if (filters.find((filter) => filter.value === 'today')) {
+      queryParams.start_date = new Date(new Date().setHours(0, 0, 0, 0)).toISOString();
+      queryParams.end_date = new Date(new Date().setHours(23, 59, 59, 999)).toISOString();
+    } else if (filters.find((filter) => filter.value === 'this_week')) {
+      queryParams.start_date = new Date(new Date().setDate(new Date().getDate() - new Date().getDay())).toISOString();
+      queryParams.end_date = new Date(new Date().setDate(new Date().getDate() - new Date().getDay() + 6)).toISOString();
+    } else if (filters.find((filter) => filter.value === 'this_month')) {
+      queryParams.start_date = new Date(new Date().setDate(1)).toISOString();
+      queryParams.end_date = new Date(new Date().setDate(new Date().getDate())).toISOString();
+    } else if (filters.find((filter) => filter.value === 'this_year')) {
+      queryParams.start_date = new Date(new Date().getFullYear(), 0, 1).toISOString();
+      queryParams.end_date = new Date(new Date().getFullYear(), 11, 31).toISOString();
+    }
+
+    await listMachine(queryParams);
   };
 
   useEffect(() => {
     handleListMachine();
-  }, [store]);
+  }, [store, filters]);
 
   return (
     <Flex vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>

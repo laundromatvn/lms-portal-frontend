@@ -51,6 +51,12 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
         height: '100%',
       }}
     >
+      <ChipFilter
+        options={filterOptions}
+        values={selectedFilters}
+        onChange={onFilterChange}
+      />
+
       <Segmented
         options={tabOptions.filter((option) => option.enabled)}
         value={selectedTab}
@@ -62,12 +68,6 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
           backgroundColor: theme.custom.colors.background.light,
         }}
         size="large"
-      />
-
-      <ChipFilter
-        options={filterOptions}
-        values={selectedFilters}
-        onChange={onFilterChange}
       />
 
       {selectedTab === 'key_metrics' && portalDashboardAccess?.portal_dashboard_overview && (

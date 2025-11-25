@@ -45,12 +45,30 @@ export const StoreKeyMetrics: React.FC<Props> = ({ store, filters }) => {
   } = useGetDashboardOverviewKeyMetricsApi();
 
   const handleGetDashboardOverviewKeyMetrics = async () => {
-    await getDashboardOverviewKeyMetrics({ store_id: store.id });
+    const queryParams = {
+      store_id: store.id,
+    } as Record<string, any>;
+
+    if (filters.find((filter) => filter.value === 'today')) {
+      queryParams.start_date = new Date(new Date().setHours(0, 0, 0, 0)).toISOString();
+      queryParams.end_date = new Date(new Date().setHours(23, 59, 59, 999)).toISOString();
+    } else if (filters.find((filter) => filter.value === 'this_week')) {
+      queryParams.start_date = new Date(new Date().setDate(new Date().getDate() - new Date().getDay())).toISOString();
+      queryParams.end_date = new Date(new Date().setDate(new Date().getDate() - new Date().getDay() + 6)).toISOString();
+    } else if (filters.find((filter) => filter.value === 'this_month')) {
+      queryParams.start_date = new Date(new Date().setDate(1)).toISOString();
+      queryParams.end_date = new Date(new Date().setDate(new Date().getDate())).toISOString();
+    } else if (filters.find((filter) => filter.value === 'this_year')) {
+      queryParams.start_date = new Date(new Date().getFullYear(), 0, 1).toISOString();
+      queryParams.end_date = new Date(new Date().getFullYear(), 11, 31).toISOString();
+    }
+
+    await getDashboardOverviewKeyMetrics(queryParams);
   };
 
   useEffect(() => {
     handleGetDashboardOverviewKeyMetrics();
-  }, []);
+  }, [filters]);
 
   useEffect(() => {
     if (!dashboardOverviewKeyMetrics) return;
