@@ -21,14 +21,16 @@ interface Props {
 export const StoreOverviewMobileView: React.FC<Props> = ({ store, portalDashboardAccess }) => {
   const theme = useTheme();
   const { t } = useTranslation();
-  
+
   const tabOptions = [
-    { label: t('overviewV2.overview'), value: 'key_metrics', disabled: portalDashboardAccess?.portal_dashboard_overview },
-    { label: t('overviewV2.order'), value: 'top_orders', disabled: portalDashboardAccess?.portal_dashboard_order_management },
-    { label: t('overviewV2.machine'), value: 'machines', disabled: portalDashboardAccess?.portal_dashboard_machine_management },
+    { label: t('overviewV2.overview'), value: 'key_metrics', enabled: portalDashboardAccess?.portal_dashboard_overview },
+    { label: t('overviewV2.order'), value: 'top_orders', enabled: portalDashboardAccess?.portal_dashboard_order_management },
+    { label: t('overviewV2.machine'), value: 'machines', enabled: portalDashboardAccess?.portal_dashboard_machine_management },
   ];
 
-  const [selectedTab, setSelectedTab] = useState<any>(tabOptions.find((option) => !option.disabled)?.value || tabOptions[0].value);
+  const [selectedTab, setSelectedTab] = useState<any>(tabOptions.find((option) => option.enabled)?.value || tabOptions[0].value);
+
+  console.log(tabOptions);
 
   return (
     <Flex
@@ -38,13 +40,14 @@ export const StoreOverviewMobileView: React.FC<Props> = ({ store, portalDashboar
       style={{ width: '100%', height: '100%' }}
     >
       <Segmented
-        options={tabOptions.filter((option) => !option.disabled)}
+        options={tabOptions.filter((option) => option.enabled)}
         value={selectedTab}
         onChange={(value) => {
           setSelectedTab(value);
         }}
         style={{
           width: 'fit-content',
+          backgroundColor: theme.custom.colors.background.light,
         }}
         size="large"
       />
