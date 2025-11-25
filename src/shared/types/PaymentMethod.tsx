@@ -16,6 +16,14 @@ export type CardVNPAYPaymentMethodDetail = {
   ipnv3_secret_key: string;
 };
 
+export type QRVNPAYPaymentMethodDetail = {
+  merchant_code: string;
+  terminal_code: string;
+  init_secret_key: string;
+  query_secret_key: string;
+  ipnv3_secret_key: string;
+};
+
 export type PaymentMethod = {
   payment_method: PaymentMethodEnum;
   payment_provider: PaymentProviderEnum;

@@ -11,6 +11,10 @@ export const buildPaymentMethodDetails = (
     return buildVietQRPaymentMethodDetails(values);
   }
 
+  if (paymentMethod === PaymentMethodEnum.QR && paymentProvider === PaymentProviderEnum.VNPAY) {
+    return buildVNPAYQRPaymentMethodDetails(values);
+  }
+
   else if (paymentMethod === PaymentMethodEnum.CARD && paymentProvider === PaymentProviderEnum.VNPAY) {
     return buildVNPAYPaymentMethodDetails(values);
   }
@@ -46,6 +50,27 @@ const buildVNPAYPaymentMethodDetails = (values: any) => {
 
   return {
     payment_method: PaymentMethodEnum.CARD,
+    payment_provider: PaymentProviderEnum.VNPAY,
+    is_enabled: values.is_enabled,
+    details: {
+      merchant_code: merchantCode,
+      terminal_code: terminalCode,
+      init_secret_key: initSecretKey,
+      query_secret_key: querySecretKey,
+      ipnv3_secret_key: ipnv3SecretKey,
+    },
+  };
+};
+
+const buildVNPAYQRPaymentMethodDetails = (values: any) => {
+  const merchantCode = values.merchant_code;
+  const terminalCode = values.terminal_code;
+  const initSecretKey = values.init_secret_key;
+  const querySecretKey = values.query_secret_key;
+  const ipnv3SecretKey = values.ipnv3_secret_key;
+
+  return {
+    payment_method: PaymentMethodEnum.QR,
     payment_provider: PaymentProviderEnum.VNPAY,
     is_enabled: values.is_enabled,
     details: {

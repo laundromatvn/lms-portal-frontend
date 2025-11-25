@@ -21,6 +21,7 @@ import { PaymentMethodEnum } from '@shared/enums/PaymentMethodEnum';
 import { PaymentProviderEnum } from '@shared/enums/PaymentProviderEnum';
 
 import { AddVietQRQRMethodDetails } from '../components/QR/AddVietQRQRMethodDetails';
+import { AddVNPayQRMethodDetails } from '../components/QR/AddVNPAYQRMethodDetails';
 import { AddVNPAYCardMethodDetails } from '../components/Card/AddVNPAYCardMethodDetails';
 
 import { buildPaymentMethodDetails } from '../helpers';
@@ -50,7 +51,7 @@ export const NewPaymentMethodItem: React.FC<Props> = ({
     const paymentMethod = values.payment_method;
     const paymentProvider = values.payment_provider;
 
-    if (paymentMethods.some((method) => method.payment_method === paymentMethod)) {
+    if (paymentMethods.some((method) => method.payment_method === paymentMethod && method.payment_provider === paymentProvider)) {
       api.error({
         message: t('common.duplicatePaymentMethodError'),
       });
@@ -97,6 +98,10 @@ export const NewPaymentMethodItem: React.FC<Props> = ({
 
     if (paymentMethod === PaymentMethodEnum.QR && paymentProvider === PaymentProviderEnum.VIET_QR) {
       return <AddVietQRQRMethodDetails />;
+    }
+
+    if (paymentMethod === PaymentMethodEnum.QR && paymentProvider === PaymentProviderEnum.VNPAY) {
+      return <AddVNPayQRMethodDetails />;
     }
 
     if (paymentMethod === PaymentMethodEnum.CARD && paymentProvider === PaymentProviderEnum.VNPAY) {

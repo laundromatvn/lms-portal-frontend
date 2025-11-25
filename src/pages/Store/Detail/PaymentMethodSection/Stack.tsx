@@ -14,6 +14,7 @@ import { type Store } from '@shared/types/store';
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { Stack, StackCard } from '@shared/components/Stack';
 import { QRDetails } from '@shared/components/PaymentMethodDetails/QRDetails';
+import { QRVNPAYDetails } from '@shared/components/PaymentMethodDetails/QRVNPAYDetails';
 import { CardVNPAYDetails } from '@shared/components/PaymentMethodDetails/CardVNPAYDetails';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
@@ -44,7 +45,13 @@ export const PaymentMethodStackView: React.FC<Props> = ({ store }: Props) => {
 
             <StackCard.Content>
               {paymentMethod.payment_method === PaymentMethodEnum.QR
+                && paymentMethod.payment_provider === PaymentProviderEnum.VIET_QR
                 && <QRDetails paymentMethod={paymentMethod} />}
+
+              {paymentMethod.payment_method === PaymentMethodEnum.QR
+                && paymentMethod.payment_provider === PaymentProviderEnum.VNPAY
+                && <QRVNPAYDetails paymentMethod={paymentMethod} />}
+
               {(paymentMethod.payment_method === PaymentMethodEnum.CARD
                 && paymentMethod.payment_provider === PaymentProviderEnum.VNPAY)
                 && <CardVNPAYDetails paymentMethod={paymentMethod} />}
