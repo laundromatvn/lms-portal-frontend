@@ -100,7 +100,7 @@ export const StoreKeyMetrics: React.FC<Props> = ({ store, filters }) => {
       },
       {
         label: t('overviewV2.finishedOrdersRate', { date: dateLabel() }),
-        value: `${Math.round((dashboardOverviewKeyMetrics.total_finished_orders / dashboardOverviewKeyMetrics.today_orders) * 100)}%`,
+        value: dashboardOverviewKeyMetrics.today_orders > 0 ? `${Math.round((dashboardOverviewKeyMetrics.total_finished_orders / dashboardOverviewKeyMetrics.today_orders) * 100)}%` : '0%',
         icon: <CheckCircle size={32} weight="BoldDuotone" />,
       },
     ]);

@@ -5,7 +5,7 @@ import { Skeleton } from 'antd';
 
 import { useIsMobile } from '@shared/hooks/useIsMobile';
 
-import { useGetPortalDashboardAccessApi } from '@shared/hooks/access/useGetPortalDashboardAccess';
+import { useGetAccessApi } from '@shared/hooks/access/useGetAccess';
 import type { PortalDashboardAccess } from '@shared/types/access/PortalDashboardAccess';
 
 import type { Store } from '@shared/types/store';
@@ -32,10 +32,10 @@ export const StoreOverview: React.FC<Props> = ({ store }) => {
   const [selectedFilters, setSelectedFilters] = useState<StoreOverviewFilter[]>([filterOptions[0]]);
 
   const {
-    getPortalDashboardAccess,
-    data: portalDashboardAccessData,
-    loading: portalDashboardAccessLoading,
-  } = useGetPortalDashboardAccessApi();
+    getAccess,
+    data: accessData,
+    loading: accessLoading,
+  } = useGetAccessApi();
 
   const onFilterChange = (filters: StoreOverviewFilter[]) => {
     setSelectedFilters(filters);
@@ -43,10 +43,12 @@ export const StoreOverview: React.FC<Props> = ({ store }) => {
   };
 
   useEffect(() => {
-    getPortalDashboardAccess();
-  }, [getPortalDashboardAccess]);
+    if (store.id) {
+      getAccess('portal_dashboard_overview');
+    }
+  }, [getAccess, store.id]);
 
-  if (portalDashboardAccessLoading) {
+  if (accessLoading) {
     return <Skeleton active />;
   }
 
@@ -56,7 +58,7 @@ export const StoreOverview: React.FC<Props> = ({ store }) => {
       filterOptions={filterOptions}
       selectedFilters={selectedFilters}
       onFilterChange={onFilterChange}
-      portalDashboardAccess={portalDashboardAccessData as PortalDashboardAccess}
+      portalDashboardAccess={accessData as unknown as PortalDashboardAccess}
     />
   ) : (
     <StoreOverviewDesktopView
@@ -64,7 +66,7 @@ export const StoreOverview: React.FC<Props> = ({ store }) => {
       filterOptions={filterOptions}
       selectedFilters={selectedFilters}
       onFilterChange={onFilterChange}
-      portalDashboardAccess={portalDashboardAccessData as PortalDashboardAccess}
+      portalDashboardAccess={accessData as unknown as PortalDashboardAccess}
     />
   );
 };

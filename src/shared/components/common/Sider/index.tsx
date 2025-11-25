@@ -38,7 +38,7 @@ import { tokenStorage } from '@core/storage/tokenStorage';
 import { type User } from '@shared/types/user';
 
 import { DynamicTag } from '@shared/components/DynamicTag';
-import { useGetPortalAccessAppApi } from '@shared/hooks/access/useGetPortalAccessApp';
+import { useGetAccessApi } from '@shared/hooks/access/useGetAccess';
 
 import { SiderHeader } from './Header';
 
@@ -75,9 +75,9 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
 
   const tenant = tenantStorage.load();
   const {
-    data: portalAccessData,
-    getPortalAccessApp,
-  } = useGetPortalAccessAppApi();
+    data: accessData,
+    getAccess,
+  } = useGetAccessApi();
 
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
 
@@ -180,11 +180,11 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
           const index = allMenuItems.indexOf(item);
           const beforeItems = allMenuItems.slice(0, index).filter(i => i.type !== 'divider');
           const afterItems = allMenuItems.slice(index + 1).filter(i => i.type !== 'divider');
-          const beforeVisible = beforeItems.some(i => !i.requiredAccess || portalAccessData?.[i.requiredAccess]);
-          const afterVisible = afterItems.some(i => !i.requiredAccess || portalAccessData?.[i.requiredAccess]);
+          const beforeVisible = beforeItems.some(i => !i.requiredAccess || accessData?.[i.requiredAccess]);
+          const afterVisible = afterItems.some(i => !i.requiredAccess || accessData?.[i.requiredAccess]);
           return beforeVisible && afterVisible;
         }
-        return portalAccessData?.[item.requiredAccess] ?? false;
+        return accessData?.[item.requiredAccess] ?? false;
       })
       .map((item) => {
         const { requiredAccess, ...menuItem } = item;
@@ -199,7 +199,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
           children: menuItem.children,
         };
       }) as MenuProps['items'];
-  }, [portalAccessData, allMenuItems]);
+  }, [accessData, allMenuItems]);
 
   useEffect(() => {
     const loadUserData = () => {
@@ -230,8 +230,8 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
   }, []);
 
   useEffect(() => {
-    getPortalAccessApp();
-  }, [getPortalAccessApp]);
+    getAccess('portal');
+  }, [getAccess]);
 
   useEffect(() => {
     const pathname = location.pathname;

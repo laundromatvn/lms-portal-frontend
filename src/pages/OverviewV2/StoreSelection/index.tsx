@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -10,11 +10,6 @@ import {
 import { useTheme } from '@shared/theme/useTheme';
 
 import { type Store } from '@shared/types/store';
-
-import {
-  useListStoreApi,
-  type ListStoreResponse,
-} from '@shared/hooks/useListStoreApi';
 
 import { StoreSelectionSectionOption } from './Option';
 
