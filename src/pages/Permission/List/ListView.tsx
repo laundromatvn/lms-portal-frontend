@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Button, Flex, Input, List, notification, Spin, Typography, type FormInstance } from 'antd';
 
-import { AddCircle } from '@solar-icons/react';
+import { AddCircle, Refresh } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 import { useIsMobile } from '@shared/hooks/useIsMobile';
@@ -11,7 +11,7 @@ import { useIsMobile } from '@shared/hooks/useIsMobile';
 import { type Permission } from '@shared/types/Permission';
 
 import { useListPermissionApi, type ListPermissionResponse } from '@shared/hooks/permission/useListPermissionApi';
-import { useUpdatePermissionApi, type UpdatePermissionResponse } from '@shared/hooks/permission/useUpdatePermissionAPi';
+import { useUpdatePermissionApi, type UpdatePermissionResponse } from '@shared/hooks/permission/useUpdatePermissionApi';
 import { useCreatePermissionApi, type CreatePermissionResponse } from '@shared/hooks/permission/useCreatePermissionApi';
 
 import { Box } from '@shared/components/Box';
@@ -34,6 +34,7 @@ export const PermissionListView: React.FC = () => {
 
   const [permissions, setPermissions] = useState<Permission[]>([]);
   const [page, setPage] = useState(1);
+  const pageSize = 10;
   const [search, setSearch] = useState('');
   const prevSearchRef = useRef<string>('');
 
@@ -57,9 +58,9 @@ export const PermissionListView: React.FC = () => {
 
   const handleListPermission = () => {
     if (!search || search.length >= 3) {
-      listPermission({ page, page_size: 5, search });
+      listPermission({ page, page_size: pageSize, search });
     } else {
-      listPermission({ page, page_size: 5 });
+      listPermission({ page, page_size: pageSize });
     }
   }
 
@@ -123,26 +124,6 @@ export const PermissionListView: React.FC = () => {
     }
   }, [createPermissionError]);
 
-  const loadMore = () => {
-    if (!listPermissionData && !listPermissionLoading) return null;
-
-    return (
-      <Flex justify="center">
-        {listPermissionLoading && <Spin spinning={listPermissionLoading} />}
-
-        {listPermissionData && page < listPermissionData.total_pages && (
-          <Button
-            type="link"
-            onClick={() => setPage(page + 1)}
-            style={{ textAlign: 'center' }}
-          >
-            {t('common.loadMore')}
-          </Button>
-        )}
-      </Flex>
-    );
-  }
-
   useEffect(() => {
     if (prevSearchRef.current !== search) {
       setPermissions([]);
@@ -153,13 +134,7 @@ export const PermissionListView: React.FC = () => {
 
   useEffect(() => {
     if (listPermissionData) {
-      if (listPermissionData.page === 1) {
-        setPermissions(listPermissionData.data);
-      } else {
-        setPermissions((prevPermissions) => [...prevPermissions, ...listPermissionData.data].filter((permission, index, self) =>
-          index === self.findIndex((t) => t.id === permission.id)
-        ));
-      }
+      setPermissions(listPermissionData.data);
     }
   }, [listPermissionData]);
 
@@ -181,13 +156,22 @@ export const PermissionListView: React.FC = () => {
           />
         )}
         right={(
-          <Button
-            type="primary"
-            icon={<AddCircle color={theme.custom.colors.text.inverted} />}
-            onClick={() => setIsCreateNewPermissionModalOpen(true)}
-          >
-            {t('permission.addNewPermission')}
-          </Button>
+          <Flex gap={theme.custom.spacing.small}>
+            <Button
+              type="text"
+              icon={<Refresh size={18} />}
+              onClick={handleListPermission}
+              loading={listPermissionLoading}
+            />
+            
+            <Button
+              type="primary"
+              icon={<AddCircle color={theme.custom.colors.text.inverted} />}
+              onClick={() => setIsCreateNewPermissionModalOpen(true)}
+            >
+              {t('permission.addNewPermission')}
+            </Button>
+          </Flex>
         )}
       />
 
@@ -216,7 +200,15 @@ export const PermissionListView: React.FC = () => {
             </List.Item>
           )}
           style={{ width: '100%' }}
-          loadMore={loadMore()}
+          pagination={{
+            pageSize: pageSize,
+            current: page,
+            total: listPermissionData?.total || 0,
+            onChange: (page) => setPage(page),
+            showSizeChanger: false,
+            showQuickJumper: false,
+            showTotal: (total) => t('common.total', { total }),
+          }}
         />
       </Box>
 
