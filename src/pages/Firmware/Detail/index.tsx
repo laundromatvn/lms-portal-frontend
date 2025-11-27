@@ -30,7 +30,7 @@ import {
   useDeleteFirmwareApi,
 } from '@shared/hooks/firmware/useDeleteFirmwareApi';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { LeftRightSection } from '@shared/components/LeftRightSection';
 
 import { BasicInformationSection } from './BasicInformationSection';
@@ -145,7 +145,7 @@ export const FirmwareDetailPage: React.FC = () => {
   }, [deleteFirmwareData]);
 
   return (
-    <PortalLayout title={firmwareData?.name} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={firmwareData?.name} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <LeftRightSection
@@ -209,6 +209,6 @@ export const FirmwareDetailPage: React.FC = () => {
       <BasicInformationSection firmware={firmwareData as Firmware | null} />
 
       <ControllerListSection firmware={firmwareData as Firmware | null} />
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };

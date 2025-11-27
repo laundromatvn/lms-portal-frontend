@@ -18,7 +18,7 @@ import {
   type AddFirmwareResponse,
 } from '@shared/hooks/firmware/useAddFirmwareApi';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { LeftRightSection } from '@shared/components/LeftRightSection';
 
 import { AddFirmwareBasicInformationSection } from './BasicInformationSection';
@@ -72,7 +72,7 @@ export const FirmwareAddPage: React.FC = () => {
   }, [addFirmwareData]);
 
   return (
-    <PortalLayout title={t('common.firmwareAdd')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('common.firmwareAdd')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <LeftRightSection
@@ -103,6 +103,6 @@ export const FirmwareAddPage: React.FC = () => {
           setFormValues({ ...formValues, ...values });
         }}
       />
-    </PortalLayout >
+    </PortalLayoutV2 >
   );
 };

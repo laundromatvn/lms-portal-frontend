@@ -26,7 +26,7 @@ import {
   type ReleaseFirmwareResponse,
 } from '@shared/hooks/firmware/useReleaseFirmwareApi';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { Box } from '@shared/components/Box';
 
@@ -131,7 +131,7 @@ export const FirmwareListPage: React.FC = () => {
   }, [releaseFirmwareError]);
 
   return (
-    <PortalLayout title={t('common.firmware')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('common.firmware')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
@@ -160,6 +160,6 @@ export const FirmwareListPage: React.FC = () => {
           onDeprecateFirmware={(firmwareId) => deprecateFirmware(firmwareId)}
         />
       </Box>
-    </PortalLayout >
+    </PortalLayoutV2 >
   );
 };

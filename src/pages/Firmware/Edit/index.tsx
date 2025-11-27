@@ -19,7 +19,7 @@ import {
   type UpdateFirmwareResponse,
 } from '@shared/hooks/firmware/useUpdateFirmwareApi';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 
 import { EditFirmwareBasicInformationSection } from './BasicInformationSection';
 
@@ -86,7 +86,7 @@ export const FirmwareEditPage: React.FC = () => {
   }, [firmwareId]);
 
     return (
-    <PortalLayout title={firmwareData?.name || firmwareId} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={firmwareData?.name || firmwareId} onBack={() => navigate(-1)}>
       {contextHolder}
 
       {firmwareLoading && <Skeleton active />}
@@ -95,6 +95,6 @@ export const FirmwareEditPage: React.FC = () => {
         firmware={firmwareData as Firmware | null}
         onSave={handleSave}
       />
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };
