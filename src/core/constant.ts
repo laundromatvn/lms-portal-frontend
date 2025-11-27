@@ -18,3 +18,6 @@ export const PROACTIVE_REFRESH_THRESHOLD_MS = 60 * 1000; // 60 seconds
 // Forced refresh intervals (even if tokens are still valid)
 export const FORCE_ACCESS_REFRESH_INTERVAL_MS = 270 * 1000; // 270 seconds (4.5 minutes)
 export const FORCE_REFRESH_ROTATION_INTERVAL_MS = 3000 * 1000; // 3000 seconds (50 minutes)
+
+// Refresh token retry configuration
+export const REFRESH_TOKEN_RETRY_INTERVAL_MS = 5_000; // Fixed interval between retry attempts (5 seconds)

@@ -2,12 +2,14 @@ import { tenantStorage } from '@core/storage/tenantStorage'
 import { tokenStorage, type TokenBundle } from '@core/storage/tokenStorage'
 import { userStorage } from '@core/storage/userStorage'
 import { refreshToken, type RefreshTokenResponse } from './authApi'
+import { getJwtExpiration } from './jwtUtils'
 import {
   ACCESS_TOKEN_EXPIRY_BUFFER_MS,
   REFRESH_TOKEN_EXPIRY_BUFFER_MS,
   PROACTIVE_REFRESH_THRESHOLD_MS,
   ACCESS_TOKEN_TTL_SECONDS,
   REFRESH_TOKEN_TTL_SECONDS,
+  REFRESH_TOKEN_RETRY_INTERVAL_MS,
 } from '@core/constant'
 
 type TokenState = TokenBundle | null
@@ -86,7 +88,7 @@ class TokenManager {
     }
 
     if (this.isRefreshTokenExpired()) {
-      this.clear()
+      this.clearAndRedirectToSignIn()
       return null
     }
 
@@ -99,18 +101,24 @@ class TokenManager {
 
     try {
       return await this.refreshingPromise
-    } catch {
-      this.clear()
+    } catch (error) {
+      // If refresh token expired during retry, clear and redirect
+      if (this.isRefreshTokenExpired()) {
+        this.clearAndRedirectToSignIn()
+      }
       return null
     }
   }
 
   async proactiveRefresh(): Promise<void> {
     if (!this.tokens) return
-    // Refresh when refresh token is within threshold of expiry
     const now = Date.now()
-    const timeToExpiry = this.tokens.refreshTokenExp - now
-    if (timeToExpiry <= PROACTIVE_REFRESH_THRESHOLD_MS) {
+    
+    const accessTokenTimeToExpiry = this.tokens.accessTokenExp - now
+    const refreshTokenTimeToExpiry = this.tokens.refreshTokenExp - now
+    
+    if (accessTokenTimeToExpiry <= ACCESS_TOKEN_EXPIRY_BUFFER_MS || 
+        refreshTokenTimeToExpiry <= PROACTIVE_REFRESH_THRESHOLD_MS) {
       await this.ensureValidAccessToken()
     }
   }
@@ -119,7 +127,7 @@ class TokenManager {
   async refreshAccessNow(): Promise<void> {
     if (!this.tokens) return
     if (this.isRefreshTokenExpired()) {
-      this.clear()
+      this.clearAndRedirectToSignIn()
       return
     }
     if (!this.refreshingPromise) {
@@ -131,7 +139,9 @@ class TokenManager {
     try {
       await this.refreshingPromise
     } catch {
-      this.clear()
+      if (this.isRefreshTokenExpired()) {
+        this.clearAndRedirectToSignIn()
+      }
     }
   }
 
@@ -142,24 +152,54 @@ class TokenManager {
 
   private async performRefresh(): Promise<string> {
     if (!this.tokens) throw new Error('No tokens to refresh')
-    const res: RefreshTokenResponse = await refreshToken(this.tokens.refreshToken)
 
-    const accessTokenTtlMs = (res as any)?.expires_in
-      ? (res as any).expires_in * 1000
-      : ACCESS_TOKEN_TTL_SECONDS * 1000
+    // Retry indefinitely until success or refresh token expires
+    while (true) {
+      // Check if refresh token expired before each retry attempt
+      if (this.isRefreshTokenExpired()) {
+        throw new Error('Refresh token expired')
+      }
 
-    const refreshTokenTtlMs = (res as any)?.refresh_expires_in
-      ? (res as any).refresh_expires_in * 1000
-      : REFRESH_TOKEN_TTL_SECONDS * 1000
+      try {
+        const res: RefreshTokenResponse = await refreshToken(this.tokens.refreshToken)
 
-    const updated: TokenBundle = {
-      accessToken: res.access_token,
-      refreshToken: res.refresh_token,
-      accessTokenExp: Date.now() + accessTokenTtlMs,
-      refreshTokenExp: Date.now() + refreshTokenTtlMs,
+        const accessTokenExp = getJwtExpiration(res.access_token) ?? 
+          (Date.now() + ((res as any)?.expires_in ? (res as any).expires_in * 1000 : ACCESS_TOKEN_TTL_SECONDS * 1000))
+
+        const refreshTokenExp = getJwtExpiration(res.refresh_token) ?? 
+          (Date.now() + ((res as any)?.refresh_expires_in ? (res as any).refresh_expires_in * 1000 : REFRESH_TOKEN_TTL_SECONDS * 1000))
+
+        const updated: TokenBundle = {
+          accessToken: res.access_token,
+          refreshToken: res.refresh_token,
+          accessTokenExp,
+          refreshTokenExp,
+        }
+        this.setTokens(updated)
+        return updated.accessToken
+      } catch (error: any) {
+        // If it's an authentication error (401, 403), don't retry - token is invalid/expired
+        const status = error?.response?.status
+        if (status === 401 || status === 403) {
+          throw error
+        }
+
+        // For network/server errors, wait and retry
+        // The loop will continue and check refresh token expiration on next iteration
+        await this.sleep(REFRESH_TOKEN_RETRY_INTERVAL_MS)
+      }
     }
-    this.setTokens(updated)
-    return updated.accessToken
+  }
+
+  private sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms))
+  }
+
+  private clearAndRedirectToSignIn(): void {
+    this.clear()
+    try {
+      window.location.href = '/auth/sign-in'
+    } catch {}
   }
 }
 
