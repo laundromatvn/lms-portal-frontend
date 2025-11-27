@@ -3,19 +3,17 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import {
-  Button,
   Flex,
-  Typography,
   Skeleton,
   notification,
   Form,
+  Empty,
 } from 'antd';
-
-import { ArrowLeft } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
 import { type Store } from '@shared/types/store';
+import type { PortalStoreAccess } from '@shared/types/access/PortalStore';
 
 import {
   useGetStoreApi,
@@ -25,9 +23,9 @@ import {
   useUpdateStoreApi,
   type UpdateStoreResponse,
 } from '@shared/hooks/useUpdateStoreApi';
+import { useGetAccessApi } from '@shared/hooks/access/useGetAccess';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
-import LeftRightSection from '@shared/components/LeftRightSection';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { DetailEditSection } from './DetailEditSection';
 import { PaymentMethodEditSection } from './PaymentMethodEditSection/index';
 
@@ -53,6 +51,11 @@ export const StoreEditPage: React.FC = () => {
     data: updateStoreData,
     error: updateStoreError,
   } = useUpdateStoreApi<UpdateStoreResponse>();
+
+  const {
+    getAccess,
+    data: accessData,
+  } = useGetAccessApi<PortalStoreAccess>();
 
   const onSave = () => {
     const payload = {
@@ -105,31 +108,46 @@ export const StoreEditPage: React.FC = () => {
     });
   }, [storeData]);
 
+  useEffect(() => {
+    getAccess('portal_store');
+  }, [getAccess]);
+
+  if (!storeData || !accessData) {
+    return <Skeleton active />;
+  }
+
   return (
-    <PortalLayout
+    <PortalLayoutV2
       title={storeData?.name}
       onBack={() => navigate(-1)}
     >
       {contextHolder}
 
+      {!accessData?.portal_store_management && (
+        <Empty description={t('messages.youDoNotHavePermissionToAccessThisPage')} />
+      )}
+
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
         {storeLoading && <Skeleton active />}
 
-        {!storeLoading && storeData && (
+        {!storeLoading && storeData && accessData?.portal_store_management && (
           <>
             <DetailEditSection
               store={storeData as Store}
               onChange={(values) => form.setFieldsValue(values)}
               onSave={onSave}
             />
-            <PaymentMethodEditSection
-              store={storeData as Store}
-              onChange={(values) => form.setFieldsValue(values)}
-              onSave={onSave}
-            />
+
+            {accessData?.portal_store_payment_methods_management && (
+              <PaymentMethodEditSection
+                store={storeData as Store}
+                onChange={(values) => form.setFieldsValue(values)}
+                onSave={onSave}
+              />
+            )}
           </>
         )}
       </Flex>
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };

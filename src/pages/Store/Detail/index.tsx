@@ -1,49 +1,39 @@
 import React, { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-import { Button, Flex, Typography, Skeleton, notification } from 'antd';
+import { Skeleton } from 'antd';
+
+import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 import {
   useGetStoreApi,
   type GetStoreResponse,
 } from '@shared/hooks/useGetStoreApi';
 
-import { useTheme } from '@shared/theme/useTheme';
-
 import { type Store } from '@shared/types/store';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
-import LeftRightSection from '@shared/components/LeftRightSection';
-import { DetailSection } from './DetailSection';
-import { PaymentMethodSection } from './PaymentMethodSection';
-import { ControllerListSection } from './ControllerListSection';
-import { MachineListSection } from './MachineListSection';
-import { ArrowLeft } from '@solar-icons/react';
+import { useGetAccessApi } from '@shared/hooks/access/useGetAccess';
+
+import type { PortalStoreAccess } from '@shared/types/access/PortalStore';
+
+import { StoreDetailMobileView } from './MobileView';
+import { StoreDetailDesktopView } from './DekstopView';
 
 export const StoreDetailPage: React.FC = () => {
-  const { t } = useTranslation();
-  const theme = useTheme();
-  const navigate = useNavigate();
-
-  const [api, contextHolder] = notification.useNotification();
+  const isMobile = useIsMobile();
 
   const storeId = useParams().id;
 
   const {
     getStore,
     data: storeData,
-    loading: storeLoading,
-    error: storeError,
   } = useGetStoreApi<GetStoreResponse>();
 
-  useEffect(() => {
-    if (storeError) {
-      api.error({
-        message: t('store.getStoreError'),
-      });
-    }
-  }, [storeError]);
+  const {
+    getAccess,
+    data: accessData,
+  } = useGetAccessApi<PortalStoreAccess>();
+
 
   useEffect(() => {
     if (storeId) {
@@ -51,25 +41,25 @@ export const StoreDetailPage: React.FC = () => {
     }
   }, [storeId]);
 
+  useEffect(() => {
+    getAccess('portal_store');
+  }, [getAccess]);
+
+  if (!storeData || !accessData) {
+    return <Skeleton active />;
+  }
+
   return (
-    <PortalLayout
-    title={storeData?.name}
-    onBack={() => navigate(-1)}
-    >
-      {contextHolder}
-
-      <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        {storeLoading && <Skeleton active />}
-
-        {!storeLoading && storeData && (
-          <>
-            <DetailSection store={storeData as Store} />
-            <PaymentMethodSection store={storeData as Store} />
-            <ControllerListSection store={storeData as Store} />
-            <MachineListSection store={storeData as Store} />
-          </>
-        )}
-      </Flex>
-    </PortalLayout>
+    isMobile ? (
+      <StoreDetailMobileView
+        store={storeData as Store}
+        portalStoreAccess={accessData as PortalStoreAccess}
+      />
+    ) : (
+      <StoreDetailDesktopView
+        store={storeData as Store}
+        portalStoreAccess={accessData as PortalStoreAccess}
+      />
+    )
   );
 };

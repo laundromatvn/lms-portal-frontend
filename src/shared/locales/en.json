@@ -383,7 +383,8 @@
     "initSecretKeyIsRequired": "Init secret key is required",
     "querySecretKeyIsRequired": "Query secret key is required",
     "ipnv3SecretKeyIsRequired": "IPNV3 secret key is required",
-    "isEnabledIsRequired": "Is enabled is required"
+    "isEnabledIsRequired": "Is enabled is required",
+    "youDoNotHavePermissionToAccessThisPage": "You do not have permission to access this page"
   },
   "overview": {
     "keyMetrics": {
@@ -548,6 +549,13 @@
       "isEnabledIsRequired": "Is enabled is required",
       "createPermissionSuccess": "Permission created successfully",
       "createPermissionError": "Failed to create permission"
+    }
+  },
+  "store": {
+    "details": {
+      "information": "Information",
+      "controllers": "Controllers",
+      "machines": "Machines"
     }
   }
 }

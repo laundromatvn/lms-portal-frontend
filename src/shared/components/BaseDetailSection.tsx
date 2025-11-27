@@ -29,9 +29,10 @@ export const BaseDetailSection: React.FC<Props> = ({
 
   return (
     <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }} loading={loading}>
-      <LeftRightSection
-        left={<Typography.Title level={3}>{title}</Typography.Title>}
-        right={(<Flex justify="end" gap={theme.custom.spacing.small}>
+      <Flex justify="space-between" align="center" style={{ width: '100%' }}>
+        <Typography.Title level={3}>{title}</Typography.Title>
+
+        <Flex justify="end" gap={theme.custom.spacing.small}>
           {onRefresh && (
             <Button
               type="text"
@@ -47,8 +48,8 @@ export const BaseDetailSection: React.FC<Props> = ({
               icon={<PenNewSquare size={18} />}
             />
           )}
-        </Flex>)}
-      />
+        </Flex>
+      </Flex>
 
       {loading ? <Skeleton active /> : children}
     </Box>

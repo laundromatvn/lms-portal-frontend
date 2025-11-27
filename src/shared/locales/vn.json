@@ -380,7 +380,8 @@
     "initSecretKeyIsRequired": "Mã khởi tạo là bắt buộc",
     "querySecretKeyIsRequired": "Mã query là bắt buộc",
     "ipnv3SecretKeyIsRequired": "Mã IPNV3 là bắt buộc",
-    "isEnabledIsRequired": "Trạng thái hoạt động là bắt buộc"
+    "isEnabledIsRequired": "Trạng thái hoạt động là bắt buộc",
+    "youDoNotHavePermissionToAccessThisPage": "Bạn không có quyền truy cập trang này"
   },
   "overview": {
     "keyMetrics": {
@@ -525,5 +526,12 @@
   },
   "permission": {
     "addNewPermission": "Tạo quyền mới"
+  },
+  "store": {
+    "details": {
+      "information": "Thông tin",
+      "controllers": "Controllers",
+      "machines": "Máy"
+    }
   }
 }
