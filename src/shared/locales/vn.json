@@ -34,6 +34,10 @@
   "common": {
     "washgo247": "WashGo247",
     "loadMore": "Xem thêm",
+    "today": "Hôm nay",
+    "thisWeek": "Tuần này",
+    "thisMonth": "Tháng này",
+    "thisYear": "Năm này",
     "signIn": "Đăng nhập",
     "password": "Mật khẩu",
     "email": "Email",

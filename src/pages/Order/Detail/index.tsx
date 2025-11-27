@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Button, Flex, Popconfirm, Skeleton, Typography, notification } from 'antd';
+import { Button, Flex, Popconfirm, Skeleton, notification } from 'antd';
 
-import { ArrowLeft, BillCheck, BillCross, ListDown } from '@solar-icons/react';
+import { BillCheck, BillCross, ListDown } from '@solar-icons/react';
 
 import { type Order } from '@shared/types/Order';
 
@@ -14,9 +14,9 @@ import { useGetOrderApi } from '@shared/hooks/useGetOrderApi';
 import { useTriggerPaymentSuccessApi } from '@shared/hooks/useTriggerPaymentSuccessApi';
 import { useTriggerPaymentFailedApi } from '@shared/hooks/useTriggerPaymentFailedApi';
 import { useSyncUpOrderApi } from '@shared/hooks/useSyncUpOrderApi';
+import { useIsMobile } from '@shared/hooks/useIsMobile';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
-import LeftRightSection from '@shared/components/LeftRightSection';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 
 import { DetailSection } from './DetailSection';
 import { OrderDetailListSection } from './OrderDetailListSection';
@@ -25,6 +25,7 @@ export const OrderDetailPage: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -133,69 +134,67 @@ export const OrderDetailPage: React.FC = () => {
   }, [syncUpOrderError]);
 
   return (
-    <PortalLayout title={getOrderData?.transaction_code || orderId} onBack={() => navigate(-1)}>
+    <PortalLayoutV2
+      title={getOrderData?.transaction_code || orderId}
+      onBack={() => navigate(-1)}
+    >
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <LeftRightSection
-          left={null}
-          right={(
-            <Flex gap={theme.custom.spacing.medium}>
-              <Button
-                type="default"
-                icon={<ListDown size={18} />}
-                style={{
-                  color: theme.custom.colors.primary.default,
-                  backgroundColor: theme.custom.colors.background.light,
-                  borderColor: theme.custom.colors.primary.default,
-                }}
-                onClick={() => syncUpOrder(orderId)}
-              >
-                {t('common.syncUpOrder')}
-              </Button>
+        <Flex vertical={isMobile} justify="flex-end" wrap gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+          <Button
+            type="default"
+            icon={<ListDown size={18} />}
+            style={{
+              color: theme.custom.colors.primary.default,
+              backgroundColor: theme.custom.colors.background.light,
+              borderColor: theme.custom.colors.primary.default,
+            }}
+            onClick={() => syncUpOrder(orderId)}
+          >
+            {t('common.syncUpOrder')}
+          </Button>
 
-              <Popconfirm
-                title={t('common.pay')}
-                onConfirm={() => triggerPaymentSuccess(orderId)}
-                onCancel={() => triggerPaymentFailed(orderId)}
-                okText={t('common.confirm')}
-                cancelText={t('common.cancel')}
-              >
-                <Button
-                  type="default"
-                  icon={<BillCheck size={18} />}
-                  style={{
-                    color: theme.custom.colors.success.default,
-                    backgroundColor: theme.custom.colors.background.light,
-                    borderColor: theme.custom.colors.success.default,
-                  }} >
-                  {t('common.pay')}
-                </Button>
-              </Popconfirm>
+          <Popconfirm
+            title={t('common.pay')}
+            onConfirm={() => triggerPaymentSuccess(orderId)}
+            onCancel={() => triggerPaymentFailed(orderId)}
+            okText={t('common.confirm')}
+            cancelText={t('common.cancel')}
+          >
+            <Button
+              type="default"
+              icon={<BillCheck size={18} />}
+              style={{
+                color: theme.custom.colors.success.default,
+                backgroundColor: theme.custom.colors.background.light,
+                borderColor: theme.custom.colors.success.default,
+              }} >
+              {t('common.pay')}
+            </Button>
+          </Popconfirm>
 
-              <Popconfirm
-                title={t('common.cancelPayment')}
-                onConfirm={() => triggerPaymentFailed(orderId)}
-                onCancel={() => triggerPaymentFailed(orderId)}
-                okText={t('common.confirm')}
-                cancelText={t('common.cancel')}
-              >
-                <Button
-                  type="default"
-                  danger
-                  icon={<BillCross size={18} />}
-                  style={{
-                    color: theme.custom.colors.danger.default,
-                    backgroundColor: theme.custom.colors.background.light,
-                    borderColor: theme.custom.colors.danger.default,
-                  }}
-                >
-                  {t('common.cancelPayment')}
-                </Button>
-              </Popconfirm>
-            </Flex>
-          )}
-        />
+          <Popconfirm
+            title={t('common.cancelPayment')}
+            onConfirm={() => triggerPaymentFailed(orderId)}
+            onCancel={() => triggerPaymentFailed(orderId)}
+            okText={t('common.confirm')}
+            cancelText={t('common.cancel')}
+          >
+            <Button
+              type="default"
+              danger
+              icon={<BillCross size={18} />}
+              style={{
+                color: theme.custom.colors.danger.default,
+                backgroundColor: theme.custom.colors.background.light,
+                borderColor: theme.custom.colors.danger.default,
+              }}
+            >
+              {t('common.cancelPayment')}
+            </Button>
+          </Popconfirm>
+        </Flex>
 
         {getOrderLoading && <Skeleton active />}
 
@@ -206,6 +205,6 @@ export const OrderDetailPage: React.FC = () => {
           </>
         )}
       </Flex>
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };

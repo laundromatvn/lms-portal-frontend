@@ -24,7 +24,7 @@ import {
 
 import { type PromotionCampaign } from '@shared/types/promotion/PromotionCampaign';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { EditSection } from './EditSection';
 import { PromotionDetailEditSection } from './PromotionDetailEditSection';
 
@@ -110,7 +110,10 @@ export const PromotionCampaignEditPage: React.FC = () => {
   }, [promotionCampaignId]);
 
   return (
-    <PortalLayout title={promotionCampaignData?.name || promotionCampaignId} onBack={() => navigate(-1)}>
+    <PortalLayoutV2
+      title={promotionCampaignData?.name || promotionCampaignId}
+      onBack={() => navigate(-1)}
+    >
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
@@ -129,6 +132,6 @@ export const PromotionCampaignEditPage: React.FC = () => {
           </>
         )}
       </Flex>
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };

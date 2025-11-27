@@ -19,7 +19,7 @@ import {
 
 import { tenantStorage } from '@core/storage/tenantStorage';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { LeftRightSection } from '@shared/components/LeftRightSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { BaseModal } from '@shared/components/BaseModal';
@@ -137,33 +137,28 @@ export const TenantMemberListPage: React.FC = () => {
   }, [isModalOpen]);
 
   return (
-    <PortalLayout title={t('navigation.tenantMembers')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('navigation.tenantMembers')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical style={{ height: '100%' }}>
         <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-          <LeftRightSection
-            left={null}
-            right={(
-              <Flex gap={theme.custom.spacing.medium}>
-                <Button
-                  type="primary"
-                  onClick={() => {
-                    setIsModalOpen(true);
-                    setSelectedModalType(ModalType.CREATE_NEW_MEMBER);
-                  }}
-                  icon={<AddCircle />}
-                >
-                  {t('common.createNewMember')}
-                </Button>
-              </Flex>
-            )}
-          />
+          <Flex justify="flex-end" wrap gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+            <Button
+              type="primary"
+              onClick={() => {
+                setIsModalOpen(true);
+                setSelectedModalType(ModalType.CREATE_NEW_MEMBER);
+              }}
+              icon={<AddCircle />}
+            >
+              {t('common.createNewMember')}
+            </Button>
+          </Flex>
 
           {listTenantMemberLoading && <Skeleton active />}
 
           {!listTenantMemberLoading && (
-            <Flex vertical gap={theme.custom.spacing.large}>
+            <Flex vertical style={{ width: '100%', overflow: 'auto' }}>
               <Table
                 bordered
                 dataSource={tableData || []}
@@ -231,6 +226,6 @@ export const TenantMemberListPage: React.FC = () => {
           />
         )}
       </BaseModal>
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };

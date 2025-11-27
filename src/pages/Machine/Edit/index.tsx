@@ -3,15 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import {
-  Button,
   Flex,
-  Typography,
   Skeleton,
   notification,
   type FormInstance,
 } from 'antd';
-
-import { ArrowLeft } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -26,8 +22,7 @@ import {
   type UpdateMachineResponse,
 } from '@shared/hooks/useUpdateMachineApi';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
-import LeftRightSection from '@shared/components/LeftRightSection';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { EditSection } from './EditSection';
 
 export const MachineEditPage: React.FC = () => {
@@ -99,7 +94,7 @@ export const MachineEditPage: React.FC = () => {
   }, [machineId]);
 
   return (
-    <PortalLayout title={machineData?.name || machineId} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={machineData?.name || machineId} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
@@ -114,6 +109,6 @@ export const MachineEditPage: React.FC = () => {
           </>
         )}
       </Flex>
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };

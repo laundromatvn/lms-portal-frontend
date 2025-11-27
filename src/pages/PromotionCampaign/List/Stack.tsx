@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import dayjs, { type Dayjs } from 'dayjs';
+import { type Dayjs } from 'dayjs';
 
 import { Button, Dropdown, Typography, notification, Flex, Input, Select, DatePicker } from 'antd';
 import type { MenuProps } from 'antd';
@@ -17,6 +17,7 @@ import {
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 import type { PromotionCampaign } from '@shared/types/promotion/PromotionCampaign';
 
@@ -44,6 +45,7 @@ export const PromotionCampaignListStack: React.FC = () => {
   const theme = useTheme();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -370,84 +372,80 @@ export const PromotionCampaignListStack: React.FC = () => {
     <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
       {contextHolder}
 
-      <LeftRightSection
-        left={(
-          <Flex gap={theme.custom.spacing.small} wrap="wrap" style={{ width: '100%' }}>
-            <Input.Search
-              placeholder={t('common.search')}
-              value={search}
-              onChange={(e) => {
-                const value = e.target.value;
-                setSearch(value);
-                if (value && value.length > 0 && value.length < 3) {
-                  setSearchError('Please enter at least 3 characters');
-                } else {
-                  setSearchError(undefined);
-                }
-              }}
-              onSearch={handleSearch}
-              allowClear
-              onClear={() => {
-                setSearch('');
+      <Flex vertical={isMobile} justify="flex-end" wrap gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+        <Flex gap={theme.custom.spacing.small} wrap="wrap" style={{ width: '100%' }}>
+          <Input.Search
+            placeholder={t('common.search')}
+            value={search}
+            onChange={(e) => {
+              const value = e.target.value;
+              setSearch(value);
+              if (value && value.length > 0 && value.length < 3) {
+                setSearchError('Please enter at least 3 characters');
+              } else {
                 setSearchError(undefined);
-                setStatusFilter(undefined);
-                setStartTime(null);
-                setEndTime(null);
-                setPage(1);
-                setAllItems([]);
-              }}
-              status={searchError ? 'error' : undefined}
+              }
+            }}
+            onSearch={handleSearch}
+            allowClear
+            onClear={() => {
+              setSearch('');
+              setSearchError(undefined);
+              setStatusFilter(undefined);
+              setStartTime(null);
+              setEndTime(null);
+              setPage(1);
+              setAllItems([]);
+            }}
+            status={searchError ? 'error' : undefined}
+          />
+        </Flex>
+        <Flex gap={theme.custom.spacing.small} wrap="wrap" justify="end" style={{ width: '100%' }}>
+          <Button
+            type="text"
+            icon={<Refresh color={theme.custom.colors.text.inverted} />}
+            onClick={() => {
+              setAllItems([]);
+              setPage(1);
+              handleListPromotionCampaign();
+            }}
+            loading={listPromotionCampaignLoading}
+          />
+          <CollapsableFilterSection onFilter={handleListPromotionCampaign}>
+            <Select
+              placeholder={t('common.status')}
+              style={{ width: 150 }}
+              allowClear
+              value={statusFilter}
+              onChange={(value) => handleStatusFilter(value as PromotionCampaignStatusEnum)}
+            >
+              {Object.values(PromotionCampaignStatusEnum).map((status) => (
+                <Select.Option key={status} value={status} style={{ textAlign: 'left' }}>
+                  <DynamicTag value={status} />
+                </Select.Option>
+              ))}
+            </Select>
+            <DatePicker
+              placeholder={t('common.startTime')}
+              format="YYYY-MM-DD HH:mm:ss"
+              showTime
+              value={startTime}
+              onChange={handleStartTimeChange}
+              style={{ width: 200 }}
+              allowClear
             />
-          </Flex>
-        )}
-        right={(
-          <Flex gap={theme.custom.spacing.small} wrap="wrap" justify="end" style={{ width: '100%' }}>
-            <Button
-              type="text"
-              icon={<Refresh color={theme.custom.colors.text.inverted} />}
-              onClick={() => {
-                setAllItems([]);
-                setPage(1);
-                handleListPromotionCampaign();
-              }}
-              loading={listPromotionCampaignLoading}
+            <DatePicker
+              placeholder={t('common.endTime')}
+              format="YYYY-MM-DD HH:mm:ss"
+              showTime
+              value={endTime}
+              onChange={handleEndTimeChange}
+              style={{ width: 200 }}
+              allowClear
             />
-            <CollapsableFilterSection onFilter={handleListPromotionCampaign}>
-              <Select
-                placeholder={t('common.status')}
-                style={{ width: 150 }}
-                allowClear
-                value={statusFilter}
-                onChange={(value) => handleStatusFilter(value as PromotionCampaignStatusEnum)}
-              >
-                {Object.values(PromotionCampaignStatusEnum).map((status) => (
-                  <Select.Option key={status} value={status} style={{ textAlign: 'left' }}>
-                    <DynamicTag value={status} />
-                  </Select.Option>
-                ))}
-              </Select>
-              <DatePicker
-                placeholder={t('common.startTime')}
-                format="YYYY-MM-DD HH:mm:ss"
-                showTime
-                value={startTime}
-                onChange={handleStartTimeChange}
-                style={{ width: 200 }}
-                allowClear
-              />
-              <DatePicker
-                placeholder={t('common.endTime')}
-                format="YYYY-MM-DD HH:mm:ss"
-                showTime
-                value={endTime}
-                onChange={handleEndTimeChange}
-                style={{ width: 200 }}
-                allowClear
-              />
-            </CollapsableFilterSection>
-          </Flex>
-        )}
-      />
+          </CollapsableFilterSection>
+        </Flex>
+      </Flex>
 
       <LeftRightSection
         left={null}

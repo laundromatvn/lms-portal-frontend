@@ -14,6 +14,8 @@ export type ListOrderRequest = {
   tenant_id?: string;
   status?: OrderStatusEnum;
   payment_status?: PaymentStatusEnum;
+  start_date?: string;
+  end_date?: string;
   query?: string;
   page: number;
   page_size: number;
@@ -36,7 +38,7 @@ export const useListOrderApi = <T = ListOrderResponse>() => {
     error: null,
   });
 
-  const listOrder = useCallback(async ({ tenant_id, status, payment_status, query, page = 1, page_size = 10, order_by, order_direction }: ListOrderRequest) => {
+  const listOrder = useCallback(async ({ tenant_id, status, payment_status, start_date, end_date, query, page = 1, page_size = 10, order_by, order_direction }: ListOrderRequest) => {
       setState(prevState => ({ ...prevState, loading: true, error: null }));
 
     const url = `${getBackendUrl()}/api/v1/order`
@@ -56,6 +58,14 @@ export const useListOrderApi = <T = ListOrderResponse>() => {
 
     if (payment_status) {
       queryParams.payment_status = payment_status;
+    }
+
+    if (start_date) {
+      queryParams.start_date = start_date;
+    }
+
+    if (end_date) {
+      queryParams.end_date = end_date;
     }
 
     if (query) {

@@ -11,7 +11,7 @@ import { useTheme } from '@shared/theme/useTheme';
 import { useListControllerApi, type ListControllerResponse } from '@shared/hooks/useListControllerApi';
 import { useDeleteControllerApi } from '@shared/hooks/useDeleteControllerApi';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { Box } from '@shared/components/Box';
@@ -39,7 +39,7 @@ export const ControllerListPage: React.FC = () => {
         </Typography.Link>
       ),
     },
-    { 
+    {
       title: t('common.deviceId'),
       dataIndex: 'device_id',
       width: 128,
@@ -146,26 +146,29 @@ export const ControllerListPage: React.FC = () => {
   }, [page, pageSize]);
 
   return (
-    <PortalLayout title={t('common.controllers')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2
+      title={t('common.controllers')}
+      onBack={() => navigate(-1)}
+    >
       {contextHolder}
 
-      <Flex vertical style={{ height: '100%' }}>
-        <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-          <LeftRightSection
-            left={null}
-            right={(<>
-              <Button
-                type="primary"
-                onClick={() => navigate('/controllers/abandoned')}>
-                <AddCircle
-                />
-                {t('controller.registerAbandoned')}
-              </Button>
-            </>)}
-          />
+      <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%', height: '100%', overflowX: 'hidden' }}>
+        <LeftRightSection
+          left={null}
+          right={(<>
+            <Button
+              type="primary"
+              onClick={() => navigate('/controllers/abandoned')}>
+              <AddCircle
+              />
+              {t('controller.registerAbandoned')}
+            </Button>
+          </>)}
+        />
 
-          {listControllerLoading && <Skeleton active />}
+        {listControllerLoading && <Skeleton active />}
 
+        <Flex vertical style={{ width: '100%', height: '100%', overflowX: 'auto' }}>
           <Table
             bordered
             dataSource={listControllerData?.data || []}
@@ -180,10 +183,10 @@ export const ControllerListPage: React.FC = () => {
                 setPageSize(pageSize);
               },
             }}
-            style={{ width: '100%' }}
+            style={{ width: '100%', height: '100%' }}
           />
-        </Box>
-      </Flex>
-    </PortalLayout>
+        </Flex>
+      </Box>
+    </PortalLayoutV2>
   );
 };

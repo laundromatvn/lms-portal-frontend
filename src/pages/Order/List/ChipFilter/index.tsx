@@ -9,26 +9,15 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import { Chip } from './Chip';
 
-type ChipFilterOption = {
-  label: string;
-  value: any;
-};
-
 interface ChipFilterProps {
-  options: ChipFilterOption[];
-  values: ChipFilterOption[];
-  onChange: (value: ChipFilterOption[]) => void;
+  options: { label: string; value: any }[];
+  values: { label: string; value: any }[];
+  onChange: (value: { label: string; value: any }[]) => void;
   onFilterClick?: () => void;
   style?: React.CSSProperties;
 }
 
-export const ChipFilter: React.FC<ChipFilterProps> = ({
-  options,
-  values = [] as ChipFilterOption[],
-  onChange,
-  onFilterClick,
-  style,
-}) => {
+export const ChipFilter: React.FC<ChipFilterProps> = ({ options, values = [] as { label: string; value: any }[], onChange, onFilterClick, style }) => {
   const { t } = useTranslation();
   const theme = useTheme();
 

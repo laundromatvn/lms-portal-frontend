@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Button, Flex, Typography, Skeleton, notification, Popconfirm } from 'antd';
+import { Button, Flex, Skeleton, notification, Popconfirm } from 'antd';
 
-import { ArrowLeft, TrashBinTrash } from '@solar-icons/react';
+import { TrashBinTrash } from '@solar-icons/react';
 
 import { useGetControllerApi, type GetControllerResponse } from '@shared/hooks/useGetControllerApi';
 import { useDeleteControllerApi } from '@shared/hooks/useDeleteControllerApi';
@@ -13,7 +13,7 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import { type Controller } from '@shared/types/Controller';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DetailSection } from './DetailSection';
 import { MachineListSection } from './MachineListSection';
@@ -35,8 +35,6 @@ export const ControllerDetailPage: React.FC = () => {
   } = useGetControllerApi<GetControllerResponse>();
   const {
     deleteController,
-    data: deleteControllerData,
-    error: deleteControllerError,
     loading: deleteControllerLoading,
   } = useDeleteControllerApi<void>();
 
@@ -55,7 +53,7 @@ export const ControllerDetailPage: React.FC = () => {
   }, [controllerId]);
 
   return (
-    <PortalLayout title={t('common.controllerDetail')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('common.controllerDetail')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
@@ -92,6 +90,6 @@ export const ControllerDetailPage: React.FC = () => {
           </>
         )}
       </Flex>
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };

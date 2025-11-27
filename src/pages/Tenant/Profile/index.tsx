@@ -12,7 +12,7 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import { useGetTenantApi } from '@shared/hooks/useGetTenantApi';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { DetailSection } from './DetailSection';
 
 export const TenantProfilePage: React.FC = () => {
@@ -51,7 +51,7 @@ export const TenantProfilePage: React.FC = () => {
   }, [getTenantError]);
 
   return (
-    <PortalLayout title={t('navigation.tenantProfile')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('navigation.tenantProfile')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
@@ -63,6 +63,6 @@ export const TenantProfilePage: React.FC = () => {
           </>
         )}
       </Flex>
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };

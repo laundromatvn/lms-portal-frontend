@@ -17,7 +17,7 @@ import { type User } from '@shared/types/user';
 
 import { useUpdateUserApi, type UpdateUserResponse } from '@shared/hooks/useUpdateUserApi';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { EditSection } from './EditSection';
 
 export const UserEditPage: React.FC = () => {
@@ -59,7 +59,7 @@ export const UserEditPage: React.FC = () => {
   }, [updateUserData]);
 
   return (
-    <PortalLayout title={t('common.userEdit')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('common.userEdit')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
@@ -72,6 +72,6 @@ export const UserEditPage: React.FC = () => {
           />
         )}
       </Flex>
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };

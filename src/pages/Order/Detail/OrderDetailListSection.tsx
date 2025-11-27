@@ -66,27 +66,29 @@ export const OrderDetailListSection: React.FC<Props> = ({ order }) => {
   }, [page, pageSize, order?.id]);
 
   return (
-    <BaseDetailSection title={t('common.orderDetailList')}>
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-        pagination={{
-          pageSize,
-          current: page,
-          total: listOrderDetailData?.total,
-          onChange: (page, pageSize) => {
-            setPage(page);
-            setPageSize(pageSize);
-            listOrderDetail({
-              order_id: order?.id as string,
-              page,
-              page_size: pageSize
-            });
-          },
-        }}
-        loading={listOrderDetailLoading}
-        style={{ width: '100%' }}
-      />
+    <BaseDetailSection title={t('common.orderDetailList')} >
+      <Flex vertical style={{ width: '100%', overflow: 'auto' }}>
+        <Table
+          dataSource={dataSource}
+          columns={columns}
+          pagination={{
+            pageSize,
+            current: page,
+            total: listOrderDetailData?.total,
+            onChange: (page, pageSize) => {
+              setPage(page);
+              setPageSize(pageSize);
+              listOrderDetail({
+                order_id: order?.id as string,
+                page,
+                page_size: pageSize
+              });
+            },
+          }}
+          loading={listOrderDetailLoading}
+          style={{ width: '100%' }}
+        />
+      </Flex>
     </BaseDetailSection>
   );
 };

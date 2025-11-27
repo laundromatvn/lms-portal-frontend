@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Button, Flex, Typography, Skeleton, notification } from 'antd';
+import { Button, Flex, Skeleton, notification } from 'antd';
 
-import { ArrowLeft, CheckCircle, PlayCircle } from '@solar-icons/react';
+import { CheckCircle, PlayCircle } from '@solar-icons/react';
 
 import {
   useGetMachineApi,
@@ -23,7 +23,7 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import { type Machine } from '@shared/types/machine';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import LeftRightSection from '@shared/components/LeftRightSection';
 
 import { DetailSection } from './DetailSection';
@@ -110,7 +110,7 @@ export const MachineDetailPage: React.FC = () => {
   }, [activateMachineData, machineId]);
 
   return (
-    <PortalLayout title={machineData?.name} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={machineData?.name} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
@@ -155,6 +155,6 @@ export const MachineDetailPage: React.FC = () => {
         </>
       )}
     </Flex>
-    </PortalLayout >
+    </PortalLayoutV2 >
   );
 };

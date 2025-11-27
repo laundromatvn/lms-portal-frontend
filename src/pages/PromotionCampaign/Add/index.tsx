@@ -21,7 +21,7 @@ import {
 
 import { PromotionCampaignStatusEnum } from '@shared/enums/PromotionCampaignStatusEnum';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { AddSection } from './AddSection';
 import { PromotionDetailAddSection, type PromotionDetailAddSectionRef } from './PromotionDetailAddSection';
@@ -103,7 +103,7 @@ export const PromotionCampaignAddPage: React.FC = () => {
   }, [createPromotionCampaignData]);
 
   return (
-    <PortalLayout title={t('common.promotionCampaignAdd')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('common.promotionCampaignAdd')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
@@ -130,7 +130,7 @@ export const PromotionCampaignAddPage: React.FC = () => {
           onRef={setPromotionDetailRef}
         />
       </Flex>
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };
 

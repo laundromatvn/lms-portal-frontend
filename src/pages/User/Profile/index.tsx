@@ -11,7 +11,7 @@ import {
   type GetUserResponse,
 } from '@shared/hooks/useGetUserApi';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 
 import { UserProfileDetailSection } from './DetailSection';
 import { UserProfilePasswordSection } from './PasswordSection';
@@ -49,12 +49,12 @@ export const UserProfilePage: React.FC = () => {
   }, [getUserData]);
 
   return (
-    <PortalLayout title={t('navigation.userProfile')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('navigation.userProfile')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <UserProfileDetailSection />
 
       <UserProfilePasswordSection />
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };

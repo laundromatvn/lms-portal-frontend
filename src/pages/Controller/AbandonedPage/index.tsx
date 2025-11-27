@@ -11,7 +11,7 @@ import { useTheme } from '@shared/theme/useTheme';
 import { useListAbandondedControllerApi, type ListAbandondedControllerResponse } from '@shared/hooks/useListAbandondedControllerApi';
 import { useVerifyAbandonedControllerApi } from '@shared/hooks/useVerifyAbandonedControllerApi';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { BaseModal } from '@shared/components/BaseModal';
@@ -129,7 +129,7 @@ export const ControllerAbandonedPage: React.FC = () => {
   }, [autoRefresh, isOpen, listAbandondedControllerLoading, listAbandondedController]);
 
   return (
-    <PortalLayout title={t('controller.abandonedController')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('controller.abandonedController')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
@@ -178,6 +178,6 @@ export const ControllerAbandonedPage: React.FC = () => {
       >
         <AssignToStoreModalContent controllerId={controllerId} setIsOpen={setIsOpen} />
       </BaseModal>
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };

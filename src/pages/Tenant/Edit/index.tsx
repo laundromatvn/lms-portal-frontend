@@ -22,7 +22,7 @@ import {
   type UpdateTenantResponse,
 } from '@shared/hooks/useUpdateTenantApi';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { EditSection } from './EditSection';
 
 export const TenantEditPage: React.FC = () => {
@@ -94,7 +94,7 @@ export const TenantEditPage: React.FC = () => {
   }, [tenantId]);
 
   return (
-    <PortalLayout title={tenantData?.name} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={tenantData?.name} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
@@ -107,6 +107,6 @@ export const TenantEditPage: React.FC = () => {
           />
         )}
       </Flex>
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };

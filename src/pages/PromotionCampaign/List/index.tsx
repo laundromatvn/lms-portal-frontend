@@ -6,7 +6,7 @@ import { Flex } from 'antd';
 
 import { useIsMobile } from '@shared/hooks/useIsMobile';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 
 import { PromotionCampaignListTable } from './Table';
 import { PromotionCampaignListStack } from './Stack';
@@ -17,7 +17,7 @@ export const PromotionCampaignListPage: React.FC = () => {
   const isMobile = useIsMobile();
 
   return (
-    <PortalLayout title={t('common.promotionCampaign')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('common.promotionCampaign')} onBack={() => navigate(-1)}>
       <Flex vertical style={{ height: '100%' }}>
         {isMobile ? (
           <PromotionCampaignListStack />
@@ -25,6 +25,6 @@ export const PromotionCampaignListPage: React.FC = () => {
           <PromotionCampaignListTable />
         )}
       </Flex>
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };

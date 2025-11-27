@@ -10,21 +10,17 @@ import {
   Skeleton,
   notification,
   Popconfirm,
-  Input,
-  Select,
 } from 'antd';
 
 import {
   BillCheck,
   BillCross,
-  Refresh,
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
 import { tenantStorage } from '@core/storage/tenantStorage';
 
-import { useIsMobile } from '@shared/hooks/useIsMobile';
 import {
   useListOrderApi,
   type ListOrderResponse,
@@ -38,22 +34,19 @@ import {
   type TriggerPaymentFailedResponse,
 } from '@shared/hooks/useTriggerPaymentFailedApi';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
-import LeftRightSection from '@shared/components/LeftRightSection';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { Box } from '@shared/components/Box';
 
 import { formatDateTime } from '@shared/utils/date';
 import { formatCurrencyCompact } from '@shared/utils/currency';
 
-import { OrderStatusEnum } from '@shared/enums/OrderStatusEnum';
-import { PaymentStatusEnum } from '@shared/enums/PaymentStatusEnum';
+import { ChipFilter } from '@pages/OverviewV2/StoreOverview/ChipFilter';
 
 export const OrderListPage: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -62,12 +55,9 @@ export const OrderListPage: React.FC = () => {
   const [tableData, setTableData] = useState<any[] | null>(null);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [searchText, setSearchText] = useState('');
-  const [searchError, setSearchError] = useState<string | undefined>();
-  const [statusFilter, setStatusFilter] = useState<string | undefined>();
-  const [paymentStatusFilter, setPaymentStatusFilter] = useState<string | undefined>();
   const [orderBy, setOrderBy] = useState<string>('created_at');
   const [orderDirection, setOrderDirection] = useState<string>('desc');
+  const [selectedFilters, setSelectedFilters] = useState<{ label: string; value: any }[]>([]);
 
   const columns = [
     {
@@ -187,48 +177,50 @@ export const OrderListPage: React.FC = () => {
   } = useTriggerPaymentFailedApi<TriggerPaymentFailedResponse>();
 
   const handleListOrder = async () => {
+    let start_date: string | undefined;
+    let end_date: string | undefined;
+
+    if (selectedFilters.find((filter) => filter.value === 'today')) {
+      start_date = new Date(new Date().setHours(0, 0, 0, 0)).toISOString();
+      end_date = new Date(new Date().setHours(23, 59, 59, 999)).toISOString();
+    } else if (selectedFilters.find((filter) => filter.value === 'this_week')) {
+      start_date = new Date(new Date().setDate(new Date().getDate() - 7)).toISOString();
+      end_date = new Date(new Date().setHours(23, 59, 59, 999)).toISOString();
+    } else if (selectedFilters.find((filter) => filter.value === 'this_month')) {
+      start_date = new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString();
+      end_date = new Date(new Date().setHours(23, 59, 59, 999)).toISOString();
+    } else if (selectedFilters.find((filter) => filter.value === 'this_year')) {
+      start_date = new Date(new Date().setFullYear(new Date().getFullYear() - 1)).toISOString();
+      end_date = new Date(new Date().setHours(23, 59, 59, 999)).toISOString();
+    }
+
     if (tenant) {
       listOrder({
         page,
         page_size: pageSize,
         tenant_id: tenant.id,
-        status: statusFilter as OrderStatusEnum,
-        payment_status: paymentStatusFilter as PaymentStatusEnum,
-        query: searchText,
         order_by: orderBy,
         order_direction: orderDirection as 'asc' | 'desc',
+        start_date,
+        end_date,
       });
     } else {
       listOrder({
         page,
         page_size: pageSize,
-        status: statusFilter as OrderStatusEnum,
-        payment_status: paymentStatusFilter as PaymentStatusEnum,
-        query: searchText,
         order_by: orderBy,
         order_direction: orderDirection as 'asc' | 'desc',
+        start_date,
+        end_date,
       });
     }
   }
 
-  const handleSearch = async (searchValue: string) => {
-    setSearchText(searchValue);
+  const handleFilterChange = async (filters: { label: string; value: any }[]) => {
+    setSelectedFilters(filters);
+    handleListOrder();
   };
 
-  const handleClear = async () => {
-    setSearchText('');
-    setSearchError(undefined);
-    setStatusFilter(undefined);
-    setPaymentStatusFilter(undefined);
-  };
-
-  const handleStatusFilter = async (status: OrderStatusEnum) => {
-    setStatusFilter(status);
-  };
-
-  const handlePaymentStatusFilter = async (paymentStatus: PaymentStatusEnum) => {
-    setPaymentStatusFilter(paymentStatus);
-  };
 
   const handleSort = async (column: string, direction: 'asc' | 'desc') => {
     setOrderBy(column);
@@ -237,17 +229,7 @@ export const OrderListPage: React.FC = () => {
 
   useEffect(() => {
     if (listOrderData) {
-      setTableData(listOrderData?.data.map((item) => ({
-        id: item.id,
-        created_at: item.created_at,
-        store_name: item.store_name,
-        store_id: item.store_id,
-        transaction_code: item.transaction_code,
-        status: item.status,
-        total_amount: item.total_amount,
-        total_washer: item.total_washer,
-        total_dryer: item.total_dryer,
-      })));
+      setTableData(listOrderData?.data as any[]);
     }
   }, [listOrderData]);
 
@@ -297,89 +279,48 @@ export const OrderListPage: React.FC = () => {
 
   useEffect(() => {
     handleListOrder();
-  }, [page, pageSize, statusFilter, paymentStatusFilter, searchText, orderBy, orderDirection]);
+  }, [selectedFilters, orderBy, orderDirection, page, pageSize]);
 
   return (
-    <PortalLayout title={t('common.orderList')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('common.orderList')} onBack={() => navigate(-1)}>
       {contextHolder}
 
-      <Flex vertical style={{ height: '100%' }}>
-        <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-          <LeftRightSection
-            left={(
-              <Input.Search
-                placeholder={t('overview.orderTable.searchPlaceholder')}
-                value={searchText}
-                onChange={(e) => handleSearch(e.target.value)}
-                onSearch={handleSearch}
-                allowClear
-                onClear={handleClear}
-                status={searchError ? 'error' : undefined}
-                style={{ width: 200, marginBottom: theme.custom.spacing.small }}
-              />)}
-            right={(
-              <Flex vertical={isMobile} gap={theme.custom.spacing.small}>
-                <Button
-                  type="text"
-                  icon={<Refresh />}
-                  onClick={handleListOrder}
-                />
+      <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+        <ChipFilter
+          options={[
+            { label: t('common.today'), value: 'today' },
+            { label: t('common.thisWeek'), value: 'this_week' },
+            { label: t('common.thisMonth'), value: 'this_month' },
+            { label: t('common.thisYear'), value: 'this_year' },
+          ]}
+          values={selectedFilters}
+          onChange={handleFilterChange}
+          style={{ width: '100%', justifyContent: 'end' }}
+        />
 
-                <Select
-                  placeholder={t('overview.orderTable.status')}
-                  style={{ width: 150 }}
-                  allowClear
-                  value={statusFilter}
-                  onChange={(value) => handleStatusFilter(value as OrderStatusEnum)}
-                >
-                  {Object.values(OrderStatusEnum).map((status) => (
-                    <Select.Option key={status} value={status} style={{ textAlign: 'left' }}>
-                      <DynamicTag value={status} />
-                    </Select.Option>
-                  ))}
-                </Select>
+        {listOrderLoading && <Skeleton active />}
 
-                <Select
-                  placeholder={t('overview.orderTable.paymentStatus')}
-                  style={{ width: 180 }}
-                  allowClear
-                  value={paymentStatusFilter}
-                  onChange={(value) => handlePaymentStatusFilter(value as PaymentStatusEnum)}
-                >
-                  {Object.values(PaymentStatusEnum).map((status) => (
-                    <Select.Option key={status} value={status} style={{ textAlign: 'left' }}>
-                      <DynamicTag value={status} />
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Flex>
-            )}
-          />
-
-          {listOrderLoading && <Skeleton active />}
-
-          {!listOrderLoading && (
-            <Flex vertical gap={theme.custom.spacing.large} style={{ width: '100%' }}>
-              <Table
-                bordered
-                dataSource={tableData || []}
-                columns={columns}
-                pagination={{
-                  pageSize,
-                  current: page,
-                  total: listOrderData?.total,
-                  onChange: (page, pageSize) => {
-                    setPage(page);
-                    setPageSize(pageSize);
-                  },
-                }}
-                style={{ width: '100%' }}
-                scroll={{ x: 'max-content' }}
-              />
-            </Flex>
-          )}
-        </Box>
-      </Flex>
-    </PortalLayout>
+        {!listOrderLoading && (
+          <Flex vertical gap={theme.custom.spacing.large} style={{ width: '100%' }}>
+            <Table
+              bordered
+              dataSource={tableData || []}
+              columns={columns}
+              pagination={{
+                pageSize,
+                current: page,
+                total: listOrderData?.total,
+                onChange: (page, pageSize) => {
+                  setPage(page);
+                  setPageSize(pageSize);
+                },
+              }}
+              style={{ width: '100%' }}
+              scroll={{ x: 'max-content' }}
+            />
+          </Flex>
+        )}
+      </Box>
+    </PortalLayoutV2>
   );
 };

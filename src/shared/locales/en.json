@@ -33,6 +33,10 @@
   },
   "common": {
     "washgo247": "WashGo247",
+    "today": "Today",
+    "thisWeek": "This Week",
+    "thisMonth": "This Month",
+    "thisYear": "This Year",
     "loadMore": "Load More",
     "signIn": "Sign In",
     "password": "Password",

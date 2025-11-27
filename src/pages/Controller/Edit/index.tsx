@@ -3,15 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import {
-  Button,
   Flex,
-  Typography,
   Skeleton,
   notification,
   type FormInstance,
 } from 'antd';
-
-import { ArrowLeft } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -26,8 +22,7 @@ import {
   type UpdateControllerResponse,
 } from '@shared/hooks/useUpdateControllerApi';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
-import LeftRightSection from '@shared/components/LeftRightSection';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { EditSection } from './EditSection';
 
 export const ControllerEditPage: React.FC = () => {
@@ -48,7 +43,6 @@ export const ControllerEditPage: React.FC = () => {
   const {
     updateController,
     data: updateControllerData,
-    loading: updateControllerLoading,
     error: updateControllerError,
   } = useUpdateControllerApi<UpdateControllerResponse>();
 
@@ -97,7 +91,7 @@ export const ControllerEditPage: React.FC = () => {
   }, [controllerId]);
 
   return (
-    <PortalLayout title={controllerData?.name || controllerId} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={controllerData?.name || controllerId} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
@@ -110,6 +104,6 @@ export const ControllerEditPage: React.FC = () => {
           />
         )}
       </Flex>
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };

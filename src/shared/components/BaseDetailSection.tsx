@@ -16,6 +16,7 @@ interface Props {
   onEdit?: () => void;
   onRefresh?: () => void;
   loading?: boolean;
+  style?: React.CSSProperties;
 }
 
 export const BaseDetailSection: React.FC<Props> = ({
@@ -24,11 +25,12 @@ export const BaseDetailSection: React.FC<Props> = ({
   onEdit,
   onRefresh,
   loading = false,
+  style,
 }) => {
   const theme = useTheme();
 
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }} loading={loading}>
+    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%', ...style }} loading={loading}>
       <Flex justify="space-between" align="center" style={{ width: '100%' }}>
         <Typography.Title level={3}>{title}</Typography.Title>
 

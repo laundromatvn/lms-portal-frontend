@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Flex, Typography, Table, Skeleton, notification, Select, Input } from 'antd';
+import { Button, Flex, Typography, Table, Skeleton, notification, Select } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
 import { CheckCircle, Refresh } from '@solar-icons/react';
@@ -31,7 +31,7 @@ import { MachineTypeEnum } from '@shared/enums/MachineTypeEnum';
 
 import { formatCurrencyCompact } from '@shared/utils/currency';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import LeftRightSection from '@shared/components/LeftRightSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { Box } from '@shared/components/Box';
@@ -235,100 +235,98 @@ export const MachineListPage: React.FC = () => {
   }, []);
 
   return (
-    <PortalLayout title={t('common.machineList')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('common.machineList')} onBack={() => navigate(-1)}>
       {contextHolder}
 
-      <Flex vertical style={{ height: '100%' }}>
-        <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-          <LeftRightSection
-            left={null}
-            right={(
-              <Flex gap={theme.custom.spacing.medium}>
-                <Button
-                  type="text"
-                  onClick={() => handleListMachine()}
-                  icon={<Refresh />}
-                />
-
-                <Select
-                  options={[
-                    { label: t('common.pendingSetup'), value: MachineStatusEnum.PENDING_SETUP as string },
-                    { label: t('common.idle'), value: MachineStatusEnum.IDLE as string },
-                    { label: t('common.starting'), value: MachineStatusEnum.STARTING as string },
-                    { label: t('common.busy'), value: MachineStatusEnum.BUSY as string },
-                    { label: t('common.outOfService'), value: MachineStatusEnum.OUT_OF_SERVICE as string },
-                  ]}
-                  value={selectedStatus as string}
-                  onChange={(value) => setSelectedStatus(value as MachineStatusEnum)}
-                  style={{ width: 156 }}
-                  allowClear
-                  placeholder={t('common.selectStatus')}
-                />
-
-                <Select
-                  options={[
-                    { label: t('common.washer'), value: MachineTypeEnum.WASHER as string },
-                    { label: t('common.dryer'), value: MachineTypeEnum.DRYER as string },
-                  ]}
-                  value={selectedMachineType as string}
-                  onChange={(value) => setSelectedMachineType(value as MachineTypeEnum)}
-                  style={{ width: 156 }}
-                  allowClear
-                  placeholder={t('common.selectMachineType')}
-                />
-
-                <Select
-                  options={listControllerData?.data.map((item) => ({
-                    label: item.name,
-                    value: item.id,
-                  }))}
-                  value={selectedControllerId}
-                  onChange={(value) => setSelectedControllerId(value as string)}
-                  style={{ width: 156 }}
-                  allowClear
-                  placeholder={t('common.selectController')}
-                />
-
-                <Select
-                  options={listStoreData?.data.map((item) => ({
-                    label: item.name,
-                    value: item.id,
-                  }))}
-                  value={selectedStoreId}
-                  onChange={(value) => setSelectedStoreId(value as string)}
-                  style={{ width: 156 }}
-                  allowClear
-                  placeholder={t('common.selectStore')}
-                />
-              </Flex>
-            )}
+      <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+        <Flex
+          justify="end"
+          wrap
+          gap={theme.custom.spacing.medium}
+          style={{ width: '100%' }}
+        >
+          <Button
+            type="text"
+            onClick={() => handleListMachine()}
+            icon={<Refresh />}
           />
 
-          {listMachineLoading && <Skeleton active />}
+          <Select
+            options={[
+              { label: t('common.pendingSetup'), value: MachineStatusEnum.PENDING_SETUP as string },
+              { label: t('common.idle'), value: MachineStatusEnum.IDLE as string },
+              { label: t('common.starting'), value: MachineStatusEnum.STARTING as string },
+              { label: t('common.busy'), value: MachineStatusEnum.BUSY as string },
+              { label: t('common.outOfService'), value: MachineStatusEnum.OUT_OF_SERVICE as string },
+            ]}
+            value={selectedStatus as string}
+            onChange={(value) => setSelectedStatus(value as MachineStatusEnum)}
+            style={{ width: 156 }}
+            allowClear
+            placeholder={t('common.selectStatus')}
+          />
 
-          {!listMachineLoading && (
-            <Box vertical gap={theme.custom.spacing.large} style={{ width: '100%' }}>
-              <Table
-                bordered
-                dataSource={tableData || []}
-                columns={columns}
-                pagination={{
-                  pageSize,
-                  current: page,
-                  total: listMachineData?.total,
-                  onChange: (page, pageSize) => {
-                    setPage(page);
-                    setPageSize(pageSize);
-                  },
-                }}
-                onChange={handleTableChange}
-                style={{ width: '100%' }}
-                scroll={{ x: 'max-content' }}
-              />
-            </Box>
-          )}
-        </Box>
-      </Flex>
-    </PortalLayout>
+          <Select
+            options={[
+              { label: t('common.washer'), value: MachineTypeEnum.WASHER as string },
+              { label: t('common.dryer'), value: MachineTypeEnum.DRYER as string },
+            ]}
+            value={selectedMachineType as string}
+            onChange={(value) => setSelectedMachineType(value as MachineTypeEnum)}
+            style={{ width: 156 }}
+            allowClear
+            placeholder={t('common.selectMachineType')}
+          />
+
+          <Select
+            options={listControllerData?.data.map((item) => ({
+              label: item.name,
+              value: item.id,
+            }))}
+            value={selectedControllerId}
+            onChange={(value) => setSelectedControllerId(value as string)}
+            style={{ width: 156 }}
+            allowClear
+            placeholder={t('common.selectController')}
+          />
+
+          <Select
+            options={listStoreData?.data.map((item) => ({
+              label: item.name,
+              value: item.id,
+            }))}
+            value={selectedStoreId}
+            onChange={(value) => setSelectedStoreId(value as string)}
+            style={{ width: 156 }}
+            allowClear
+            placeholder={t('common.selectStore')}
+          />
+        </Flex>
+
+        {listMachineLoading && <Skeleton active />}
+
+        {!listMachineLoading && (
+          <Box vertical gap={theme.custom.spacing.large} style={{ width: '100%' }}>
+            <Table
+              bordered
+              dataSource={tableData || []}
+              columns={columns}
+              pagination={{
+                pageSize,
+                current: page,
+                total: listMachineData?.total,
+                onChange: (page, pageSize) => {
+                  setPage(page);
+                  setPageSize(pageSize);
+                },
+              }}
+              onChange={handleTableChange}
+              style={{ width: '100%' }}
+              scroll={{ x: 'max-content' }}
+            />
+          </Box>
+        )}
+      </Box>
+    </PortalLayoutV2>
   );
 };

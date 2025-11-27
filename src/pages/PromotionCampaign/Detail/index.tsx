@@ -6,7 +6,6 @@ import {
   Button,
   Flex,
   Skeleton,
-  Typography,
   notification,
   Dropdown,
   type MenuProps,
@@ -17,7 +16,6 @@ import {
 } from '@ant-design/icons';
 
 import {
-  ArrowLeft,
   Calendar,
   PauseCircle,
   PlayCircle,
@@ -34,7 +32,7 @@ import { useSchedulePromotionCampaignApi } from '@shared/hooks/promotion/useSche
 import { usePausePromotionCampaignApi } from '@shared/hooks/promotion/usePausePromotionCampaignApi';
 import { useResumePromotionCampaignApi } from '@shared/hooks/promotion/useResumePromotionCampaignApi';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import LeftRightSection from '@shared/components/LeftRightSection';
 
 import { DetailSection } from './DetailSection';
@@ -164,7 +162,7 @@ export const PromotionCampaignDetailPage: React.FC = () => {
   }, [schedulePromotionCampaignError]);
 
   return (
-    <PortalLayout title={getPromotionCampaignData?.name} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={getPromotionCampaignData?.name} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
@@ -249,6 +247,6 @@ export const PromotionCampaignDetailPage: React.FC = () => {
           </>
         )}
       </Flex>
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };

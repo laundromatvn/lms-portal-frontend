@@ -20,7 +20,7 @@ import {
   type ResetPasswordResponse
 } from '@shared/hooks/useResetPasswordApi';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { ResetPasswordSection } from './ResetPasswordSection';
 
 export const UserResetPasswordPage: React.FC = () => {
@@ -61,7 +61,7 @@ export const UserResetPasswordPage: React.FC = () => {
   }, [resetPasswordData]);
 
   return (
-    <PortalLayout title={t('common.userResetPassword')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('common.userResetPassword')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
@@ -74,6 +74,6 @@ export const UserResetPasswordPage: React.FC = () => {
           />
         )}
       </Flex>
-    </PortalLayout>
+    </PortalLayoutV2>
   );
 };
