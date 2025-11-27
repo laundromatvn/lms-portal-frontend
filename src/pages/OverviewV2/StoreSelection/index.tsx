@@ -8,6 +8,7 @@ import {
 } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 import { type Store } from '@shared/types/store';
 
@@ -20,16 +21,17 @@ interface Props {
 }
 
 export const StoreSelection: React.FC<Props> = ({ stores, loading, onSelectStore }) => {
-  const theme = useTheme();
   const { t } = useTranslation();
+  const theme = useTheme();
+  const isMobile = useIsMobile();
 
   return (
     <Flex
       vertical
-      align="center"
-      justify="center"
+      align={isMobile ? 'flex-start' : 'center'}
+      justify={isMobile ? 'flex-start' : 'center'}
       gap={theme.custom.spacing.small}
-      style={{width: '100%', height: '100%'}}
+      style={{ width: '100%', height: '100%' }}
     >
       <Typography.Title level={3} style={{ marginBottom: 0 }}>
         {t('overviewV2.laundryManagementSystem')}
@@ -41,14 +43,22 @@ export const StoreSelection: React.FC<Props> = ({ stores, loading, onSelectStore
 
       {loading && <Skeleton active style={{ width: '100%', maxWidth: 600 }} />}
 
-      {!loading && stores.map((store) => (
-        <StoreSelectionSectionOption
-          key={store.id}
-          store={store}
-          onSelect={() => onSelectStore(store)}
-          style={{ maxWidth: 600 }}
-        />
-      ))}
+      <Flex
+        vertical
+        justify="center"
+        align="center"
+        gap={theme.custom.spacing.small}
+        style={{ width: '100%', maxWidth: 600, overflowY: 'auto' }}
+      >
+        {!loading && stores.map((store) => (
+          <StoreSelectionSectionOption
+            key={store.id}
+            store={store}
+            onSelect={() => onSelectStore(store)}
+            style={{ maxWidth: 600 }}
+          />
+        ))}
+      </Flex>
     </Flex>
   )
 };
