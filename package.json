@@ -20,6 +20,7 @@
     "@solar-icons/react": "^1.0.1",
     "antd": "^5.27.6",
     "axios": "^1.11.0",
+    "dayjs": "^1.11.19",
     "i18next": "^25.5.2",
     "i18next-browser-languagedetector": "^8.2.0",
     "react": "^19.1.1",

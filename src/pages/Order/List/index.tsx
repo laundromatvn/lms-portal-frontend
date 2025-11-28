@@ -42,6 +42,7 @@ import { formatDateTime } from '@shared/utils/date';
 import { formatCurrencyCompact } from '@shared/utils/currency';
 
 import { ChipFilter } from '@pages/OverviewV2/StoreOverview/ChipFilter';
+import dayjs from '@shared/utils/dayjs';
 
 export const OrderListPage: React.FC = () => {
   const { t } = useTranslation();
@@ -57,7 +58,9 @@ export const OrderListPage: React.FC = () => {
   const [pageSize, setPageSize] = useState(10);
   const [orderBy, setOrderBy] = useState<string>('created_at');
   const [orderDirection, setOrderDirection] = useState<string>('desc');
-  const [selectedFilters, setSelectedFilters] = useState<{ label: string; value: any }[]>([]);
+  const [selectedFilters, setSelectedFilters] = useState<{ label: string; value: any }[]>([
+    { label: t('common.all'), value: 'all' },
+  ]);
 
   const columns = [
     {
@@ -180,18 +183,23 @@ export const OrderListPage: React.FC = () => {
     let start_date: string | undefined;
     let end_date: string | undefined;
 
+    const today = dayjs();
+
     if (selectedFilters.find((filter) => filter.value === 'today')) {
-      start_date = new Date(new Date().setHours(0, 0, 0, 0)).toISOString();
-      end_date = new Date(new Date().setHours(23, 59, 59, 999)).toISOString();
+      start_date = today.startOf('day').toISOString();
+      end_date = today.endOf('day').toISOString();
     } else if (selectedFilters.find((filter) => filter.value === 'this_week')) {
-      start_date = new Date(new Date().setDate(new Date().getDate() - 7)).toISOString();
-      end_date = new Date(new Date().setHours(23, 59, 59, 999)).toISOString();
+      start_date = today.startOf('week').toISOString();
+      end_date = today.endOf('week').toISOString();
     } else if (selectedFilters.find((filter) => filter.value === 'this_month')) {
-      start_date = new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString();
-      end_date = new Date(new Date().setHours(23, 59, 59, 999)).toISOString();
+      start_date = today.startOf('month').toISOString();
+      end_date = today.endOf('month').toISOString();
     } else if (selectedFilters.find((filter) => filter.value === 'this_year')) {
-      start_date = new Date(new Date().setFullYear(new Date().getFullYear() - 1)).toISOString();
-      end_date = new Date(new Date().setHours(23, 59, 59, 999)).toISOString();
+      start_date = today.startOf('year').toISOString();
+      end_date = today.endOf('year').toISOString();
+    } else if (selectedFilters.find((filter) => filter.value === 'all')) {
+      start_date = undefined;
+      end_date = undefined;
     }
 
     if (tenant) {
@@ -292,6 +300,7 @@ export const OrderListPage: React.FC = () => {
             { label: t('common.thisWeek'), value: 'this_week' },
             { label: t('common.thisMonth'), value: 'this_month' },
             { label: t('common.thisYear'), value: 'this_year' },
+            { label: t('common.all'), value: 'all' },
           ]}
           values={selectedFilters}
           onChange={handleFilterChange}

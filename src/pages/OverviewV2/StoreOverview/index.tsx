@@ -27,9 +27,12 @@ export const StoreOverview: React.FC<Props> = ({ store }) => {
     { label: t('overviewV2.thisWeek'), value: 'this_week' },
     { label: t('overviewV2.thisMonth'), value: 'this_month' },
     { label: t('overviewV2.thisYear'), value: 'this_year' },
+    { label: t('common.all'), value: 'all' },
   ];
 
-  const [selectedFilters, setSelectedFilters] = useState<StoreOverviewFilter[]>([filterOptions[0]]);
+  const [selectedFilters, setSelectedFilters] = useState<StoreOverviewFilter[]>([
+    { label: t('common.all'), value: 'all' },
+  ]);
 
   const {
     getAccess,

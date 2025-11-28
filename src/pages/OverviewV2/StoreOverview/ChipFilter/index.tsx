@@ -35,7 +35,7 @@ export const ChipFilter: React.FC<ChipFilterProps> = ({
   const handleChange = (value: any) => {
     const selected = values.some((v) => v.value === value);
 
-    const singleSelectionValues = ['today', 'this_week', 'this_month', 'this_year'];
+    const singleSelectionValues = ['today', 'this_week', 'this_month', 'this_year', 'all'];
 
     if (singleSelectionValues.includes(value)) {
       if (selected) {

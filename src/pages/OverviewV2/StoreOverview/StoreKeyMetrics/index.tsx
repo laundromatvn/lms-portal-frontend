@@ -26,6 +26,8 @@ import type { StoreOverviewFilter } from '../types';
 import formatCurrencyCompact from '@shared/utils/currency';
 import { BaseSectionTitle } from '@shared/components/BaseSectionTitle';
 
+import dayjs from '@shared/utils/dayjs';
+
 interface Props {
   store: Store;
   filters: StoreOverviewFilter[];
@@ -53,6 +55,8 @@ export const StoreKeyMetrics: React.FC<Props> = ({ store, filters }) => {
       return t('overviewV2.thisMonth');
     } else if (filters.find((filter) => filter.value === 'this_year')) {
       return t('overviewV2.thisYear');
+    } else if (filters.find((filter) => filter.value === 'all')) {
+      return t('common.all');
     }
 
     return '';
@@ -63,18 +67,23 @@ export const StoreKeyMetrics: React.FC<Props> = ({ store, filters }) => {
       store_id: store.id,
     } as Record<string, any>;
 
+    const today = dayjs();
+
     if (filters.find((filter) => filter.value === 'today')) {
-      queryParams.start_date = new Date(new Date().setHours(0, 0, 0, 0)).toISOString();
-      queryParams.end_date = new Date(new Date().setHours(23, 59, 59, 999)).toISOString();
+      queryParams.start_date = today.startOf('day').toISOString();
+      queryParams.end_date = today.endOf('day').toISOString();
     } else if (filters.find((filter) => filter.value === 'this_week')) {
-      queryParams.start_date = new Date(new Date().setDate(new Date().getDate() - new Date().getDay())).toISOString();
-      queryParams.end_date = new Date(new Date().setDate(new Date().getDate() - new Date().getDay() + 6)).toISOString();
+      queryParams.start_date = today.startOf('week').toISOString();
+      queryParams.end_date = today.endOf('week').toISOString();
     } else if (filters.find((filter) => filter.value === 'this_month')) {
-      queryParams.start_date = new Date(new Date().setDate(1)).toISOString();
-      queryParams.end_date = new Date(new Date().setDate(new Date().getDate())).toISOString();
+      queryParams.start_date = today.startOf('month').toISOString();
+      queryParams.end_date = today.endOf('month').toISOString();
     } else if (filters.find((filter) => filter.value === 'this_year')) {
-      queryParams.start_date = new Date(new Date().getFullYear(), 0, 1).toISOString();
-      queryParams.end_date = new Date(new Date().getFullYear(), 11, 31).toISOString();
+      queryParams.start_date = today.startOf('year').toISOString();
+      queryParams.end_date = today.endOf('year').toISOString();
+    } else if (filters.find((filter) => filter.value === 'all')) {
+      queryParams.start_date = undefined;
+      queryParams.end_date = undefined;
     }
 
     await getDashboardOverviewKeyMetrics(queryParams);
