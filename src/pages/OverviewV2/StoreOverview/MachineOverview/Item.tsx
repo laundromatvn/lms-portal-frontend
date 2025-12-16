@@ -1,22 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Flex, Typography } from 'antd';
+import { Button, Flex, notification, Typography } from 'antd';
 
 import {
   Play,
-  Settings
+  Settings,
+  Refresh
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
+
+import {
+  useActivateMachineApi,
+  type ActivateMachineResponse,
+} from '@shared/hooks/useActivateMachineApi';
 
 import type { Machine } from '@shared/types/machine';
 
 import { Box } from '@shared/components/Box';
 import { DynamicTag } from '@shared/components/DynamicTag';
-import { MachineSettingModal } from '@shared/components/Modals/MachineSettingModal';
 import { StartMachineDrawer } from '@shared/components/Drawer/StartMachineDrawer';
+import { MachineSettingDrawer } from '@shared/components/Drawer/MachineSettingDrawer';
 
 import formatCurrencyCompact from '@shared/utils/currency';
 
@@ -31,11 +37,36 @@ export const MachineOverviewItem: React.FC<Props> = ({ machine, onStartSuccess, 
   const theme = useTheme();
   const navigate = useNavigate();
 
+  const [api, contextHolder] = notification.useNotification();
+
   const [isStartMachineDrawerOpen, setIsStartMachineDrawerOpen] = useState(false);
-  const [isMachineSettingModalOpen, setIsMachineSettingModalOpen] = useState(false);
+  const [isMachineSettingDrawerOpen, setIsMachineSettingDrawerOpen] = useState(false);
+
+  const {
+    activateMachine,
+    data: activateMachineData,
+    loading: activateMachineLoading,
+    error: activateMachineError,
+  } = useActivateMachineApi<ActivateMachineResponse>();
+
+  useEffect(() => {
+    if (activateMachineData) {
+      onStartSuccess();
+    }
+  }, [activateMachineData]);
+
+  useEffect(() => {
+    if (activateMachineError) {
+      api.error({
+        message: t('messages.activateMachineError'),
+      });
+    }
+  }, [activateMachineError]);
 
   return (
     <>
+      {contextHolder}
+
       <Box
         vertical
         border
@@ -72,11 +103,18 @@ export const MachineOverviewItem: React.FC<Props> = ({ machine, onStartSuccess, 
               onClick={() => setIsStartMachineDrawerOpen(true)}
             />
 
+            <Button
+              type="default"
+              icon={<Refresh />}
+              onClick={() => activateMachine(machine.id)}
+              loading={activateMachineLoading}
+            />
+
             {onSaveMachine && (
               <Button
                 type="default"
                 icon={<Settings />}
-                onClick={() => setIsMachineSettingModalOpen(true)}
+                onClick={() => setIsMachineSettingDrawerOpen(true)}
               />
             )}
           </Flex>
@@ -91,10 +129,10 @@ export const MachineOverviewItem: React.FC<Props> = ({ machine, onStartSuccess, 
       />
 
       {onSaveMachine && (
-        <MachineSettingModal
+        <MachineSettingDrawer
           machine={machine}
-          isModalOpen={isMachineSettingModalOpen}
-          setIsModalOpen={setIsMachineSettingModalOpen}
+          isDrawerOpen={isMachineSettingDrawerOpen}
+          setIsDrawerOpen={setIsMachineSettingDrawerOpen}
           onSave={onSaveMachine}
         />
       )}
