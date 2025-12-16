@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Button, Flex, Popconfirm, Skeleton, notification } from 'antd';
+import { Button, Flex, Skeleton, notification } from 'antd';
 
-import { BillCheck, BillCross, ListDown } from '@solar-icons/react';
+import { BillCheck, BillCross } from '@solar-icons/react';
 
 import { type Order } from '@shared/types/Order';
+
+import { OrderStatusEnum } from '@shared/enums/OrderStatusEnum';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -141,60 +143,40 @@ export const OrderDetailPage: React.FC = () => {
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <Flex vertical={isMobile} justify="flex-end" wrap gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-          <Button
-            type="default"
-            icon={<ListDown size={18} />}
-            style={{
-              color: theme.custom.colors.primary.default,
-              backgroundColor: theme.custom.colors.background.light,
-              borderColor: theme.custom.colors.primary.default,
-            }}
-            onClick={() => syncUpOrder(orderId)}
-          >
-            {t('common.syncUpOrder')}
-          </Button>
-
-          <Popconfirm
-            title={t('common.pay')}
-            onConfirm={() => triggerPaymentSuccess(orderId)}
-            onCancel={() => triggerPaymentFailed(orderId)}
-            okText={t('common.confirm')}
-            cancelText={t('common.cancel')}
+        {getOrderData?.status === OrderStatusEnum.WAITING_FOR_PAYMENT && (
+          <Flex
+            vertical={isMobile}
+            justify="flex-end"
+            wrap="wrap"
+            gap={theme.custom.spacing.medium}
+            style={{ width: '100%' }}
           >
             <Button
-              type="default"
-              icon={<BillCheck size={18} />}
-              style={{
-                color: theme.custom.colors.success.default,
-                backgroundColor: theme.custom.colors.background.light,
-                borderColor: theme.custom.colors.success.default,
-              }} >
-              {t('common.pay')}
-            </Button>
-          </Popconfirm>
-
-          <Popconfirm
-            title={t('common.cancelPayment')}
-            onConfirm={() => triggerPaymentFailed(orderId)}
-            onCancel={() => triggerPaymentFailed(orderId)}
-            okText={t('common.confirm')}
-            cancelText={t('common.cancel')}
-          >
-            <Button
-              type="default"
+              type="text"
               danger
               icon={<BillCross size={18} />}
               style={{
                 color: theme.custom.colors.danger.default,
-                backgroundColor: theme.custom.colors.background.light,
-                borderColor: theme.custom.colors.danger.default,
+                backgroundColor: theme.custom.colors.danger.light,
               }}
+              onClick={() => triggerPaymentFailed(orderId)}
             >
-              {t('common.cancelPayment')}
+              {t('common.cancel')}
             </Button>
-          </Popconfirm>
-        </Flex>
+
+            <Button
+              type="text"
+              icon={<BillCheck size={18} />}
+              style={{
+                color: theme.custom.colors.success.default,
+                backgroundColor: theme.custom.colors.success.light,
+              }}
+              onClick={() => triggerPaymentSuccess(orderId)}
+            >
+              {t('common.pay')}
+            </Button>
+          </Flex>
+        )}
 
         {getOrderLoading && <Skeleton active />}
 

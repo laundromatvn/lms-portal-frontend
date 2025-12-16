@@ -29,7 +29,7 @@ interface Props {
 export const PortalLayoutV2: React.FC<Props> & {
   MainHeader: typeof MainHeader;
   SubHeader: typeof SubHeader;
-} = ({ children, title, subTitle, onTitleClick, onBack, style }) => {
+} = ({ children, title, onTitleClick, onBack, style }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useIsMobile();

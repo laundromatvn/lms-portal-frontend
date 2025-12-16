@@ -260,6 +260,10 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
     setSelectedKey(matchingKey);
   }, [location.pathname, allMenuItems]);
 
+  useEffect(() => {
+    onCollapseChange?.(collapsed);
+  }, [collapsed, onCollapseChange]);
+
   const handleLogout = () => {
     userStorage.clear();
     tenantStorage.clear();

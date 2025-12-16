@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Flex, Table, Typography } from 'antd';
-
-import { useTheme } from '@shared/theme/useTheme';
+import { Flex, Table, Typography } from 'antd';
 
 import {
   useListOrderDetailApi,
@@ -22,7 +20,7 @@ interface Props {
   order?: Order;
 }
 
-export const OrderDetailListSection: React.FC<Props> = ({ order }) => {
+export const TableView: React.FC<Props> = ({ order }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -31,10 +29,33 @@ export const OrderDetailListSection: React.FC<Props> = ({ order }) => {
   const [pageSize, setPageSize] = useState(10);
 
   const columns = [
-    { title: t('common.machineName'), dataIndex: 'machine_name', width: 200 },
-    { title: t('common.machineType'), dataIndex: 'machine_type', width: 200 },
-    { title: t('common.price'), dataIndex: 'price', width: 200 },
-    { title: t('common.status'), dataIndex: 'status', width: 200 },
+    { title: t('common.machineName'), dataIndex: 'machine_name', width: 200,
+      render: (text: string, record: any) => (
+        <Typography.Link
+          onClick={() => navigate(`/machines/${record.machine_id}/detail`)}
+          style={{ cursor: 'pointer' }}
+        >
+          {text}
+        </Typography.Link>
+      ),
+    },
+    { title: t('common.machineType'), dataIndex: 'machine_type', width: 200,
+      render: (text: string) => (
+        <DynamicTag value={text} />
+      ),
+    },
+    { title: t('common.price'), dataIndex: 'price', width: 200,
+      render: (text: string) => (
+        <Typography.Text style={{ textAlign: 'right', width: '100%' }}>
+          {formatCurrencyCompact(text)}
+        </Typography.Text>
+      ),
+    },
+    { title: t('common.status'), dataIndex: 'status', width: 200,
+      render: (text: string) => (
+        <DynamicTag value={text} />
+      ),
+    },
   ];
 
   const {
@@ -47,10 +68,10 @@ export const OrderDetailListSection: React.FC<Props> = ({ order }) => {
     if (listOrderDetailData) {
       setDataSource(listOrderDetailData.data.map((item) => ({
         id: item.id,
-        machine_name: <Typography.Link onClick={() => navigate(`/machines/${item.machine_id}/detail`)}>{item.machine_name || '-'}</Typography.Link>,
-        machine_type: <DynamicTag value={item.machine_type as string} />,
-        price: formatCurrencyCompact(item.price),
-        status: <DynamicTag value={item.status} />,
+        machine_name: item.machine_name || '-',
+        machine_type: item.machine_type as string,
+        price: item.price,
+        status: item.status,
       })));
     }
   }, [listOrderDetailData]);
