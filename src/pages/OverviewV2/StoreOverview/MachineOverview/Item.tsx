@@ -15,8 +15,8 @@ import type { Machine } from '@shared/types/machine';
 
 import { Box } from '@shared/components/Box';
 import { DynamicTag } from '@shared/components/DynamicTag';
-import { StartMachineModal } from '@shared/components/Modals/StartMachineModal';
 import { MachineSettingModal } from '@shared/components/Modals/MachineSettingModal';
+import { StartMachineDrawer } from '@shared/components/Drawer/StartMachineDrawer';
 
 import formatCurrencyCompact from '@shared/utils/currency';
 
@@ -31,7 +31,7 @@ export const MachineOverviewItem: React.FC<Props> = ({ machine, onStartSuccess, 
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const [isStartMachineModalOpen, setIsStartMachineModalOpen] = useState(false);
+  const [isStartMachineDrawerOpen, setIsStartMachineDrawerOpen] = useState(false);
   const [isMachineSettingModalOpen, setIsMachineSettingModalOpen] = useState(false);
 
   return (
@@ -69,7 +69,7 @@ export const MachineOverviewItem: React.FC<Props> = ({ machine, onStartSuccess, 
             <Button
               type="default"
               icon={<Play />}
-              onClick={() => setIsStartMachineModalOpen(true)}
+              onClick={() => setIsStartMachineDrawerOpen(true)}
             />
 
             {onSaveMachine && (
@@ -83,10 +83,10 @@ export const MachineOverviewItem: React.FC<Props> = ({ machine, onStartSuccess, 
         </Flex>
       </Box>
 
-      <StartMachineModal
+      <StartMachineDrawer
         machine={machine}
-        isModalOpen={isStartMachineModalOpen}
-        setIsModalOpen={setIsStartMachineModalOpen}
+        isDrawerOpen={isStartMachineDrawerOpen}
+        setIsDrawerOpen={setIsStartMachineDrawerOpen}
         onStartSuccess={onStartSuccess}
       />
 

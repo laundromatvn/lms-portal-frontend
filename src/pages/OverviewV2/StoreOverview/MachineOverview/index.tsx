@@ -48,7 +48,7 @@ export const MachineOverview: React.FC<Props> = ({ store, portalDashboardAccess,
 
     // Use datetime filters from MoreFilterDrawer if provided, otherwise use chip filter dates
     const hasCustomDatetime = (datetimeFilters?.start_datetime && datetimeFilters.start_datetime !== '') ||
-                               (datetimeFilters?.end_datetime && datetimeFilters.end_datetime !== '');
+                              (datetimeFilters?.end_datetime && datetimeFilters.end_datetime !== '');
 
     if (hasCustomDatetime) {
       // If custom datetime filters are set, use them (can be undefined if cleared)
