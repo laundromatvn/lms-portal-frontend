@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Layout } from 'antd';
+import { Layout, Typography } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 import { useIsMobile } from '@shared/hooks/useIsMobile';
@@ -12,7 +12,7 @@ import { MobileDrawer } from '@shared/components/common/MobileDrawer';
 import { MainHeader } from './MainHeader';
 import { SubHeader } from './SubHeader';
 
-const { Content } = Layout;
+const { Content, Footer } = Layout;
 
 const HEADER_HEIGHT = 64;
 const SUB_HEADER_HEIGHT = 56;
@@ -96,7 +96,9 @@ export const PortalLayoutV2: React.FC<Props> & {
           flex: 1,
           overflow: 'hidden',
           marginLeft: isMobile ? 0 : sidebarWidth,
+          paddingBottom: isMobile ? 48 : 0,
           transition: 'margin-left 0.2s ease',
+          backgroundColor: theme.custom.colors.background.surface,
         }}
       >
         {isMobile ? renderMobileHeader() : renderDesktopHeader()}
@@ -110,7 +112,6 @@ export const PortalLayoutV2: React.FC<Props> & {
             width: '100%',
             height: '100%',
             padding: theme.custom.spacing.medium,
-            backgroundColor: theme.custom.colors.background.surface,
           }}
         >
           {children}
