@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { InputNumber, Typography } from 'antd';
+import { Button, Flex, InputNumber, Typography } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -10,6 +10,7 @@ import { type Machine } from '@shared/types/machine';
 import { Box } from '@shared/components/Box';
 
 import { formatCurrencyCompact } from '@shared/utils/currency';
+import { MachineTypeEnum } from '@shared/enums/MachineTypeEnum';
 
 interface Props {
   machine: Machine;
@@ -19,8 +20,18 @@ interface Props {
 export const StartMachineDrawerStartMachineSection: React.FC<Props> = ({ machine, onAmountChange }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+  
+  const basePrice = machine.machine_type === MachineTypeEnum.WASHER
+    ? Number(machine.base_price) : Number(machine.base_price) * 10;
+  const defaultAmounts = [
+    basePrice,
+    basePrice * 2,
+    basePrice * 3,
+    basePrice * 4,
+    basePrice * 5,
+  ];
 
-  const [amount, setAmount] = useState<number>(0);
+  const [amount, setAmount] = useState<number>(basePrice);
 
   const calculatePulses = (amount: number): number => {
     if (!amount || !machine.coin_value) return 0;
@@ -31,6 +42,7 @@ export const StartMachineDrawerStartMachineSection: React.FC<Props> = ({ machine
     <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
       <InputNumber
         size="large"
+        value={amount}
         style={{ width: '100%' }}
         placeholder={t('common.enterAmount')}
         min={1}
@@ -45,6 +57,24 @@ export const StartMachineDrawerStartMachineSection: React.FC<Props> = ({ machine
           return (cleaned === '' ? 1 : Number(cleaned)) as 1;
         }}
       />
+
+      <Flex justify="flex-end" wrap="wrap" gap={theme.custom.spacing.small}>
+        {defaultAmounts.map((defaultAmount) => (
+          <Button
+            type="default"
+            shape="round"
+            size="large"
+            onClick={() => setAmount(defaultAmount)}
+            style={{ 
+              backgroundColor: defaultAmount === amount ? theme.custom.colors.info.light : theme.custom.colors.neutral.light,
+              borderColor: defaultAmount === amount ? theme.custom.colors.info.default : theme.custom.colors.neutral.light,
+              color: defaultAmount === amount ? theme.custom.colors.info.default : theme.custom.colors.text.primary,
+            }}
+          >
+            {formatCurrencyCompact(defaultAmount)}
+          </Button>
+        ))}
+      </Flex>
 
       <Box
         vertical

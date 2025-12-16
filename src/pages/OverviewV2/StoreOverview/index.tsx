@@ -29,9 +29,9 @@ export const StoreOverview: React.FC<Props> = ({ store, onFilterClick, datetimeF
 
   const filterOptions = [
     { label: t('overviewV2.today'), value: 'today' },
+    { label: t('overviewV2.yesterday'), value: 'yesterday' },
     { label: t('overviewV2.thisWeek'), value: 'this_week' },
     { label: t('overviewV2.thisMonth'), value: 'this_month' },
-    { label: t('overviewV2.thisYear'), value: 'this_year' },
     { label: t('common.all'), value: 'all' },
   ];
 

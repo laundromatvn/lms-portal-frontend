@@ -210,15 +210,15 @@ export const OrderTableView: React.FC = () => {
       if (selectedFilters.find((filter) => filter.value === 'today')) {
         start_date = today.startOf('day').toISOString();
         end_date = today.endOf('day').toISOString();
+      } else if (selectedFilters.find((filter) => filter.value === 'yesterday')) {
+        start_date = today.subtract(1, 'day').startOf('day').toISOString();
+        end_date = today.subtract(1, 'day').endOf('day').toISOString();
       } else if (selectedFilters.find((filter) => filter.value === 'this_week')) {
         start_date = today.startOf('week').toISOString();
         end_date = today.endOf('week').toISOString();
       } else if (selectedFilters.find((filter) => filter.value === 'this_month')) {
         start_date = today.startOf('month').toISOString();
         end_date = today.endOf('month').toISOString();
-      } else if (selectedFilters.find((filter) => filter.value === 'this_year')) {
-        start_date = today.startOf('year').toISOString();
-        end_date = today.endOf('year').toISOString();
       } else if (selectedFilters.find((filter) => filter.value === 'all')) {
         start_date = undefined;
         end_date = undefined;
@@ -322,9 +322,9 @@ export const OrderTableView: React.FC = () => {
         <ChipFilter
           options={[
             { label: t('common.today'), value: 'today' },
+            { label: t('common.yesterday'), value: 'yesterday' },
             { label: t('common.thisWeek'), value: 'this_week' },
             { label: t('common.thisMonth'), value: 'this_month' },
-            { label: t('common.thisYear'), value: 'this_year' },
             { label: t('common.all'), value: 'all' },
           ]}
           values={selectedFilters}
