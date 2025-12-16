@@ -1,14 +1,13 @@
 import React from 'react';
 
-import { Button, Flex, Skeleton, Typography } from 'antd';
+import { Button, Flex, Skeleton } from 'antd';
 
-import { PenNewSquare, Refresh } from '@solar-icons/react';
+import { PenNewSquare } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
-import LeftRightSection from '@shared/components/LeftRightSection';
-
 import { Box } from '@shared/components/Box';
+import { BaseSectionTitle } from './BaseSectionTitle';
 
 interface Props {
   title: string;
@@ -32,22 +31,14 @@ export const BaseDetailSection: React.FC<Props> = ({
   return (
     <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%', ...style }} loading={loading}>
       <Flex justify="space-between" align="center" style={{ width: '100%' }}>
-        <Typography.Title level={3}>{title}</Typography.Title>
+        <BaseSectionTitle title={title} onRefresh={onRefresh} />
 
         <Flex justify="end" gap={theme.custom.spacing.small}>
-          {onRefresh && (
-            <Button
-              type="text"
-              onClick={onRefresh}
-              icon={<Refresh size={18} />}
-            />
-          )}
-
           {onEdit && (
             <Button
               type="link"
               onClick={onEdit}
-              icon={<PenNewSquare size={18} />}
+              icon={<PenNewSquare size={16} />}
             />
           )}
         </Flex>

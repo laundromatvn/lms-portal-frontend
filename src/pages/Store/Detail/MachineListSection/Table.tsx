@@ -30,10 +30,9 @@ import { type Store } from '@shared/types/store';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
-import { BaseModal } from '@shared/components/BaseModal';
 import LeftRightSection from '@shared/components/LeftRightSection';
-import { MachineConfigModalContent } from './MachineConfigModalContent';
-import { StartMachineModalContent } from './StartMachineModalContent';
+import { MachineSettingDrawer } from '@shared/components/Drawer/MachineSettingDrawer';
+import { StartMachineDrawer } from '@shared/components/Drawer/StartMachineDrawer';
 
 
 interface Props {
@@ -46,14 +45,13 @@ export const MachineListTableView: React.FC<Props> = ({ store }) => {
 
   const [api, contextHolder] = notification.useNotification();
 
-  const [dataSource, setDataSource] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isStartMachineModalOpen, setIsStartMachineModalOpen] = useState(false);
-  const [selectedMachineId, setSelectedMachineId] = useState<string | null>(null);
+  const [isMachineSettingDrawerOpen, setIsMachineSettingDrawerOpen] = useState(false);
+  const [isStartMachineDrawerOpen, setIsStartMachineDrawerOpen] = useState(false);
   const [selectedMachine, setSelectedMachine] = useState<any | null>(null);
+  const [selectedMachineForConfig, setSelectedMachineForConfig] = useState<any | null>(null);
   const [selectedControllerId, setSelectedControllerId] = useState<string | null>(null);
 
   const columns = [
@@ -61,8 +59,39 @@ export const MachineListTableView: React.FC<Props> = ({ store }) => {
     { title: t('common.name'), dataIndex: 'name' },
     { title: t('common.machineType'), dataIndex: 'machine_type', width: 128 },
     { title: t('common.basePrice'), dataIndex: 'base_price', width: 128 },
-    { title: t('common.status'), dataIndex: 'status', render: (status: string) => <DynamicTag value={status} />, width: 128 },
-    { title: t('common.actions'), dataIndex: 'actions', width: 256 },
+    { title: t('common.status'), dataIndex: 'status',
+      render: (status: string) => (
+        <DynamicTag value={status} />
+      ),
+      width: 128
+    },
+    {
+      title: t('common.actions'), dataIndex: 'actions', width: 256,
+      render: (_: string, record: any) => (
+        <Flex gap={theme.custom.spacing.medium}>
+          <Button
+            type="default"
+            onClick={() => {
+              setIsStartMachineDrawerOpen(true);
+              setSelectedMachine(record);
+            }}
+            icon={<Play />}
+          />
+          <Button
+            type="default"
+            onClick={() => activateMachine(record.id)}
+            loading={activateMachineLoading}
+            icon={<Refresh />}
+          />
+          <Button type="default" onClick={() => {
+            setIsMachineSettingDrawerOpen(true);
+            setSelectedMachineForConfig(record);
+          }}
+            icon={<Settings />}
+          />
+        </Flex>
+      )
+    },
   ];
 
   const {
@@ -93,45 +122,6 @@ export const MachineListTableView: React.FC<Props> = ({ store }) => {
   }
 
   useEffect(() => {
-    if (listMachineData) {
-      setDataSource(listMachineData.data.map((item) => ({
-        relay_no: item.relay_no,
-        name: item.name,
-        machine_type: item.machine_type,
-        base_price: formatCurrencyCompact(item.base_price),
-        status: item.status,
-        actions: (
-          <Flex gap={theme.custom.spacing.medium}>
-            <Button
-              type="link"
-              onClick={() => {
-                setIsStartMachineModalOpen(true);
-                setSelectedMachineId(item.id);
-                setSelectedMachine(item);
-              }}
-            >
-              <Play weight="Bold" color={theme.custom.colors.success.default} />
-            </Button>
-            <Button
-              type="link"
-              onClick={() => activateMachine(item.id)}
-              loading={activateMachineLoading}
-            >
-              <Refresh weight="Bold" color={theme.custom.colors.success.default} />
-            </Button>
-            <Button type="link" onClick={() => {
-              setIsModalOpen(true);
-              setSelectedMachineId(item.id);
-            }}>
-              <Settings />
-            </Button>
-          </Flex>
-        ),
-      })));
-    }
-  }, [listMachineData]);
-
-  useEffect(() => {
     handleListMachine();
   }, [selectedControllerId]);
 
@@ -142,6 +132,12 @@ export const MachineListTableView: React.FC<Props> = ({ store }) => {
       page_size: pageSize,
     });
   }, [store]);
+
+  useEffect(() => {
+    if (listControllerData) {
+      setSelectedControllerId(listControllerData.data[0].id);
+    }
+  }, [listControllerData]);
 
   useEffect(() => {
     if (activateMachineData) {
@@ -161,23 +157,19 @@ export const MachineListTableView: React.FC<Props> = ({ store }) => {
   }, [activateMachineError]);
 
   return (
-    <BaseDetailSection title={t('common.machines')} >
+    <BaseDetailSection title={t('common.machines')} onRefresh={handleListMachine}>
       {contextHolder}
 
       <LeftRightSection
         left={(null)}
         right={(
           <>
-            <Button
-              onClick={() => handleListMachine()}
-              icon={<Refresh />}
-            />
-
             <Select
               options={listControllerData?.data.map((item) => ({
                 label: item.name,
                 value: item.id,
               }))}
+              value={selectedControllerId}
               onChange={(value) => setSelectedControllerId(value)}
               style={{ width: 240 }}
               loading={listControllerLoading}
@@ -189,7 +181,7 @@ export const MachineListTableView: React.FC<Props> = ({ store }) => {
       />
 
       <Table
-        dataSource={dataSource}
+        dataSource={listMachineData?.data}
         columns={columns}
         pagination={{
           pageSize,
@@ -209,70 +201,38 @@ export const MachineListTableView: React.FC<Props> = ({ store }) => {
         style={{ width: '100%' }}
       />
 
-      {selectedMachineId && (
-        <BaseModal
-          key={`config-${selectedMachineId}`}
-          closable={true}
-          onCancel={() => {
-            setIsModalOpen(false);
-            setSelectedMachineId(null);
+      {selectedMachineForConfig && (
+        <MachineSettingDrawer
+          key={`config-${selectedMachineForConfig.id}`}
+          machine={selectedMachineForConfig}
+          isDrawerOpen={isMachineSettingDrawerOpen}
+          setIsDrawerOpen={setIsMachineSettingDrawerOpen}
+          onSave={() => {
+            setSelectedMachineForConfig(null);
+            listMachine({
+              controller_id: selectedControllerId as string,
+              page,
+              page_size: pageSize
+            });
           }}
-          maskClosable={true}
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-        >
-          <MachineConfigModalContent
-            key={`config-content-${selectedMachineId}`}
-            machineId={selectedMachineId}
-            onClose={() => {
-              setIsModalOpen(false);
-              setSelectedMachineId(null);
-            }}
-            onSave={() => {
-              setSelectedMachineId(null);
-              listMachine({
-                controller_id: selectedControllerId as string,
-                page,
-                page_size: pageSize
-              });
-            }}
-          />
-        </BaseModal>
+        />
       )}
 
       {selectedMachine && (
-        <BaseModal
+        <StartMachineDrawer
           key={`start-${selectedMachine.id}`}
-          closable={true}
-          onCancel={() => {
-            setIsStartMachineModalOpen(false);
-            setSelectedMachineId(null);
+          machine={selectedMachine}
+          isDrawerOpen={isStartMachineDrawerOpen}
+          setIsDrawerOpen={setIsStartMachineDrawerOpen}
+          onStartSuccess={() => {
             setSelectedMachine(null);
+            listMachine({
+              controller_id: selectedControllerId as string,
+              page,
+              page_size: pageSize
+            });
           }}
-          maskClosable={true}
-          isModalOpen={isStartMachineModalOpen}
-          setIsModalOpen={setIsStartMachineModalOpen}
-        >
-          <StartMachineModalContent
-            key={`start-content-${selectedMachine.id}`}
-            machine={selectedMachine}
-            onClose={() => {
-              setIsStartMachineModalOpen(false);
-              setSelectedMachineId(null);
-              setSelectedMachine(null);
-            }}
-            onSuccess={() => {
-              setIsStartMachineModalOpen(false);
-              setSelectedMachineId(null);
-              setSelectedMachine(null);
-              listMachine({
-                controller_id: selectedControllerId as string,
-                page,
-                page_size: pageSize
-              });
-            }}
-          />
-        </BaseModal>
+        />
       )}
     </BaseDetailSection>
   );
