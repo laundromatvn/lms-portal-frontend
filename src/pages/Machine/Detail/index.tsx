@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -11,10 +11,6 @@ import {
   type GetMachineResponse,
 } from '@shared/hooks/useGetMachineApi';
 import {
-  useStartMachineApi,
-  type StartMachineResponse,
-} from '@shared/hooks/useStartMachineApi';
-import {
   useActivateMachineApi,
   type ActivateMachineResponse,
 } from '@shared/hooks/useActivateMachineApi';
@@ -24,12 +20,10 @@ import { useTheme } from '@shared/theme/useTheme';
 import { type Machine } from '@shared/types/machine';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
-import LeftRightSection from '@shared/components/LeftRightSection';
+import { StartMachineDrawer } from '@shared/components/Drawer/StartMachineDrawer';
 
 import { DetailSection } from './DetailSection';
 import { MachineConfigSection } from './ConfigSection';
-
-const DEFAULT_TOTAL_AMOUNT = 200000;
 
 export const MachineDetailPage: React.FC = () => {
   const { t } = useTranslation();
@@ -40,18 +34,14 @@ export const MachineDetailPage: React.FC = () => {
 
   const machineId = useParams().id;
 
+  const [isStartMachineDrawerOpen, setIsStartMachineDrawerOpen] = useState(false);
+
   const {
     getMachine,
     data: machineData,
     loading: machineLoading,
     error: machineError,
   } = useGetMachineApi<GetMachineResponse>();
-  const {
-    startMachine,
-    data: startMachineData,
-    loading: startMachineLoading,
-    error: startMachineError,
-  } = useStartMachineApi<StartMachineResponse>();
   const {
     activateMachine,
     data: activateMachineData,
@@ -72,24 +62,6 @@ export const MachineDetailPage: React.FC = () => {
       getMachine(machineId);
     }
   }, [machineId]);
-
-  useEffect(() => {
-    if (startMachineError) {
-      api.error({
-        message: t('messages.startMachineError'),
-      });
-    }
-  }, [startMachineError]);
-
-  useEffect(() => {
-    if (startMachineData) {
-      api.success({
-        message: t('messages.startMachineSuccess'),
-      });
-
-      getMachine(machineId as string);
-    }
-  }, [startMachineData]);
 
   useEffect(() => {
     if (activateMachineError) {
@@ -125,9 +97,7 @@ export const MachineDetailPage: React.FC = () => {
             onClick={() => activateMachine(machineId as string)}
             icon={<CheckCircle weight="Outline" />}
             loading={activateMachineLoading}
-            style={{
-              backgroundColor: theme.custom.colors.background.light,
-            }}
+            style={{ backgroundColor: theme.custom.colors.background.light }}
           >
             {t('common.reset')}
           </Button>
@@ -135,11 +105,8 @@ export const MachineDetailPage: React.FC = () => {
           <Button
             type="default"
             icon={<PlayCircle weight="Outline" />}
-            onClick={() => startMachine(machineId as string, DEFAULT_TOTAL_AMOUNT)}
-            loading={startMachineLoading}
-            style={{
-              backgroundColor: theme.custom.colors.background.light,
-            }}
+            onClick={() => setIsStartMachineDrawerOpen(true)}
+            style={{ backgroundColor: theme.custom.colors.background.light }}
           >
             {t('common.start')}
           </Button>
@@ -154,6 +121,16 @@ export const MachineDetailPage: React.FC = () => {
           </>
         )}
       </Flex>
+
+      <StartMachineDrawer
+        machine={machineData as Machine}
+        isDrawerOpen={isStartMachineDrawerOpen}
+        setIsDrawerOpen={setIsStartMachineDrawerOpen}
+        onStartSuccess={() => {
+          getMachine(machineId as string);
+          setIsStartMachineDrawerOpen(false);
+        }}
+      />
     </PortalLayoutV2 >
   );
 };
