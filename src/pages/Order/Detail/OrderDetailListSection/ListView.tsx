@@ -82,14 +82,17 @@ export const ListView: React.FC<Props> = ({ order }) => {
                     {`${t('common.machine')} ${item.machine_name}`}
                   </Typography.Link>
 
+                  <DynamicTag value={item.status} style={{ marginRight: 0 }} />
+                </Flex>
+
+                <Flex justify="space-between" align="center" gap={theme.custom.spacing.small}>
+                  <Typography.Text type="secondary">
+                    {item.machine_type}
+                  </Typography.Text>
+
                   <Typography.Text strong style={{ color: theme.custom.colors.success.default }}>
                     {formatCurrencyCompact(item.price)}
                   </Typography.Text>
-                </Flex>
-
-                <Flex justify="flex-end" align="center" gap={theme.custom.spacing.small}>
-                  <DynamicTag value={item.machine_type} style={{ marginRight: 0 }} />
-                  <DynamicTag value={item.status} style={{ marginRight: 0 }} />
                 </Flex>
               </Flex>
             </List.Item>
