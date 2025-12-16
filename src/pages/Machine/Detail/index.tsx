@@ -114,47 +114,46 @@ export const MachineDetailPage: React.FC = () => {
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <LeftRightSection
-          left={null}
-          right={(<Flex gap={theme.custom.spacing.medium}>
-            <Button
-              type="default"
-              icon={<PlayCircle weight="Outline" />}
-              onClick={() => startMachine(machineId as string, DEFAULT_TOTAL_AMOUNT)}
-              loading={startMachineLoading}
-              style={{
-                color: theme.custom.colors.success.default,
-                borderColor: theme.custom.colors.success.default,
-                backgroundColor: theme.custom.colors.background.light,
-              }}
-            >
-              {t('common.startMachine')}
-            </Button>
-            <Button 
-              type="default"
-              onClick={() => activateMachine(machineId as string)}
-              icon={<CheckCircle weight="Outline" />}
-              loading={activateMachineLoading}
-              style={{
-                color: theme.custom.colors.success.default,
-                borderColor: theme.custom.colors.success.default,
-                backgroundColor: theme.custom.colors.background.light,
-              }}
-            >
-              {t('common.activateMachine')}
-            </Button>
-          </Flex>)}
-        />
+        <Flex
+          justify="flex-end"
+          align="center"
+          gap={theme.custom.spacing.small}
+          style={{ width: '100%' }}
+        >
+          <Button
+            type="default"
+            onClick={() => activateMachine(machineId as string)}
+            icon={<CheckCircle weight="Outline" />}
+            loading={activateMachineLoading}
+            style={{
+              backgroundColor: theme.custom.colors.background.light,
+            }}
+          >
+            {t('common.reset')}
+          </Button>
 
-      {machineLoading && <Skeleton active />}
+          <Button
+            type="default"
+            icon={<PlayCircle weight="Outline" />}
+            onClick={() => startMachine(machineId as string, DEFAULT_TOTAL_AMOUNT)}
+            loading={startMachineLoading}
+            style={{
+              backgroundColor: theme.custom.colors.background.light,
+            }}
+          >
+            {t('common.start')}
+          </Button>
+        </Flex>
 
-      {!machineLoading && machineData && (
-        <>
-          <DetailSection machine={machineData as Machine} />
-          <MachineConfigSection machine={machineData as Machine} />
-        </>
-      )}
-    </Flex>
+        {machineLoading && <Skeleton active />}
+
+        {!machineLoading && machineData && (
+          <>
+            <DetailSection machine={machineData as Machine} />
+            <MachineConfigSection machine={machineData as Machine} />
+          </>
+        )}
+      </Flex>
     </PortalLayoutV2 >
   );
 };
