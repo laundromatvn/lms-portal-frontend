@@ -8,7 +8,6 @@ import {
   type ListStoreResponse,
 } from '@shared/hooks/useListStoreApi';
 
-import { PortalLayout } from '@shared/components/layouts/PortalLayout';
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 
 import { StoreSelection } from './StoreSelection';

@@ -31,7 +31,7 @@ export const StoreOverview: React.FC<Props> = ({ store }) => {
   ];
 
   const [selectedFilters, setSelectedFilters] = useState<StoreOverviewFilter[]>([
-    { label: t('common.all'), value: 'all' },
+    filterOptions[0],
   ]);
 
   const {

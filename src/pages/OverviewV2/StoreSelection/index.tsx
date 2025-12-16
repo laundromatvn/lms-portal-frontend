@@ -45,7 +45,7 @@ export const StoreSelection: React.FC<Props> = ({ stores, loading, onSelectStore
 
       <Flex
         vertical
-        justify="center"
+        justify="flex-start"
         align="center"
         gap={theme.custom.spacing.small}
         style={{ width: '100%', maxWidth: 600, overflowY: 'auto' }}
