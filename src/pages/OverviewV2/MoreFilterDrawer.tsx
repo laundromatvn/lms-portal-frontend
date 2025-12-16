@@ -2,23 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Dayjs } from 'dayjs';
 
-import { Button, Drawer, Flex, Select, DatePicker } from 'antd';
+import { Button, Drawer, Flex, DatePicker } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 import { useIsMobile } from '@shared/hooks/useIsMobile';
-
-import {
-  useListStoreApi
-} from '@shared/hooks/useListStoreApi';
 
 import dayjs from '@shared/utils/dayjs';
 
 interface MoreFilterDrawerProps {
   open: boolean;
   onClose: () => void;
-  onApplyFilters: (filters: { store_ids: string[]; start_datetime: string; end_datetime: string }) => void;
+  onApplyFilters: (filters: { start_datetime: string; end_datetime: string }) => void;
   initialFilters?: {
-    store_ids: string[];
     start_datetime: string;
     end_datetime: string;
   };
@@ -29,7 +24,6 @@ export const MoreFilterDrawer: React.FC<MoreFilterDrawerProps> = ({ open, onClos
   const theme = useTheme();
   const isMobile = useIsMobile();
 
-  const [storeIds, setStoreIds] = useState<string[]>(initialFilters?.store_ids || []);
   const [startDatetime, setStartDatetime] = useState<Dayjs | null>(
     initialFilters?.start_datetime ? dayjs(initialFilters.start_datetime).startOf('day') : null
   );
@@ -39,34 +33,22 @@ export const MoreFilterDrawer: React.FC<MoreFilterDrawerProps> = ({ open, onClos
 
   useEffect(() => {
     if (open) {
-      setStoreIds(initialFilters?.store_ids || []);
       setStartDatetime(initialFilters?.start_datetime ? dayjs(initialFilters.start_datetime).startOf('day') : null);
       setEndDatetime(initialFilters?.end_datetime ? dayjs(initialFilters.end_datetime).endOf('day') : null);
     }
   }, [open, initialFilters]);
 
-  const {
-    listStore,
-    data: listStoreData,
-    loading: listStoreLoading,
-  } = useListStoreApi();
-
   const handleApplyFilters = () => {
     onApplyFilters({
-      store_ids: storeIds,
       start_datetime: startDatetime ? startDatetime.startOf('day').toISOString() : '',
       end_datetime: endDatetime ? endDatetime.endOf('day').toISOString() : '',
     });
     onClose();
   };
 
-  useEffect(() => {
-    listStore({ page: 1, page_size: 100 });
-  }, [open]);
-
   return (
     <Drawer
-      title={t('order.list.filters')}
+      title={t('overviewV2.filters')}
       open={open}
       onClose={onClose}
       width={isMobile ? '100%' : undefined}
@@ -78,21 +60,6 @@ export const MoreFilterDrawer: React.FC<MoreFilterDrawerProps> = ({ open, onClos
       }
     >
       <Flex vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-        <Select
-          size="large"
-          mode="multiple"
-          placeholder={t('order.list.selectStore')}
-          loading={listStoreLoading}
-          options={listStoreData?.data.map((store: any) => ({
-            label: store.name,
-            value: store.id,
-          })) || []}
-          style={{ width: '100%' }}
-          value={storeIds}
-          onChange={(value) => setStoreIds(value)}
-          allowClear
-        />
-
         <DatePicker
           size="large"
           placeholder={t('common.startTime')}

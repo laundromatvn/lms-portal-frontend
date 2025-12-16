@@ -479,6 +479,7 @@
     "thisWeek": "Tuần này",
     "thisMonth": "Tháng này",
     "thisYear": "Năm này",
+    "filters": "Bộ lọc",
     "revenue": "Doanh thu ({{date}})",
     "totalOrders": "Tổng đơn hàng ({{date}})",
     "finishedOrdersRate": "Tỷ lệ hoàn thành ({{date}})",

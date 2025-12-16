@@ -16,9 +16,14 @@ import { StoreOverviewDesktopView } from './StoreOverviewDesktopView';
 
 interface Props {
   store: Store;
+  onFilterClick?: () => void;
+  datetimeFilters?: {
+    start_datetime: string;
+    end_datetime: string;
+  };
 }
 
-export const StoreOverview: React.FC<Props> = ({ store }) => {
+export const StoreOverview: React.FC<Props> = ({ store, onFilterClick, datetimeFilters }) => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
 
@@ -61,6 +66,8 @@ export const StoreOverview: React.FC<Props> = ({ store }) => {
       filterOptions={filterOptions}
       selectedFilters={selectedFilters}
       onFilterChange={onFilterChange}
+      onFilterClick={onFilterClick}
+      datetimeFilters={datetimeFilters}
       portalDashboardAccess={accessData as unknown as PortalDashboardAccess}
     />
   ) : (
@@ -69,6 +76,8 @@ export const StoreOverview: React.FC<Props> = ({ store }) => {
       filterOptions={filterOptions}
       selectedFilters={selectedFilters}
       onFilterChange={onFilterChange}
+      onFilterClick={onFilterClick}
+      datetimeFilters={datetimeFilters}
       portalDashboardAccess={accessData as unknown as PortalDashboardAccess}
     />
   );

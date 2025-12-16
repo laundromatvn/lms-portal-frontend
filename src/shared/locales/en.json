@@ -483,6 +483,7 @@
     "machine": "Machine",
     "permissions": "Permissions",
     "moreFilters": "More Filters",
+    "filters": "Filters",
     "today": "Today",
     "thisWeek": "This Week",
     "thisMonth": "This Month",

@@ -12,10 +12,16 @@ import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 
 import { StoreSelection } from './StoreSelection';
 import { StoreOverview } from './StoreOverview';
+import { MoreFilterDrawer } from './MoreFilterDrawer';
 
 export const OverviewPage: React.FC = () => {
   const [selectedStore, setSelectedStore] = useState<Store>();
   const navigate = useNavigate();
+  const [moreFilterDrawerOpen, setMoreFilterDrawerOpen] = useState(false);
+  const [appliedFilters, setAppliedFilters] = useState<{ start_datetime: string; end_datetime: string }>({
+    start_datetime: '',
+    end_datetime: '',
+  });
 
   const [searchParams, setSearchParams] = useSearchParams();
   const storeId = searchParams.get('store_id');
@@ -57,7 +63,25 @@ export const OverviewPage: React.FC = () => {
         />
       )}
 
-      {selectedStore && <StoreOverview store={selectedStore} />}
+      {selectedStore && (
+        <StoreOverview
+          store={selectedStore}
+          onFilterClick={() => setMoreFilterDrawerOpen(true)}
+          datetimeFilters={appliedFilters}
+        />
+      )}
+
+      <MoreFilterDrawer
+        open={moreFilterDrawerOpen}
+        onClose={() => setMoreFilterDrawerOpen(false)}
+        initialFilters={appliedFilters}
+        onApplyFilters={(filters: { start_datetime: string; end_datetime: string }) => {
+          setAppliedFilters({
+            start_datetime: filters.start_datetime || '',
+            end_datetime: filters.end_datetime || '',
+          });
+        }}
+      />
     </PortalLayoutV2>
   );
 };

@@ -19,6 +19,11 @@ interface Props {
   filterOptions: StoreOverviewFilter[];
   selectedFilters: StoreOverviewFilter[];
   onFilterChange: (filters: StoreOverviewFilter[]) => void;
+  onFilterClick?: () => void;
+  datetimeFilters?: {
+    start_datetime: string;
+    end_datetime: string;
+  };
   portalDashboardAccess: PortalDashboardAccess;
 }
 
@@ -27,6 +32,8 @@ export const StoreOverviewDesktopView: React.FC<Props> = ({
   filterOptions,
   selectedFilters,
   onFilterChange,
+  onFilterClick,
+  datetimeFilters,
   portalDashboardAccess,
 }) => {
   const theme = useTheme();
@@ -44,13 +51,23 @@ export const StoreOverviewDesktopView: React.FC<Props> = ({
         options={filterOptions}
         values={selectedFilters}
         onChange={onFilterChange}
+        onFilterClick={onFilterClick}
         style={{ justifyContent: 'flex-end' }}
       />
 
-      {portalDashboardAccess?.portal_dashboard_overview && <StoreKeyMetrics store={store} filters={selectedFilters} />}
-      {portalDashboardAccess?.portal_dashboard_order_management && <TopOrderOverview store={store} filters={selectedFilters} />}
+      {portalDashboardAccess?.portal_dashboard_overview && (
+        <StoreKeyMetrics store={store} filters={selectedFilters} datetimeFilters={datetimeFilters} />
+      )}
+      {portalDashboardAccess?.portal_dashboard_order_management && (
+        <TopOrderOverview store={store} filters={selectedFilters} datetimeFilters={datetimeFilters} />
+      )}
       {portalDashboardAccess?.portal_dashboard_machine_management && (
-        <MachineOverview store={store} filters={selectedFilters} portalDashboardAccess={portalDashboardAccess} />
+        <MachineOverview
+          store={store}
+          filters={selectedFilters}
+          datetimeFilters={datetimeFilters}
+          portalDashboardAccess={portalDashboardAccess}
+        />
       )}
     </Flex>
   );
