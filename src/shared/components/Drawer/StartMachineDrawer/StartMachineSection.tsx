@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, Flex, InputNumber, Typography } from 'antd';
@@ -31,7 +31,12 @@ export const StartMachineDrawerStartMachineSection: React.FC<Props> = ({ machine
     basePrice * 5,
   ];
 
-  const [amount, setAmount] = useState<number>(basePrice);
+  const [amount, setAmount] = useState<number>(0);
+
+  useEffect(() => {
+    setAmount(basePrice);
+    onAmountChange(basePrice);
+  }, [machine]);
 
   const calculatePulses = (amount: number): number => {
     if (!amount || !machine.coin_value) return 0;
@@ -46,7 +51,7 @@ export const StartMachineDrawerStartMachineSection: React.FC<Props> = ({ machine
         style={{ width: '100%' }}
         placeholder={t('common.enterAmount')}
         min={1}
-        onChange={(value) => {
+        onChange={value => {
           setAmount(value || 0);
           onAmountChange(value || 0);
         }}
@@ -64,11 +69,20 @@ export const StartMachineDrawerStartMachineSection: React.FC<Props> = ({ machine
             type="default"
             shape="round"
             size="large"
-            onClick={() => setAmount(defaultAmount)}
+            onClick={() => {
+              setAmount(defaultAmount);
+              onAmountChange(defaultAmount);
+            }}
             style={{ 
-              backgroundColor: defaultAmount === amount ? theme.custom.colors.info.light : theme.custom.colors.neutral.light,
-              borderColor: defaultAmount === amount ? theme.custom.colors.info.default : theme.custom.colors.neutral.light,
-              color: defaultAmount === amount ? theme.custom.colors.info.default : theme.custom.colors.text.primary,
+              backgroundColor: defaultAmount === amount
+                ? theme.custom.colors.info.light
+                : theme.custom.colors.neutral.light,
+              borderColor: defaultAmount === amount
+                ? theme.custom.colors.info.default
+                : theme.custom.colors.neutral.light,
+              color: defaultAmount === amount
+                ? theme.custom.colors.info.default
+                : theme.custom.colors.text.primary,
             }}
           >
             {formatCurrencyCompact(defaultAmount)}
