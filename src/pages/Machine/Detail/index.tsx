@@ -11,6 +11,10 @@ import {
   type GetMachineResponse,
 } from '@shared/hooks/useGetMachineApi';
 import {
+  useStartMachineApi,
+  type StartMachineResponse,
+} from '@shared/hooks/useStartMachineApi';
+import {
   useActivateMachineApi,
   type ActivateMachineResponse,
 } from '@shared/hooks/useActivateMachineApi';
@@ -82,7 +86,10 @@ export const MachineDetailPage: React.FC = () => {
   }, [activateMachineData, machineId]);
 
   return (
-    <PortalLayoutV2 title={machineData?.name} onBack={() => navigate(-1)}>
+    <PortalLayoutV2
+      title={`${t('common.machine')} ${machineData?.name || machineData?.relay_no}`}
+      onBack={() => navigate(-1)}
+    >
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>

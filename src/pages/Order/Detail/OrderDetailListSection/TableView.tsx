@@ -24,18 +24,17 @@ export const TableView: React.FC<Props> = ({ order }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const [dataSource, setDataSource] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
   const columns = [
     { title: t('common.machineName'), dataIndex: 'machine_name', width: 200,
-      render: (text: string, record: any) => (
+      render: (_: string, record: any) => (
         <Typography.Link
           onClick={() => navigate(`/machines/${record.machine_id}/detail`)}
           style={{ cursor: 'pointer' }}
         >
-          {text}
+          {t('common.machine')} {record.machine_name || record.machine_relay_no}
         </Typography.Link>
       ),
     },
@@ -65,18 +64,6 @@ export const TableView: React.FC<Props> = ({ order }) => {
   } = useListOrderDetailApi<ListOrderDetailResponse>();
 
   useEffect(() => {
-    if (listOrderDetailData) {
-      setDataSource(listOrderDetailData.data.map((item) => ({
-        id: item.id,
-        machine_name: item.machine_name || '-',
-        machine_type: item.machine_type as string,
-        price: item.price,
-        status: item.status,
-      })));
-    }
-  }, [listOrderDetailData]);
-
-  useEffect(() => {
     if (order?.id) {
       listOrderDetail({
         order_id: order?.id,
@@ -90,7 +77,7 @@ export const TableView: React.FC<Props> = ({ order }) => {
     <BaseDetailSection title={t('common.orderDetailList')} >
       <Flex vertical style={{ width: '100%', overflow: 'auto' }}>
         <Table
-          dataSource={dataSource}
+          dataSource={listOrderDetailData?.data}
           columns={columns}
           pagination={{
             pageSize,

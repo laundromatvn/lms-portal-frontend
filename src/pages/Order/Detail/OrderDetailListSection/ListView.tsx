@@ -27,7 +27,6 @@ export const ListView: React.FC<Props> = ({ order }) => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const [dataSource, setDataSource] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
@@ -36,19 +35,6 @@ export const ListView: React.FC<Props> = ({ order }) => {
     data: listOrderDetailData,
     loading: listOrderDetailLoading,
   } = useListOrderDetailApi<ListOrderDetailResponse>();
-
-  useEffect(() => {
-    if (listOrderDetailData) {
-      setDataSource(listOrderDetailData.data.map((item) => ({
-        id: item.id,
-        machine_id: item.machine_id,
-        machine_name: item.machine_name || item.machine_relay_no,
-        machine_type: item.machine_type as string,
-        price: item.price,
-        status: item.status,
-      })));
-    }
-  }, [listOrderDetailData]);
 
   useEffect(() => {
     if (order?.id) {
@@ -64,7 +50,7 @@ export const ListView: React.FC<Props> = ({ order }) => {
     <BaseDetailSection title={t('common.orderDetailList')} >
       <Flex vertical style={{ width: '100%', overflow: 'auto' }}>
         <List
-          dataSource={dataSource}
+          dataSource={listOrderDetailData?.data}
           renderItem={(item) => (
             <List.Item
               style={{
@@ -79,7 +65,7 @@ export const ListView: React.FC<Props> = ({ order }) => {
               <Flex vertical gap={theme.custom.spacing.small} style={{ width: '100%' }}>
                 <Flex justify="space-between" align="center" gap={theme.custom.spacing.small}>
                   <Typography.Link strong onClick={() => navigate(`/machines/${item.machine_id}/detail`)}>
-                    {`${t('common.machine')} ${item.machine_name}`}
+                    {`${t('common.machine')} ${item.machine_name || item.machine_relay_no}`}
                   </Typography.Link>
 
                   <DynamicTag value={item.status} style={{ marginRight: 0 }} />
