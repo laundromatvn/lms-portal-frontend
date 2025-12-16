@@ -39,6 +39,7 @@
     "thisMonth": "Tháng này",
     "thisYear": "Năm này",
     "all": "Tất cả",
+    "apply": "Áp dụng",
     "signIn": "Đăng nhập",
     "password": "Mật khẩu",
     "email": "Email",
@@ -537,6 +538,12 @@
       "information": "Thông tin",
       "controllers": "Controllers",
       "machines": "Máy"
+    }
+  },
+  "order": {
+    "list": {
+      "filters": "Bộ lọc",
+      "selectStore": "Chọn cửa hàng"
     }
   }
 }

@@ -38,6 +38,7 @@
     "thisMonth": "This Month",
     "thisYear": "This Year",
     "all": "All",
+    "apply": "Apply",
     "loadMore": "Load More",
     "signIn": "Sign In",
     "password": "Password",
@@ -561,6 +562,14 @@
       "information": "Information",
       "controllers": "Controllers",
       "machines": "Machines"
+    }
+  },
+  "order": {
+    "list": {
+      "filters": "Filters",
+      "selectStore": "Select Store",
+      "totalWasher": "Total Washer: {{noWashers}}",
+      "totalDryer": "Total Dryer: {{noDryers}}"
     }
   }
 }

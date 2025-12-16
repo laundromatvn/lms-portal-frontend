@@ -61,7 +61,7 @@ export const ChipFilter: React.FC<ChipFilterProps> = ({
 
   return (
     <Flex
-      justify="start"
+      justify="flex-start"
       align="center"
       gap={theme.custom.spacing.small}
       style={{
@@ -78,33 +78,30 @@ export const ChipFilter: React.FC<ChipFilterProps> = ({
           scrollbarWidth: 'none',
         }}
       >
-        {options.map((option) => {
-          const selected = values.some((v) => v.value === option.value);
-
-          return (
-            <Chip
-              key={option.value}
-              label={option.label}
-              value={option.value}
-              selected={selected}
-              onChange={handleChange}
-            />
-          );
-        })}
-
-        {onFilterClick && <Button
-          icon={<FilterOutlined />}
-          shape="round"
-          onClick={onFilterClick}
-          style={{
-            backgroundColor: theme.custom.colors.background.surface,
-            borderColor: theme.custom.colors.neutral[300],
-            flexShrink: 0,
-          }}
-        >
-          {t('overviewV2.moreFilters')}
-        </Button>}
+        {options.map((option) => (
+          <Chip
+            key={option.value}
+            label={option.label}
+            value={option.value}
+            selected={values.some((v) => v.value === option.value)}
+            onChange={handleChange}
+          />
+        ))}
       </Flex>
+
+      {onFilterClick && (
+        <Button
+          type="default"
+          shape="round"
+          size="large"
+          onClick={onFilterClick}
+          icon={<FilterOutlined />}
+          style={{
+            minWidth: 40,
+            backgroundColor: theme.custom.colors.background.light,
+          }}
+        />
+      )}
     </Flex>
   );
 };

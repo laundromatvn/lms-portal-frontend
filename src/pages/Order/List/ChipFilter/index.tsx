@@ -80,20 +80,20 @@ export const ChipFilter: React.FC<ChipFilterProps> = ({ options, values = [] as 
             />
           );
         })}
-
-        {onFilterClick && <Button
-          icon={<FilterOutlined />}
-          shape="round"
-          onClick={onFilterClick}
-          style={{
-            backgroundColor: theme.custom.colors.background.surface,
-            borderColor: theme.custom.colors.neutral[300],
-            flexShrink: 0,
-          }}
-        >
-          {t('overviewV2.moreFilters')}
-        </Button>}
       </Flex>
+
+      {onFilterClick && <Button
+        icon={<FilterOutlined />}
+        shape="round"
+        onClick={onFilterClick}
+        style={{
+          backgroundColor: theme.custom.colors.background.surface,
+          borderColor: theme.custom.colors.neutral[300],
+          flexShrink: 0,
+        }}
+      >
+        {t('overviewV2.moreFilters')}
+      </Button>}
     </Flex>
   );
 };

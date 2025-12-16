@@ -12,6 +12,7 @@ import { PaymentStatusEnum } from '@shared/enums/PaymentStatusEnum';
 
 export type ListOrderRequest = {
   tenant_id?: string;
+  store_ids?: string[];
   status?: OrderStatusEnum;
   payment_status?: PaymentStatusEnum;
   start_date?: string;
@@ -38,7 +39,7 @@ export const useListOrderApi = <T = ListOrderResponse>() => {
     error: null,
   });
 
-  const listOrder = useCallback(async ({ tenant_id, status, payment_status, start_date, end_date, query, page = 1, page_size = 10, order_by, order_direction }: ListOrderRequest) => {
+  const listOrder = useCallback(async ({ tenant_id, store_ids, status, payment_status, start_date, end_date, query, page = 1, page_size = 10, order_by, order_direction }: ListOrderRequest) => {
       setState(prevState => ({ ...prevState, loading: true, error: null }));
 
     const url = `${getBackendUrl()}/api/v1/order`
@@ -50,6 +51,10 @@ export const useListOrderApi = <T = ListOrderResponse>() => {
 
     if (tenant_id) {
       queryParams.tenant_id = tenant_id;
+    }
+
+    if (store_ids) {
+      queryParams.store_ids = store_ids;
     }
 
     if (status) {
@@ -83,7 +88,12 @@ export const useListOrderApi = <T = ListOrderResponse>() => {
     try {
       const response = await axiosClient.get<T>(
         url.replace(getBackendUrl(), ''),
-        { params: { ...queryParams } }
+        { 
+          params: { ...queryParams },
+          paramsSerializer: {
+            indexes: null // Serialize arrays as repeated parameters: store_ids=1&store_ids=2
+          }
+        }
       )
 
       setState({ data: response.data as T, loading: false, error: null });
