@@ -19,7 +19,7 @@ import {
   ConditionItemCard,
   ConditionModalContent,
   PromotionBaseHeader,
-} from '../../components';
+} from '../../components/Modals';
 
 import { buildConditionDescription } from '../../helpers';
 

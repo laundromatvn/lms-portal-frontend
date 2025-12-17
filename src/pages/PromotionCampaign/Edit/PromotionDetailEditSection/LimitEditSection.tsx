@@ -19,7 +19,7 @@ import {
   LimitItemCard,
   LimitModalContent,
   PromotionBaseHeader,
-} from '../../components';
+} from '../../components/Modals';
 
 interface Props {
   limitOptions: PromotionMetadataLimitOption[];

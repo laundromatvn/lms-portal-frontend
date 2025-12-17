@@ -19,7 +19,7 @@ import {
   RewardItemCard,
   RewardModalContent,
   PromotionBaseHeader,
-} from '../../components';
+} from '../../components/Modals';
 
 interface Props {
   rewardOptions: PromotionMetadataRewardOption[];

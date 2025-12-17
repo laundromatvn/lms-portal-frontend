@@ -9,8 +9,8 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import { type PromotionCondition } from '@shared/types/promotion/PromotionCondition';
 
-import { PromotionBaseHeader } from '../components/PromotionBaseHeader';
-import { ConditionItemCard } from '../components/ConditionItemCard';
+import { PromotionBaseHeader } from '../components/Modals';
+import { ConditionItemCard } from '../components/Modals';
 import { buildConditionDescription } from '../helpers';
 
 interface Props {

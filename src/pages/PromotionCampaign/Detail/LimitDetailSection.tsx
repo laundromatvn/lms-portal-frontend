@@ -9,8 +9,8 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import { type PromotionLimit } from '@shared/types/promotion/PromotionLimit';
 
-import { PromotionBaseHeader } from '../components/PromotionBaseHeader';
-import { LimitItemCard } from '../components/LimitItemCard';
+import { PromotionBaseHeader } from '../components/Modals';
+import { LimitItemCard } from '../components/Modals';
 
 interface Props {
   limits: PromotionLimit[];

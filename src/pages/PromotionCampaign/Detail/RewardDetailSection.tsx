@@ -9,8 +9,8 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import { type PromotionReward } from '@shared/types/promotion/PromotionReward';
 
-import { PromotionBaseHeader } from '../components/PromotionBaseHeader';
-import { RewardItemCard } from '../components/RewardItemCard';
+import { PromotionBaseHeader } from '../components/Modals';
+import { RewardItemCard } from '../components/Modals';
 
 interface Props {
   rewards: PromotionReward[];
