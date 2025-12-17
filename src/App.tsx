@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { ThemeProvider } from '@shared/theme/ThemeProvider';
+import { PermissionProvider } from '@shared/contexts/PermissionContext';
 import { tokenManager } from '@core/auth/tokenManager';
 import { PROACTIVE_REFRESH_CHECK_INTERVAL_MS, FORCE_ACCESS_REFRESH_INTERVAL_MS, FORCE_REFRESH_ROTATION_INTERVAL_MS } from '@core/constant';
 
@@ -62,7 +63,9 @@ const App: React.FC = () => {
   return (
     <Router>
       <ThemeProvider>
-        <AppRouter routes={routes} />
+        <PermissionProvider>
+          <AppRouter routes={routes} />
+        </PermissionProvider>
       </ThemeProvider>
     </Router>
   );
