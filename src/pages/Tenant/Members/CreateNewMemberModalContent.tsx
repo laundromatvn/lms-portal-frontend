@@ -193,6 +193,7 @@ export const CreateNewMemberModalContent: React.FC<Props> = ({ tenant_id, onClos
           <Form.Item
             label={t('common.phone')}
             name="phone"
+            rules={[{ required: true, message: t('messages.phoneIsRequired') }]}
           >
             <Input size="large" placeholder={t('common.phone')} />
           </Form.Item>
