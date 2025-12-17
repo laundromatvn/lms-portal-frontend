@@ -259,7 +259,9 @@
     "internal_promotion": "Internal Promotion",
     "paymentProvider": "Payment Provider",
     "isEnabled": "Is Enabled",
-    "filters": "Filters"
+    "filters": "Filters",
+    "selectStores": "Select Stores",
+    "selectStoresIsRequired": "Select stores is required"
   },
   "navigation": {
     "overview": "Overview",
@@ -577,6 +579,15 @@
       "selectStore": "Select Store",
       "totalWasher": "Total Washer: {{noWashers}}",
       "totalDryer": "Total Dryer: {{noDryers}}"
+    }
+  },
+  "tenant": {
+    "members": {
+      "assignMemberToStores": "Assign Member to Stores",
+      "assignMemberToStoresSuccess": "Member assigned to stores successfully",
+      "assignMemberToStoresError": "Failed to assign member to stores",
+      "selectStoresIsRequired": "Select stores is required",
+      "assignedStores": "Assigned Stores"
     }
   }
 }

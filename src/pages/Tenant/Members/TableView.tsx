@@ -8,6 +8,7 @@ import {
   AddCircle,
   PenNewSquare,
   LockKeyhole,
+  Shop2,
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -20,18 +21,22 @@ import {
 
 import { tenantStorage } from '@core/storage/tenantStorage';
 
+import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
+
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { Box } from '@shared/components/Box';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
-import { ResetPasswordDrawer } from './ResetPasswordDrawer';
-import { CreateNewMemberDrawer } from './CreateNewMemberDrawer';
-import { ConfigDrawer } from './ConfigDrawer';
+import { ResetPasswordDrawer } from './components/ResetPasswordDrawer';
+import { CreateNewMemberDrawer } from './components/CreateNewMemberDrawer';
+import { ConfigDrawer } from './components/ConfigDrawer';
+import { AssignMemberToStoresDrawer } from './components/AssignMemberToStoresDrawer';
 
 export const DrawerType = {
   CREATE_NEW_MEMBER: 'create_new_member',
   CONFIG: 'config',
   RESET_PASSWORD: 'reset_password',
+  ASSIGN_MEMBER_TO_STORES: 'assign_member_to_stores',
 } as const;
 
 export type DrawerType = (typeof DrawerType)[keyof typeof DrawerType];
@@ -58,7 +63,7 @@ export const TenantMemberTableView: React.FC = () => {
     { title: t('common.role'), dataIndex: 'user_role', width: 200, render: (text: string) => <DynamicTag value={text} /> },
     { title: t('common.status'), dataIndex: 'user_status', width: 200, render: (text: string) => <DynamicTag value={text} /> },
     {
-      title: t('common.actions'), dataIndex: 'actions', render: (text: string, record: any) => (
+      title: t('common.actions'), dataIndex: 'actions', render: (_: string, record: any) => (
         <Flex gap={theme.custom.spacing.medium}>
           <Button
             onClick={() => {
@@ -76,6 +81,16 @@ export const TenantMemberTableView: React.FC = () => {
             }}
             icon={<LockKeyhole size={18} />}
           />
+          {can("store_member.create") && record.user_role === UserRoleEnum.TENANT_STAFF && (
+            <Button
+              onClick={() => {
+                setIsDrawerOpen(true);
+                setSelectedDrawerType(DrawerType.ASSIGN_MEMBER_TO_STORES);
+                setSelectedUserId(record.user_id);
+              }}
+              icon={<Shop2 size={18} />}
+            />
+          )}
         </Flex>
       )
     },
@@ -139,7 +154,7 @@ export const TenantMemberTableView: React.FC = () => {
             dataSource={listTenantMemberData?.data || []}
             columns={columns}
             loading={listTenantMemberLoading}
-            style={{ width: '100%' }}
+            style={{ width: '100%', overflowX: 'auto' }}
             pagination={{
               pageSize,
               current: page,
@@ -154,21 +169,47 @@ export const TenantMemberTableView: React.FC = () => {
       </Box>
 
       {selectedDrawerType === DrawerType.CREATE_NEW_MEMBER && (
-        <CreateNewMemberDrawer tenant_id={tenant?.id as string} isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} onSuccess={() => {
-          handleListTenantMember();
-        }} />
+        <CreateNewMemberDrawer
+          tenant_id={tenant?.id as string}
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+          onSuccess={() => {
+            handleListTenantMember();
+          }}
+        />
       )}
 
       {selectedDrawerType === DrawerType.CONFIG && (
-        <ConfigDrawer user_id={selectedUserId as string} isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} onSuccess={() => {
-          handleListTenantMember();
-        }} />
+        <ConfigDrawer
+          user_id={selectedUserId as string}
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+          onSuccess={() => {
+            handleListTenantMember();
+          }}
+        />
       )}
 
       {selectedDrawerType === DrawerType.RESET_PASSWORD && (
-        <ResetPasswordDrawer user_id={selectedUserId as string} isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} onSuccess={() => {
-          handleListTenantMember();
-        }} />
+        <ResetPasswordDrawer
+          user_id={selectedUserId as string}
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+          onSuccess={() => {
+            handleListTenantMember();
+          }}
+        />
+      )}
+
+      {selectedDrawerType === DrawerType.ASSIGN_MEMBER_TO_STORES && (
+        <AssignMemberToStoresDrawer
+          user_id={selectedUserId as string}
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+          onSuccess={() => {
+            handleListTenantMember();
+          }}
+        />
       )}
     </PortalLayoutV2>
   );

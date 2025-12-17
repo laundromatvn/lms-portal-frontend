@@ -259,7 +259,9 @@
     "internal_promotion": "Internal Promotion",
     "paymentProvider": "Nhà cung cấp thanh toán",
     "isEnabled": "Trạng thái hoạt động",
-    "filters": "Bộ lọc"
+    "filters": "Bộ lọc",
+    "selectStores": "Chọn cửa hàng",
+    "selectStoresIsRequired": "Chọn cửa hàng là bắt buộc"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -551,6 +553,15 @@
     "list": {
       "filters": "Bộ lọc",
       "selectStore": "Chọn cửa hàng"
+    }
+  },
+  "tenant": {
+    "members": {
+      "assignMemberToStores": "Thêm thành viên",
+      "assignMemberToStoresSuccess": "Thành viên đã được gán vào cửa hàng thành công",
+      "assignMemberToStoresError": "Không thể gán thành viên vào cửa hàng",
+      "selectStoresIsRequired": "Chọn cửa hàng là bắt buộc",
+      "assignedStores": "Thành viên của cửa hàng"
     }
   }
 }
