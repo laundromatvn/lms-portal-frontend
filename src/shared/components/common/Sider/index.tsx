@@ -28,6 +28,8 @@ import {
 } from '@solar-icons/react'
 
 import { useTheme } from '@shared/theme/useTheme';
+import { usePermissionContext } from '@shared/contexts/PermissionContext';
+import { useCan } from '@shared/hooks/useCan';
 
 import { STORAGE_KEY as USER_STORAGE_KEY } from '@core/storage/userStorage';
 
@@ -48,8 +50,9 @@ interface MenuItemConfig {
   key?: string;
   icon?: React.ReactNode;
   label?: string;
-  children?: Array<{ key: string; label: string }>;
+  children?: Array<{ key: string; label: string; permission?: string }>;
   type?: 'divider' | 'item';
+  permission?: string; // Permission required to show this menu item
 }
 
 interface Props {
@@ -67,6 +70,8 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
   const [user, setUser] = useState<User | null>(null);
 
   const tenant = tenantStorage.load();
+  const can = useCan();
+  const { ready } = usePermissionContext();
 
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
 
@@ -75,24 +80,29 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'overview',
       icon: <Widget />,
       label: t('navigation.overview'),
+      // Overview is accessible to all authenticated users
     },
     {
       key: 'stores',
       icon: <Shop2 />,
       label: t('navigation.stores'),
+      permission: 'store.list',
     },
     {
       key: 'controllers',
       icon: <WiFiRouter />,
       label: t('navigation.controllers'),
+      // Parent permission not needed - visibility determined by children
       children: [
         {
           key: 'controllers',
           label: t('navigation.controllers'),
+          permission: 'controller.list',
         },
         {
           key: 'controllers/abandoned',
           label: t('navigation.registerAbandonedControllers'),
+          permission: 'controller.list',
         },
       ],
     },
@@ -100,16 +110,19 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'machines',
       icon: <WashingMachine />,
       label: t('navigation.machines'),
+      permission: 'machine.list',
     },
     {
       key: 'orders',
       icon: <Bill />,
       label: t('navigation.orders'),
+      permission: 'order.list',
     },
     {
       key: 'promotion-campaigns',
       icon: <Sale />,
       label: t('navigation.promotionCampaign'),
+      permission: 'promotion_campaign.list',
     },
     {
       type: 'divider',
@@ -118,11 +131,13 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'tenants/profile',
       icon: <Suitcase />,
       label: t('navigation.tenantProfile'),
+      permission: 'tenant.get',
     },
     {
       key: 'tenant-members',
       icon: <UsersGroupTwoRounded />,
       label: t('navigation.tenantMembers'),
+      permission: 'tenant_member.list',
     },
     {
       type: 'divider',
@@ -131,11 +146,13 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'firmware',
       icon: <ZipFile />,
       label: t('navigation.firmware'),
+      permission: 'firmware.list',
     },
     {
       key: 'permissions',
       icon: <ShieldCheck />,
       label: t('navigation.permissions'),
+      permission: 'permission.list',
     },
     {
       type: 'divider',
@@ -144,11 +161,82 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'user/profile',
       icon: <UserIcon />,
       label: t('navigation.userProfile'),
+      // User profile is typically accessible to all authenticated users
     },
   ], [t]);
 
   const menuItems = React.useMemo(() => {
-    return allMenuItems
+    if (!ready) {
+      // Return empty array while permissions are loading
+      return [];
+    }
+
+    const filteredItems: MenuItemConfig[] = [];
+    let previousWasDivider = false;
+
+    for (let i = 0; i < allMenuItems.length; i++) {
+      const item = allMenuItems[i];
+
+      if (item.type === 'divider') {
+        // Only add divider if there are visible items before and after
+        const hasVisibleBefore = filteredItems.length > 0;
+        const hasVisibleAfter = allMenuItems.slice(i + 1).some((nextItem) => {
+          if (nextItem.type === 'divider') return false;
+          if (!nextItem.permission) return true; // User profile doesn't need permission
+          return can(nextItem.permission);
+        });
+
+        if (hasVisibleBefore && hasVisibleAfter && !previousWasDivider) {
+          filteredItems.push({ type: 'divider' });
+          previousWasDivider = true;
+        } else {
+          previousWasDivider = false;
+        }
+        continue;
+      }
+
+      // Handle items with children
+      if (item.children && item.children.length > 0) {
+        // Filter children by their permissions
+        const filteredChildren = item.children.filter((child) => {
+          return !child.permission || can(child.permission);
+        });
+
+        // Only show parent if at least one child is visible
+        if (filteredChildren.length === 0) {
+          continue;
+        }
+
+        // For items with children, show parent if any child is visible
+        // Parent permission acts as an additional gate if specified
+        // This allows showing a menu group if user has access to any sub-item
+        const parentPermissionCheck = !item.permission || can(item.permission);
+        if (parentPermissionCheck) {
+          filteredItems.push({
+            ...item,
+            children: filteredChildren,
+          });
+          previousWasDivider = false;
+        }
+      } else {
+        // Regular item without children - check permission
+        const shouldShow = !item.permission || can(item.permission);
+        if (shouldShow) {
+          filteredItems.push(item);
+          previousWasDivider = false;
+        }
+      }
+    }
+
+    // Remove trailing dividers
+    while (
+      filteredItems.length > 0 &&
+      filteredItems[filteredItems.length - 1].type === 'divider'
+    ) {
+      filteredItems.pop();
+    }
+
+    return filteredItems
       .map((item) => {
         if (item.type === 'divider') {
           return { type: 'divider' as const };
@@ -161,7 +249,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
           children: item.children,
         };
       }) as MenuProps['items'];
-  }, [allMenuItems]);
+  }, [allMenuItems, can, ready]);
 
   useEffect(() => {
     const loadUserData = () => {
