@@ -21,7 +21,7 @@ import { ConditionValueTypeEnum } from '@shared/enums/ConditionValueTypeEnum';
 
 import { BaseEditSection } from '@shared/components/BaseEditSection';
 
-import { buildDisplayValue } from '../helpers';
+import { buildDisplayValue } from '../../helpers';
 
 interface Props {
   index?: number;

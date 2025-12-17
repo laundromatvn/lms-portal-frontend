@@ -13,13 +13,11 @@ import { useTheme } from '@shared/theme/useTheme';
 import { type PromotionCondition } from '@shared/types/promotion/PromotionCondition';
 import { type PromotionMetadataConditionOption } from '@shared/types/promotion/PromotionMetadata';
 
-import { BaseModal } from '@shared/components/BaseModal';
-
 import {
   ConditionItemCard,
-  ConditionModalContent,
   PromotionBaseHeader,
 } from '../../components/Modals';
+import { ConditionDrawer } from '../../components/Drawers/ConditionDrawer';
 
 import { buildConditionDescription } from '../../helpers';
 
@@ -35,7 +33,7 @@ export const ConditionAddSection: React.FC<Props> = ({ conditions, conditionOpti
 
   const primaryColor = theme.custom.colors.info.default;
 
-  const [showModal, setShowModal] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedConditionIndex, setSelectedConditionIndex] = useState<number | undefined>(undefined);
   const [selectedCondition, setSelectedCondition] = useState<PromotionCondition | undefined>(undefined);
 
@@ -58,12 +56,13 @@ export const ConditionAddSection: React.FC<Props> = ({ conditions, conditionOpti
   const onOpenEdit = (index: number, condition: PromotionCondition) => {
     setSelectedConditionIndex(index);
     setSelectedCondition(condition);
-    setShowModal(true);
+    setIsDrawerOpen(true);
   };
 
   const onOpenAdd = () => {
+    setSelectedConditionIndex(undefined);
     setSelectedCondition(undefined);
-    setShowModal(true);
+    setIsDrawerOpen(true);
   };
 
   return (
@@ -93,40 +92,24 @@ export const ConditionAddSection: React.FC<Props> = ({ conditions, conditionOpti
         {t('common.addCondition')}
       </Button>
 
-      <BaseModal
-        isModalOpen={showModal}
-        setIsModalOpen={setShowModal}
-        onCancel={() => setShowModal(false)}
-      >
-        {selectedCondition ? (
-          <ConditionModalContent
-            index={selectedConditionIndex}
-            condition={selectedCondition}
-            conditionOptions={conditionOptions}
-            onSave={(index, condition) => {
-              if (index === undefined) return;
-
-              handleOnEdit(index, condition);
-              setShowModal(false);
-            }}
-            onCancel={() => {
-              setShowModal(false);
-              setSelectedCondition(undefined);
-            }}
-          />
-        ) : (
-          <ConditionModalContent
-            conditionOptions={conditionOptions}
-            onSave={(_, condition) => {
-              handleOnAdd(condition);
-              setShowModal(false);
-            }}
-            onCancel={() => {
-              setShowModal(false);
-            }}
-          />
-        )}
-      </BaseModal>
+      <ConditionDrawer
+        open={isDrawerOpen}
+        onClose={() => {
+          setIsDrawerOpen(false);
+          setSelectedCondition(undefined);
+          setSelectedConditionIndex(undefined);
+        }}
+        index={selectedConditionIndex}
+        condition={selectedCondition}
+        conditionOptions={conditionOptions}
+        onSave={(index, condition) => {
+          if (index !== undefined) {
+            handleOnEdit(index, condition);
+          } else {
+            handleOnAdd(condition);
+          }
+        }}
+      />
     </Flex>
   );
 };

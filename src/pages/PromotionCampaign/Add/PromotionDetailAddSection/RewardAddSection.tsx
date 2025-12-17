@@ -13,13 +13,11 @@ import { useTheme } from '@shared/theme/useTheme';
 import { type PromotionReward } from '@shared/types/promotion/PromotionReward';
 import { type PromotionMetadataRewardOption } from '@shared/types/promotion/PromotionMetadata';
 
-import { BaseModal } from '@shared/components/BaseModal';
-
 import {
   RewardItemCard,
-  RewardModalContent,
   PromotionBaseHeader,
 } from '../../components/Modals';
+import { RewardDrawer } from '../../components/Drawers/RewardDrawer';
 
 interface Props {
   rewardOptions: PromotionMetadataRewardOption[];
@@ -33,7 +31,7 @@ export const RewardAddSection: React.FC<Props> = ({ rewardOptions, rewards, onCh
 
   const primaryColor = theme.custom.colors.success.default;
 
-  const [showModal, setShowModal] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedRewardIndex, setSelectedRewardIndex] = useState<number | undefined>(undefined);
   const [selectedReward, setSelectedReward] = useState<PromotionReward | undefined>(undefined);
 
@@ -56,12 +54,13 @@ export const RewardAddSection: React.FC<Props> = ({ rewardOptions, rewards, onCh
   const onOpenEdit = (index: number, reward: PromotionReward) => {
     setSelectedRewardIndex(index);
     setSelectedReward(reward);
-    setShowModal(true);
+    setIsDrawerOpen(true);
   };
 
   const onOpenAdd = () => {
+    setSelectedRewardIndex(undefined);
     setSelectedReward(undefined);
-    setShowModal(true);
+    setIsDrawerOpen(true);
   };
 
   return (
@@ -90,40 +89,24 @@ export const RewardAddSection: React.FC<Props> = ({ rewardOptions, rewards, onCh
         {t('common.addReward')}
       </Button>
 
-      <BaseModal
-        isModalOpen={showModal}
-        setIsModalOpen={setShowModal}
-        onCancel={() => setShowModal(false)}
-      >
-        {selectedReward ? (
-          <RewardModalContent
-            rewardOptions={rewardOptions}
-            index={selectedRewardIndex}
-            reward={selectedReward}
-            onSave={(index, reward) => {
-              if (index === undefined) return;
-
-              handleOnEdit(index, reward);
-              setShowModal(false);
-            }}
-            onCancel={() => {
-              setShowModal(false);
-              setSelectedReward(undefined);
-            }}
-          />
-        ) : (
-          <RewardModalContent
-            rewardOptions={rewardOptions}
-            onSave={(_, reward) => {
-              handleOnAdd(reward);
-              setShowModal(false);
-            }}
-            onCancel={() => {
-              setShowModal(false);
-            }}
-          />
-        )}
-      </BaseModal>
+      <RewardDrawer
+        open={isDrawerOpen}
+        onClose={() => {
+          setIsDrawerOpen(false);
+          setSelectedReward(undefined);
+          setSelectedRewardIndex(undefined);
+        }}
+        index={selectedRewardIndex}
+        reward={selectedReward}
+        rewardOptions={rewardOptions}
+        onSave={(index, reward) => {
+          if (index !== undefined) {
+            handleOnEdit(index, reward);
+          } else {
+            handleOnAdd(reward);
+          }
+        }}
+      />
     </Flex>
   );
 };

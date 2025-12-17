@@ -13,13 +13,11 @@ import { useTheme } from '@shared/theme/useTheme';
 import { type PromotionLimit } from '@shared/types/promotion/PromotionLimit';
 import { type PromotionMetadataLimitOption } from '@shared/types/promotion/PromotionMetadata';
 
-import { BaseModal } from '@shared/components/BaseModal';
-
 import {
   LimitItemCard,
-  LimitModalContent,
   PromotionBaseHeader,
 } from '../../components/Modals';
+import { LimitDrawer } from '../../components/Drawers/LimitDrawer';
 
 interface Props {
   limitOptions: PromotionMetadataLimitOption[];
@@ -33,7 +31,7 @@ export const LimitEditSection: React.FC<Props> = ({ limitOptions, limits, onChan
 
   const primaryColor = theme.custom.colors.warning.default;
 
-  const [showModal, setShowModal] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedLimitIndex, setSelectedLimitIndex] = useState<number | undefined>(undefined);
   const [selectedLimit, setSelectedLimit] = useState<PromotionLimit | undefined>(undefined);
 
@@ -56,12 +54,13 @@ export const LimitEditSection: React.FC<Props> = ({ limitOptions, limits, onChan
   const onOpenEdit = (index: number, limit: PromotionLimit) => {
     setSelectedLimitIndex(index);
     setSelectedLimit(limit);
-    setShowModal(true);
+    setIsDrawerOpen(true);
   };
 
   const onOpenAdd = () => {
+    setSelectedLimitIndex(undefined);
     setSelectedLimit(undefined);
-    setShowModal(true);
+    setIsDrawerOpen(true);
   };
 
   return (
@@ -90,46 +89,24 @@ export const LimitEditSection: React.FC<Props> = ({ limitOptions, limits, onChan
         {t('common.addLimit')}
       </Button>
 
-      <BaseModal
-        isModalOpen={showModal}
-        setIsModalOpen={setShowModal}
-        onCancel={() => {
-          setShowModal(false);
+      <LimitDrawer
+        open={isDrawerOpen}
+        onClose={() => {
+          setIsDrawerOpen(false);
           setSelectedLimit(undefined);
+          setSelectedLimitIndex(undefined);
         }}
-      >
-        {selectedLimit ? (
-          <LimitModalContent
-            limitOptions={limitOptions}
-            index={selectedLimitIndex}
-            limit={selectedLimit}
-            onSave={(index, limit) => {
-              if (index === undefined) return;
-
-              handleOnEdit(index, limit);
-              setShowModal(false);
-              setSelectedLimit(undefined);
-            }}
-            onCancel={() => {
-              setShowModal(false);
-              setSelectedLimit(undefined);
-            }}
-          />
-        ) : (
-          <LimitModalContent
-            limitOptions={limitOptions}
-            onSave={(_, limit) => {
-              handleOnAdd(limit);
-              setShowModal(false);
-              setSelectedLimit(undefined);
-            }}
-            onCancel={() => {
-              setShowModal(false);
-              setSelectedLimit(undefined);
-            }}
-          />
-        )}
-      </BaseModal>
+        index={selectedLimitIndex}
+        limit={selectedLimit}
+        limitOptions={limitOptions}
+        onSave={(index, limit) => {
+          if (index !== undefined) {
+            handleOnEdit(index, limit);
+          } else {
+            handleOnAdd(limit);
+          }
+        }}
+      />
     </Flex>
   );
 };
