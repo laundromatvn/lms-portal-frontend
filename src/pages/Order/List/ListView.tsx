@@ -67,7 +67,7 @@ export const OrderListView: React.FC = () => {
     start_datetime: string;
     end_datetime: string;
   }>({ store_ids: [], start_datetime: '', end_datetime: '' });
-  // Track filter changes to trigger reload
+
   const [filterKey, setFilterKey] = useState(0);
 
   const {
@@ -93,7 +93,7 @@ export const OrderListView: React.FC = () => {
 
     // Use datetime filters from MoreFilterDrawer if provided, otherwise use chip filter dates
     const hasCustomDatetime = (appliedFilters.current.start_datetime && appliedFilters.current.start_datetime !== '') ||
-                               (appliedFilters.current.end_datetime && appliedFilters.current.end_datetime !== '');
+                              (appliedFilters.current.end_datetime && appliedFilters.current.end_datetime !== '');
     
     if (hasCustomDatetime) {
       // If custom datetime filters are set, use them (can be undefined if cleared)
@@ -155,12 +155,6 @@ export const OrderListView: React.FC = () => {
 
   const handleFilterChange = async (filters: { label: string; value: any }[]) => {
     setSelectedFilters(filters);
-    setPage(1);
-  };
-
-  const handleSort = async (column: string, direction: 'asc' | 'desc') => {
-    setOrderBy(column);
-    setOrderDirection(direction);
     setPage(1);
   };
 
@@ -232,6 +226,7 @@ export const OrderListView: React.FC = () => {
         <List
           dataSource={listOrderData?.data || []}
           loading={listOrderLoading && listOrderData ? listOrderData.data.length > 0 : false}
+          style={{ width: '100%' }}
           pagination={{
             current: page,
             pageSize: pageSize,

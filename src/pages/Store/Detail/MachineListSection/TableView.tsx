@@ -143,7 +143,7 @@ export const TableView: React.FC<Props> = ({ store }) => {
   }, [store]);
 
   useEffect(() => {
-    if (listControllerData) {
+    if (listControllerData && listControllerData.data.length > 0) {
       setSelectedControllerId(listControllerData.data[0].id);
     }
   }, [listControllerData]);

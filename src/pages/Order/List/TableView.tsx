@@ -10,16 +10,21 @@ import {
   Skeleton,
   notification,
   Popconfirm,
+  Dropdown,
+  type MenuProps,
 } from 'antd';
 
 import {
   BillCheck,
   BillCross,
+  MenuDots
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
 import { tenantStorage } from '@core/storage/tenantStorage';
+
+import { OrderStatusEnum } from '@shared/enums/OrderStatusEnum';
 
 import {
   useListOrderApi,
@@ -69,7 +74,7 @@ export const OrderTableView: React.FC = () => {
     start_datetime: string;
     end_datetime: string;
   }>({ store_ids: [], start_datetime: '', end_datetime: '' });
-    useEffect(() => {
+  useEffect(() => {
     appliedFilters.current = {
       store_ids: appliedFilters.current.store_ids,
       start_datetime: appliedFilters.current.start_datetime,
@@ -91,7 +96,7 @@ export const OrderTableView: React.FC = () => {
       title: t('common.storeName'),
       dataIndex: 'store_name',
       key: 'store_name',
-      width: 256,
+      width: 192,
       render: (text: string, record: any) => <Typography.Link onClick={() => navigate(`/stores/${record.store_id}/detail`)}>{text}</Typography.Link>
     },
     {
@@ -123,7 +128,7 @@ export const OrderTableView: React.FC = () => {
       title: t('common.totalWasher'),
       dataIndex: 'total_washer',
       key: 'total_washer',
-      width: 128,
+      width: 32,
       sorter: true,
       onSort: (column: string, direction: 'asc' | 'desc') => handleSort(column, direction),
       render: (text: string) => text
@@ -131,49 +136,51 @@ export const OrderTableView: React.FC = () => {
     {
       title: t('common.totalDryer'), dataIndex: 'total_dryer',
       key: 'total_dryer',
-      width: 128,
+      width: 32,
       sorter: true,
       onSort: (column: string, direction: 'asc' | 'desc') => handleSort(column, direction),
       render: (text: string) => text
     },
     {
-      title: t('common.actions'), dataIndex: 'actions', render: (_: string, record: any) => {
-        return (
-          <Flex gap={theme.custom.spacing.medium}>
-            <Popconfirm
-              title={t('common.pay')}
-              onConfirm={() => triggerPaymentSuccess(record.id)}
-              onCancel={() => triggerPaymentFailed(record.id)}
-              okText={t('common.confirm')}
-              cancelText={t('common.cancel')}
-            >
-              <Button
-                type="link"
-                icon={<BillCheck size={18} />}
-                style={{
-                  color: theme.custom.colors.success.default,
-                }}
-              />
-            </Popconfirm>
+      title: t('common.actions'), dataIndex: 'actions',
+      render: (_: string, record: any) => {
+        const items: MenuProps['items'] = [
+          {
+            key: 'pay',
+            label: t('common.pay'),
+            onClick: () => triggerPaymentSuccess(record.id),
+            icon: <BillCheck />,
+            style: {
+              color: theme.custom.colors.success.default,
+            },
+          },
+          {
+            key: 'cancel',
+            label: t('common.cancel'),
+            onClick: () => triggerPaymentFailed(record.id),
+            icon: <BillCross />,
+            style: {
+              color: theme.custom.colors.danger.default,
+            },
+          }
+        ];
 
-            <Popconfirm
-              title={t('common.cancelPayment')}
-              onConfirm={() => triggerPaymentFailed(record.id)}
-              onCancel={() => triggerPaymentFailed(record.id)}
-              okText={t('common.confirm')}
-              cancelText={t('common.cancel')}
-            >
-              <Button
-                type="link"
-                icon={<BillCross size={18} />}
-                style={{
-                  color: theme.custom.colors.danger.default,
-                }}
-              />
-            </Popconfirm>
-          </Flex>
+        return (
+          <Dropdown
+            menu={{ items }}
+            trigger={['click']}
+          >
+            <Button
+              type="link"
+              icon={<MenuDots weight="Bold" />}
+              disabled={![
+                OrderStatusEnum.NEW,
+                OrderStatusEnum.WAITING_FOR_PAYMENT
+              ].includes(record.status as any)}
+            />
+          </Dropdown>
         );
-      }
+      },
     },
   ];
 
