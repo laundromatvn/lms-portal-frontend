@@ -9,8 +9,12 @@ import { useTheme } from '@shared/theme/useTheme';
 import { useVerifyOTPApi } from '@shared/hooks/useVerifyOTPApi';
 import { useGetLMSProfileApi } from '@shared/hooks/useGetLMSProfile';
 import { useGetMeApi } from '@shared/hooks/useGetMe';
+import { useGetMePermissionsApi } from '@shared/hooks/useGetMePermissions';
 import { userStorage } from '@core/storage/userStorage';
 import { tenantStorage } from '@core/storage/tenantStorage';
+import { permissionStorage } from '@core/storage/permissionStorage';
+import { tokenManager, type TokenBundle } from '@core/auth/tokenManager';
+import { ACCESS_TOKEN_TTL_SECONDS, REFRESH_TOKEN_TTL_SECONDS } from '@core/constant';
 import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
 import { OTPActionEnum } from '@shared/enums/OTPActionEnum';
 
@@ -47,6 +51,9 @@ export const VerifyOTPPage: React.FC = () => {
     data: getMeData,
     error: getMeError,
   } = useGetMeApi();
+  const {
+    getMePermissions,
+  } = useGetMePermissionsApi();
 
   const [otp, setOtp] = useState('');
 
@@ -65,6 +72,29 @@ export const VerifyOTPPage: React.FC = () => {
 
   useEffect(() => {
     if (verifyOTPData) {
+      // Set tokens if verifyOTP response contains them
+      if ((verifyOTPData as any)?.access_token && (verifyOTPData as any)?.refresh_token) {
+        try {
+          const bundle: TokenBundle = {
+            accessToken: (verifyOTPData as any).access_token,
+            refreshToken: (verifyOTPData as any).refresh_token,
+            accessTokenExp: Date.now() + ACCESS_TOKEN_TTL_SECONDS * 1000,
+            refreshTokenExp: Date.now() + REFRESH_TOKEN_TTL_SECONDS * 1000,
+          }
+          tokenManager.setTokens(bundle)
+          
+          // Fetch and save permissions after successful OTP verification
+          getMePermissions()
+            .then((permissionsResponse) => {
+              permissionStorage.save(permissionsResponse.permissions)
+            })
+            .catch(() => {
+              // Ignore permission fetch errors - OTP verification is still successful
+            })
+        } catch {
+          // Ignore token setting errors
+        }
+      }
       getMe();
     }
   }, [verifyOTPData]);

@@ -1,8 +1,10 @@
 import { tenantStorage } from '@core/storage/tenantStorage'
 import { tokenStorage, type TokenBundle } from '@core/storage/tokenStorage'
 import { userStorage } from '@core/storage/userStorage'
+import { permissionStorage } from '@core/storage/permissionStorage'
 import { refreshToken, type RefreshTokenResponse } from './authApi'
 import { getJwtExpiration } from './jwtUtils'
+import { getMePermissionsApi } from '@shared/hooks/useGetMePermissions'
 import {
   ACCESS_TOKEN_EXPIRY_BUFFER_MS,
   REFRESH_TOKEN_EXPIRY_BUFFER_MS,
@@ -37,6 +39,7 @@ class TokenManager {
     try {
       tenantStorage.clear()
       userStorage.clear()
+      permissionStorage.clear()
     } catch {}
     this.notifyAuthChanged(false)
   }
@@ -176,6 +179,15 @@ class TokenManager {
           refreshTokenExp,
         }
         this.setTokens(updated)
+        
+        // Fetch and save permissions after successful token refresh
+        try {
+          const permissionsResponse = await getMePermissionsApi()
+          permissionStorage.save(permissionsResponse.permissions)
+        } catch {
+          // Ignore permission fetch errors - tokens are still valid
+        }
+        
         return updated.accessToken
       } catch (error: any) {
         // If it's an authentication error (401, 403), don't retry - token is invalid/expired

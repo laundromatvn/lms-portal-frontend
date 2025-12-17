@@ -15,12 +15,14 @@ import { ACCESS_TOKEN_TTL_SECONDS, REFRESH_TOKEN_TTL_SECONDS } from '@core/const
 
 import { tenantStorage } from '@core/storage/tenantStorage';
 import { userStorage } from '@core/storage/userStorage';
+import { permissionStorage } from '@core/storage/permissionStorage';
 
 import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
 
 import { useSignInApi } from '@shared/hooks/useSignInApi';
 import { useGetLMSProfileApi } from '@shared/hooks/useGetLMSProfile';
 import { useGetMeApi } from '@shared/hooks/useGetMe';
+import { useGetMePermissionsApi } from '@shared/hooks/useGetMePermissions';
 import { useProceedAuthSessionApi } from '@shared/hooks/useProceedAuthSessionApi';
 import { useProcessSystemTaskApi } from '@shared/hooks/useProcessSystemTaskApi';
 
@@ -55,6 +57,9 @@ export const SignInPage: React.FC = () => {
     error: getMeError,
   } = useGetMeApi();
   const {
+    getMePermissions,
+  } = useGetMePermissionsApi();
+  const {
     proceedAuthSession,
   } = useProceedAuthSessionApi();
   const {
@@ -78,6 +83,14 @@ export const SignInPage: React.FC = () => {
         refreshTokenExp: Date.now() + REFRESH_TOKEN_TTL_SECONDS * 1000,
       }
       tokenManager.setTokens(bundle)
+      
+      // Fetch and save permissions after successful login
+      try {
+        const permissionsResponse = await getMePermissions()
+        permissionStorage.save(permissionsResponse.permissions)
+      } catch {
+        // Ignore permission fetch errors - login is still successful
+      }
     } catch {
       api.error({
         message: t('messages.signInFailed'),
