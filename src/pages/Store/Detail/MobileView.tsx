@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Flex, Segmented } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useCan } from '@shared/hooks/useCan';
 
 import { type Store } from '@shared/types/store';
 
@@ -19,27 +20,33 @@ export interface Props {
   store: Store;
 }
 
-export const StoreDetailMobileView: React.FC<Props> = ({ store }) => {
+export const MobileView: React.FC<Props> = ({ store }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
-
-  const [selectedTab, setSelectedTab] = useState<string>('information');
+  const can = useCan();
 
   const segmentedOptions = [
     {
       label: t('store.details.information'),
       value: 'information',
+      permission: 'store.get',
     },
     {
       label: t('store.details.controllers'),
       value: 'controllers',
+      permission: 'controller.list',
     },
     {
       label: t('store.details.machines'),
       value: 'machines',
+      permission: 'machine.list',
     },
   ];
+
+  const filteredSegmentedOptions = segmentedOptions.filter((option) => !option.permission || can(option.permission));
+
+  const [selectedTab, setSelectedTab] = useState<string>(filteredSegmentedOptions[0].value);
 
   return (
     <PortalLayoutV2
@@ -48,7 +55,7 @@ export const StoreDetailMobileView: React.FC<Props> = ({ store }) => {
     >
       <Flex vertical align="end" gap={theme.custom.spacing.medium}>
         <Segmented
-          options={segmentedOptions}
+          options={filteredSegmentedOptions}
           value={selectedTab}
           onChange={(value) => {
             setSelectedTab(value);
@@ -63,13 +70,13 @@ export const StoreDetailMobileView: React.FC<Props> = ({ store }) => {
 
         {selectedTab === 'information' && (
           <>
-            <DetailSection store={store} />
-            <PaymentMethodSection store={store} />
+            {can('store.get') && <DetailSection store={store} />}
+            {can('store.get_payment_methods') && <PaymentMethodSection store={store} />}
           </>
         )}
 
-        {selectedTab === 'controllers' && <ControllerListSection store={store} />}
-        {selectedTab === 'machines' && <MachineListSection store={store} />}
+        {selectedTab === 'controllers' && can('controller.list') && <ControllerListSection store={store} />}
+        {selectedTab === 'machines' && can('machine.list') && <MachineListSection store={store} />}
       </Flex>
     </PortalLayoutV2>
   );

@@ -18,7 +18,7 @@ interface Props {
   store: Store;
 }
 
-export const ControllerListTableView: React.FC<Props> = ({ store }) => {
+export const TableView: React.FC<Props> = ({ store }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 

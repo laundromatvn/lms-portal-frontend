@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import { Button, Flex, Select, Table, Typography, notification } from 'antd';
 
@@ -10,6 +11,7 @@ import {
 } from '@solar-icons/react'
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useCan } from '@shared/hooks/useCan';
 
 import {
   useListMachineApi,
@@ -24,8 +26,6 @@ import {
   type ActivateMachineResponse,
 } from '@shared/hooks/useActivateMachineApi';
 
-import { formatCurrencyCompact } from '@shared/utils/currency';
-
 import { type Store } from '@shared/types/store';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
@@ -39,9 +39,11 @@ interface Props {
   store: Store;
 }
 
-export const MachineListTableView: React.FC<Props> = ({ store }) => {
+export const TableView: React.FC<Props> = ({ store }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const can = useCan();
+  const navigate = useNavigate();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -56,10 +58,17 @@ export const MachineListTableView: React.FC<Props> = ({ store }) => {
 
   const columns = [
     { title: t('common.relayNo'), dataIndex: 'relay_no', width: 48 },
-    { title: t('common.name'), dataIndex: 'name' },
+    { title: t('common.name'), dataIndex: 'name', 
+      render: (_: string, record: any) => (
+        <Typography.Link onClick={() => navigate(`/machines/${record.id}/detail`)}>
+          {`${t('common.machine')} ${record.name || record.relay_no}`}
+        </Typography.Link>
+      ),
+    },
     { title: t('common.machineType'), dataIndex: 'machine_type', width: 128 },
     { title: t('common.basePrice'), dataIndex: 'base_price', width: 128 },
-    { title: t('common.status'), dataIndex: 'status',
+    {
+      title: t('common.status'), dataIndex: 'status',
       render: (status: string) => (
         <DynamicTag value={status} />
       ),
@@ -69,26 +78,26 @@ export const MachineListTableView: React.FC<Props> = ({ store }) => {
       title: t('common.actions'), dataIndex: 'actions', width: 256,
       render: (_: string, record: any) => (
         <Flex gap={theme.custom.spacing.medium}>
-          <Button
-            type="default"
+          {can('machine.start') && <Button
             onClick={() => {
               setIsStartMachineDrawerOpen(true);
               setSelectedMachine(record);
             }}
             icon={<Play />}
-          />
-          <Button
-            type="default"
+          />}
+
+          {can('machine.restart') && <Button
             onClick={() => activateMachine(record.id)}
-            loading={activateMachineLoading}
             icon={<Refresh />}
-          />
-          <Button type="default" onClick={() => {
-            setIsMachineSettingDrawerOpen(true);
-            setSelectedMachineForConfig(record);
-          }}
+          />}
+
+          {can('machine.update') && <Button
+            onClick={() => {
+              setIsMachineSettingDrawerOpen(true);
+              setSelectedMachineForConfig(record);
+            }}
             icon={<Settings />}
-          />
+          />}
         </Flex>
       )
     },
@@ -107,7 +116,6 @@ export const MachineListTableView: React.FC<Props> = ({ store }) => {
   const {
     activateMachine,
     data: activateMachineData,
-    loading: activateMachineLoading,
     error: activateMachineError,
   } = useActivateMachineApi<ActivateMachineResponse>();
 
@@ -117,7 +125,8 @@ export const MachineListTableView: React.FC<Props> = ({ store }) => {
     listMachine({
       controller_id: selectedControllerId as string,
       page,
-      page_size: pageSize
+      page_size: pageSize,
+      order_by: 'name',
     });
   }
 

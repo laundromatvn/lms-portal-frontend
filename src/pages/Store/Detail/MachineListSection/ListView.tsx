@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 import {
   Button,
-  Divider,
   Flex,
   List,
   Select,
@@ -19,6 +18,7 @@ import {
 } from '@solar-icons/react'
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useCan } from '@shared/hooks/useCan';
 
 import {
   useListMachineApi,
@@ -33,6 +33,7 @@ import {
   type ActivateMachineResponse,
 } from '@shared/hooks/useActivateMachineApi';
 
+import type { Machine } from '@shared/types/machine';
 import { type Store } from '@shared/types/store';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
@@ -47,10 +48,11 @@ interface Props {
   store: Store;
 }
 
-export const MachineListStackView: React.FC<Props> = ({ store }) => {
+export const ListView: React.FC<Props> = ({ store }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
+  const can = useCan();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -59,8 +61,7 @@ export const MachineListStackView: React.FC<Props> = ({ store }) => {
 
   const [isMachineSettingDrawerOpen, setIsMachineSettingDrawerOpen] = useState(false);
   const [isStartMachineDrawerOpen, setIsStartMachineDrawerOpen] = useState(false);
-  const [selectedMachineId, setSelectedMachineId] = useState<string | null>(null);
-  const [selectedMachine, setSelectedMachine] = useState<any | null>(null);
+  const [selectedMachine, setSelectedMachine] = useState<Machine | null>(null);
   const [selectedControllerId, setSelectedControllerId] = useState<string | null>(null);
 
   const {
@@ -86,7 +87,8 @@ export const MachineListStackView: React.FC<Props> = ({ store }) => {
     listMachine({
       controller_id: selectedControllerId as string,
       page,
-      page_size: pageSize
+      page_size: pageSize,
+      order_by: 'name',
     });
   }
 
@@ -146,10 +148,7 @@ export const MachineListStackView: React.FC<Props> = ({ store }) => {
       <List
         dataSource={listMachineData?.data}
         loading={listMachineLoading}
-        style={{
-          width: '100%',
-          overflow: 'auto',
-        }}
+        style={{ width: '100%' }}
         pagination={{
           current: page,
           pageSize: pageSize,
@@ -165,6 +164,10 @@ export const MachineListStackView: React.FC<Props> = ({ store }) => {
         renderItem={(item) => (
           <List.Item
             style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              gap: theme.custom.spacing.small,
               width: '100%',
               padding: theme.custom.spacing.medium,
               marginBottom: theme.custom.spacing.medium,
@@ -193,18 +196,30 @@ export const MachineListStackView: React.FC<Props> = ({ store }) => {
                 </Typography.Text>
 
                 <Flex gap={theme.custom.spacing.small}>
-                  <Button type="default" icon={<Play />} onClick={() => {
-                    setIsStartMachineDrawerOpen(true);
-                    setSelectedMachine(item);
-                  }} />
-                    <Button type="default" icon={<Refresh />} onClick={() => {
-                    activateMachine(item.id);
-                    handleListMachine();
-                  }} loading={activateMachineLoading} />
-                  <Button type="default" icon={<Settings />} onClick={() => {
-                    setIsMachineSettingDrawerOpen(true);
-                    setSelectedMachine(item);
-                  }} />
+                  {can('machine.start') && <Button
+                    icon={<Play />}
+                    onClick={() => {
+                      setIsStartMachineDrawerOpen(true);
+                      setSelectedMachine(item);
+                    }}
+                  />}
+
+                  {can('machine.restart') && <Button
+                    icon={<Refresh />}
+                    onClick={() => {
+                      activateMachine(item.id);
+                      handleListMachine();
+                    }}
+                    loading={activateMachineLoading}
+                  />}
+
+                  {can('machine.update') && <Button
+                    icon={<Settings />}
+                    onClick={() => {
+                      setIsMachineSettingDrawerOpen(true);
+                      setSelectedMachine(item);
+                    }}
+                  />}
                 </Flex>
               </Flex>
             </Flex>

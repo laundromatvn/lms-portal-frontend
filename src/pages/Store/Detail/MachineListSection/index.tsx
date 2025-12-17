@@ -4,8 +4,8 @@ import { type Store } from '@shared/types/store';
 
 import { useIsMobile } from '@shared/hooks/useIsMobile';
 
-import { MachineListTableView } from './Table';
-import { MachineListStackView } from './Stack';
+import { TableView } from './TableView';
+import { ListView } from './ListView';
 
 interface Props {
   store: Store;
@@ -15,8 +15,8 @@ export const MachineListSection: React.FC<Props> = ({ store }: Props) => {
   const isMobile = useIsMobile();
 
   if (isMobile) {
-    return <MachineListStackView store={store} />;
+    return <ListView store={store} />;
   }
 
-  return <MachineListTableView store={store} />;
+  return <TableView store={store} />;
 };

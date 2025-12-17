@@ -2,6 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
+import { useCan } from '@shared/hooks/useCan';
+
 import { type Store } from '@shared/types/store';
 
 import { DataWrapper } from '@shared/components/DataWrapper';
@@ -16,9 +18,10 @@ interface Props {
 export const DetailSection: React.FC<Props> = ({ store }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-
+  const can = useCan();
+  
   return (
-    <BaseDetailSection title={t('common.basicInformation')} onEdit={() => navigate(`/stores/${store.id}/edit`)}>
+    <BaseDetailSection title={t('common.basicInformation')} onEdit={can('store.update') ? () => navigate(`/stores/${store.id}/edit`) : undefined}>
       <DataWrapper title={t('common.name')} value={store.name || '-'} />
       <DataWrapper title={t('common.status')} >
         <DynamicTag value={store.status} />

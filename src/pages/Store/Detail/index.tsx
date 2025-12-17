@@ -12,8 +12,8 @@ import {
 
 import { type Store } from '@shared/types/store';
 
-import { StoreDetailMobileView } from './MobileView';
-import { StoreDetailDesktopView } from './DekstopView';
+import { MobileView } from './MobileView';
+import { DesktopView } from './DekstopView';
 
 export const StoreDetailPage: React.FC = () => {
   const isMobile = useIsMobile();
@@ -37,11 +37,11 @@ export const StoreDetailPage: React.FC = () => {
 
   return (
     isMobile ? (
-      <StoreDetailMobileView
+      <MobileView
         store={storeData as Store}
       />
     ) : (
-      <StoreDetailDesktopView
+      <DesktopView
         store={storeData as Store}
       />
     )
