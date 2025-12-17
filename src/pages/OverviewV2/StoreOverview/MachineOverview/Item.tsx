@@ -82,7 +82,7 @@ export const MachineOverviewItem: React.FC<Props> = ({ machine, onStartSuccess, 
       >
         <Flex justify="space-between" align="center" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
           <Typography.Link strong onClick={() => navigate(`/machines/${machine.id}/detail`)}>
-            {machine.name || "No name"} - ({`${t('common.machine')} ${machine.relay_no}`})
+            {`${t('common.machine')} ${machine.name || machine.relay_no}`}
           </Typography.Link>
           <DynamicTag value={machine.status} />
         </Flex>

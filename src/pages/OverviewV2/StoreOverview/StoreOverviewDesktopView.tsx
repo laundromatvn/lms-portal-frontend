@@ -54,7 +54,7 @@ export const StoreOverviewDesktopView: React.FC<Props> = ({
         style={{ justifyContent: 'flex-end' }}
       />
 
-      {can('dashboard.overview.get') && (
+      {can('dashboard.overview.view') && (
         <StoreKeyMetrics
           store={store}
           filters={selectedFilters}

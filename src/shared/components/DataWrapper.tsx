@@ -16,7 +16,7 @@ export const DataWrapper: React.FC<Props> = ({ title, compact = false, value, ch
   const theme = useTheme();
 
   return <Flex vertical={!compact} gap={theme.custom.spacing.xsmall} style={{ width: '100%', ...style }}>
-    <Typography.Text strong>{title}:</Typography.Text>
+    <Typography.Text type="secondary">{title}:</Typography.Text>
     {value && <Typography.Text>{value}</Typography.Text>}
     {children}
   </Flex>;

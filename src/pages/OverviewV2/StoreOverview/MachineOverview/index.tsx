@@ -42,6 +42,7 @@ export const MachineOverview: React.FC<Props> = ({ store, filters, datetimeFilte
       store_id: store.id,
       page: 1,
       page_size: 100,
+      order_by: 'name',
     } as Record<string, any>;
 
     // Use datetime filters from MoreFilterDrawer if provided, otherwise use chip filter dates

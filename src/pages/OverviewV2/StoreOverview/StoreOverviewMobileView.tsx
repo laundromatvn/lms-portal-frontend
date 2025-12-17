@@ -43,7 +43,7 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
     {
       label: t('overviewV2.overview'),
       value: 'key_metrics',
-      permission: 'dashboard.overview.get',
+      permission: 'dashboard.overview.view',
     },
     {
       label: t('overviewV2.order'),
@@ -92,7 +92,7 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
         shape="round"
       />
 
-      {selectedTab === 'key_metrics' && can('dashboard.overview.get') && (
+      {selectedTab === 'key_metrics' && can('dashboard.overview.view') && (
         <StoreKeyMetrics store={store} filters={selectedFilters} datetimeFilters={datetimeFilters} />
       )}
 
