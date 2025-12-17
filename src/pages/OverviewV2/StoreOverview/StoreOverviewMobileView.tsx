@@ -9,7 +9,6 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import type { Store } from '@shared/types/store';
 
-import type { PortalDashboardAccess } from '@shared/types/access/PortalDashboardAccess';
 import type { StoreOverviewFilter } from './types';
 
 import { StoreKeyMetrics } from './StoreKeyMetrics';
@@ -27,7 +26,6 @@ interface Props {
     start_datetime: string;
     end_datetime: string;
   };
-  portalDashboardAccess: PortalDashboardAccess;
 }
 
 export const StoreOverviewMobileView: React.FC<Props> = ({
@@ -37,7 +35,6 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
   onFilterChange,
   onFilterClick,
   datetimeFilters,
-  portalDashboardAccess,
 }) => {
   const theme = useTheme();
   const { t } = useTranslation();
@@ -48,15 +45,14 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
     {
       label: t('overviewV2.overview'),
       value: 'key_metrics',
-      enabled: portalDashboardAccess?.portal_dashboard_overview,
     },
     {
       label: t('overviewV2.order'),
-      value: 'top_orders', enabled: portalDashboardAccess?.portal_dashboard_order_management
+      value: 'top_orders',
     },
     {
       label: t('overviewV2.machine'),
-      value: 'machines', enabled: portalDashboardAccess?.portal_dashboard_machine_management
+      value: 'machines',
     },
   ];
 
@@ -78,7 +74,7 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
       />
 
       <Segmented
-        options={tabOptions.filter((option) => option.enabled)}
+        options={tabOptions}
         value={selectedTab}
         onChange={(value) => {
           setSelectedTab(value);
@@ -91,20 +87,19 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
         shape="round"
       />
 
-      {selectedTab === 'key_metrics' && portalDashboardAccess?.portal_dashboard_overview && (
+      {selectedTab === 'key_metrics' && (
         <StoreKeyMetrics store={store} filters={selectedFilters} datetimeFilters={datetimeFilters} />
       )}
 
-      {selectedTab === 'top_orders' && portalDashboardAccess?.portal_dashboard_order_management && (
+      {selectedTab === 'top_orders' && (
         <TopOrderOverview store={store} filters={selectedFilters} datetimeFilters={datetimeFilters} />
       )}
 
-      {selectedTab === 'machines' && portalDashboardAccess?.portal_dashboard_machine_management && (
+      {selectedTab === 'machines' && (
         <MachineOverview
           store={store}
           filters={selectedFilters}
           datetimeFilters={datetimeFilters}
-          portalDashboardAccess={portalDashboardAccess}
         />
       )}
     </Flex>

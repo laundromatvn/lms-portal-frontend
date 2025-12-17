@@ -14,14 +14,12 @@ import { DetailSection } from './DetailSection';
 import { PaymentMethodSection } from './PaymentMethodSection';
 import { ControllerListSection } from './ControllerListSection';
 import { MachineListSection } from './MachineListSection';
-import type { PortalStoreAccess } from '@shared/types/access/PortalStore';
 
 export interface Props {
   store: Store;
-  portalStoreAccess: PortalStoreAccess;
 }
 
-export const StoreDetailMobileView: React.FC<Props> = ({ store, portalStoreAccess }) => {
+export const StoreDetailMobileView: React.FC<Props> = ({ store }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -32,17 +30,14 @@ export const StoreDetailMobileView: React.FC<Props> = ({ store, portalStoreAcces
     {
       label: t('store.details.information'),
       value: 'information',
-      enabled: portalStoreAccess?.portal_store_basic_view,
     },
     {
       label: t('store.details.controllers'),
       value: 'controllers',
-      enabled: portalStoreAccess?.portal_store_basic_view,
     },
     {
       label: t('store.details.machines'),
       value: 'machines',
-      enabled: portalStoreAccess?.portal_store_basic_view,
     },
   ];
 
@@ -53,7 +48,7 @@ export const StoreDetailMobileView: React.FC<Props> = ({ store, portalStoreAcces
     >
       <Flex vertical align="end" gap={theme.custom.spacing.medium}>
         <Segmented
-          options={segmentedOptions.filter((option) => option.enabled)}
+          options={segmentedOptions}
           value={selectedTab}
           onChange={(value) => {
             setSelectedTab(value);
@@ -66,15 +61,15 @@ export const StoreDetailMobileView: React.FC<Props> = ({ store, portalStoreAcces
           shape="round"
         />
 
-        {selectedTab === 'information' && portalStoreAccess?.portal_store_basic_view && (
+        {selectedTab === 'information' && (
           <>
             <DetailSection store={store} />
             <PaymentMethodSection store={store} />
           </>
         )}
 
-        {selectedTab === 'controllers' && portalStoreAccess?.portal_store_basic_view && <ControllerListSection store={store} />}
-        {selectedTab === 'machines' && portalStoreAccess?.portal_store_basic_view && <MachineListSection store={store} />}
+        {selectedTab === 'controllers' && <ControllerListSection store={store} />}
+        {selectedTab === 'machines' && <MachineListSection store={store} />}
       </Flex>
     </PortalLayoutV2>
   );

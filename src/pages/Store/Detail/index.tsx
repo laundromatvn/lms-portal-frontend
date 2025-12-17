@@ -12,10 +12,6 @@ import {
 
 import { type Store } from '@shared/types/store';
 
-import { useGetAccessApi } from '@shared/hooks/access/useGetAccess';
-
-import type { PortalStoreAccess } from '@shared/types/access/PortalStore';
-
 import { StoreDetailMobileView } from './MobileView';
 import { StoreDetailDesktopView } from './DekstopView';
 
@@ -29,23 +25,13 @@ export const StoreDetailPage: React.FC = () => {
     data: storeData,
   } = useGetStoreApi<GetStoreResponse>();
 
-  const {
-    getAccess,
-    data: accessData,
-  } = useGetAccessApi<PortalStoreAccess>();
-
-
   useEffect(() => {
     if (storeId) {
       getStore(storeId);
     }
   }, [storeId]);
 
-  useEffect(() => {
-    getAccess('portal_store');
-  }, [getAccess]);
-
-  if (!storeData || !accessData) {
+  if (!storeData) {
     return <Skeleton active />;
   }
 
@@ -53,12 +39,10 @@ export const StoreDetailPage: React.FC = () => {
     isMobile ? (
       <StoreDetailMobileView
         store={storeData as Store}
-        portalStoreAccess={accessData as PortalStoreAccess}
       />
     ) : (
       <StoreDetailDesktopView
         store={storeData as Store}
-        portalStoreAccess={accessData as PortalStoreAccess}
       />
     )
   );

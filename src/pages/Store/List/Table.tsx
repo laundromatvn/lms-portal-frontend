@@ -8,8 +8,6 @@ import { AddCircle } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
-import type { PortalStoreAccess } from '@shared/types/access/PortalStore';
-
 import { useListStoreApi, type ListStoreResponse } from '@shared/hooks/useListStoreApi';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
@@ -17,11 +15,7 @@ import LeftRightSection from '@shared/components/LeftRightSection';
 import { Box } from '@shared/components/Box';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
-interface Props {
-  access: PortalStoreAccess;
-}
-
-export const StoreListTable: React.FC<Props> = ({ access }) => {
+export const StoreListTable: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -82,50 +76,44 @@ export const StoreListTable: React.FC<Props> = ({ access }) => {
     >
       {contextHolder}
 
-      {access?.portal_store_basic_view && (
-        <Flex vertical style={{ height: '100%' }}>
-          <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-            <LeftRightSection
-              left={null}
-              right={(
-                <>
-                  {access?.portal_store_management && (
-                    <Button
-                      type="primary"
-                      icon={<AddCircle color={theme.custom.colors.text.inverted} />}
-                      onClick={() => navigate('/stores/add')}
-                      size="large"
-                    >
-                      {t('common.addStore')}
-                    </Button>
-                  )}
-                </>
-              )}
-            />
-
-            {listStoreLoading && <Skeleton active />}
-
-            {!listStoreLoading && (
-              <Flex vertical style={{ width: '100%' }}>
-                <Table
-                  bordered
-                  dataSource={tableData || []}
-                  columns={columns}
-                  pagination={{
-                    pageSize,
-                    current: page,
-                    total: listStoreData?.total,
-                    onChange: (page, pageSize) => {
-                      setPage(page);
-                      setPageSize(pageSize);
-                    },
-                  }}
-                />
-              </Flex>
+      <Flex vertical style={{ height: '100%' }}>
+        <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+          <LeftRightSection
+            left={null}
+            right={(
+              <Button
+                type="primary"
+                icon={<AddCircle color={theme.custom.colors.text.inverted} />}
+                onClick={() => navigate('/stores/add')}
+                size="large"
+              >
+                {t('common.addStore')}
+              </Button>
             )}
-          </Box>
-        </Flex>
-      )}
+          />
+
+          {listStoreLoading && <Skeleton active />}
+
+          {!listStoreLoading && (
+            <Flex vertical style={{ width: '100%' }}>
+              <Table
+                bordered
+                dataSource={tableData || []}
+                columns={columns}
+                pagination={{
+                  pageSize,
+                  current: page,
+                  total: listStoreData?.total,
+                  onChange: (page, pageSize) => {
+                    setPage(page);
+                    setPageSize(pageSize);
+                  },
+                }}
+              />
+            </Flex>
+          )}
+        </Box>
+      </Flex>
     </PortalLayoutV2>
   );
 };

@@ -6,7 +6,6 @@ import {Flex} from 'antd';
 import { useTheme } from '@shared/theme/useTheme';
 
 import type { Store } from '@shared/types/store';
-import type { PortalDashboardAccess } from '@shared/types/access/PortalDashboardAccess';
 import type { StoreOverviewFilter } from '../types';
 
 import {
@@ -21,7 +20,6 @@ import dayjs from '@shared/utils/dayjs';
 
 interface Props {
   store: Store;
-  portalDashboardAccess: PortalDashboardAccess;
   filters: StoreOverviewFilter[];
   datetimeFilters?: {
     start_datetime: string;
@@ -29,7 +27,7 @@ interface Props {
   };
 }
 
-export const MachineOverview: React.FC<Props> = ({ store, portalDashboardAccess, filters, datetimeFilters }) => {
+export const MachineOverview: React.FC<Props> = ({ store, filters, datetimeFilters }) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -98,7 +96,7 @@ export const MachineOverview: React.FC<Props> = ({ store, portalDashboardAccess,
         machines={listMachineData?.data || []}
         loading={listMachineLoading}
         onStartSuccess={handleListMachine}
-        onSaveMachine={portalDashboardAccess?.portal_dashboard_machine_setting ? handleListMachine : undefined}
+        onSaveMachine={handleListMachine}
       />
     </Flex>
   );

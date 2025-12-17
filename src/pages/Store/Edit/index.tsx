@@ -7,13 +7,11 @@ import {
   Skeleton,
   notification,
   Form,
-  Empty,
 } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 
 import { type Store } from '@shared/types/store';
-import type { PortalStoreAccess } from '@shared/types/access/PortalStore';
 
 import {
   useGetStoreApi,
@@ -23,7 +21,6 @@ import {
   useUpdateStoreApi,
   type UpdateStoreResponse,
 } from '@shared/hooks/useUpdateStoreApi';
-import { useGetAccessApi } from '@shared/hooks/access/useGetAccess';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { DetailEditSection } from './DetailEditSection';
@@ -51,11 +48,6 @@ export const StoreEditPage: React.FC = () => {
     data: updateStoreData,
     error: updateStoreError,
   } = useUpdateStoreApi<UpdateStoreResponse>();
-
-  const {
-    getAccess,
-    data: accessData,
-  } = useGetAccessApi<PortalStoreAccess>();
 
   const onSave = () => {
     const payload = {
@@ -108,11 +100,7 @@ export const StoreEditPage: React.FC = () => {
     });
   }, [storeData]);
 
-  useEffect(() => {
-    getAccess('portal_store');
-  }, [getAccess]);
-
-  if (!storeData || !accessData) {
+  if (!storeData) {
     return <Skeleton active />;
   }
 
@@ -123,14 +111,10 @@ export const StoreEditPage: React.FC = () => {
     >
       {contextHolder}
 
-      {!accessData?.portal_store_management && (
-        <Empty description={t('messages.youDoNotHavePermissionToAccessThisPage')} />
-      )}
-
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
         {storeLoading && <Skeleton active />}
 
-        {!storeLoading && storeData && accessData?.portal_store_management && (
+        {!storeLoading && storeData && (
           <>
             <DetailEditSection
               store={storeData as Store}
@@ -138,13 +122,11 @@ export const StoreEditPage: React.FC = () => {
               onSave={onSave}
             />
 
-            {accessData?.portal_store_payment_methods_management && (
-              <PaymentMethodEditSection
-                store={storeData as Store}
-                onChange={(values) => form.setFieldsValue(values)}
-                onSave={onSave}
-              />
-            )}
+            <PaymentMethodEditSection
+              store={storeData as Store}
+              onChange={(values) => form.setFieldsValue(values)}
+              onSave={onSave}
+            />
           </>
         )}
       </Flex>

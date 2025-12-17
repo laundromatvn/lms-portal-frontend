@@ -39,8 +39,6 @@ import { type User } from '@shared/types/user';
 import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
 
 import { DynamicTag } from '@shared/components/DynamicTag';
-import { useGetAccessApi } from '@shared/hooks/access/useGetAccess';
-import type { PortalAccess } from '@shared/types/access/PortalAccess';
 
 const { Text } = Typography;
 
@@ -53,7 +51,6 @@ interface MenuItemConfig {
   icon?: React.ReactNode;
   label?: string;
   children?: Array<{ key: string; label: string }>;
-  requiredAccess?: keyof PortalAccess;
   type?: 'divider' | 'item';
 }
 
@@ -71,11 +68,6 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
   const [user, setUser] = useState<User | null>(null);
   const tenant = tenantStorage.load();
 
-  const {
-    data: accessData,
-    getAccess,
-  } = useGetAccessApi<PortalAccess>();
-
   const [selectedMainKey, setSelectedMainKey] = useState<string | null>(null);
   const [selectedTenantKey, setSelectedTenantKey] = useState<string | null>(null);
 
@@ -84,19 +76,16 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
       key: 'overview',
       icon: <Widget />,
       label: t('navigation.overview'),
-      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'stores',
       icon: <Shop2 />,
       label: t('navigation.stores'),
-      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'controllers',
       icon: <WiFiRouter />,
       label: t('navigation.controllers'),
-      requiredAccess: 'portal_laundry_foundation_management',
       children: [
         {
           key: 'controllers',
@@ -112,61 +101,50 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
       key: 'machines',
       icon: <WashingMachine />,
       label: t('navigation.machines'),
-      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'orders',
       icon: <Bill />,
       label: t('navigation.orders'),
-      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'promotion-campaigns',
       icon: <Sale />,
       label: t('navigation.promotionCampaign'),
-      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       type: 'divider',
-      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'tenants/profile',
       icon: <Suitcase />,
       label: t('navigation.tenantProfile'),
-      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'tenant-members',
       icon: <UsersGroupTwoRounded />,
       label: t('navigation.tenantMembers'),
-      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       type: 'divider',
-      requiredAccess: 'portal_system_management',
     },
     {
       key: 'firmware',
       icon: <ZipFile />,
       label: t('navigation.firmware'),
-      requiredAccess: 'portal_system_management',
     },
     {
       key: 'permissions',
       icon: <ShieldCheck />,
       label: t('navigation.permissions'),
-      requiredAccess: 'portal_system_management',
     },
     {
       type: 'divider',
-      requiredAccess: 'portal_system_management',
     },
     {
       key: 'user/profile',
       icon: <UserIcon />,
       label: t('navigation.userProfile'),
-      requiredAccess: 'portal_laundry_foundation_management',
     },
   ], [t]);
 
@@ -178,10 +156,6 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
 
     loadUserData();
   }, []);
-
-  useEffect(() => {
-    getAccess('portal');
-  }, [getAccess]);
 
   useEffect(() => {
     const currentPath = location.pathname;
@@ -222,18 +196,6 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
   const menuItems = React.useMemo(() => {
     return allMenuItems
       .filter((item) => {
-        if (!item.requiredAccess) return true;
-        if (item.type === 'divider') {
-          const index = allMenuItems.indexOf(item);
-          const beforeItems = allMenuItems.slice(0, index).filter(i => i.type !== 'divider');
-          const afterItems = allMenuItems.slice(index + 1).filter(i => i.type !== 'divider');
-          const beforeVisible = beforeItems.some(i => !i.requiredAccess || accessData?.[i.requiredAccess]);
-          const afterVisible = afterItems.some(i => !i.requiredAccess || accessData?.[i.requiredAccess]);
-          return beforeVisible && afterVisible;
-        }
-        return accessData?.[item.requiredAccess] ?? false;
-      })
-      .filter((item) => {
         // Filter out overview for ADMIN role (keeping existing logic)
         if (user?.role === UserRoleEnum.ADMIN && item.key === 'overview') {
           return false;
@@ -245,19 +207,18 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
         return true;
       })
       .map((item) => {
-        const { requiredAccess, ...menuItem } = item;
         if (item.type === 'divider') {
           return { type: 'divider' as const };
         }
 
         return {
-          key: menuItem.key,
-          icon: menuItem.icon,
-          label: menuItem.label,
-          children: menuItem.children,
+          key: item.key,
+          icon: item.icon,
+          label: item.label,
+          children: item.children,
         };
       }) as MenuItem[];
-  }, [accessData, allMenuItems, user?.role]);
+  }, [allMenuItems, user?.role]);
 
   return (
     <Drawer

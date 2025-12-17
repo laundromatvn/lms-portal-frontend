@@ -38,7 +38,6 @@ import { tokenStorage } from '@core/storage/tokenStorage';
 import { type User } from '@shared/types/user';
 
 import { DynamicTag } from '@shared/components/DynamicTag';
-import { useGetAccessApi } from '@shared/hooks/access/useGetAccess';
 
 import { SiderHeader } from './Header';
 
@@ -50,18 +49,12 @@ interface MenuItemConfig {
   icon?: React.ReactNode;
   label?: string;
   children?: Array<{ key: string; label: string }>;
-  requiredAccess?: keyof GetPortalAccessAppResponse;
   type?: 'divider' | 'item';
 }
 
 interface Props {
   style?: React.CSSProperties;
   onCollapseChange?: (collapsed: boolean) => void;
-}
-
-interface GetPortalAccessAppResponse {
-  portal_laundry_foundation_management: boolean;
-  portal_system_management: boolean;
 }
 
 export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
@@ -74,10 +67,6 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
   const [user, setUser] = useState<User | null>(null);
 
   const tenant = tenantStorage.load();
-  const {
-    data: accessData,
-    getAccess,
-  } = useGetAccessApi();
 
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
 
@@ -86,19 +75,16 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'overview',
       icon: <Widget />,
       label: t('navigation.overview'),
-      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'stores',
       icon: <Shop2 />,
       label: t('navigation.stores'),
-      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'controllers',
       icon: <WiFiRouter />,
       label: t('navigation.controllers'),
-      requiredAccess: 'portal_laundry_foundation_management',
       children: [
         {
           key: 'controllers',
@@ -114,92 +100,68 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'machines',
       icon: <WashingMachine />,
       label: t('navigation.machines'),
-      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'orders',
       icon: <Bill />,
       label: t('navigation.orders'),
-      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'promotion-campaigns',
       icon: <Sale />,
       label: t('navigation.promotionCampaign'),
-      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       type: 'divider',
-      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'tenants/profile',
       icon: <Suitcase />,
       label: t('navigation.tenantProfile'),
-      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       key: 'tenant-members',
       icon: <UsersGroupTwoRounded />,
       label: t('navigation.tenantMembers'),
-      requiredAccess: 'portal_laundry_foundation_management',
     },
     {
       type: 'divider',
-      requiredAccess: 'portal_system_management',
     },
     {
       key: 'firmware',
       icon: <ZipFile />,
       label: t('navigation.firmware'),
-      requiredAccess: 'portal_system_management',
     },
     {
       key: 'permissions',
       icon: <ShieldCheck />,
       label: t('navigation.permissions'),
-      requiredAccess: 'portal_system_management',
     },
     {
       type: 'divider',
-      requiredAccess: 'portal_system_management',
     },
     {
       key: 'user/profile',
       icon: <UserIcon />,
       label: t('navigation.userProfile'),
-      requiredAccess: 'portal_laundry_foundation_management',
     },
   ], [t]);
 
   const menuItems = React.useMemo(() => {
     return allMenuItems
-      .filter((item) => {
-        if (!item.requiredAccess) return true;
-        if (item.type === 'divider') {
-          const index = allMenuItems.indexOf(item);
-          const beforeItems = allMenuItems.slice(0, index).filter(i => i.type !== 'divider');
-          const afterItems = allMenuItems.slice(index + 1).filter(i => i.type !== 'divider');
-          const beforeVisible = beforeItems.some(i => !i.requiredAccess || accessData?.[i.requiredAccess]);
-          const afterVisible = afterItems.some(i => !i.requiredAccess || accessData?.[i.requiredAccess]);
-          return beforeVisible && afterVisible;
-        }
-        return accessData?.[item.requiredAccess] ?? false;
-      })
       .map((item) => {
-        const { requiredAccess, ...menuItem } = item;
         if (item.type === 'divider') {
           return { type: 'divider' as const };
         }
 
         return {
-          key: menuItem.key,
-          icon: menuItem.icon,
-          label: menuItem.label,
-          children: menuItem.children,
+          key: item.key,
+          icon: item.icon,
+          label: item.label,
+          children: item.children,
         };
       }) as MenuProps['items'];
-  }, [accessData, allMenuItems]);
+  }, [allMenuItems]);
 
   useEffect(() => {
     const loadUserData = () => {
@@ -228,10 +190,6 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       window.removeEventListener('userDataUpdated', handleUserDataUpdate);
     };
   }, []);
-
-  useEffect(() => {
-    getAccess('portal');
-  }, [getAccess]);
 
   useEffect(() => {
     const pathname = location.pathname;
