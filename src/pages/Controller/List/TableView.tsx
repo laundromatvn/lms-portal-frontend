@@ -85,24 +85,26 @@ export const TableView: React.FC = () => {
       width: 128,
       render: (_: string, record: any) => (
         <>
-          <Popconfirm
-            title={t('controller.deleteControllerConfirm')}
-            onConfirm={() => deleteController(record.id)}
-            okText={t('common.delete')}
-            cancelText={t('common.cancel')}
-          >
-            <Button
-              icon={<TrashBinTrash />}
-              loading={deleteControllerLoading}
-              style={{
-                color: theme.custom.colors.danger.default,
-                backgroundColor: theme.custom.colors.danger.light,
-                border: 'none',
-              }}
+          {can('controller.delete') && (
+            <Popconfirm
+              title={t('controller.deleteControllerConfirm')}
+              onConfirm={() => deleteController(record.id)}
+              okText={t('common.delete')}
+              cancelText={t('common.cancel')}
             >
-              {t('common.delete')}
-            </Button>
-          </Popconfirm>
+              <Button
+                icon={<TrashBinTrash />}
+                loading={deleteControllerLoading}
+                style={{
+                  color: theme.custom.colors.danger.default,
+                  backgroundColor: theme.custom.colors.danger.light,
+                  border: 'none',
+                }}
+              >
+                {t('common.delete')}
+              </Button>
+            </Popconfirm>
+          )}
         </>
       ),
     },

@@ -146,24 +146,26 @@ export const ListView: React.FC = () => {
                 </Flex>
 
                 <Flex justify="end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-                  <Popconfirm
-                    title={t('controller.deleteControllerConfirm')}
-                    onConfirm={() => deleteController(item.id)}
-                    okText={t('common.delete')}
-                    cancelText={t('common.cancel')}
-                  >
-                    <Button
-                      icon={<TrashBinTrash />}
-                      loading={deleteControllerLoading}
-                      style={{
-                        color: theme.custom.colors.danger.default,
-                        backgroundColor: theme.custom.colors.danger.light,
-                        border: 'none',
-                      }}
+                  {can('controller.delete') && (
+                    <Popconfirm
+                      title={t('controller.deleteControllerConfirm')}
+                      onConfirm={() => deleteController(item.id)}
+                      okText={t('common.delete')}
+                      cancelText={t('common.cancel')}
                     >
-                      {t('common.delete')}
-                    </Button>
-                  </Popconfirm>
+                      <Button
+                        icon={<TrashBinTrash />}
+                        loading={deleteControllerLoading}
+                        style={{
+                          color: theme.custom.colors.danger.default,
+                          backgroundColor: theme.custom.colors.danger.light,
+                          border: 'none',
+                        }}
+                      >
+                        {t('common.delete')}
+                      </Button>
+                    </Popconfirm>
+                  )}
                 </Flex>
               </List.Item>
             )}
