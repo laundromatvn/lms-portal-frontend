@@ -11,6 +11,7 @@
   "controller": {
     "abandonedController": "Controller Tự Do",
     "registerAbandoned": "Đăng ký Controller",
+    "addController": "Thêm Controller",
     "assign": "Gán",
     "test": "Test",
     "verifyAbandonedControllerSuccess": "Controller tự do đã được xác thực thành công",

@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { Typography } from 'antd';
 
+import { useCan } from '@shared/hooks/useCan';
+
 import { type Controller } from '@shared/types/Controller';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
@@ -17,9 +19,15 @@ interface Props {
 export const DetailSection: React.FC<Props> = ({ controller }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-
+  const can = useCan();
+  
   return (
-    <BaseDetailSection title={t('common.basicInformation')} onEdit={() => navigate(`/controllers/${controller.id}/edit`)}>
+    <BaseDetailSection
+      title={t('common.basicInformation')}
+      onEdit={can('controller.update') 
+        ? () => navigate(`/controllers/${controller.id}/edit`)
+        : undefined}
+    >
       <DataWrapper title={t('common.deviceId')} value={controller.device_id || '-'} />
       <DataWrapper title={t('common.store')} value={controller.store_name || '-'} />
       <DataWrapper title={t('common.name')} value={controller.name || '-'} />

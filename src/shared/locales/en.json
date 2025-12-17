@@ -11,6 +11,7 @@
   "controller": {
     "abandonedController": "Abandoned Controller",
     "registerAbandoned": "Register Abandoned",
+    "addController": "Add Controller",
     "assign": "Assign",
     "test": "Test",
     "verifyAbandonedControllerSuccess": "Abandoned controller verified successfully",

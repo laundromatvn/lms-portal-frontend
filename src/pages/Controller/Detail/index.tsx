@@ -10,18 +10,19 @@ import { useGetControllerApi, type GetControllerResponse } from '@shared/hooks/u
 import { useDeleteControllerApi } from '@shared/hooks/useDeleteControllerApi';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useCan } from '@shared/hooks/useCan';
 
 import { type Controller } from '@shared/types/Controller';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
-import LeftRightSection from '@shared/components/LeftRightSection';
 import { DetailSection } from './DetailSection';
-import { MachineListSection } from './MachineListSection';
+import { MachineSection } from './MachineSection';
 
 export const ControllerDetailPage: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
+  const can = useCan();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -53,15 +54,15 @@ export const ControllerDetailPage: React.FC = () => {
   }, [controllerId]);
 
   return (
-    <PortalLayoutV2 title={t('common.controllerDetail')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2
+      title={`${controllerData?.name} (${controllerData?.device_id})`}
+      onBack={() => navigate(-1)}
+    >
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        {controllerLoading && <Skeleton active />}
-
-        <LeftRightSection
-          left={null}
-          right={(
+        <Flex justify="end" gap={theme.custom.spacing.small}>
+          {can('controller.delete') && (
             <Popconfirm
               title={t('controller.deleteControllerConfirm')}
               onConfirm={() => deleteController(controllerId as string)}
@@ -69,24 +70,26 @@ export const ControllerDetailPage: React.FC = () => {
               cancelText={t('common.cancel')}
             >
               <Button
-                danger
-                type="default"
                 loading={deleteControllerLoading}
+                icon={<TrashBinTrash />}
                 style={{
-                  backgroundColor: theme.custom.colors.background.light,
+                  color: theme.custom.colors.danger.default,
+                  backgroundColor: theme.custom.colors.danger.light,
+                  border: 'none',
                 }}
               >
-                <TrashBinTrash weight="Outline" color={theme.custom.colors.danger.default} />
                 {t('common.delete')}
               </Button>
             </Popconfirm>
           )}
-        />
+        </Flex>
+
+        {controllerLoading && <Skeleton active />}
 
         {!controllerLoading && controllerData && (
           <>
             <DetailSection controller={controllerData as Controller} />
-            <MachineListSection controller={controllerData as Controller} />
+            {can('machine.list') && <MachineSection controller={controllerData as Controller} />}
           </>
         )}
       </Flex>
