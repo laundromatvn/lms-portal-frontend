@@ -3,7 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { type Dayjs } from 'dayjs';
 
-import { Button, Table, Dropdown, Typography, notification, Flex, Input, Select, DatePicker } from 'antd';
+import {
+  Button,
+  Table,
+  Dropdown,
+  Typography,
+  notification,
+  Flex,
+  Input,
+} from 'antd';
 import type { MenuProps } from 'antd';
 
 import {
@@ -14,9 +22,11 @@ import {
   PauseCircle,
   PlayCircle,
   Calendar,
+  Filter,
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useCan } from '@shared/hooks/useCan';
 
 import type { PromotionCampaign } from '@shared/types/promotion/PromotionCampaign';
 
@@ -31,18 +41,21 @@ import { useSchedulePromotionCampaignApi } from '@shared/hooks/promotion/useSche
 import { usePausePromotionCampaignApi } from '@shared/hooks/promotion/usePausePromotionCampaignApi';
 import { useResumePromotionCampaignApi } from '@shared/hooks/promotion/useResumePromotionCampaignApi';
 
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { Box } from '@shared/components/Box';
 import type { ColumnsType } from 'antd/es/table';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
 import { formatDateTime } from '@shared/utils/date';
-import LeftRightSection from '@shared/components/LeftRightSection';
 import { PromotionCampaignStatusEnum } from '@shared/enums/PromotionCampaignStatusEnum';
 
-export const PromotionCampaignListTable: React.FC = () => {
+import { FilterDrawer } from './FilterDrawer';
+
+export const TableView: React.FC = () => {
   const theme = useTheme();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const can = useCan();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -58,6 +71,8 @@ export const PromotionCampaignListTable: React.FC = () => {
   const [startTime, setStartTime] = useState<Dayjs | null>(null);
   const [endTime, setEndTime] = useState<Dayjs | null>(null);
 
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+
   const {
     data: listPromotionCampaignData,
     loading: listPromotionCampaignLoading,
@@ -67,25 +82,21 @@ export const PromotionCampaignListTable: React.FC = () => {
     deletePromotionCampaign,
     data: deletePromotionCampaignData,
     error: deletePromotionCampaignError,
-    loading: deletePromotionCampaignLoading,
   } = useDeletePromotionCampaignApi<void>();
   const {
     pausePromotionCampaign,
     data: pausePromotionCampaignData,
     error: pausePromotionCampaignError,
-    loading: pausePromotionCampaignLoading,
   } = usePausePromotionCampaignApi();
   const {
     resumePromotionCampaign,
     data: resumePromotionCampaignData,
     error: resumePromotionCampaignError,
-    loading: resumePromotionCampaignLoading,
   } = useResumePromotionCampaignApi();
   const {
     schedulePromotionCampaign,
     data: schedulePromotionCampaignData,
     error: schedulePromotionCampaignError,
-    loading: schedulePromotionCampaignLoading,
   } = useSchedulePromotionCampaignApi();
 
   const validateSearchText = (text: string): boolean => {
@@ -123,21 +134,6 @@ export const PromotionCampaignListTable: React.FC = () => {
 
     setSearchError(undefined);
     setSearch(searchValue);
-    setPage(1);
-  }
-
-  const handleStatusFilter = (status: PromotionCampaignStatusEnum | undefined) => {
-    setStatusFilter(status);
-    setPage(1);
-  }
-
-  const handleStartTimeChange = (date: Dayjs | null) => {
-    setStartTime(date);
-    setPage(1);
-  }
-
-  const handleEndTimeChange = (date: Dayjs | null) => {
-    setEndTime(date);
     setPage(1);
   }
 
@@ -254,7 +250,10 @@ export const PromotionCampaignListTable: React.FC = () => {
             <Button
               type="link"
               icon={<MenuDots weight="Bold" />}
-              disabled={record.status === PromotionCampaignStatusEnum.FINISHED}
+              disabled={(
+                record.status === PromotionCampaignStatusEnum.FINISHED ||
+                !can('promotion_campaign.update')
+              )}
             />
           </Dropdown>
         );
@@ -338,124 +337,105 @@ export const PromotionCampaignListTable: React.FC = () => {
   }, [schedulePromotionCampaignError]);
 
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-      {contextHolder}
+    <PortalLayoutV2 title={t('common.promotionCampaign')} onBack={() => navigate(-1)}>
+      <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+        {contextHolder}
 
-      <LeftRightSection
-        left={(
-          <Flex gap={theme.custom.spacing.small}>
-            <Input.Search
-              placeholder={t('common.search')}
-              value={search}
-              onChange={(e) => {
-                const value = e.target.value;
-                setSearch(value);
-                if (value && value.length > 0 && value.length < 3) {
-                  setSearchError('Please enter at least 3 characters');
-                } else {
-                  setSearchError(undefined);
-                }
-              }}
-              onSearch={handleSearch}
-              allowClear
-              onClear={() => {
-                setSearch('');
+        <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+          <Input.Search
+            placeholder={t('common.search')}
+            value={search}
+            onChange={(e) => {
+              const value = e.target.value;
+              setSearch(value);
+              if (value && value.length > 0 && value.length < 3) {
+                setSearchError('Please enter at least 3 characters');
+              } else {
                 setSearchError(undefined);
-                setStatusFilter(undefined);
-                setStartTime(null);
-                setEndTime(null);
-                setPage(1);
-              }}
-              status={searchError ? 'error' : undefined}
-            />
-          </Flex>
-        )}
-        right={(
-          <Flex gap={theme.custom.spacing.small}>
+              }
+            }}
+            onSearch={handleSearch}
+            allowClear
+            onClear={() => {
+              setSearch('');
+              setSearchError(undefined);
+              setStatusFilter(undefined);
+              setStartTime(null);
+              setEndTime(null);
+              setPage(1);
+            }}
+            status={searchError ? 'error' : undefined}
+            style={{ width: 384 }}
+          />
+
+          <Flex justify="flex-end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
             <Button
               type="text"
-              icon={<Refresh color={theme.custom.colors.text.inverted} />}
+              shape="circle"
+              icon={<Refresh />}
               onClick={() => handleListPromotionCampaign()}
               loading={listPromotionCampaignLoading}
             />
-            <Select
-              placeholder={t('common.status')}
-              style={{ width: 150 }}
-              allowClear
-              value={statusFilter}
-              onChange={(value) => handleStatusFilter(value as PromotionCampaignStatusEnum)}
-            >
-              {Object.values(PromotionCampaignStatusEnum).map((status) => (
-                <Select.Option key={status} value={status} style={{ textAlign: 'left' }}>
-                  <DynamicTag value={status} />
-                </Select.Option>
-              ))}
-            </Select>
-            <DatePicker
-              placeholder={t('common.startTime')}
-              format="YYYY-MM-DD HH:mm:ss"
-              showTime
-              value={startTime}
-              onChange={handleStartTimeChange}
-              style={{ width: 200 }}
-              allowClear
-            />
-            <DatePicker
-              placeholder={t('common.endTime')}
-              format="YYYY-MM-DD HH:mm:ss"
-              showTime
-              value={endTime}
-              onChange={handleEndTimeChange}
-              style={{ width: 200 }}
-              allowClear
-            />
-          </Flex>
-        )}
-      />
 
-      <LeftRightSection
-        left={null}
-        right={(
-          <Flex gap={theme.custom.spacing.small}>
             <Button
-              type="primary"
-              icon={<AddCircle color={theme.custom.colors.text.inverted} />}
+              icon={<Filter />}
+              onClick={() => setIsFilterDrawerOpen(true)}
+            >
+              {t('common.filters')}
+            </Button>
+          </Flex>
+        </Flex>
+
+        <Flex justify="end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+          {can('promotion_campaign.create') && (
+            <Button
+              icon={<AddCircle />}
               onClick={() => navigate('/promotion-campaigns/add')}
             >
               {t('common.addPromotionCampaign')}
             </Button>
-          </Flex>
-        )}
-      />
+          )}
+        </Flex>
 
-      <Table
-        bordered
-        dataSource={listPromotionCampaignData?.data || []}
-        columns={columns}
-        loading={listPromotionCampaignLoading}
-        style={{ width: '100%' }}
-        pagination={{
-          pageSize: 10,
-          current: listPromotionCampaignData?.page,
-          total: listPromotionCampaignData?.total,
-          onChange: (page, pageSize) => {
-            setPage(page);
-            setPageSize(pageSize);
-          },
-        }}
-        onChange={(pagination, _filters, sorter) => {
-          if (sorter && 'field' in sorter && sorter.field) {
-            setOrderBy(sorter.field as string);
-            setOrderDirection(sorter.order === 'ascend' ? 'asc' : 'desc');
-          } else if (sorter && 'order' in sorter && !sorter.order) {
-            setOrderBy(undefined);
-            setOrderDirection(undefined);
-          }
+        <Table
+          bordered
+          dataSource={listPromotionCampaignData?.data || []}
+          columns={columns}
+          loading={listPromotionCampaignLoading}
+          style={{ width: '100%' }}
+          pagination={{
+            pageSize: 10,
+            current: listPromotionCampaignData?.page,
+            total: listPromotionCampaignData?.total,
+            onChange: (page, pageSize) => {
+              setPage(page);
+              setPageSize(pageSize);
+            },
+          }}
+          onChange={(pagination, _filters, sorter) => {
+            if (sorter && 'field' in sorter && sorter.field) {
+              setOrderBy(sorter.field as string);
+              setOrderDirection(sorter.order === 'ascend' ? 'asc' : 'desc');
+            } else if (sorter && 'order' in sorter && !sorter.order) {
+              setOrderBy(undefined);
+              setOrderDirection(undefined);
+            }
 
-          setPage(pagination.current || 1);
-          setPageSize(pagination.pageSize || 10);
+            setPage(pagination.current || 1);
+            setPageSize(pagination.pageSize || 10);
+          }}
+        />
+      </Box>
+
+      <FilterDrawer
+        open={isFilterDrawerOpen}
+        onClose={() => setIsFilterDrawerOpen(false)}
+        onApplyFilters={(filters: { status?: PromotionCampaignStatusEnum; startTime?: Dayjs; endTime?: Dayjs }) => {
+          setStatusFilter(filters.status);
+          setStartTime(filters.startTime ?? null);
+          setEndTime(filters.endTime ?? null);
         }}
       />
-    </Box>
+    </PortalLayoutV2>
   );
 };

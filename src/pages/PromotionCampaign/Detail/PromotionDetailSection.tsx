@@ -2,14 +2,16 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
+import { useCan } from '@shared/hooks/useCan';
+
 import { type PromotionCampaign } from '@shared/types/promotion/PromotionCampaign';
+import { PromotionCampaignStatusEnum } from '@shared/enums/PromotionCampaignStatusEnum';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 
 import { ConditionDetailSection } from './ConditionDetailSection';
 import { RewardDetailSection } from './RewardDetailSection';
 import { LimitDetailSection } from './LimitDetailSection';
-import { PromotionCampaignStatusEnum } from '@shared/enums/PromotionCampaignStatusEnum';
 
 interface Props {
   promotionCampaign: PromotionCampaign;
@@ -18,7 +20,8 @@ interface Props {
 export const PromotionDetailSection: React.FC<Props> = ({ promotionCampaign }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-
+  const can = useCan();
+  
   const canEdit = (status: PromotionCampaignStatusEnum) => {
     switch (status) {
       case PromotionCampaignStatusEnum.DRAFT:
@@ -33,7 +36,7 @@ export const PromotionDetailSection: React.FC<Props> = ({ promotionCampaign }: P
   return (
     <BaseDetailSection
       title={t('common.promotionDetails')}
-      onEdit={canEdit(promotionCampaign.status)
+      onEdit={(can('promotion_campaign.update') && canEdit(promotionCampaign.status))
         ? () => navigate(`/promotion-campaigns/${promotionCampaign.id}/edit`)
         : undefined}
     >

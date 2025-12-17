@@ -258,7 +258,8 @@
     "vnpay": "VNPAY",
     "internal_promotion": "Internal Promotion",
     "paymentProvider": "Nhà cung cấp thanh toán",
-    "isEnabled": "Trạng thái hoạt động"
+    "isEnabled": "Trạng thái hoạt động",
+    "filters": "Bộ lọc"
   },
   "navigation": {
     "overview": "Tổng quan",

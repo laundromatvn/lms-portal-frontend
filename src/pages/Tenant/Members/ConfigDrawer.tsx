@@ -157,6 +157,7 @@ export const ConfigDrawer: React.FC<Props> = ({
               <Form.Item
                 label={t('common.phone')}
                 name="phone"
+                rules={[{ required: true, message: t('messages.phoneIsRequired') }]}
               >
                 <Input size="large" />
               </Form.Item>

@@ -91,7 +91,6 @@ export const TenantMemberListView: React.FC = () => {
         <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
           <Flex justify="flex-end" wrap gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
             <Button
-              type="primary"
               onClick={() => {
                 setIsDrawerOpen(true);
                 setSelectedDrawerType(DrawerType.CREATE_NEW_MEMBER);

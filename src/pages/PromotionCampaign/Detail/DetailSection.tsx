@@ -2,6 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
+import { useCan } from '@shared/hooks/useCan';
+
 import { type PromotionCampaign } from '@shared/types/promotion/PromotionCampaign';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
@@ -18,6 +20,7 @@ interface Props {
 export const DetailSection: React.FC<Props> = ({ promotionCampaign }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const can = useCan();
 
   const canEdit = (status: PromotionCampaignStatusEnum) => {
     switch (status) {
@@ -33,7 +36,7 @@ export const DetailSection: React.FC<Props> = ({ promotionCampaign }: Props) => 
   return (
     <BaseDetailSection
       title={t('common.basicInformation')}
-      onEdit={canEdit(promotionCampaign.status)
+      onEdit={(can('promotion_campaign.update') && canEdit(promotionCampaign.status))
         ? () => navigate(`/promotion-campaigns/${promotionCampaign.id}/edit`)
         : undefined}
     >

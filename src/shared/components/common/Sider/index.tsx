@@ -106,12 +106,12 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
         },
       ],
     },
-    {
-      key: 'machines',
-      icon: <WashingMachine />,
-      label: t('navigation.machines'),
-      permission: 'machine.list',
-    },
+    // {
+    //   key: 'machines',
+    //   icon: <WashingMachine />,
+    //   label: t('navigation.machines'),
+    //   permission: 'machine.list',
+    // },
     {
       key: 'orders',
       icon: <Bill />,

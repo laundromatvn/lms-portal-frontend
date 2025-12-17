@@ -107,19 +107,20 @@ export const PromotionCampaignAddPage: React.FC = () => {
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <LeftRightSection
-          left={null}
-          right={(
-            <Button
-              type="primary"
-              icon={<AddCircle size={18} />}
-              onClick={handleSave}
-              loading={createPromotionCampaignLoading}
-            >
-              {t('common.add')}
-            </Button>
-          )}
-        />
+        <Flex justify="end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+          <Button
+            icon={<AddCircle />}
+            onClick={handleSave}
+            loading={createPromotionCampaignLoading}
+            style={{
+              backgroundColor: theme.custom.colors.info.light,
+              color: theme.custom.colors.info.default,
+              border: 'none',
+            }}
+          >
+            {t('common.add')}
+          </Button>
+        </Flex>
 
         <AddSection
           formRef={addSectionFormRef}

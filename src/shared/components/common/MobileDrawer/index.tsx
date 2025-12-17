@@ -108,12 +108,12 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
         },
       ],
     },
-    {
-      key: 'machines',
-      icon: <WashingMachine />,
-      label: t('navigation.machines'),
-      permission: 'machine.list',
-    },
+    // {
+    //   key: 'machines',
+    //   icon: <WashingMachine />,
+    //   label: t('navigation.machines'),
+    //   permission: 'machine.list',
+    // },
     {
       key: 'orders',
       icon: <Bill />,

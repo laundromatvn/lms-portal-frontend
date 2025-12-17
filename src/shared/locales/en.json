@@ -258,7 +258,8 @@
     "vnpay": "VNPAY",
     "internal_promotion": "Internal Promotion",
     "paymentProvider": "Payment Provider",
-    "isEnabled": "Is Enabled"
+    "isEnabled": "Is Enabled",
+    "filters": "Filters"
   },
   "navigation": {
     "overview": "Overview",
