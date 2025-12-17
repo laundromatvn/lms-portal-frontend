@@ -3,9 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 import { Flex, Segmented } from 'antd';
 
-import { CartCheck, CashOut, WashingMachine } from '@solar-icons/react';
-
 import { useTheme } from '@shared/theme/useTheme';
+import { useCan } from '@shared/hooks/useCan';
 
 import type { Store } from '@shared/types/store';
 
@@ -38,23 +37,29 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
 }) => {
   const theme = useTheme();
   const { t } = useTranslation();
+  const can = useCan();
 
-  const [selectedTab, setSelectedTab] = useState<string>('key_metrics');
-
-  const tabOptions = [
+  const tabOptions: { label: string; value: string; permission?: string }[] = [
     {
       label: t('overviewV2.overview'),
       value: 'key_metrics',
+      permission: 'dashboard.overview.get',
     },
     {
       label: t('overviewV2.order'),
       value: 'top_orders',
+      permission: 'order.list',
     },
     {
       label: t('overviewV2.machine'),
       value: 'machines',
+      permission: 'machine.list',
     },
   ];
+
+  const filteredTabOptions = tabOptions.filter((option) => !option.permission || can(option.permission));
+
+  const [selectedTab, setSelectedTab] = useState<string>(filteredTabOptions[0].value);
 
   return (
     <Flex
@@ -74,7 +79,7 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
       />
 
       <Segmented
-        options={tabOptions}
+        options={filteredTabOptions}
         value={selectedTab}
         onChange={(value) => {
           setSelectedTab(value);
@@ -87,15 +92,15 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
         shape="round"
       />
 
-      {selectedTab === 'key_metrics' && (
+      {selectedTab === 'key_metrics' && can('dashboard.overview.get') && (
         <StoreKeyMetrics store={store} filters={selectedFilters} datetimeFilters={datetimeFilters} />
       )}
 
-      {selectedTab === 'top_orders' && (
+      {selectedTab === 'top_orders' && can('order.list') && (
         <TopOrderOverview store={store} filters={selectedFilters} datetimeFilters={datetimeFilters} />
       )}
 
-      {selectedTab === 'machines' && (
+      {selectedTab === 'machines' && can('machine.list') && (
         <MachineOverview
           store={store}
           filters={selectedFilters}
