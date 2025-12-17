@@ -3,6 +3,7 @@ import React from 'react';
 import { Flex } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useCan } from '@shared/hooks/useCan';
 
 import type { Store } from '@shared/types/store';
 
@@ -34,6 +35,7 @@ export const StoreOverviewDesktopView: React.FC<Props> = ({
   datetimeFilters,
 }) => {
   const theme = useTheme();
+  const can = useCan();
 
   return (
     <Flex
@@ -52,13 +54,29 @@ export const StoreOverviewDesktopView: React.FC<Props> = ({
         style={{ justifyContent: 'flex-end' }}
       />
 
-      <StoreKeyMetrics store={store} filters={selectedFilters} datetimeFilters={datetimeFilters} />
-      <TopOrderOverview store={store} filters={selectedFilters} datetimeFilters={datetimeFilters} />
-      <MachineOverview
-        store={store}
-        filters={selectedFilters}
-        datetimeFilters={datetimeFilters}
-      />
+      {can('dashboard.overview.get') && (
+        <StoreKeyMetrics
+          store={store}
+          filters={selectedFilters}
+          datetimeFilters={datetimeFilters}
+        />
+      )}
+
+      {can('order.list') && (
+        <TopOrderOverview
+          store={store}
+          filters={selectedFilters}
+          datetimeFilters={datetimeFilters}
+        />
+      )}
+
+      {can('machine.list') && (
+        <MachineOverview
+          store={store}
+          filters={selectedFilters}
+          datetimeFilters={datetimeFilters}
+        />
+      )}
     </Flex>
   );
 };

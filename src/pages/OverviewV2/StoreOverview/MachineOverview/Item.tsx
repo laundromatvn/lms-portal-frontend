@@ -11,6 +11,7 @@ import {
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useCan } from '@shared/hooks/useCan';
 
 import {
   useActivateMachineApi,
@@ -36,6 +37,7 @@ export const MachineOverviewItem: React.FC<Props> = ({ machine, onStartSuccess, 
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
+  const can = useCan();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -97,20 +99,24 @@ export const MachineOverviewItem: React.FC<Props> = ({ machine, onStartSuccess, 
           </Typography.Text>
 
           <Flex gap={theme.custom.spacing.small}>
-            <Button
-              type="default"
-              icon={<Play />}
-              onClick={() => setIsStartMachineDrawerOpen(true)}
-            />
+            {can('machine.start') && (
+              <Button
+                type="default"
+                icon={<Play />}
+                onClick={() => setIsStartMachineDrawerOpen(true)}
+              />
+            )}
 
-            <Button
-              type="default"
-              icon={<Refresh />}
-              onClick={() => activateMachine(machine.id)}
-              loading={activateMachineLoading}
-            />
+            {can('machine.restart') && (
+              <Button
+                type="default"
+                icon={<Refresh />}
+                onClick={() => activateMachine(machine.id)}
+                loading={activateMachineLoading}
+              />
+            )}
 
-            {onSaveMachine && (
+            {can('machine.update') && onSaveMachine && (
               <Button
                 type="default"
                 icon={<Settings />}
