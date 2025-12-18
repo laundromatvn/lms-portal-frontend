@@ -467,6 +467,8 @@
     "order": "Đơn hàng",
     "machine": "Máy",
     "keyMetrics": "Chỉ số chính",
+    "alerts": "Cảnh báo",
+    "markAllAsSeen": "Đã đọc tất cả",
     "laundryManagementSystem": "Hệ thống quản lý giặt sấy",
     "revenueByDay": "Doanh thu theo ngày",
     "revenueByMonth": "Doanh thu theo tháng",

@@ -467,6 +467,8 @@
   },
   "overviewV2": {
     "keyMetrics": "Key Metrics",
+    "alerts": "Alerts",
+    "markAllAsSeen": "Mark all as seen",
     "laundryManagementSystem": "Laundry Management System",
     "revenueByDay": "Revenue By Day",
     "revenueByMonth": "Revenue By Month",

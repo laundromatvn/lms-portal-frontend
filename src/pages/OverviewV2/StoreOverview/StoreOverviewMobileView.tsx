@@ -10,10 +10,11 @@ import type { Store } from '@shared/types/store';
 
 import type { StoreOverviewFilter } from './types';
 
+import { ChipFilter } from './ChipFilter';
 import { StoreKeyMetrics } from './StoreKeyMetrics';
 import { TopOrderOverview } from './TopOrderOverview';
 import { MachineOverview } from './MachineOverview';
-import { ChipFilter } from './ChipFilter';
+import { LatestAlerts } from './LatestAlerts';
 
 interface Props {
   store: Store;
@@ -40,6 +41,10 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
   const can = useCan();
 
   const tabOptions: { label: string; value: string; permission?: string }[] = [
+    {
+      label: t('overviewV2.alerts'),
+      value: 'alerts',
+    },
     {
       label: t('overviewV2.overview'),
       value: 'key_metrics',
@@ -91,6 +96,10 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
         size="large"
         shape="round"
       />
+
+      {selectedTab === 'alerts' && (
+        <LatestAlerts />
+      )}
 
       {selectedTab === 'key_metrics' && can('dashboard.overview.view') && (
         <StoreKeyMetrics store={store} filters={selectedFilters} datetimeFilters={datetimeFilters} />
