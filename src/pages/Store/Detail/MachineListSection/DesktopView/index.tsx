@@ -256,6 +256,9 @@ export const DesktopView: React.FC<Props> = ({ store }) => {
           pageSize,
           current: page,
           total: listMachineData?.total,
+          showSizeChanger: true,
+          showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+          style: { color: theme.custom.colors.text.tertiary },
           onChange: (page, pageSize) => {
             setPage(page);
             setPageSize(pageSize);

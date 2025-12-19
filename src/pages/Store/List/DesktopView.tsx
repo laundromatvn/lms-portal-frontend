@@ -24,7 +24,7 @@ import { Box } from '@shared/components/Box';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { type Store } from '@shared/types/store';
 
-export const TableView: React.FC = () => {
+export const DesktopView: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -163,6 +163,9 @@ export const TableView: React.FC = () => {
                 pageSize,
                 current: page,
                 total: listStoreData?.total,
+                showSizeChanger: true,
+                showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+                style: { color: theme.custom.colors.text.tertiary },
                 onChange: (page, pageSize) => {
                   setPage(page);
                   setPageSize(pageSize);

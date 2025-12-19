@@ -13,8 +13,9 @@ import { useListStoreApi, type ListStoreResponse } from '@shared/hooks/useListSt
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { DynamicTag } from '@shared/components/DynamicTag';
+import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 
-export const ListView: React.FC = () => {
+export const MobileView: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -94,14 +95,22 @@ export const ListView: React.FC = () => {
         )}
       </Flex>
 
-      <Flex vertical >
+      <BaseDetailSection
+        title={t('common.storeList')}
+        onRefresh={handleListStore}
+        style={{ width: '100%' }}
+      >
         <List
           dataSource={listStoreData?.data || []}
           loading={listStoreLoading}
+          style={{ width: '100%' }}
           pagination={{
             pageSize,
             current: page,
             total: listStoreData?.total,
+            showSizeChanger: true,
+            showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+            style: { color: theme.custom.colors.text.tertiary },
             onChange: (page, pageSize) => {
               setPage(page);
               setPageSize(pageSize);
@@ -124,7 +133,7 @@ export const ListView: React.FC = () => {
               }}
             >
               <Flex justify="space-between" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
-                <Typography.Text 
+                <Typography.Text
                   ellipsis
                   style={{
                     flex: 1,
@@ -140,8 +149,8 @@ export const ListView: React.FC = () => {
                 </Flex>
               </Flex>
 
-              <Typography.Text 
-                type="secondary" 
+              <Typography.Text
+                type="secondary"
                 ellipsis
                 style={{
                   width: '100%',
@@ -153,7 +162,7 @@ export const ListView: React.FC = () => {
             </List.Item>
           )}
         />
-      </Flex>
+      </BaseDetailSection>
     </PortalLayoutV2 >
   );
 }

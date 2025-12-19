@@ -61,6 +61,9 @@ export const MobileView: React.FC<Props> = ({ store }) => {
         pagination={{
           pageSize: pageSize,
           total: listControllerData?.total || 0,
+          showSizeChanger: true,
+          showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+          style: { color: theme.custom.colors.text.tertiary },
           onChange: (newPage, newPageSize) => {
             setPage(newPage);
             setPageSize(newPageSize);
