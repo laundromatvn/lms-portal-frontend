@@ -56,7 +56,7 @@ export const TableView: React.FC<Props> = ({ controller }) => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [orderBy, setOrderBy] = useState('relay_no');
-  const [orderDirection, setOrderDirection] = useState('asc');
+  const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('asc');
 
   const [isMachineSettingDrawerOpen, setIsMachineSettingDrawerOpen] = useState(false);
   const [isStartMachineDrawerOpen, setIsStartMachineDrawerOpen] = useState(false);
@@ -162,9 +162,14 @@ export const TableView: React.FC<Props> = ({ controller }) => {
       controller_id: controller.id,
       page,
       page_size: pageSize,
-      order_by: 'name',
+      order_by: orderBy,
+      order_direction: orderDirection || 'asc',
     });
   }
+
+  useEffect(() => {
+    handleListMachine();
+  }, [orderBy, orderDirection, page, pageSize]);
 
   useEffect(() => {
     handleListMachine();
