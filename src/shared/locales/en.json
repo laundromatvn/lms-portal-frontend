@@ -261,7 +261,8 @@
     "isEnabled": "Is Enabled",
     "filters": "Filters",
     "selectStores": "Select Stores",
-    "selectStoresIsRequired": "Select stores is required"
+    "selectStoresIsRequired": "Select stores is required",
+    "unknown": "Unknown"
   },
   "navigation": {
     "overview": "Overview",

@@ -9,6 +9,7 @@ import {
   Select,
   Typography,
   notification,
+  Divider,
 } from 'antd';
 
 import {
@@ -44,11 +45,13 @@ import { MachineSettingDrawer } from '@shared/components/Drawer/MachineSettingDr
 
 import { formatCurrencyCompact } from '@shared/utils/currency';
 
+import './style.css';
+
 interface Props {
   store: Store;
 }
 
-export const ListView: React.FC<Props> = ({ store }) => {
+export const MobileView: React.FC<Props> = ({ store }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -133,15 +136,17 @@ export const ListView: React.FC<Props> = ({ store }) => {
 
       <Flex justify="end" align="center" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
         <Select
+          size="large"
+          allowClear
+          loading={listControllerLoading}
+          placeholder={t('common.selectController')}
+          value={selectedControllerId}
+          onChange={(value) => setSelectedControllerId(value)}
           options={listControllerData?.data.map((item) => ({
             label: item.name,
             value: item.id,
           }))}
-          value={selectedControllerId}
-          onChange={(value) => setSelectedControllerId(value)}
-          style={{ width: 240 }}
-          loading={listControllerLoading}
-          placeholder={t('common.selectController')}
+          style={{ width: '100%' }}
         />
       </Flex>
 
@@ -167,61 +172,101 @@ export const ListView: React.FC<Props> = ({ store }) => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'flex-start',
-              gap: theme.custom.spacing.small,
               width: '100%',
-              padding: theme.custom.spacing.medium,
+              padding: theme.custom.spacing.small,
+              gap: theme.custom.spacing.large,
               marginBottom: theme.custom.spacing.medium,
               backgroundColor: theme.custom.colors.background.light,
               borderRadius: theme.custom.radius.medium,
               border: `1px solid ${theme.custom.colors.neutral[200]}`,
             }}
           >
-            <Flex vertical gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-              <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-                <Typography.Link onClick={() => navigate(`/machines/${item.id}/detail`)}>
-                  {item.name || `${t('common.machine')} ${item.relay_no}`}
-                </Typography.Link>
-                <DynamicTag value={item.status} />
-              </Flex>
-
-              <Flex gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-                <Typography.Text type="secondary">{item.machine_type}</Typography.Text>
-                <Typography.Text type="secondary">|</Typography.Text>
-                <Typography.Text type="secondary">{`${t('common.machine')} ${item.relay_no}`}</Typography.Text>
-              </Flex>
-
-              <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-                <Typography.Text strong style={{ color: theme.custom.colors.success.default }}>
-                  {formatCurrencyCompact(item.base_price)}
+            <Flex
+              vertical
+              gap={theme.custom.spacing.xsmall}
+              style={{ width: '100%' }}
+              onClick={() => navigate(`/machines/${item.id}/detail`)}
+            >
+              <Flex justify="space-between" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
+                <Typography.Text
+                  ellipsis
+                  style={{
+                    flex: 1,
+                    minWidth: 0,
+                    marginRight: theme.custom.spacing.xsmall,
+                  }}
+                >
+                  {t('common.machine')} {item.name ? `${item.name} (${item.relay_no})` : item.relay_no}
                 </Typography.Text>
 
-                <Flex gap={theme.custom.spacing.small}>
-                  {can('machine.start') && <Button
-                    icon={<Play />}
-                    onClick={() => {
-                      setIsStartMachineDrawerOpen(true);
-                      setSelectedMachine(item);
-                    }}
-                  />}
-
-                  {can('machine.restart') && <Button
-                    icon={<Refresh />}
-                    onClick={() => {
-                      activateMachine(item.id);
-                      handleListMachine();
-                    }}
-                    loading={activateMachineLoading}
-                  />}
-
-                  {can('machine.update') && <Button
-                    icon={<Settings />}
-                    onClick={() => {
-                      setIsMachineSettingDrawerOpen(true);
-                      setSelectedMachine(item);
-                    }}
-                  />}
+                <Flex style={{ flexShrink: 0 }}>
+                  <DynamicTag value={item.status} type="text" />
                 </Flex>
               </Flex>
+
+              <Typography.Text
+                type="secondary"
+                ellipsis
+                style={{
+                  width: '100%',
+                  fontSize: theme.custom.fontSize.xsmall,
+                }}
+              >
+                {item.machine_type} • {`${t('common.basePrice')} ${formatCurrencyCompact(item.base_price)}`}
+              </Typography.Text>
+
+              <Typography.Text
+                type="secondary"
+                ellipsis
+                style={{
+                  width: '100%',
+                  fontSize: theme.custom.fontSize.xsmall,
+                }}
+              >
+                {`${t('common.pulseDuration')} ${item.pulse_duration}`} • {`${t('common.pulseInterval')} ${item.pulse_interval}`}
+              </Typography.Text>
+            </Flex>
+
+            <Flex
+              justify="flex-end"
+              gap={theme.custom.spacing.xsmall}
+              style={{ width: '100%' }}
+            >
+              {can('machine.restart') && (
+                <Button
+                  icon={<Refresh />}
+                  onClick={() => {
+                    activateMachine(item.id);
+                    handleListMachine();
+                  }}
+                  loading={activateMachineLoading}
+                  style={{ backgroundColor: theme.custom.colors.background.light }}
+                />
+              )}
+
+              {can('machine.update') && (
+                <Button
+                  icon={<Settings />}
+                  onClick={() => {
+                    setIsMachineSettingDrawerOpen(true);
+                    setSelectedMachine(item);
+                  }}
+                  style={{ backgroundColor: theme.custom.colors.background.light }}
+                />
+              )}
+
+              {can('machine.start') && (
+                <Button
+                  icon={<Play />}
+                  onClick={() => {
+                    setIsStartMachineDrawerOpen(true);
+                    setSelectedMachine(item);
+                  }}
+                  style={{ backgroundColor: theme.custom.colors.background.light }}
+                >
+                  {t('common.start')}
+                </Button>
+              )}
             </Flex>
           </List.Item>
         )}

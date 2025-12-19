@@ -261,7 +261,8 @@
     "isEnabled": "Trạng thái hoạt động",
     "filters": "Bộ lọc",
     "selectStores": "Chọn cửa hàng",
-    "selectStoresIsRequired": "Chọn cửa hàng là bắt buộc"
+    "selectStoresIsRequired": "Chọn cửa hàng là bắt buộc",
+    "unknown": "Không xác định"
   },
   "navigation": {
     "overview": "Tổng quan",

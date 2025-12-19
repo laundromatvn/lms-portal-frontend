@@ -10,8 +10,10 @@ import { type Controller } from '@shared/types/Controller';
 
 export type ListControllerRequest = {
   store_id?: string;
-  page: number;
-  page_size: number;
+  page?: number;
+  page_size?: number;
+  order_by?: string;
+  order_direction?: 'asc' | 'desc';
 }
 
 export type ListControllerResponse = {
@@ -29,18 +31,32 @@ export const useListControllerApi = <T = ListControllerResponse>() => {
     error: null,
   });
 
-  const listController = useCallback(async ({ store_id, page = 1, page_size = 10 }: ListControllerRequest) => {
+  const listController = useCallback(async (queryParams: ListControllerRequest) => {
     setState(prevState => ({ ...prevState, loading: true, error: null }));
 
     const url = `${getBackendUrl()}/api/v1/controller`
-    const queryParams = { page, page_size, store_id };
+    const params = { ...queryParams };
 
-    setState({ data: null, loading: false, error: null });
+    if (params.page) {
+      params.page = params.page;
+    }
+
+    if (params.page_size) {
+      params.page_size = params.page_size;
+    }
+
+    if (params.order_by) {
+      params.order_by = params.order_by;
+    }
+
+    if (params.order_direction) {
+      params.order_direction = params.order_direction;
+    }
 
     try {
       const response = await axiosClient.get<T>(
         url.replace(getBackendUrl(), ''),
-        { params: queryParams }
+        { params }
       )
 
       setState({ data: response.data as T, loading: false, error: null });

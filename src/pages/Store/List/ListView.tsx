@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Flex, List, Typography, notification } from 'antd';
+import { Button, Flex, Input, List, Typography, notification } from 'antd';
 
-import { AddCircle } from '@solar-icons/react';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 
 import { useTheme } from '@shared/theme/useTheme';
 import { useCan } from '@shared/hooks/useCan';
@@ -24,6 +24,7 @@ export const ListView: React.FC = () => {
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [search, setSearch] = useState('');
 
   const {
     data: listStoreData,
@@ -33,7 +34,13 @@ export const ListView: React.FC = () => {
   } = useListStoreApi<ListStoreResponse>();
 
   const handleListStore = () => {
-    listStore({ page, page_size: pageSize });
+    const searchValue = search && search.length >= 3 ? search : undefined;
+
+    listStore({
+      page,
+      page_size: pageSize,
+      search: searchValue,
+    });
   }
 
   useEffect(() => {
@@ -46,7 +53,7 @@ export const ListView: React.FC = () => {
 
   useEffect(() => {
     handleListStore();
-  }, [page, pageSize]);
+  }, [page, pageSize, search]);
 
   return (
     <PortalLayoutV2
@@ -55,16 +62,35 @@ export const ListView: React.FC = () => {
     >
       {contextHolder}
 
-      <Flex vertical style={{ width: '100%', marginBottom: theme.custom.spacing.medium }}>
+      <Flex
+        gap={theme.custom.spacing.xsmall}
+        style={{ marginBottom: theme.custom.spacing.medium }}
+      >
+        <Input
+          size="large"
+          placeholder={t('common.search')}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{
+            width: '100%',
+            backgroundColor: theme.custom.colors.background.light,
+            color: theme.custom.colors.neutral.default,
+          }}
+          allowClear
+          prefix={<SearchOutlined />}
+        />
+
         {can('store.create') && (
           <Button
-            type="primary"
-            icon={<AddCircle color={theme.custom.colors.text.inverted} />}
-            onClick={() => navigate('/stores/add')}
             size="large"
-          >
-            {t('common.addStore')}
-          </Button>
+            shape="circle"
+            icon={<PlusOutlined />}
+            onClick={() => navigate('/stores/add')}
+            style={{
+              backgroundColor: theme.custom.colors.background.light,
+              color: theme.custom.colors.neutral.default,
+            }}
+          />
         )}
       </Flex>
 
@@ -83,32 +109,47 @@ export const ListView: React.FC = () => {
           }}
           renderItem={(item) => (
             <List.Item
+              onClick={() => navigate(`/stores/${item.id}/detail`)}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'flex-start',
                 gap: theme.custom.spacing.small,
                 width: '100%',
-                padding: theme.custom.spacing.large,
+                padding: theme.custom.spacing.small,
                 marginBottom: theme.custom.spacing.medium,
                 backgroundColor: theme.custom.colors.background.light,
                 borderRadius: theme.custom.radius.medium,
                 border: `1px solid ${theme.custom.colors.neutral[200]}`,
               }}
             >
-              <Flex justify="space-between" wrap="wrap" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
-                <Typography.Link onClick={() => navigate(`/stores/${item.id}/detail`)} strong>
+              <Flex justify="space-between" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
+                <Typography.Text 
+                  ellipsis
+                  style={{
+                    flex: 1,
+                    minWidth: 0,
+                    marginRight: theme.custom.spacing.xsmall,
+                  }}
+                >
                   {item.name}
-                </Typography.Link>
+                </Typography.Text>
 
-                <DynamicTag value={item.status} />
+                <Flex style={{ flexShrink: 0 }}>
+                  <DynamicTag value={item.status} type="text" />
+                </Flex>
               </Flex>
 
-              <Flex justify="space-between" wrap="wrap" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
-                <Typography.Text type="secondary">{item.contact_phone_number}</Typography.Text>
-
-                <Typography.Text type="secondary">{item.address}</Typography.Text>
-              </Flex>
+              <Typography.Text 
+                type="secondary" 
+                ellipsis
+                style={{
+                  width: '100%',
+                  fontSize: theme.custom.fontSize.small,
+                }}
+              >
+                {item.contact_phone_number} • {item.address}
+              </Typography.Text>
             </List.Item>
           )}
         />

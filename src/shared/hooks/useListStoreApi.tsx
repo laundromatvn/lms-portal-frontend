@@ -7,10 +7,13 @@ import { type Store } from '@shared/types/store';
 
 import axiosClient from '@core/axiosClient'
 
-export type ListStoreRequest = {
+export type ListStoreQueryParams = {
   tenant_id?: string;
-  page: number;
-  page_size: number;
+  page?: number;
+  page_size?: number;
+  search?: string;
+  order_by?: string;
+  order_direction?: 'asc' | 'desc';
 }
 
 export type ListStoreResponse = {
@@ -28,24 +31,37 @@ export const useListStoreApi = <T = ListStoreResponse>() => {
     error: null,
   });
 
-  const listStore = useCallback(async ({ tenant_id, page = 1, page_size = 10 }: ListStoreRequest) => {
+  const listStore = useCallback(async (queryParams: ListStoreQueryParams) => {
     setState(prevState => ({ ...prevState, loading: true, error: null }));
 
     const url = `${getBackendUrl()}/api/v1/store`
 
-    let queryParams = {
-      page,
-      page_size,
-    } as Record<string, any>;
+    let params = { ...queryParams };
 
-    if (tenant_id) {
-      queryParams.tenant_id = tenant_id;
+    if (params.page) {
+      params.page = params.page;
+    }
+
+    if (params.page_size) {
+      params.page_size = params.page_size;
+    }
+
+    if (params.search) {
+      params.search = params.search;
+    }
+
+    if (params.order_by) {
+      params.order_by = params.order_by;
+    }
+
+    if (params.order_direction) {
+      params.order_direction = params.order_direction;
     }
 
     try {
       const response = await axiosClient.get<T>(
         url.replace(getBackendUrl(), ''),
-        { params: { ...queryParams } }
+        { params }
       )
 
       setState({ data: response.data as T, loading: false, error: null });

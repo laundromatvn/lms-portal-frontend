@@ -1,0 +1,11 @@
+/* Custom CSS file (e.g., CustomSelect.css) */
+.ant-select-selector {
+    background-color: #fff !important;
+    /* Example: AliceBlue */
+}
+
+/* For when the select component is disabled */
+.ant-select-disabled .ant-select-selector {
+    background-color: #f9fafb !important;
+    /* Example: Grey for disabled state */
+}

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { Tag } from 'antd';
+import { Tag, Typography } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -8,14 +8,15 @@ import { toCamelCase } from '@shared/utils/string';
 
 interface Props {
   value: string;
+  type?: 'default' | 'text';
   color?: string;
   style?: React.CSSProperties;
 }
 
-export const DynamicTag: React.FC<Props> = ({ value, color, style }) => {
+export const DynamicTag: React.FC<Props> = ({ value, type = 'default', color, style }) => {
   const theme = useTheme();
 
-  const dynamicColor = useMemo(() => {
+  const primaryColor = useMemo(() => {
     switch (value.toLowerCase()) {
       case 'inactive':
       case 'new':
@@ -64,17 +65,25 @@ export const DynamicTag: React.FC<Props> = ({ value, color, style }) => {
     }
   }, [value]);
 
-  return <Tag
-    color={color || dynamicColor}
-    style={{
-      borderRadius: theme.custom.radius.full,
-      paddingLeft: theme.custom.spacing.medium,
-      paddingRight: theme.custom.spacing.medium,
-      height: 'fit-content',
-      width: 'fit-content',
-      ...style,
-    }}
-  >
-    {toCamelCase(value)}
-  </Tag>;
+  if (type === 'text') {
+    return <Typography.Text style={{ color: primaryColor }}>
+      {toCamelCase(value)}
+    </Typography.Text>;
+  }
+
+  return (
+    <Tag
+      color={color || primaryColor}
+      style={{
+        borderRadius: theme.custom.radius.full,
+        paddingLeft: theme.custom.spacing.medium,
+        paddingRight: theme.custom.spacing.medium,
+        height: 'fit-content',
+        width: 'fit-content',
+        ...style,
+      }}
+    >
+      {toCamelCase(value)}
+    </Tag>
+  )
 };
