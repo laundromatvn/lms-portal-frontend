@@ -158,7 +158,7 @@ export const DesktopView: React.FC<Props> = ({ store }) => {
               icon={<Settings />}
               onClick={() => {
                 setIsMachineSettingDrawerOpen(true);
-                setSelectedMachine(record);
+                setSelectedMachineForConfig(record);
               }}
               style={{ backgroundColor: theme.custom.colors.background.light }}
             />

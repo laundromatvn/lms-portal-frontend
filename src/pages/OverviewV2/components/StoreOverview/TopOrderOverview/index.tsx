@@ -6,18 +6,15 @@ import { Flex } from 'antd';
 import { useTheme } from '@shared/theme/useTheme';
 
 import type { Store } from '@shared/types/store';
-import type { StoreOverviewFilter } from '../types';
 
 import { useListOverviewOrderApi } from '@shared/hooks/dashboard/useListOverviewOrderApi';
 
 import { TopOrderOverviewList } from './List';
 import { BaseSectionTitle } from '@shared/components/BaseSectionTitle';
 
-import dayjs from '@shared/utils/dayjs';
-
 interface Props {
   store: Store;
-  filters: StoreOverviewFilter[];
+  filters: Record<string, any>;
   datetimeFilters?: {
     start_datetime: string;
     end_datetime: string;
@@ -55,23 +52,11 @@ export const TopOrderOverview: React.FC<Props> = ({ store, filters, datetimeFilt
         : undefined;
     } else {
       // Use chip filter dates
-      const today = dayjs();
-
-      if (filters.find((filter) => filter.value === 'today')) {
-        queryParams.start_date = today.startOf('day').toISOString();
-        queryParams.end_date = today.endOf('day').toISOString();
-      } else if (filters.find((filter) => filter.value === 'yesterday')) {
-        queryParams.start_date = today.subtract(1, 'day').startOf('day').toISOString();
-        queryParams.end_date = today.subtract(1, 'day').endOf('day').toISOString();
-      } else if (filters.find((filter) => filter.value === 'this_week')) {
-        queryParams.start_date = today.startOf('week').toISOString();
-        queryParams.end_date = today.endOf('week').toISOString();
-      } else if (filters.find((filter) => filter.value === 'this_month')) {
-        queryParams.start_date = today.startOf('month').toISOString();
-        queryParams.end_date = today.endOf('month').toISOString();
-      } else if (filters.find((filter) => filter.value === 'all')) {
-        queryParams.start_date = undefined;
-        queryParams.end_date = undefined;
+      if (filters.start_datetime && filters.start_datetime !== '') {
+        queryParams.start_date = filters.start_datetime;
+      }
+      if (filters.end_datetime && filters.end_datetime !== '') {
+        queryParams.end_date = filters.end_datetime;
       }
     }
 

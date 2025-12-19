@@ -7,19 +7,18 @@ import { useCan } from '@shared/hooks/useCan';
 
 import type { Store } from '@shared/types/store';
 
-import type { StoreOverviewFilter } from './types';
+import { ChipFilter, type QuickFilterOption } from '@shared/components/ChipFilterComponent';
 
 import { StoreKeyMetrics } from './StoreKeyMetrics';
 import { TopOrderOverview } from './TopOrderOverview';
 import { MachineOverview } from './MachineOverview';
-import { ChipFilter } from './ChipFilter';
 import { NotificationOverview } from './NotificationOverview';
 
 interface Props {
   store: Store;
-  filterOptions: StoreOverviewFilter[];
-  selectedFilters: StoreOverviewFilter[];
-  onFilterChange: (filters: StoreOverviewFilter[]) => void;
+  quickFilterOptions: QuickFilterOption[];
+  filters: Record<string, any>;
+  onFilterChange: (filters: Record<string, any>) => void;
   onFilterClick?: () => void;
   datetimeFilters?: {
     start_datetime: string;
@@ -29,8 +28,8 @@ interface Props {
 
 export const StoreOverviewDesktopView: React.FC<Props> = ({
   store,
-  filterOptions,
-  selectedFilters,
+  quickFilterOptions,
+  filters,
   onFilterChange,
   onFilterClick,
   datetimeFilters,
@@ -48,9 +47,9 @@ export const StoreOverviewDesktopView: React.FC<Props> = ({
       }}
     >
       <ChipFilter
-        options={filterOptions}
-        values={selectedFilters}
-        onChange={onFilterChange}
+        quickFilterOptions={quickFilterOptions}
+        values={filters}
+        onFilterChange={onFilterChange}
         onFilterClick={onFilterClick}
         style={{ justifyContent: 'flex-end' }}
       />
@@ -58,7 +57,7 @@ export const StoreOverviewDesktopView: React.FC<Props> = ({
       {can('dashboard.overview.view') && (
         <StoreKeyMetrics
           store={store}
-          filters={selectedFilters}
+          filters={filters}
           datetimeFilters={datetimeFilters}
         />
       )}
@@ -68,7 +67,7 @@ export const StoreOverviewDesktopView: React.FC<Props> = ({
       {can('order.list') && (
         <TopOrderOverview
           store={store}
-          filters={selectedFilters}
+          filters={filters}
           datetimeFilters={datetimeFilters}
         />
       )}

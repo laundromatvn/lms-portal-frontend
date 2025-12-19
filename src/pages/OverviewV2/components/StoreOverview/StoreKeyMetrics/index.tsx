@@ -21,8 +21,6 @@ import { KeyMetricList } from './KeyMetricList';
 
 import type { StoreKeyMetrics as StoreKeyMetricsType } from './types';
 import { LiquidKeyMetricList } from './LiquidKeyMetricList';
-import type { StoreOverviewFilter } from '../types';
-
 import formatCurrencyCompact from '@shared/utils/currency';
 import { BaseSectionTitle } from '@shared/components/BaseSectionTitle';
 
@@ -30,7 +28,7 @@ import dayjs from '@shared/utils/dayjs';
 
 interface Props {
   store: Store;
-  filters: StoreOverviewFilter[];
+  filters: Record<string, any>;
   datetimeFilters?: {
     start_datetime: string;
     end_datetime: string;
@@ -51,16 +49,20 @@ export const StoreKeyMetrics: React.FC<Props> = ({ store, filters, datetimeFilte
   } = useGetDashboardOverviewKeyMetricsApi();
 
   const dateLabel = () => {
-    if (filters.find((filter) => filter.value === 'today')) {
-      return t('overviewV2.today');
-    } else if (filters.find((filter) => filter.value === 'yesterday')) {
-      return t('overviewV2.yesterday');
-    } else if (filters.find((filter) => filter.value === 'this_week')) {
-      return t('overviewV2.thisWeek');
-    } else if (filters.find((filter) => filter.value === 'this_month')) {
-      return t('overviewV2.thisMonth');
-    } else if (filters.find((filter) => filter.value === 'this_year')) {
-      return t('common.all');
+    const today = dayjs();
+    const filterStart = filters.start_datetime ? dayjs(filters.start_datetime) : null;
+    const filterEnd = filters.end_datetime ? dayjs(filters.end_datetime) : null;
+
+    if (filterStart && filterEnd) {
+      if (filterStart.isSame(today, 'day') && filterEnd.isSame(today, 'day')) {
+        return t('overviewV2.today');
+      } else if (filterStart.isSame(today.subtract(1, 'day'), 'day') && filterEnd.isSame(today.subtract(1, 'day'), 'day')) {
+        return t('overviewV2.yesterday');
+      } else if (filterStart.isSame(today.startOf('week'), 'day') && filterEnd.isSame(today.endOf('week'), 'day')) {
+        return t('overviewV2.thisWeek');
+      } else if (filterStart.isSame(today.startOf('month'), 'day') && filterEnd.isSame(today.endOf('month'), 'day')) {
+        return t('overviewV2.thisMonth');
+      }
     }
 
     return '';
@@ -85,23 +87,11 @@ export const StoreKeyMetrics: React.FC<Props> = ({ store, filters, datetimeFilte
         : undefined;
     } else {
       // Use chip filter dates
-      const today = dayjs();
-
-      if (filters.find((filter) => filter.value === 'today')) {
-        queryParams.start_date = today.startOf('day').toISOString();
-        queryParams.end_date = today.endOf('day').toISOString();
-      } else if (filters.find((filter) => filter.value === 'yesterday')) {
-        queryParams.start_date = today.subtract(1, 'day').startOf('day').toISOString();
-        queryParams.end_date = today.subtract(1, 'day').endOf('day').toISOString();
-      } else if (filters.find((filter) => filter.value === 'this_week')) {
-        queryParams.start_date = today.startOf('week').toISOString();
-        queryParams.end_date = today.endOf('week').toISOString();
-      } else if (filters.find((filter) => filter.value === 'this_month')) {
-        queryParams.start_date = today.startOf('month').toISOString();
-        queryParams.end_date = today.endOf('month').toISOString();
-      } else if (filters.find((filter) => filter.value === 'all')) {
-        queryParams.start_date = undefined;
-        queryParams.end_date = undefined;
+      if (filters.start_datetime && filters.start_datetime !== '') {
+        queryParams.start_date = filters.start_datetime;
+      }
+      if (filters.end_datetime && filters.end_datetime !== '') {
+        queryParams.end_date = filters.end_datetime;
       }
     }
 

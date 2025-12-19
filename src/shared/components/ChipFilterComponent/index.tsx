@@ -32,7 +32,31 @@ export const ChipFilter: React.FC<ChipFilterComponentProps> = ({
   const theme = useTheme();
 
   const selectedQuickFilterValue = useMemo(() => {
+    const quickFilterKeys = new Set<string>();
+
+    quickFilterOptions.forEach((option) => {
+      if (option.value !== 'all') {
+        Object.keys(option.filter).forEach((key) => quickFilterKeys.add(key));
+      }
+    });
+
+    const hasQuickFilterValues = Array.from(quickFilterKeys).some((key) => {
+      const value = values[key];
+      return value !== null &&
+        value !== undefined &&
+        value !== '' &&
+        (Array.isArray(value) ? value.length > 0 : true);
+    });
+
+    if (!hasQuickFilterValues) {
+      return 'all';
+    }
+
     for (const option of quickFilterOptions) {
+      if (option.value === 'all') {
+        continue;
+      }
+
       const optionFilter = option.filter;
       let matches = true;
       let hasAnyFilterValue = false;
@@ -44,11 +68,11 @@ export const ChipFilter: React.FC<ChipFilterComponentProps> = ({
 
         hasAnyFilterValue = true;
         const currentValue = values[key];
-        
+
         if (Array.isArray(optionValue)) {
-          if (!Array.isArray(currentValue) || 
-              optionValue.length !== currentValue.length || 
-              !optionValue.every((v, i) => v === currentValue[i])) {
+          if (!Array.isArray(currentValue) ||
+            optionValue.length !== currentValue.length ||
+            !optionValue.every((v, i) => v === currentValue[i])) {
             matches = false;
             break;
           }
@@ -68,8 +92,28 @@ export const ChipFilter: React.FC<ChipFilterComponentProps> = ({
 
   const handleQuickFilterChange = (value: string) => {
     const selectedOption = quickFilterOptions.find((opt) => opt.value === value);
-    
+
     if (!selectedOption) {
+      return;
+    }
+
+    if (value === 'all') {
+      const quickFilterKeys = new Set<string>();
+      quickFilterOptions.forEach((option) => {
+        if (option.value !== 'all') {
+          Object.keys(option.filter).forEach((key) => quickFilterKeys.add(key));
+        }
+      });
+
+      const newFilters = { ...values };
+      quickFilterKeys.forEach((key) => {
+        if (Array.isArray(newFilters[key])) {
+          newFilters[key] = [];
+        } else {
+          newFilters[key] = '';
+        }
+      });
+      onFilterChange(newFilters);
       return;
     }
 
@@ -78,10 +122,10 @@ export const ChipFilter: React.FC<ChipFilterComponentProps> = ({
       Object.keys(selectedOption.filter).forEach((key) => {
         const currentValue = newFilters[key];
         const quickFilterValue = selectedOption.filter[key];
-        
+
         if (Array.isArray(quickFilterValue) && Array.isArray(currentValue)) {
-          if (quickFilterValue.length === currentValue.length && 
-              quickFilterValue.every((v, i) => v === currentValue[i])) {
+          if (quickFilterValue.length === currentValue.length &&
+            quickFilterValue.every((v, i) => v === currentValue[i])) {
             newFilters[key] = [];
           }
         } else if (currentValue === quickFilterValue) {
@@ -97,17 +141,16 @@ export const ChipFilter: React.FC<ChipFilterComponentProps> = ({
     }
 
     const mergedFilters = { ...values };
-    
+
     Object.entries(selectedOption.filter).forEach(([key, value]) => {
       mergedFilters[key] = value;
     });
-    
+
     onFilterChange(mergedFilters);
   };
 
   return (
     <Flex
-      justify="flex-start"
       align="center"
       gap={theme.custom.spacing.small}
       style={{
@@ -116,13 +159,11 @@ export const ChipFilter: React.FC<ChipFilterComponentProps> = ({
       }}
     >
       <Flex
-        justify="flex-start"
         align="center"
         gap={theme.custom.spacing.small}
         style={{
           overflowX: 'auto',
           scrollbarWidth: 'none',
-          flex: 1,
         }}
       >
         {quickFilterOptions.map((option) => (

@@ -8,9 +8,8 @@ import { useCan } from '@shared/hooks/useCan';
 
 import type { Store } from '@shared/types/store';
 
-import type { StoreOverviewFilter } from './types';
+import { ChipFilter, type QuickFilterOption } from '@shared/components/ChipFilterComponent';
 
-import { ChipFilter } from './ChipFilter';
 import { StoreKeyMetrics } from './StoreKeyMetrics';
 import { TopOrderOverview } from './TopOrderOverview';
 import { MachineOverview } from './MachineOverview';
@@ -18,9 +17,9 @@ import { NotificationOverview } from './NotificationOverview';
 
 interface Props {
   store: Store;
-  filterOptions: StoreOverviewFilter[];
-  selectedFilters: StoreOverviewFilter[];
-  onFilterChange: (filters: StoreOverviewFilter[]) => void;
+  quickFilterOptions: QuickFilterOption[];
+  filters: Record<string, any>;
+  onFilterChange: (filters: Record<string, any>) => void;
   onFilterClick?: () => void;
   datetimeFilters?: {
     start_datetime: string;
@@ -30,8 +29,8 @@ interface Props {
 
 export const StoreOverviewMobileView: React.FC<Props> = ({
   store,
-  filterOptions,
-  selectedFilters,
+  quickFilterOptions,
+  filters,
   onFilterChange,
   onFilterClick,
   datetimeFilters,
@@ -77,9 +76,9 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
       }}
     >
       <ChipFilter
-        options={filterOptions}
-        values={selectedFilters}
-        onChange={onFilterChange}
+        quickFilterOptions={quickFilterOptions}
+        values={filters}
+        onFilterChange={onFilterChange}
         onFilterClick={onFilterClick}
       />
 
@@ -102,11 +101,11 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
       )}
 
       {selectedTab === 'key_metrics' && can('dashboard.overview.view') && (
-        <StoreKeyMetrics store={store} filters={selectedFilters} datetimeFilters={datetimeFilters} />
+        <StoreKeyMetrics store={store} filters={filters} datetimeFilters={datetimeFilters} />
       )}
 
       {selectedTab === 'top_orders' && can('order.list') && (
-        <TopOrderOverview store={store} filters={selectedFilters} datetimeFilters={datetimeFilters} />
+        <TopOrderOverview store={store} filters={filters} datetimeFilters={datetimeFilters} />
       )}
 
       {selectedTab === 'machines' && can('machine.list') && (
