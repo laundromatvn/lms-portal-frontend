@@ -55,15 +55,32 @@ export const TableView: React.FC<Props> = ({ controller }) => {
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [orderBy, setOrderBy] = useState('relay_no');
+  const [orderDirection, setOrderDirection] = useState('asc');
 
   const [isMachineSettingDrawerOpen, setIsMachineSettingDrawerOpen] = useState(false);
   const [isStartMachineDrawerOpen, setIsStartMachineDrawerOpen] = useState(false);
   const [selectedMachine, setSelectedMachine] = useState<Machine | null>(null);
 
+  const handleSort = (column: string, direction: 'asc' | 'desc') => {
+    setOrderBy(column);
+    setOrderDirection(direction);
+  };
+
   const columns = [
-    { title: t('common.relayNo'), dataIndex: 'relay_no', width: 48 },
     {
-      title: t('common.name'), dataIndex: 'name',
+      title: t('common.relayNo'),
+      dataIndex: 'relay_no',
+      width: 48,
+      sorter: true,
+      onSort: (column: string, direction: 'asc' | 'desc') => handleSort(column, direction),
+    },
+    {
+      title: t('common.name'),
+      dataIndex: 'name',
+      width: 256,
+      sorter: true,
+      onSort: (column: string, direction: 'asc' | 'desc') => handleSort(column, direction),
       render: (_: string, record: Machine) => (
         <Typography.Link onClick={() => navigate(`/machines/${record.id}/detail`)}>
           {`${t('common.machine')} ${record.name || record.relay_no}`}
