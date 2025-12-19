@@ -16,8 +16,7 @@ import {
   Widget,
   Logout,
   Shop2,
-  WiFiRouter,
-  WashingMachine,
+  BoxMinimalistic,
   Bill,
   Sale,
   ShieldCheck,
@@ -90,28 +89,10 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
     },
     {
       key: 'controllers',
-      icon: <WiFiRouter />,
+      icon: <BoxMinimalistic />,
       label: t('navigation.controllers'),
-      // Parent permission not needed - visibility determined by children
-      children: [
-        {
-          key: 'controllers',
-          label: t('navigation.controllers'),
-          permission: 'controller.list',
-        },
-        {
-          key: 'controllers/abandoned',
-          label: t('navigation.registerAbandonedControllers'),
-          permission: 'controller.list',
-        },
-      ],
+      permission: 'machine.list',
     },
-    // {
-    //   key: 'machines',
-    //   icon: <WashingMachine />,
-    //   label: t('navigation.machines'),
-    //   permission: 'machine.list',
-    // },
     {
       key: 'orders',
       icon: <Bill />,
