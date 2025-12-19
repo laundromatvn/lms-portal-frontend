@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,7 +9,6 @@ import {
   Table,
   Skeleton,
   notification,
-  Popconfirm,
   Dropdown,
   type MenuProps,
 } from 'antd';
@@ -46,12 +45,12 @@ import { Box } from '@shared/components/Box';
 import { formatDateTime } from '@shared/utils/date';
 import { formatCurrencyCompact } from '@shared/utils/currency';
 
-import { ChipFilter } from '@pages/OverviewV2/StoreOverview/ChipFilter';
-import { MoreFilterDrawer } from './MoreFilterDrawer';
+import { ChipFilter, type QuickFilterOption } from '@shared/components/ChipFilterComponent';
+import { MoreFilterDrawer } from './components/MoreFilterDrawer';
 
 import dayjs from '@shared/utils/dayjs';
 
-export const OrderTableView: React.FC = () => {
+export const DesktopView: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -63,24 +62,54 @@ export const OrderTableView: React.FC = () => {
 
   const [tableData, setTableData] = useState<any[] | null>(null);
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(6);
   const [orderBy, setOrderBy] = useState<string>('created_at');
   const [orderDirection, setOrderDirection] = useState<string>('desc');
-  const [selectedFilters, setSelectedFilters] = useState<{ label: string; value: any }[]>([
-    { label: t('common.all'), value: 'all' },
-  ]);
-  const appliedFilters = useRef<{
-    store_ids: string[];
-    start_datetime: string;
-    end_datetime: string;
-  }>({ store_ids: [], start_datetime: '', end_datetime: '' });
-  useEffect(() => {
-    appliedFilters.current = {
-      store_ids: appliedFilters.current.store_ids,
-      start_datetime: appliedFilters.current.start_datetime,
-      end_datetime: appliedFilters.current.end_datetime,
-    };
-  }, [appliedFilters.current]);
+  const [filters, setFilters] = useState<Record<string, any>>({
+    store_ids: [],
+    start_datetime: '',
+    end_datetime: '',
+  });
+
+  const quickFilterOptions: QuickFilterOption[] = [
+    {
+      label: t('common.today'),
+      value: 'today',
+      filter: {
+        start_datetime: dayjs().startOf('day').toISOString(),
+        end_datetime: dayjs().endOf('day').toISOString(),
+      },
+    },
+    {
+      label: t('common.yesterday'),
+      value: 'yesterday',
+      filter: {
+        start_datetime: dayjs().subtract(1, 'day').startOf('day').toISOString(),
+        end_datetime: dayjs().subtract(1, 'day').endOf('day').toISOString(),
+      },
+    },
+    {
+      label: t('common.thisWeek'),
+      value: 'this_week',
+      filter: {
+        start_datetime: dayjs().startOf('week').toISOString(),
+        end_datetime: dayjs().endOf('week').toISOString(),
+      },
+    },
+    {
+      label: t('common.thisMonth'),
+      value: 'this_month',
+      filter: {
+        start_datetime: dayjs().startOf('month').toISOString(),
+        end_datetime: dayjs().endOf('month').toISOString(),
+      },
+    },
+    {
+      label: t('common.all'),
+      value: 'all',
+      filter: {},
+    },
+  ];
 
   const columns = [
     {
@@ -97,14 +126,22 @@ export const OrderTableView: React.FC = () => {
       dataIndex: 'store_name',
       key: 'store_name',
       width: 192,
-      render: (text: string, record: any) => <Typography.Link onClick={() => navigate(`/stores/${record.store_id}/detail`)}>{text}</Typography.Link>
+      render: (_: string, record: any) => (
+        <Typography.Link onClick={() => navigate(`/stores/${record.store_id}/detail`)}>
+          {record.store_name || t('common.unknown')}
+        </Typography.Link>
+      ),
     },
     {
       title: t('common.transactionCode'),
       dataIndex: 'transaction_code',
       key: 'transaction_code',
       width: 128,
-      render: (text: string, record: any) => <Typography.Link onClick={() => navigate(`/orders/${record.id}/detail`)}>{text}</Typography.Link>
+      render: (_: string, record: any) => (
+        <Typography.Link onClick={() => navigate(`/orders/${record.id}/detail`)}>
+          {record.transaction_code || t('common.unknown')}
+        </Typography.Link>
+      ),
     },
     {
       title: t('common.status'),
@@ -113,7 +150,7 @@ export const OrderTableView: React.FC = () => {
       width: 128,
       sorter: true,
       onSort: (column: string, direction: 'asc' | 'desc') => handleSort(column, direction),
-      render: (text: string) => <DynamicTag value={text} />
+      render: (_: string, record: any) => <DynamicTag value={record.status} type="text" />
     },
     {
       title: t('common.totalAmount'),
@@ -122,7 +159,7 @@ export const OrderTableView: React.FC = () => {
       width: 128,
       sorter: true,
       onSort: (column: string, direction: 'asc' | 'desc') => handleSort(column, direction),
-      render: (text: string) => formatCurrencyCompact(text)
+      render: (_: string, record: any) => formatCurrencyCompact(record.total_amount)
     },
     {
       title: t('common.totalWasher'),
@@ -131,18 +168,22 @@ export const OrderTableView: React.FC = () => {
       width: 32,
       sorter: true,
       onSort: (column: string, direction: 'asc' | 'desc') => handleSort(column, direction),
-      render: (text: string) => text
+      render: (_: string, record: any) => record.total_washer
     },
     {
-      title: t('common.totalDryer'), dataIndex: 'total_dryer',
+      title: t('common.totalDryer'),
+      dataIndex: 'total_dryer',
       key: 'total_dryer',
       width: 32,
       sorter: true,
       onSort: (column: string, direction: 'asc' | 'desc') => handleSort(column, direction),
-      render: (text: string) => text
+      render: (_: string, record: any) => record.total_dryer
     },
     {
-      title: t('common.actions'), dataIndex: 'actions',
+      title: t('common.actions'),
+      dataIndex: 'actions',
+      key: 'actions',
+      width: 32,
       render: (_: string, record: any) => {
         const items: MenuProps['items'] = [
           {
@@ -202,35 +243,15 @@ export const OrderTableView: React.FC = () => {
   } = useTriggerPaymentFailedApi<TriggerPaymentFailedResponse>();
 
   const handleListOrder = async () => {
-    let start_date: string | undefined;
-    let end_date: string | undefined;
-
-    // Use datetime filters from MoreFilterDrawer if provided, otherwise use chip filter dates
-    if (appliedFilters.current.start_datetime !== undefined || appliedFilters.current.end_datetime !== undefined) {
-      // If custom datetime filters are set, use them (can be undefined if cleared)
-      start_date = appliedFilters.current.start_datetime;
-      end_date = appliedFilters.current.end_datetime;
-    } else {
-      // Use chip filter dates
-      const today = dayjs();
-
-      if (selectedFilters.find((filter) => filter.value === 'today')) {
-        start_date = today.startOf('day').toISOString();
-        end_date = today.endOf('day').toISOString();
-      } else if (selectedFilters.find((filter) => filter.value === 'yesterday')) {
-        start_date = today.subtract(1, 'day').startOf('day').toISOString();
-        end_date = today.subtract(1, 'day').endOf('day').toISOString();
-      } else if (selectedFilters.find((filter) => filter.value === 'this_week')) {
-        start_date = today.startOf('week').toISOString();
-        end_date = today.endOf('week').toISOString();
-      } else if (selectedFilters.find((filter) => filter.value === 'this_month')) {
-        start_date = today.startOf('month').toISOString();
-        end_date = today.endOf('month').toISOString();
-      } else if (selectedFilters.find((filter) => filter.value === 'all')) {
-        start_date = undefined;
-        end_date = undefined;
-      }
-    }
+    const start_date = filters.start_datetime && filters.start_datetime !== ''
+      ? filters.start_datetime
+      : undefined;
+    const end_date = filters.end_datetime && filters.end_datetime !== ''
+      ? filters.end_datetime
+      : undefined;
+    const storeIds = filters.store_ids && filters.store_ids.length > 0
+      ? filters.store_ids
+      : undefined;
 
     if (tenant) {
       listOrder({
@@ -241,7 +262,7 @@ export const OrderTableView: React.FC = () => {
         order_direction: orderDirection as 'asc' | 'desc',
         start_date,
         end_date,
-        store_ids: appliedFilters.current.store_ids,
+        store_ids: storeIds,
       });
     } else {
       listOrder({
@@ -251,16 +272,15 @@ export const OrderTableView: React.FC = () => {
         order_direction: orderDirection as 'asc' | 'desc',
         start_date,
         end_date,
-        store_ids: appliedFilters.current.store_ids,
+        store_ids: storeIds,
       });
     }
   }
 
-  const handleFilterChange = async (filters: { label: string; value: any }[]) => {
-    setSelectedFilters(filters);
-    handleListOrder();
+  const handleFilterChange = (newFilters: Record<string, any>) => {
+    setFilters(newFilters);
+    setPage(1);
   };
-
 
   const handleSort = async (column: string, direction: 'asc' | 'desc') => {
     setOrderBy(column);
@@ -319,7 +339,7 @@ export const OrderTableView: React.FC = () => {
 
   useEffect(() => {
     handleListOrder();
-  }, [selectedFilters, orderBy, orderDirection, page, pageSize]);
+  }, [filters, orderBy, orderDirection, page, pageSize]);
 
   return (
     <PortalLayoutV2 title={t('common.orderList')} onBack={() => navigate(-1)}>
@@ -327,17 +347,11 @@ export const OrderTableView: React.FC = () => {
 
       <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
         <ChipFilter
-          options={[
-            { label: t('common.today'), value: 'today' },
-            { label: t('common.yesterday'), value: 'yesterday' },
-            { label: t('common.thisWeek'), value: 'this_week' },
-            { label: t('common.thisMonth'), value: 'this_month' },
-            { label: t('common.all'), value: 'all' },
-          ]}
-          values={selectedFilters}
-          onChange={handleFilterChange}
-          style={{ width: '100%', justifyContent: 'flex-end' }}
+          quickFilterOptions={quickFilterOptions}
+          values={filters}
+          onFilterChange={handleFilterChange}
           onFilterClick={() => setMoreFilterDrawerOpen(true)}
+          style={{ width: '100%', justifyContent: 'flex-end' }}
         />
 
         {listOrderLoading && <Skeleton active />}
@@ -352,12 +366,41 @@ export const OrderTableView: React.FC = () => {
                 pageSize,
                 current: page,
                 total: listOrderData?.total,
+                showSizeChanger: true,
+                showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+                style: { color: theme.custom.colors.text.tertiary },
                 onChange: (page, pageSize) => {
                   setPage(page);
                   setPageSize(pageSize);
                 },
               }}
-              style={{ width: '100%' }}
+              onChange={(pagination, _filters, sorter) => {
+                if (sorter && !Array.isArray(sorter)) {
+                  const field = ('field' in sorter && sorter.field) || ('columnKey' in sorter && sorter.columnKey);
+                  if (field && sorter.order) {
+                    setOrderBy(field as string);
+                    setOrderDirection(sorter.order === 'ascend' ? 'asc' : 'desc');
+                  } else if (sorter.order === null || sorter.order === undefined) {
+                    setOrderBy('');
+                    setOrderDirection('asc');
+                  }
+                }
+
+                setPage(pagination.current || 1);
+                setPageSize(pagination.pageSize || 6);
+              }}
+              onRow={() => {
+                return {
+                  style: {
+                    backgroundColor: theme.custom.colors.background.light,
+                  },
+                };
+              }}
+              style={{
+                width: '100%',
+                backgroundColor: theme.custom.colors.background.light,
+                color: theme.custom.colors.neutral.default,
+              }}
               scroll={{ x: 'max-content' }}
             />
           </Flex>
@@ -367,15 +410,18 @@ export const OrderTableView: React.FC = () => {
       <MoreFilterDrawer
         open={moreFilterDrawerOpen}
         onClose={() => setMoreFilterDrawerOpen(false)}
-        initialFilters={appliedFilters.current}
-        onApplyFilters={(filters: { store_ids: string[]; start_datetime: string; end_datetime: string }) => {
-          appliedFilters.current = {
-            store_ids: filters.store_ids,
-            start_datetime: filters.start_datetime,
-            end_datetime: filters.end_datetime,
-          };
-          setPage(1);
-          handleListOrder();
+        initialFilters={{
+          store_ids: filters.store_ids || [],
+          start_datetime: filters.start_datetime || '',
+          end_datetime: filters.end_datetime || '',
+        }}
+        onApplyFilters={(newFilters: { store_ids: string[]; start_datetime: string; end_datetime: string }) => {
+          handleFilterChange({
+            ...filters,
+            store_ids: newFilters.store_ids || [],
+            start_datetime: newFilters.start_datetime || '',
+            end_datetime: newFilters.end_datetime || '',
+          });
         }}
       />
     </PortalLayoutV2>

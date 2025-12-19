@@ -115,7 +115,6 @@ export const DesktopView: React.FC = () => {
               icon={<CheckRead />}
               onClick={markAllNotificationAsSeen}
               loading={markAllNotificationAsSeenLoading}
-              style={{ backgroundColor: theme.custom.colors.background.light }}
             >
               {t('overviewV2.markAllAsSeen')}
             </Button>
@@ -124,7 +123,11 @@ export const DesktopView: React.FC = () => {
               icon={<Broom />}
               onClick={clearAllNotification}
               loading={clearAllNotificationLoading}
-              style={{ backgroundColor: theme.custom.colors.background.light }}
+              style={{
+                backgroundColor: theme.custom.colors.background.light,
+                color: theme.custom.colors.text.tertiary,
+                borderColor: theme.custom.colors.neutral[300],
+              }}
             >
               {t('overviewV2.clearAll')}
             </Button>

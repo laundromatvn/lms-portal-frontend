@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Flex,
+  Select,
   Table,
   Typography,
   notification,
@@ -25,157 +26,47 @@ import {
   type ListMachineResponse,
 } from '@shared/hooks/useListMachineApi';
 import {
+  useListControllerApi,
+  type ListControllerResponse,
+} from '@shared/hooks/useListControllerApi';
+import {
   useActivateMachineApi,
   type ActivateMachineResponse,
 } from '@shared/hooks/useActivateMachineApi';
 
-import { formatCurrencyCompact } from '@shared/utils/currency';
-
-import { type Controller } from '@shared/types/Controller';
-import type { Machine } from '@shared/types/machine';
+import type { Controller } from '@shared/types/Controller';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
-
-import { StartMachineDrawer } from '@shared/components/Drawer/StartMachineDrawer';
 import { MachineSettingDrawer } from '@shared/components/Drawer/MachineSettingDrawer';
+import { StartMachineDrawer } from '@shared/components/Drawer/StartMachineDrawer';
 
+import { formatCurrencyCompact } from '@shared/utils/currency';
+
+import './style.css';
 
 interface Props {
   controller: Controller;
-  onSuccess?: () => void;
 }
 
-export const TableView: React.FC<Props> = ({ controller }) => {
+export const DesktopView: React.FC<Props> = ({ controller }) => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const navigate = useNavigate();
   const can = useCan();
+  const navigate = useNavigate();
 
   const [api, contextHolder] = notification.useNotification();
 
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(8);
   const [orderBy, setOrderBy] = useState('relay_no');
-  const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('asc');
+  const [orderDirection, setOrderDirection] = useState('asc');
 
   const [isMachineSettingDrawerOpen, setIsMachineSettingDrawerOpen] = useState(false);
   const [isStartMachineDrawerOpen, setIsStartMachineDrawerOpen] = useState(false);
-  const [selectedMachine, setSelectedMachine] = useState<Machine | null>(null);
-
-  const columns: ColumnsType<Machine> = [
-    {
-      title: t('common.relayNo'),
-      dataIndex: 'relay_no',
-      key: 'relay_no',
-      width: 48,
-      sorter: true,
-      sortOrder: orderBy === 'relay_no' ? (orderDirection === 'asc' ? 'ascend' as const : 'descend' as const) : undefined,
-    },
-    {
-      title: t('common.name'),
-      dataIndex: 'name',
-      key: 'name',
-      width: 256,
-      sorter: true,
-      sortOrder: orderBy === 'name' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
-      render: (_: string, record: Machine) => (
-        <Typography.Link onClick={() => navigate(`/machines/${record.id}/detail`)}>
-          {`${t('common.machine')} ${record.name || record.relay_no}`}
-        </Typography.Link>
-      )
-    },
-    {
-      title: t('common.machineType'),
-      dataIndex: 'machine_type',
-      key: 'machine_type',
-      width: 128,
-      sorter: true,
-      sortOrder: orderBy === 'machine_type' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
-    },
-    {
-      title: t('common.basePrice'),
-      dataIndex: 'base_price',
-      key: 'base_price',
-      width: 128,
-      sorter: true,
-      sortOrder: orderBy === 'base_price' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
-      render: (text: string) => (
-        <Typography.Text strong style={{ color: theme.custom.colors.success.default }}>
-          {formatCurrencyCompact(text)}
-        </Typography.Text>
-      )
-    },
-    {
-      title: t('common.coinValue'),
-      dataIndex: 'coin_value',
-      key: 'coin_value',
-      width: 128,
-      sorter: true,
-      sortOrder: orderBy === 'coin_value' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
-      render: (text: string) => (
-        <Typography.Text strong style={{ color: theme.custom.colors.success.default }}>
-          {formatCurrencyCompact(text)}
-        </Typography.Text>
-      )
-    },
-    { 
-      title: t('common.pulseDuration'),
-      dataIndex: 'pulse_duration',
-      key: 'pulse_duration',
-      width: 128,
-      sorter: true,
-      sortOrder: orderBy === 'pulse_duration' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
-    },
-    { 
-      title: t('common.pulseInterval'),
-      dataIndex: 'pulse_interval',
-      key: 'pulse_interval',
-      width: 128,
-      sorter: true,
-      sortOrder: orderBy === 'pulse_interval' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
-    },
-    {
-      title: t('common.status'),
-      dataIndex: 'status',
-      key: 'status',
-      width: 128,
-      sorter: true,
-      sortOrder: orderBy === 'status' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
-      render: (status: string) => (
-        <DynamicTag value={status} />
-      ),
-    },
-    {
-      title: t('common.actions'), dataIndex: 'actions', render: (_: string, record: Machine) => (
-        <Flex gap={theme.custom.spacing.medium}>
-          {can('machine.start') && (
-            <Button
-              onClick={() => {
-                setIsStartMachineDrawerOpen(true);
-                setSelectedMachine(record);
-              }}
-              icon={<Play />}
-            />
-          )}
-
-          {can('machine.restart') && <Button
-            onClick={() => activateMachine(record.id)}
-            icon={<Refresh />}
-            loading={activateMachineLoading}
-          />}
-
-          {can('machine.update') && <Button
-            onClick={() => {
-              setIsMachineSettingDrawerOpen(true);
-              setSelectedMachine(record);
-            }}
-            icon={<Settings />}
-          />}
-        </Flex>
-      )
-    },
-  ];
+  const [selectedMachine, setSelectedMachine] = useState<any | null>(null);
+  const [selectedMachineForConfig, setSelectedMachineForConfig] = useState<any | null>(null);
+  const [selectedControllerId, setSelectedControllerId] = useState<string | undefined>(undefined);
 
   const {
     data: listMachineData,
@@ -189,6 +80,102 @@ export const TableView: React.FC<Props> = ({ controller }) => {
     error: activateMachineError,
   } = useActivateMachineApi<ActivateMachineResponse>();
 
+  const columns: ColumnsType<any> = [
+    {
+      title: t('common.relayNo'),
+      dataIndex: 'relay_no',
+      width: 48,
+      sorter: true,
+      sortOrder: orderBy === 'relay_no' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
+    },
+    {
+      title: t('common.name'),
+      dataIndex: 'name',
+      width: 256,
+      sorter: true,
+      sortOrder: orderBy === 'name' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
+      render: (_: string, record: any) => (
+        <Typography.Link onClick={() => navigate(`/machines/${record.id}/detail`)}>
+          {`${t('common.machine')} ${record.name ? record.name : record.relay_no}`}
+        </Typography.Link>
+      ),
+    },
+    {
+      title: t('common.machineType'),
+      dataIndex: 'machine_type',
+      width: 128,
+      sorter: true,
+      sortOrder: orderBy === 'machine_type' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
+      render: (status: string) => (
+        <DynamicTag value={status} type="text" />
+      ),
+    },
+    {
+      title: t('common.basePrice'),
+      dataIndex: 'base_price',
+      width: 128,
+      sorter: true,
+      sortOrder: orderBy === 'base_price' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
+      render: (base_price: number) => (
+        <Typography.Text>
+          {formatCurrencyCompact(base_price)}
+        </Typography.Text>
+      ),
+    },
+    {
+      title: t('common.status'),
+      dataIndex: 'status',
+      width: 128,
+      sorter: true,
+      sortOrder: orderBy === 'status' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
+      render: (status: string) => (
+        <DynamicTag value={status} type="text" />
+      ),
+    },
+    {
+      title: t('common.actions'), dataIndex: 'actions', width: 256,
+      render: (_: string, record: any) => (
+        <Flex gap={theme.custom.spacing.xsmall}>
+          {can('machine.restart') && (
+            <Button
+              icon={<Refresh />}
+              onClick={() => {
+                activateMachine(record.id);
+                handleListMachine();
+              }}
+              loading={activateMachineLoading}
+              style={{ backgroundColor: theme.custom.colors.background.light }}
+            />
+          )}
+
+          {can('machine.update') && (
+            <Button
+              icon={<Settings />}
+              onClick={() => {
+                setIsMachineSettingDrawerOpen(true);
+                setSelectedMachine(record);
+              }}
+              style={{ backgroundColor: theme.custom.colors.background.light }}
+            />
+          )}
+
+          {can('machine.start') && (
+            <Button
+              icon={<Play />}
+              onClick={() => {
+                setIsStartMachineDrawerOpen(true);
+                setSelectedMachine(record);
+              }}
+              style={{ backgroundColor: theme.custom.colors.background.light }}
+            >
+              {t('common.start')}
+            </Button>
+          )}
+        </Flex>
+      )
+    },
+  ];
+
   const handleListMachine = () => {
     if (!controller.id) return;
 
@@ -197,17 +184,13 @@ export const TableView: React.FC<Props> = ({ controller }) => {
       page,
       page_size: pageSize,
       order_by: orderBy,
-      order_direction: orderDirection || 'asc',
+      order_direction: orderDirection as 'asc' | 'desc',
     });
   }
 
   useEffect(() => {
     handleListMachine();
-  }, [orderBy, orderDirection, page, pageSize]);
-
-  useEffect(() => {
-    handleListMachine();
-  }, [controller]);
+  }, [controller, orderBy, orderDirection, page, pageSize]);
 
   useEffect(() => {
     if (activateMachineData) {
@@ -227,20 +210,21 @@ export const TableView: React.FC<Props> = ({ controller }) => {
   }, [activateMachineError]);
 
   return (
-    <BaseDetailSection
-      title={t('common.machines')}
-      onRefresh={handleListMachine}
-    >
+    <BaseDetailSection title={t('common.machines')} onRefresh={handleListMachine}>
       {contextHolder}
 
       <Table
-        dataSource={listMachineData?.data}
+        bordered
+        dataSource={listMachineData?.data || []}
         columns={columns}
         loading={listMachineLoading}
         pagination={{
           pageSize,
           current: page,
           total: listMachineData?.total,
+          showSizeChanger: true,
+          showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+          style: { color: theme.custom.colors.text.tertiary },
           onChange: (page, pageSize) => {
             setPage(page);
             setPageSize(pageSize);
@@ -253,7 +237,7 @@ export const TableView: React.FC<Props> = ({ controller }) => {
               setOrderBy(field as string);
               setOrderDirection(sorter.order === 'ascend' ? 'asc' : 'desc');
             } else if (sorter.order === null || sorter.order === undefined) {
-              setOrderBy('relay_no');
+              setOrderBy('');
               setOrderDirection('asc');
             }
           }
@@ -261,31 +245,50 @@ export const TableView: React.FC<Props> = ({ controller }) => {
           setPage(pagination.current || 1);
           setPageSize(pagination.pageSize || 10);
         }}
-        style={{ width: '100%' }}
+        onRow={() => {
+          return {
+            style: {
+              backgroundColor: theme.custom.colors.background.light,
+            },
+          };
+        }}
+        style={{
+          width: '100%',
+          backgroundColor: theme.custom.colors.background.light,
+          color: theme.custom.colors.neutral.default,
+        }}
       />
 
-      {isMachineSettingDrawerOpen && (
+      {selectedMachineForConfig && (
         <MachineSettingDrawer
-          key={`machine-setting-${selectedMachine?.id}`}
-          machine={selectedMachine as Machine}
+          key={`config-${selectedMachineForConfig.id}`}
+          machine={selectedMachineForConfig}
           isDrawerOpen={isMachineSettingDrawerOpen}
           setIsDrawerOpen={setIsMachineSettingDrawerOpen}
           onSave={() => {
-            setSelectedMachine(null);
-            handleListMachine();
+            setSelectedMachineForConfig(null);
+            listMachine({
+              controller_id: selectedControllerId as string,
+              page,
+              page_size: pageSize
+            });
           }}
         />
       )}
 
-      {isStartMachineDrawerOpen && (
+      {selectedMachine && (
         <StartMachineDrawer
-          key={`start-machine-${selectedMachine?.id}`}
-          machine={selectedMachine as Machine}
+          key={`start-${selectedMachine.id}`}
+          machine={selectedMachine}
           isDrawerOpen={isStartMachineDrawerOpen}
           setIsDrawerOpen={setIsStartMachineDrawerOpen}
           onStartSuccess={() => {
             setSelectedMachine(null);
-            handleListMachine();
+            listMachine({
+              controller_id: selectedControllerId as string,
+              page,
+              page_size: pageSize
+            });
           }}
         />
       )}

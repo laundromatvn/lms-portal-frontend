@@ -69,9 +69,11 @@ export const DynamicTag: React.FC<Props> = ({ value, type = 'default', color, st
   }, [value]);
 
   if (type === 'text') {
-    return <Typography.Text style={{ color: primaryColor }}>
-      {toCamelCase(value)}
-    </Typography.Text>;
+    return (
+      <Typography.Text style={{ color: primaryColor, fontWeight: theme.custom.fontWeight.large }}>
+        {toCamelCase(value)}
+      </Typography.Text>
+    );
   }
 
   return (

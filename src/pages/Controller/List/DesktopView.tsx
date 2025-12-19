@@ -2,9 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Flex, Typography, Table, Skeleton, notification, Popconfirm } from 'antd';
+import {
+  Button,
+  Flex,
+  Typography,
+  Table,
+  Skeleton,
+  notification,
+  Popconfirm,
+} from 'antd';
+import type { ColumnsType } from 'antd/es/table';
 
-import { AddCircle, TrashBinTrash } from '@solar-icons/react';
+import { PlusOutlined } from '@ant-design/icons';
+import { TrashBinTrash } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 import { useCan } from '@shared/hooks/useCan';
@@ -12,11 +22,13 @@ import { useCan } from '@shared/hooks/useCan';
 import { useListControllerApi, type ListControllerResponse } from '@shared/hooks/useListControllerApi';
 import { useDeleteControllerApi } from '@shared/hooks/useDeleteControllerApi';
 
+import type { Controller } from '@shared/types/Controller';
+
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { Box } from '@shared/components/Box';
 
-export const TableView: React.FC = () => {
+export const DesktopView: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -26,12 +38,16 @@ export const TableView: React.FC = () => {
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [orderBy, setOrderBy] = useState('store_name');
+  const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('desc');
 
-  const columns = [
+  const columns: ColumnsType<Controller> = [
     {
       title: t('common.storeName'),
       dataIndex: 'store_name',
-      width: 156,
+      width: 196,
+      sorter: true,
+      sortOrder: orderBy === 'store_name' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (_: string, record: any) => (
         <Typography.Link onClick={() => navigate(`/stores/${record.store_id}/detail`)}>
           {record.store_name || '-'}
@@ -42,6 +58,8 @@ export const TableView: React.FC = () => {
       title: t('common.deviceId'),
       dataIndex: 'device_id',
       width: 128,
+      sorter: true,
+      sortOrder: orderBy === 'device_id' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (_: string, record: any) => (
         <Typography.Link onClick={() => navigate(`/controllers/${record.id}/detail`)}>
           {record.device_id || '-'}
@@ -51,7 +69,9 @@ export const TableView: React.FC = () => {
     {
       title: t('common.controllerName'),
       dataIndex: 'name',
-      width: 256,
+      width: 196,
+      sorter: true,
+      sortOrder: orderBy === 'name' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (_: string, record: any) => (
         <Typography.Link onClick={() => navigate(`/controllers/${record.id}/detail`)}>
           {record.name || '-'}
@@ -62,20 +82,27 @@ export const TableView: React.FC = () => {
       title: t('common.totalRelays'),
       dataIndex: 'total_relays',
       width: 48,
+      sorter: true,
+      sortOrder: orderBy === 'total_relays' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
     },
     {
       title: t('common.status'),
       dataIndex: 'status',
       width: 128,
-      render: (text: string) => <DynamicTag value={text} />,
+      sorter: true,
+      sortOrder: orderBy === 'status' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
+      render: (_: string, record: any) => <DynamicTag value={record.status} type="text" />,
     },
     {
       title: t('common.firmware'),
       dataIndex: 'firmware_name',
       width: 128,
       render: (_: string, record: any) => (
-        <Typography.Link onClick={() => navigate(`/firmware/${record.firmware_id}/detail`)}>
-          {`${record.firmware_name} (${record.firmware_version})` || '-'}
+        <Typography.Link
+          disabled={!record.firmware_id}
+          onClick={() => navigate(`/firmware/${record.firmware_id}/detail`)}
+        >
+          {record.firmware_id ? `${record.firmware_name} (${record.firmware_version})` : t('common.unknown')}
         </Typography.Link>
       ),
     },
@@ -124,7 +151,12 @@ export const TableView: React.FC = () => {
   } = useDeleteControllerApi<void>();
 
   const handleListController = () => {
-    listController({ page, page_size: pageSize });
+    listController({
+      page,
+      page_size: pageSize,
+      order_by: orderBy,
+      order_direction: orderDirection,
+    });
   }
 
   useEffect(() => {
@@ -154,7 +186,7 @@ export const TableView: React.FC = () => {
 
   useEffect(() => {
     handleListController();
-  }, [page, pageSize]);
+  }, [page, pageSize, orderBy, orderDirection]);
 
   return (
     <PortalLayoutV2
@@ -163,21 +195,23 @@ export const TableView: React.FC = () => {
     >
       {contextHolder}
 
-      <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%', height: '100%', overflowX: 'hidden' }}>
-        <Flex justify="flex-end" wrap gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+      <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%', overflowX: 'hidden' }}>
+        <Flex align="center" justify="flex-end" wrap gap={theme.custom.spacing.small} style={{ width: '100%' }}>
           {can('controller.create') && (
             <Button
+              icon={<PlusOutlined />}
               onClick={() => navigate('/controllers/abandoned')}
-              icon={<AddCircle />}
+              style={{
+                backgroundColor: theme.custom.colors.background.light,
+                color: theme.custom.colors.neutral.default,
+              }}
             >
               {t('controller.addController')}
             </Button>
           )}
         </Flex>
 
-        {listControllerLoading && <Skeleton active />}
-
-        <Flex vertical style={{ width: '100%', height: '100%', overflowX: 'auto' }}>
+        <Flex vertical style={{ width: '100%', overflowX: 'auto' }}>
           <Table
             bordered
             dataSource={listControllerData?.data || []}
@@ -187,12 +221,41 @@ export const TableView: React.FC = () => {
               pageSize,
               current: page,
               total: listControllerData?.total,
+              showSizeChanger: true,
+              showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+              style: { color: theme.custom.colors.text.tertiary },
               onChange: (page, pageSize) => {
                 setPage(page);
                 setPageSize(pageSize);
               },
             }}
-            style={{ width: '100%', height: '100%' }}
+            onChange={(pagination, _filters, sorter) => {
+              if (sorter && !Array.isArray(sorter)) {
+                const field = ('field' in sorter && sorter.field) || ('columnKey' in sorter && sorter.columnKey);
+                if (field && sorter.order) {
+                  setOrderBy(field as string);
+                  setOrderDirection(sorter.order === 'ascend' ? 'asc' : 'desc');
+                } else if (sorter.order === null || sorter.order === undefined) {
+                  setOrderBy('');
+                  setOrderDirection('asc');
+                }
+              }
+
+              setPage(pagination.current || 1);
+              setPageSize(pagination.pageSize || 10);
+            }}
+            onRow={() => {
+              return {
+                style: {
+                  backgroundColor: theme.custom.colors.background.light,
+                },
+              };
+            }}
+            style={{
+              width: '100%',
+              backgroundColor: theme.custom.colors.background.light,
+              color: theme.custom.colors.neutral.default,
+            }}
           />
         </Flex>
       </Box>

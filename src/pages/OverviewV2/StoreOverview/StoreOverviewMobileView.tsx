@@ -110,11 +110,7 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
       )}
 
       {selectedTab === 'machines' && can('machine.list') && (
-        <MachineOverview
-          store={store}
-          filters={selectedFilters}
-          datetimeFilters={datetimeFilters}
-        />
+        <MachineOverview store={store} />
       )}
     </Flex>
   );

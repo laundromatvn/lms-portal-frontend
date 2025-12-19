@@ -6,8 +6,10 @@ import {
   Button,
   Flex,
   List,
+  Select,
   Typography,
   notification,
+  Divider,
 } from 'antd';
 
 import {
@@ -24,14 +26,16 @@ import {
   type ListMachineResponse,
 } from '@shared/hooks/useListMachineApi';
 import {
+  useListControllerApi,
+  type ListControllerResponse,
+} from '@shared/hooks/useListControllerApi';
+import {
   useActivateMachineApi,
   type ActivateMachineResponse,
 } from '@shared/hooks/useActivateMachineApi';
 
-import { formatCurrencyCompact } from '@shared/utils/currency';
-
-import { type Controller } from '@shared/types/Controller';
 import type { Machine } from '@shared/types/machine';
+import type { Controller } from '@shared/types/Controller';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
@@ -39,13 +43,15 @@ import { DynamicTag } from '@shared/components/DynamicTag';
 import { StartMachineDrawer } from '@shared/components/Drawer/StartMachineDrawer';
 import { MachineSettingDrawer } from '@shared/components/Drawer/MachineSettingDrawer';
 
+import { formatCurrencyCompact } from '@shared/utils/currency';
+
+import './style.css';
 
 interface Props {
   controller: Controller;
-  onSuccess?: () => void;
 }
 
-export const ListView: React.FC<Props> = ({ controller }) => {
+export const MobileView: React.FC<Props> = ({ controller }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -54,20 +60,11 @@ export const ListView: React.FC<Props> = ({ controller }) => {
   const [api, contextHolder] = notification.useNotification();
 
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(8);
 
   const [isMachineSettingDrawerOpen, setIsMachineSettingDrawerOpen] = useState(false);
   const [isStartMachineDrawerOpen, setIsStartMachineDrawerOpen] = useState(false);
   const [selectedMachine, setSelectedMachine] = useState<Machine | null>(null);
-
-  const columns = [
-    { title: t('common.relayNo'), dataIndex: 'relay_no', width: 48 },
-    { title: t('common.name'), dataIndex: 'name' },
-    { title: t('common.machineType'), dataIndex: 'machine_type', width: 128 },
-    { title: t('common.basePrice'), dataIndex: 'base_price', width: 128 },
-    { title: t('common.status'), dataIndex: 'status', render: (status: string) => <DynamicTag value={status} />, width: 128 },
-    { title: t('common.actions'), dataIndex: 'actions', width: 256 },
-  ];
 
   const {
     data: listMachineData,
@@ -114,10 +111,7 @@ export const ListView: React.FC<Props> = ({ controller }) => {
   }, [activateMachineError]);
 
   return (
-    <BaseDetailSection
-      title={t('common.machines')}
-      onRefresh={handleListMachine}
-    >
+    <BaseDetailSection title={t('common.machines')} onRefresh={handleListMachine}>
       {contextHolder}
 
       <List
@@ -134,7 +128,7 @@ export const ListView: React.FC<Props> = ({ controller }) => {
           },
           showSizeChanger: true,
           showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
-          style: { marginTop: theme.custom.spacing.medium },
+          style: { color: theme.custom.colors.text.tertiary },
         }}
         renderItem={(item) => (
           <List.Item
@@ -142,92 +136,126 @@ export const ListView: React.FC<Props> = ({ controller }) => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'flex-start',
-              gap: theme.custom.spacing.small,
               width: '100%',
-              padding: theme.custom.spacing.medium,
+              padding: theme.custom.spacing.small,
+              gap: theme.custom.spacing.large,
               marginBottom: theme.custom.spacing.medium,
               backgroundColor: theme.custom.colors.background.light,
               borderRadius: theme.custom.radius.medium,
               border: `1px solid ${theme.custom.colors.neutral[200]}`,
             }}
           >
-            <Flex vertical gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-              <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-                <Typography.Link onClick={() => navigate(`/machines/${item.id}/detail`)}>
-                  {item.name || `${t('common.machine')} ${item.relay_no}`}
-                </Typography.Link>
-                <DynamicTag value={item.status} />
-              </Flex>
-
-              <Flex gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-                <Typography.Text type="secondary">{item.machine_type}</Typography.Text>
-                <Typography.Text type="secondary">|</Typography.Text>
-                <Typography.Text type="secondary">{`${t('common.machine')} ${item.relay_no}`}</Typography.Text>
-              </Flex>
-
-              <Flex gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-                <Typography.Text type="secondary">{`${t('common.pulseDuration')}: ${item.pulse_duration}`}</Typography.Text>
-                <Typography.Text type="secondary">|</Typography.Text>
-                <Typography.Text type="secondary">{`${t('common.pulseInterval')}: ${item.pulse_interval}`}</Typography.Text>
-              </Flex>
-
-              <Flex gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-                <Typography.Text type="secondary">{`${t('common.basePrice')}: ${formatCurrencyCompact(item.base_price)}`}</Typography.Text>
-                <Typography.Text type="secondary">|</Typography.Text>
-                <Typography.Text type="secondary">{`${t('common.coinValue')}: ${item.coin_value}`}</Typography.Text>
-              </Flex>
-
-              <Flex justify="flex-end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-                {can('machine.start') && <Button
-                  icon={<Play />}
-                  onClick={() => {
-                    setIsStartMachineDrawerOpen(true);
-                    setSelectedMachine(item);
+            <Flex
+              vertical
+              gap={theme.custom.spacing.xsmall}
+              style={{ width: '100%' }}
+              onClick={() => navigate(`/machines/${item.id}/detail`)}
+            >
+              <Flex justify="space-between" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
+                <Typography.Text
+                  ellipsis
+                  style={{
+                    flex: 1,
+                    minWidth: 0,
+                    marginRight: theme.custom.spacing.xsmall,
                   }}
-                />}
+                >
+                  {t('common.machine')} {item.name ? `${item.name} (${item.relay_no})` : item.relay_no}
+                </Typography.Text>
 
-                {can('machine.restart') && <Button
+                <Flex style={{ flexShrink: 0 }}>
+                  <DynamicTag value={item.status} type="text" />
+                </Flex>
+              </Flex>
+
+              <Typography.Text
+                type="secondary"
+                ellipsis
+                style={{
+                  width: '100%',
+                  fontSize: theme.custom.fontSize.xsmall,
+                }}
+              >
+                {item.machine_type} • {`${t('common.basePrice')} ${formatCurrencyCompact(item.base_price)}`}
+              </Typography.Text>
+
+              <Typography.Text
+                type="secondary"
+                ellipsis
+                style={{
+                  width: '100%',
+                  fontSize: theme.custom.fontSize.xsmall,
+                }}
+              >
+                {`${t('common.pulseDuration')} ${item.pulse_duration}`} • {`${t('common.pulseInterval')} ${item.pulse_interval}`}
+              </Typography.Text>
+            </Flex>
+
+            <Flex
+              justify="flex-end"
+              gap={theme.custom.spacing.xsmall}
+              style={{ width: '100%' }}
+            >
+              {can('machine.restart') && (
+                <Button
                   icon={<Refresh />}
                   onClick={() => {
                     activateMachine(item.id);
                     handleListMachine();
                   }}
                   loading={activateMachineLoading}
-                />}
+                  style={{ backgroundColor: theme.custom.colors.background.light }}
+                />
+              )}
 
-                {can('machine.update') && <Button
+              {can('machine.update') && (
+                <Button
                   icon={<Settings />}
                   onClick={() => {
                     setIsMachineSettingDrawerOpen(true);
                     setSelectedMachine(item);
                   }}
-                />}
-              </Flex>
+                  style={{ backgroundColor: theme.custom.colors.background.light }}
+                />
+              )}
+
+              {can('machine.start') && (
+                <Button
+                  icon={<Play />}
+                  onClick={() => {
+                    setIsStartMachineDrawerOpen(true);
+                    setSelectedMachine(item);
+                  }}
+                  style={{ backgroundColor: theme.custom.colors.background.light }}
+                >
+                  {t('common.start')}
+                </Button>
+              )}
             </Flex>
           </List.Item>
         )}
       />
 
-      {isMachineSettingDrawerOpen && (
-        <MachineSettingDrawer
-          key={`machine-setting-${selectedMachine?.id}`}
-          machine={selectedMachine as Machine}
-          isDrawerOpen={isMachineSettingDrawerOpen}
-          setIsDrawerOpen={setIsMachineSettingDrawerOpen}
-          onSave={() => {
+      {selectedMachine && (
+        <StartMachineDrawer
+          key={`start-${selectedMachine.id}`}
+          machine={selectedMachine}
+          isDrawerOpen={isStartMachineDrawerOpen}
+          setIsDrawerOpen={setIsStartMachineDrawerOpen}
+          onStartSuccess={() => {
             setSelectedMachine(null);
             handleListMachine();
           }}
         />
       )}
 
-      {isStartMachineDrawerOpen && (
-        <StartMachineDrawer
-          key={`start-machine-${selectedMachine?.id}`}
-          machine={selectedMachine as Machine}
-          isDrawerOpen={isStartMachineDrawerOpen}
-          setIsDrawerOpen={setIsStartMachineDrawerOpen}
-          onStartSuccess={() => {
+      {selectedMachine && (
+        <MachineSettingDrawer
+          key={`config-${selectedMachine.id}`}
+          machine={selectedMachine}
+          isDrawerOpen={isMachineSettingDrawerOpen}
+          setIsDrawerOpen={setIsMachineSettingDrawerOpen}
+          onSave={() => {
             setSelectedMachine(null);
             handleListMachine();
           }}

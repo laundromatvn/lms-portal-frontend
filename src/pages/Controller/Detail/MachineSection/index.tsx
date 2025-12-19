@@ -1,22 +1,22 @@
 import React from 'react';
 
+import { type Controller } from '@shared/types/Controller';
+
 import { useIsMobile } from '@shared/hooks/useIsMobile';
 
-import type { Controller } from '@shared/types/Controller';
-
-import { ListView } from './ListView';
-import { TableView } from './TableView';
+import { DesktopView } from './DesktopView';
+import { MobileView } from './MobileView';
 
 interface Props {
   controller: Controller;
 }
 
-export const MachineSection: React.FC<Props> = ({ controller }) => {
+export const MachineSection: React.FC<Props> = ({ controller }: Props) => {
   const isMobile = useIsMobile();
 
   if (isMobile) {
-    return <ListView controller={controller} />;
+    return <MobileView controller={controller} />;
   }
 
-  return <TableView controller={controller} />;
+  return <DesktopView controller={controller} />;
 };

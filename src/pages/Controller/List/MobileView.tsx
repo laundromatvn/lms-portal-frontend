@@ -12,7 +12,8 @@ import {
   Popconfirm,
 } from 'antd';
 
-import { AddCircle, TrashBinTrash } from '@solar-icons/react';
+import { PlusOutlined } from '@ant-design/icons';
+import { TrashBinTrash } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 import { useCan } from '@shared/hooks/useCan';
@@ -24,7 +25,7 @@ import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { Box } from '@shared/components/Box';
 
-export const ListView: React.FC = () => {
+export const MobileView: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -89,14 +90,18 @@ export const ListView: React.FC = () => {
       {contextHolder}
 
       <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%', height: '100%', overflowX: 'hidden' }}>
-        <Flex justify="flex-end" wrap gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+        <Flex align="center" justify="flex-end" wrap gap={theme.custom.spacing.small} style={{ width: '100%' }}>
           {can('controller.create') && (
             <Button
+              shape="circle"
+              size="large"
+              icon={<PlusOutlined />}
               onClick={() => navigate('/controllers/abandoned')}
-              icon={<AddCircle />}
-            >
-              {t('controller.addController')}
-            </Button>
+              style={{
+                backgroundColor: theme.custom.colors.background.light,
+                color: theme.custom.colors.neutral.default,
+              }}
+            />
           )}
         </Flex>
 
@@ -110,6 +115,9 @@ export const ListView: React.FC = () => {
               pageSize,
               current: page,
               total: listControllerData?.total,
+              showSizeChanger: true,
+              showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+              style: { color: theme.custom.colors.text.tertiary },
               onChange: (page, pageSize) => {
                 setPage(page);
                 setPageSize(pageSize);
@@ -131,18 +139,34 @@ export const ListView: React.FC = () => {
                   border: `1px solid ${theme.custom.colors.neutral[200]}`,
                 }}
               >
-                <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-                  <Typography.Link onClick={() => navigate(`/controllers/${item.id}/detail`)}>
-                    {item.name} ({item.device_id})
-                  </Typography.Link>
+                <Flex
+                  vertical
+                  gap={theme.custom.spacing.xsmall}
+                  style={{ width: '100%' }}
+                  onClick={() => navigate(`/controllers/${item.id}/detail`)}
+                >
+                  <Flex justify="space-between" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
+                    <Typography.Text
+                      ellipsis
+                      style={{
+                        flex: 1,
+                        minWidth: 0,
+                        marginRight: theme.custom.spacing.xsmall,
+                      }}
+                    >
+                      {`${item.name} (${item.device_id})` || '-'}
+                    </Typography.Text>
 
-                  <DynamicTag value={item.status} />
-                </Flex>
+                    <Flex style={{ flexShrink: 0 }}>
+                      <DynamicTag value={item.status} type="text" />
+                    </Flex>
+                  </Flex>
 
-                <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+                  <Typography.Text type="secondary">
+                    {t('common.storeName')}: {item.store_name || '-'}
+                  </Typography.Text>
+
                   <Typography.Text type="secondary">{t('common.totalRelays')}: {item.total_relays}</Typography.Text>
-
-                  <Typography.Text type="secondary">{item.store_name}</Typography.Text>
                 </Flex>
 
                 <Flex justify="end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>

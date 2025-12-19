@@ -122,7 +122,7 @@ export const DesktopView: React.FC = () => {
 
       <Flex vertical style={{ height: '100%' }}>
         <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-          <Flex justify="space-between" style={{ width: '100%' }}>
+          <Flex align="center" justify="space-between" style={{ width: '100%' }}>
             <Input
               size="large"
               placeholder={t('common.search')}
@@ -140,7 +140,6 @@ export const DesktopView: React.FC = () => {
 
             {can('store.create') && (
               <Button
-                size="large"
                 icon={<PlusOutlined />}
                 onClick={() => navigate('/stores/add')}
                 style={{

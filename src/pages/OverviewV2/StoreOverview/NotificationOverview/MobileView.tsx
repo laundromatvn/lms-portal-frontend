@@ -106,7 +106,11 @@ export const MobileView: React.FC = () => {
           icon={<CheckRead size={20} />}
           onClick={markAllNotificationAsSeen}
           loading={markAllNotificationAsSeenLoading}
-          style={{ backgroundColor: theme.custom.colors.background.light }}
+          style={{
+            backgroundColor: theme.custom.colors.background.light,
+            color: theme.custom.colors.text.tertiary,
+            borderColor: theme.custom.colors.neutral[300],
+          }}
         />
 
         <Button
@@ -115,7 +119,11 @@ export const MobileView: React.FC = () => {
           icon={<Broom size={20} />}
           onClick={clearAllNotification}
           loading={clearAllNotificationLoading}
-          style={{ backgroundColor: theme.custom.colors.background.light }}
+          style={{
+            backgroundColor: theme.custom.colors.background.light,
+            color: theme.custom.colors.text.tertiary,
+            borderColor: theme.custom.colors.neutral[300],
+          }}
         />
       </Flex>
 

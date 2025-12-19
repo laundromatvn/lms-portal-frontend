@@ -75,7 +75,7 @@ export const MobileView: React.FC = () => {
           style={{
             width: '100%',
             backgroundColor: theme.custom.colors.background.light,
-            color: theme.custom.colors.neutral.default,
+            color: theme.custom.colors.text.tertiary,
           }}
           allowClear
           prefix={<SearchOutlined />}
@@ -89,7 +89,7 @@ export const MobileView: React.FC = () => {
             onClick={() => navigate('/stores/add')}
             style={{
               backgroundColor: theme.custom.colors.background.light,
-              color: theme.custom.colors.neutral.default,
+              color: theme.custom.colors.text.tertiary,
             }}
           />
         )}

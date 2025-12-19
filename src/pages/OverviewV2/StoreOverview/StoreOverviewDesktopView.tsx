@@ -73,13 +73,7 @@ export const StoreOverviewDesktopView: React.FC<Props> = ({
         />
       )}
 
-      {can('machine.list') && (
-        <MachineOverview
-          store={store}
-          filters={selectedFilters}
-          datetimeFilters={datetimeFilters}
-        />
-      )}
+      {can('machine.list') && <MachineOverview store={store} />}
     </Flex>
   );
 };
