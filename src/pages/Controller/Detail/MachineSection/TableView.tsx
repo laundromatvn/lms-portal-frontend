@@ -9,6 +9,7 @@ import {
   Typography,
   notification,
 } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
 
 import {
   Refresh,
@@ -62,34 +63,43 @@ export const TableView: React.FC<Props> = ({ controller }) => {
   const [isStartMachineDrawerOpen, setIsStartMachineDrawerOpen] = useState(false);
   const [selectedMachine, setSelectedMachine] = useState<Machine | null>(null);
 
-  const handleSort = (column: string, direction: 'asc' | 'desc') => {
-    setOrderBy(column);
-    setOrderDirection(direction);
-  };
-
-  const columns = [
+  const columns: ColumnsType<Machine> = [
     {
       title: t('common.relayNo'),
       dataIndex: 'relay_no',
+      key: 'relay_no',
       width: 48,
       sorter: true,
-      onSort: (column: string, direction: 'asc' | 'desc') => handleSort(column, direction),
+      sortOrder: orderBy === 'relay_no' ? (orderDirection === 'asc' ? 'ascend' as const : 'descend' as const) : undefined,
     },
     {
       title: t('common.name'),
       dataIndex: 'name',
+      key: 'name',
       width: 256,
       sorter: true,
-      onSort: (column: string, direction: 'asc' | 'desc') => handleSort(column, direction),
+      sortOrder: orderBy === 'name' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (_: string, record: Machine) => (
         <Typography.Link onClick={() => navigate(`/machines/${record.id}/detail`)}>
           {`${t('common.machine')} ${record.name || record.relay_no}`}
         </Typography.Link>
       )
     },
-    { title: t('common.machineType'), dataIndex: 'machine_type', width: 128 },
     {
-      title: t('common.basePrice'), dataIndex: 'base_price', width: 128,
+      title: t('common.machineType'),
+      dataIndex: 'machine_type',
+      key: 'machine_type',
+      width: 128,
+      sorter: true,
+      sortOrder: orderBy === 'machine_type' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
+    },
+    {
+      title: t('common.basePrice'),
+      dataIndex: 'base_price',
+      key: 'base_price',
+      width: 128,
+      sorter: true,
+      sortOrder: orderBy === 'base_price' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (text: string) => (
         <Typography.Text strong style={{ color: theme.custom.colors.success.default }}>
           {formatCurrencyCompact(text)}
@@ -97,17 +107,41 @@ export const TableView: React.FC<Props> = ({ controller }) => {
       )
     },
     {
-      title: t('common.coinValue'), dataIndex: 'coin_value', width: 128,
+      title: t('common.coinValue'),
+      dataIndex: 'coin_value',
+      key: 'coin_value',
+      width: 128,
+      sorter: true,
+      sortOrder: orderBy === 'coin_value' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (text: string) => (
         <Typography.Text strong style={{ color: theme.custom.colors.success.default }}>
           {formatCurrencyCompact(text)}
         </Typography.Text>
       )
     },
-    { title: t('common.pulseDuration'), dataIndex: 'pulse_duration', width: 128 },
-    { title: t('common.pulseInterval'), dataIndex: 'pulse_interval', width: 128 },
+    { 
+      title: t('common.pulseDuration'),
+      dataIndex: 'pulse_duration',
+      key: 'pulse_duration',
+      width: 128,
+      sorter: true,
+      sortOrder: orderBy === 'pulse_duration' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
+    },
+    { 
+      title: t('common.pulseInterval'),
+      dataIndex: 'pulse_interval',
+      key: 'pulse_interval',
+      width: 128,
+      sorter: true,
+      sortOrder: orderBy === 'pulse_interval' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
+    },
     {
-      title: t('common.status'), dataIndex: 'status', width: 128,
+      title: t('common.status'),
+      dataIndex: 'status',
+      key: 'status',
+      width: 128,
+      sorter: true,
+      sortOrder: orderBy === 'status' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (status: string) => (
         <DynamicTag value={status} />
       ),
@@ -210,12 +244,22 @@ export const TableView: React.FC<Props> = ({ controller }) => {
           onChange: (page, pageSize) => {
             setPage(page);
             setPageSize(pageSize);
-            listMachine({
-              controller_id: controller.id,
-              page,
-              page_size: pageSize
-            });
           },
+        }}
+        onChange={(pagination, _filters, sorter) => {
+          if (sorter && !Array.isArray(sorter)) {
+            const field = ('field' in sorter && sorter.field) || ('columnKey' in sorter && sorter.columnKey);
+            if (field && sorter.order) {
+              setOrderBy(field as string);
+              setOrderDirection(sorter.order === 'ascend' ? 'asc' : 'desc');
+            } else if (sorter.order === null || sorter.order === undefined) {
+              setOrderBy('relay_no');
+              setOrderDirection('asc');
+            }
+          }
+
+          setPage(pagination.current || 1);
+          setPageSize(pagination.pageSize || 10);
         }}
         style={{ width: '100%' }}
       />
