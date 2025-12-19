@@ -1,7 +1,7 @@
 export const NotificationStatusEnum = {
   NEW: 'NEW',
   DELIVERED: 'DELIVERED',
-  READ: 'READ',
+  SEEN: 'SEEN',
   FAILED: 'FAILED',
 } as const;
 

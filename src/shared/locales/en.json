@@ -262,7 +262,8 @@
     "filters": "Filters",
     "selectStores": "Select Stores",
     "selectStoresIsRequired": "Select stores is required",
-    "unknown": "Unknown"
+    "unknown": "Unknown",
+    "seen": "Seen"
   },
   "navigation": {
     "overview": "Overview",
@@ -398,7 +399,8 @@
     "querySecretKeyIsRequired": "Query secret key is required",
     "ipnv3SecretKeyIsRequired": "IPNV3 secret key is required",
     "isEnabledIsRequired": "Is enabled is required",
-    "youDoNotHavePermissionToAccessThisPage": "You do not have permission to access this page"
+    "youDoNotHavePermissionToAccessThisPage": "You do not have permission to access this page",
+    "selectNotificationType": "Select Notification Type"
   },
   "overview": {
     "keyMetrics": {
@@ -467,9 +469,11 @@
     }
   },
   "overviewV2": {
+    "notifications": "Notifications",
     "keyMetrics": "Key Metrics",
     "alerts": "Alerts",
     "markAllAsSeen": "Mark all as seen",
+    "clearAll": "Clear all",
     "laundryManagementSystem": "Laundry Management System",
     "revenueByDay": "Revenue By Day",
     "revenueByMonth": "Revenue By Month",

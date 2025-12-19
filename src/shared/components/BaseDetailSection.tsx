@@ -10,7 +10,7 @@ import { Box } from '@shared/components/Box';
 import { BaseSectionTitle } from './BaseSectionTitle';
 
 interface Props {
-  title: string;
+  title?: string;
   children: React.ReactNode;
   onEdit?: () => void;
   onRefresh?: () => void;
@@ -31,7 +31,7 @@ export const BaseDetailSection: React.FC<Props> = ({
   return (
     <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%', ...style }} loading={loading}>
       <Flex justify="space-between" align="center" style={{ width: '100%' }}>
-        <BaseSectionTitle title={title} onRefresh={onRefresh} />
+        {title && <BaseSectionTitle title={title} onRefresh={onRefresh} />}
 
         <Flex justify="end" gap={theme.custom.spacing.small}>
           {onEdit && (

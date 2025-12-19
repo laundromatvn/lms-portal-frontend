@@ -13,7 +13,7 @@ import { StoreKeyMetrics } from './StoreKeyMetrics';
 import { TopOrderOverview } from './TopOrderOverview';
 import { MachineOverview } from './MachineOverview';
 import { ChipFilter } from './ChipFilter';
-import { LatestAlerts } from './LatestAlerts';
+import { NotificationOverview } from './NotificationOverview';
 
 interface Props {
   store: Store;
@@ -63,7 +63,7 @@ export const StoreOverviewDesktopView: React.FC<Props> = ({
         />
       )}
 
-      <LatestAlerts />
+      <NotificationOverview />
 
       {can('order.list') && (
         <TopOrderOverview

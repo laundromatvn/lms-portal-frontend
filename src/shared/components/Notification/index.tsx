@@ -20,6 +20,7 @@ import { type Notification as NotificationType } from '@shared/types/Notificatio
 
 import { Box } from '@shared/components/Box';
 import { formatDateTime } from '@shared/utils/date';
+import { DynamicTag } from '../DynamicTag';
 
 interface Props {
   notification: NotificationType;
@@ -36,6 +37,8 @@ export const Notification: React.FC<Props> = ({ notification, onSuccess }) => {
         return theme.custom.colors.info.default;
       case NotificationTypeEnum.ERROR:
         return theme.custom.colors.danger.default;
+      default:
+        return theme.custom.colors.neutral.default;
     }
   }, [notification]);
 
@@ -49,9 +52,16 @@ export const Notification: React.FC<Props> = ({ notification, onSuccess }) => {
   }, [notification]);
 
   const borderColor = useMemo(() => {
-    if (notification.status === NotificationStatusEnum.NEW) return primaryColor;
+    if (notification.status === NotificationStatusEnum.SEEN) return theme.custom.colors.neutral[200];
 
-    return theme.custom.colors.neutral[200];
+    switch (notification.type) {
+      case NotificationTypeEnum.INFO:
+        return theme.custom.colors.info.dark;
+      case NotificationTypeEnum.ERROR:
+        return theme.custom.colors.danger.dark;
+      default:
+        return theme.custom.colors.neutral[200];
+    }
   }, [notification]);
 
   const backgroundColor = useMemo(() => {
@@ -84,54 +94,46 @@ export const Notification: React.FC<Props> = ({ notification, onSuccess }) => {
         backgroundColor: backgroundColor,
         borderColor: borderColor,
       }}
+      onClick={() => notification.status === NotificationStatusEnum.NEW
+        ? markNotificationAsSeen(notification.id)
+        : undefined
+      }
     >
       <Flex justify="space-between" gap={theme.custom.spacing.xxsmall} style={{ width: '100%' }}>
-        <Flex align="center" gap={theme.custom.spacing.xxsmall}>
-          <Typography.Text type="secondary" style={{ fontSize: theme.custom.fontSize.xsmall }}>
+        <Flex justify="start" align="center" gap={theme.custom.spacing.xxsmall}>
+          <Typography.Text
+            type="secondary"
+            style={{ fontSize: theme.custom.fontSize.xsmall }}
+          >
             {formatDateTime(notification.created_at)}
           </Typography.Text>
 
           <Typography.Text type="secondary" style={{ fontSize: theme.custom.fontSize.xsmall }}>
-            |
+            •
           </Typography.Text>
 
-          <Typography.Text
-            strong
-            style={{
-              fontSize: theme.custom.fontSize.xsmall,
-              color: primaryColor
-            }}
-          >
-            {notification.type.toLowerCase()}
-          </Typography.Text>
+          <DynamicTag value={notification.type} type="text" />
         </Flex>
 
-        {notification.status === NotificationStatusEnum.NEW && (
-          <Button
-            type="link"
-            size="small"
-            style={{
-              fontSize: theme.custom.fontSize.xsmall,
-            }}
-            onClick={() => markNotificationAsSeen(notification.id)}
-          >
-            {t('common.confirm')}
-          </Button>
-        )}
+        <Flex justify="end" align="center" gap={theme.custom.spacing.xxsmall}>
+          {notification.status === NotificationStatusEnum.SEEN && (
+            <Typography.Text type="secondary" style={{ fontSize: theme.custom.fontSize.xsmall }}>
+              {t('common.seen')}
+            </Typography.Text>
+          )}
+        </Flex>
       </Flex>
 
-      <Typography.Text
-        strong
-        style={{
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-        }}
-      >
+      <Typography.Text ellipsis>
         {notification.title}
       </Typography.Text>
 
-      <Typography.Text type="secondary" style={{ fontSize: theme.custom.fontSize.small }}>
+      <Typography.Text
+        type="secondary"
+        style={{
+          fontSize: theme.custom.fontSize.small,
+        }}
+      >
         {notification.message}
       </Typography.Text>
     </Box>

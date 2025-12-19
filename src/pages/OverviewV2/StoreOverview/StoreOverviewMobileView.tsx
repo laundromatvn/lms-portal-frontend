@@ -14,7 +14,7 @@ import { ChipFilter } from './ChipFilter';
 import { StoreKeyMetrics } from './StoreKeyMetrics';
 import { TopOrderOverview } from './TopOrderOverview';
 import { MachineOverview } from './MachineOverview';
-import { LatestAlerts } from './LatestAlerts';
+import { NotificationOverview } from './NotificationOverview';
 
 interface Props {
   store: Store;
@@ -42,8 +42,8 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
 
   const tabOptions: { label: string; value: string; permission?: string }[] = [
     {
-      label: t('overviewV2.alerts'),
-      value: 'alerts',
+      label: t('overviewV2.notifications'),
+      value: 'notifications',
     },
     {
       label: t('overviewV2.overview'),
@@ -97,8 +97,8 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
         shape="round"
       />
 
-      {selectedTab === 'alerts' && (
-        <LatestAlerts />
+      {selectedTab === 'notifications' && (
+        <NotificationOverview />
       )}
 
       {selectedTab === 'key_metrics' && can('dashboard.overview.view') && (

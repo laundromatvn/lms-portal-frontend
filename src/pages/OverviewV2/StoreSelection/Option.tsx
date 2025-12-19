@@ -51,47 +51,44 @@ export const StoreSelectionSectionOption: React.FC<Props> = ({
       onMouseLeave={() => setIsHovered(false)}
       style={{
         width: '100%',
-        padding: theme.custom.spacing.large,
+        padding: theme.custom.spacing.medium,
         borderColor,
         backgroundColor,
         transition: 'border-color 0.2s ease',
         ...style,
       }}
     >
-      <Box
-        style={{
-          padding: theme.custom.spacing.small,
-          borderRadius: theme.custom.radius.medium,
-          color: theme.custom.colors.primary.default,
-          backgroundColor: theme.custom.colors.primary.light,
-        }}
-      >
-        <Buildings2
-          weight="BoldDuotone"
-          size={32}
-        />
+      <Box style={{
+        padding: theme.custom.spacing.small,
+        borderRadius: theme.custom.radius.medium,
+        color: theme.custom.colors.primary.default,
+        backgroundColor: theme.custom.colors.primary.light,
+      }}>
+        <Buildings2 weight="BoldDuotone" size={32} />
       </Box>
 
       <Flex
         vertical
         justify="start"
         align="start"
-        gap={theme.custom.spacing.xsmall}
+        gap={theme.custom.spacing.small}
         style={{
           width: '100%',
           height: '100%',
+          overflow: 'hidden',
         }}
       >
-        <Typography.Text strong>{store.name}</Typography.Text>
-        <Typography.Text type="secondary">{store.address}</Typography.Text>
+        <Typography.Text>{store.name}</Typography.Text>
+        <Typography.Text
+          type="secondary"
+          ellipsis
+          style={{ fontSize: theme.custom.fontSize.small }}>
+          {store.address}12312313
+        </Typography.Text>
       </Flex>
 
-      <Flex
-        justify="center"
-        align="center"
-        style={{ height: '100%' }}
-      >
-        <AltArrowRight size={24} />
+      <Flex justify="center" align="center" style={{ height: '100%' }}>
+        <AltArrowRight size={20} color={theme.custom.colors.text.tertiary} />
       </Flex>
     </Box>
   )

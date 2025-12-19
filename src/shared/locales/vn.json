@@ -262,7 +262,8 @@
     "filters": "Bộ lọc",
     "selectStores": "Chọn cửa hàng",
     "selectStoresIsRequired": "Chọn cửa hàng là bắt buộc",
-    "unknown": "Không xác định"
+    "unknown": "Không xác định",
+    "seen": "Đã đọc"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -395,7 +396,8 @@
     "querySecretKeyIsRequired": "Mã query là bắt buộc",
     "ipnv3SecretKeyIsRequired": "Mã IPNV3 là bắt buộc",
     "isEnabledIsRequired": "Trạng thái hoạt động là bắt buộc",
-    "youDoNotHavePermissionToAccessThisPage": "Bạn không có quyền truy cập trang này"
+    "youDoNotHavePermissionToAccessThisPage": "Bạn không có quyền truy cập trang này",
+    "selectNotificationType": "Chọn loại thông báo"
   },
   "overview": {
     "keyMetrics": {
@@ -464,12 +466,14 @@
     }
   },
   "overviewV2": {
+    "notifications": "Thông báo",
     "overview": "Tổng quan",
     "order": "Đơn hàng",
     "machine": "Máy",
     "keyMetrics": "Chỉ số chính",
     "alerts": "Cảnh báo",
     "markAllAsSeen": "Đã đọc tất cả",
+    "clearAll": "Xóa tất cả",
     "laundryManagementSystem": "Hệ thống quản lý giặt sấy",
     "revenueByDay": "Doanh thu theo ngày",
     "revenueByMonth": "Doanh thu theo tháng",

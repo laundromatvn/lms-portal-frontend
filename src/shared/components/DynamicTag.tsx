@@ -34,6 +34,7 @@ export const DynamicTag: React.FC<Props> = ({ value, type = 'default', color, st
       case 'out_of_date':
         return theme.custom.colors.warning.default;
       case 'error':
+        return theme.custom.colors.danger[800];
       case 'failed':
       case 'payment_failed':
       case 'cancelled':
@@ -60,6 +61,8 @@ export const DynamicTag: React.FC<Props> = ({ value, type = 'default', color, st
       case 'major':
       case 'completed':
         return theme.custom.colors.accent_1.default;
+      case 'info':
+        return theme.custom.colors.info.dark;
       default:
         return theme.custom.colors.neutral[400];
     }
