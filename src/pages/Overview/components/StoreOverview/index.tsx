@@ -74,7 +74,6 @@ export const StoreOverview: React.FC<Props> = ({ store, onFilterClick, datetimeF
     setFilters(newFilters);
   };
 
-  // Use datetimeFilters from MoreFilterDrawer if provided, otherwise use chip filter dates
   const hasCustomDatetime = (datetimeFilters?.start_datetime && datetimeFilters.start_datetime !== '') ||
                             (datetimeFilters?.end_datetime && datetimeFilters.end_datetime !== '');
 

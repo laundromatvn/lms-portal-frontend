@@ -41,13 +41,13 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
 
   const tabOptions: { label: string; value: string; permission?: string }[] = [
     {
-      label: t('overviewV2.notifications'),
-      value: 'notifications',
-    },
-    {
       label: t('overviewV2.overview'),
       value: 'key_metrics',
       permission: 'dashboard.overview.view',
+    },
+    {
+      label: t('overviewV2.notifications'),
+      value: 'notifications',
     },
     {
       label: t('overviewV2.order'),
