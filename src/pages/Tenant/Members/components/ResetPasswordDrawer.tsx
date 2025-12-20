@@ -10,6 +10,8 @@ import {
   type ResetPasswordResponse,
 } from '@shared/hooks/useResetPasswordApi';
 
+import { Box } from '@shared/components/Box';
+
 interface Props {
   user_id: string;
   isDrawerOpen: boolean;
@@ -91,10 +93,31 @@ export const ResetPasswordDrawer: React.FC<Props> = ({
           flexDirection: 'column',
         },
       }}
+      footer={(
+        <Flex justify="flex-end" gap={theme.custom.spacing.medium} style={{ width: '100%', marginTop: 'auto' }}>
+          <Button
+            type="default"
+            size="large"
+            onClick={() => setIsDrawerOpen(false)}
+            style={{ width: '100%' }}
+          >
+            {t('common.cancel')}
+          </Button>
+          <Button
+            type="primary"
+            size="large"
+            onClick={handleResetPassword}
+            loading={resetPasswordLoading}
+            style={{ width: '100%' }}
+          >
+            {t('common.resetPassword')}
+          </Button>
+        </Flex>
+      )}
     >
       {contextHolder}
 
-      <Flex
+      <Box
         vertical
         gap={theme.custom.spacing.medium}
         style={{ width: '100%', height: '100%' }}
@@ -163,28 +186,7 @@ export const ResetPasswordDrawer: React.FC<Props> = ({
             </Form.Item>
           </Form>
         </Flex>
-
-        <Flex justify="flex-end" gap={theme.custom.spacing.medium} style={{ width: '100%', marginTop: 'auto' }}>
-          <Button
-            type="default"
-            size="large"
-            onClick={() => setIsDrawerOpen(false)}
-            style={{ width: '100%' }}
-          >
-            {t('common.cancel')}
-          </Button>
-
-          <Button
-            type="primary"
-            size="large"
-            onClick={handleResetPassword}
-            loading={resetPasswordLoading}
-            style={{ width: '100%' }}
-          >
-            {t('common.resetPassword')}
-          </Button>
-        </Flex>
-      </Flex>
+      </Box>
     </Drawer>
   );
 };

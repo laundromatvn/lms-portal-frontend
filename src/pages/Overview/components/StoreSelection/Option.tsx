@@ -67,25 +67,16 @@ export const StoreSelectionSectionOption: React.FC<Props> = ({
         <Buildings2 weight="BoldDuotone" size={32} />
       </Box>
 
-      <Flex
-        vertical
-        justify="start"
-        align="start"
-        gap={theme.custom.spacing.small}
+      <Typography.Text
+        type="secondary"
+        ellipsis
         style={{
           width: '100%',
-          height: '100%',
-          overflow: 'hidden',
+          fontSize: theme.custom.fontSize.small,
         }}
       >
-        <Typography.Text>{store.name}</Typography.Text>
-        <Typography.Text
-          type="secondary"
-          ellipsis
-          style={{ fontSize: theme.custom.fontSize.small }}>
-          {store.address}12312313
-        </Typography.Text>
-      </Flex>
+        {store.contact_phone_number} • {store.address}
+      </Typography.Text>
 
       <Flex justify="center" align="center" style={{ height: '100%' }}>
         <AltArrowRight size={20} color={theme.custom.colors.text.tertiary} />

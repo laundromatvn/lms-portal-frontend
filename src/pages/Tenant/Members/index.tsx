@@ -2,17 +2,17 @@ import React from 'react';
 
 import { useIsMobile } from '@shared/hooks/useIsMobile';
 
-import { TenantMemberTableView } from './TableView';
-import { TenantMemberListView } from './ListView';
+import { DesktopView } from './DesktopView';
+import { MobileView } from './MobileView';
 
 export const TenantMemberListPage: React.FC = () => {
   const isMobile = useIsMobile();
 
   if (isMobile) {
-    return <TenantMemberListView />;
+    return <MobileView />;
   }
 
   return (
-    <TenantMemberTableView />
+    <DesktopView />
   );
 };

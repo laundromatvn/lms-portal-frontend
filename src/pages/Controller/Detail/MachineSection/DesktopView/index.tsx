@@ -26,10 +26,6 @@ import {
   type ListMachineResponse,
 } from '@shared/hooks/useListMachineApi';
 import {
-  useListControllerApi,
-  type ListControllerResponse,
-} from '@shared/hooks/useListControllerApi';
-import {
   useActivateMachineApi,
   type ActivateMachineResponse,
 } from '@shared/hooks/useActivateMachineApi';
@@ -65,8 +61,6 @@ export const DesktopView: React.FC<Props> = ({ controller }) => {
   const [isMachineSettingDrawerOpen, setIsMachineSettingDrawerOpen] = useState(false);
   const [isStartMachineDrawerOpen, setIsStartMachineDrawerOpen] = useState(false);
   const [selectedMachine, setSelectedMachine] = useState<any | null>(null);
-  const [selectedMachineForConfig, setSelectedMachineForConfig] = useState<any | null>(null);
-  const [selectedControllerId, setSelectedControllerId] = useState<string | undefined>(undefined);
 
   const {
     data: listMachineData,
@@ -152,6 +146,7 @@ export const DesktopView: React.FC<Props> = ({ controller }) => {
             <Button
               icon={<Settings />}
               onClick={() => {
+                setIsStartMachineDrawerOpen(false);
                 setIsMachineSettingDrawerOpen(true);
                 setSelectedMachine(record);
               }}
@@ -163,6 +158,7 @@ export const DesktopView: React.FC<Props> = ({ controller }) => {
             <Button
               icon={<Play />}
               onClick={() => {
+                setIsMachineSettingDrawerOpen(false);
                 setIsStartMachineDrawerOpen(true);
                 setSelectedMachine(record);
               }}
@@ -259,36 +255,30 @@ export const DesktopView: React.FC<Props> = ({ controller }) => {
         }}
       />
 
-      {selectedMachineForConfig && (
+      {selectedMachine && isMachineSettingDrawerOpen && (
         <MachineSettingDrawer
-          key={`config-${selectedMachineForConfig.id}`}
-          machine={selectedMachineForConfig}
+          key={`config-${selectedMachine.id}`}
+          machine={selectedMachine}
           isDrawerOpen={isMachineSettingDrawerOpen}
           setIsDrawerOpen={setIsMachineSettingDrawerOpen}
           onSave={() => {
-            setSelectedMachineForConfig(null);
-            listMachine({
-              controller_id: selectedControllerId as string,
-              page,
-              page_size: pageSize
-            });
+            setIsMachineSettingDrawerOpen(false);
+            setSelectedMachine(null);
+            handleListMachine();
           }}
         />
       )}
 
-      {selectedMachine && (
+      {selectedMachine && isStartMachineDrawerOpen && (
         <StartMachineDrawer
           key={`start-${selectedMachine.id}`}
           machine={selectedMachine}
           isDrawerOpen={isStartMachineDrawerOpen}
           setIsDrawerOpen={setIsStartMachineDrawerOpen}
           onStartSuccess={() => {
+            setIsStartMachineDrawerOpen(false);
             setSelectedMachine(null);
-            listMachine({
-              controller_id: selectedControllerId as string,
-              page,
-              page_size: pageSize
-            });
+            handleListMachine();
           }}
         />
       )}

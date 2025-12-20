@@ -55,10 +55,10 @@ export const EditBasicInformationSection: React.FC<Props> = ({ form, onChange })
         >
           <Select size="large" style={{ width: '100%' }}>
             <Select.Option value={MachineTypeEnum.WASHER}>
-              <DynamicTag value={MachineTypeEnum.WASHER} />
+              <DynamicTag value={MachineTypeEnum.WASHER} type="text"/>
             </Select.Option>
             <Select.Option value={MachineTypeEnum.DRYER}>
-              <DynamicTag value={MachineTypeEnum.DRYER} />
+              <DynamicTag value={MachineTypeEnum.DRYER} type="text"/>
             </Select.Option>
           </Select>
         </Form.Item>

@@ -6,13 +6,13 @@ import {
   Button,
   Flex,
   List,
-  Skeleton,
   Typography,
   notification,
 } from 'antd';
 
+import { PlusOutlined } from '@ant-design/icons';
+
 import {
-  AddCircle,
   LockKeyhole,
   PenNewSquare,
   Shop2,
@@ -47,7 +47,7 @@ export const DrawerType = {
 
 export type DrawerType = (typeof DrawerType)[keyof typeof DrawerType];
 
-export const TenantMemberListView: React.FC = () => {
+export const MobileView: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -103,90 +103,112 @@ export const TenantMemberListView: React.FC = () => {
         <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
           <Flex justify="flex-end" wrap gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
             <Button
+              size="large"
+              shape="circle"
+              icon={<PlusOutlined />}
               onClick={() => {
                 setIsDrawerOpen(true);
                 setSelectedDrawerType(DrawerType.CREATE_NEW_MEMBER);
               }}
-              icon={<AddCircle />}
-            >
-              {t('common.createNewMember')}
-            </Button>
+              style={{
+                backgroundColor: theme.custom.colors.background.light,
+                color: theme.custom.colors.neutral.default,
+              }}
+            />
           </Flex>
 
-          {listTenantMemberLoading && <Skeleton active />}
-
-          {!listTenantMemberLoading && (
-            <List
-              dataSource={listTenantMemberData?.data || []}
-              loading={listTenantMemberLoading}
-              style={{ width: '100%' }}
-              pagination={{
-                pageSize,
-                current: page,
-                total: listTenantMemberData?.total,
-                onChange: (page, pageSize) => {
-                  setPage(page);
-                  setPageSize(pageSize);
-                },
-              }}
-              renderItem={(item) => (
-                <List.Item
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    gap: theme.custom.spacing.small,
-                    padding: theme.custom.spacing.large,
-                    marginBottom: theme.custom.spacing.medium,
-                    backgroundColor: theme.custom.colors.background.light,
-                    borderRadius: theme.custom.radius.medium,
-                    border: `1px solid ${theme.custom.colors.neutral[200]}`,
-                  }}
+          <List
+            dataSource={listTenantMemberData?.data || []}
+            loading={listTenantMemberLoading}
+            style={{ width: '100%' }}
+            pagination={{
+              pageSize,
+              current: page,
+              total: listTenantMemberData?.total,
+              showSizeChanger: false,
+              showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+              style: { color: theme.custom.colors.text.tertiary },
+              onChange: (page, pageSize) => {
+                setPage(page);
+                setPageSize(pageSize);
+              },
+            }}
+            renderItem={(item) => (
+              <List.Item
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  gap: theme.custom.spacing.small,
+                  padding: theme.custom.spacing.medium,
+                  marginBottom: theme.custom.spacing.medium,
+                  backgroundColor: theme.custom.colors.background.light,
+                  borderRadius: theme.custom.radius.medium,
+                  border: `1px solid ${theme.custom.colors.neutral[200]}`,
+                }}
+              >
+                <Flex
+                  vertical
+                  gap={theme.custom.spacing.xsmall}
+                  style={{ width: '100%' }}
                 >
-                  <Typography.Text strong>{item.user_email}</Typography.Text>
-
-                  <Typography.Text type="secondary">{item.user_phone}</Typography.Text>
-
-                  <Flex gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-                    <DynamicTag value={item.user_status} />
-                    <DynamicTag value={item.user_role} />
+                  <Flex justify="space-between" style={{ width: '100%' }}>
+                    <Typography.Text>{item.user_email}</Typography.Text>
+                    <DynamicTag value={item.user_status} type="text" />
                   </Flex>
 
-                  <Flex justify="flex-end" gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-                    <Button
-                      onClick={() => {
-                        setIsDrawerOpen(true);
-                        setSelectedDrawerType(DrawerType.RESET_PASSWORD);
-                        setSelectedUserId(item.user_id);
-                      }}
-                      icon={<LockKeyhole size={18} />}
-                    />
-
-                    <Button
-                      onClick={() => {
-                        setIsDrawerOpen(true);
-                        setSelectedDrawerType(DrawerType.CONFIG);
-                        setSelectedUserId(item.user_id);
-                      }}
-                      icon={<PenNewSquare size={18} />}
-                    />
-
-                    {item.user_role === UserRoleEnum.TENANT_STAFF && (
-                      <Button
-                        onClick={() => {
-                          setIsDrawerOpen(true);
-                          setSelectedDrawerType(DrawerType.ASSIGN_MEMBER_TO_STORES);
-                          setSelectedUserId(item.user_id);
-                        }}
-                        icon={<Shop2 size={18} />}
-                      />
-                    )}
+                  <Flex justify="space-between" style={{ width: '100%' }}>
+                    <Typography.Text type="secondary">{item.user_phone}</Typography.Text>
+                    <DynamicTag value={item.user_role} type="text" />
                   </Flex>
-                </List.Item>
-              )}
-            />
-          )}
+                </Flex>
+
+                <Flex justify="flex-end" gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+                  <Button
+                    icon={<LockKeyhole size={18} />}
+                    onClick={() => {
+                      setIsDrawerOpen(true);
+                      setSelectedDrawerType(DrawerType.RESET_PASSWORD);
+                      setSelectedUserId(item.user_id);
+                    }}
+                    style={{
+                      backgroundColor: theme.custom.colors.background.light,
+                      color: theme.custom.colors.neutral.default,
+                    }}
+                  />
+
+                  <Button
+                    onClick={() => {
+                      setIsDrawerOpen(true);
+                      setSelectedDrawerType(DrawerType.CONFIG);
+                      setSelectedUserId(item.user_id);
+                    }}
+                    icon={<PenNewSquare size={18} />}
+                    style={{
+                      backgroundColor: theme.custom.colors.background.light,
+                      color: theme.custom.colors.neutral.default,
+                    }}
+                  />
+
+                  {item.user_role === UserRoleEnum.TENANT_STAFF && (
+                    <Button
+                      icon={<Shop2 size={18} />}
+                      onClick={() => {
+                        setIsDrawerOpen(true);
+                        setSelectedDrawerType(DrawerType.ASSIGN_MEMBER_TO_STORES);
+                        setSelectedUserId(item.user_id);
+                      }}
+                      style={{
+                        backgroundColor: theme.custom.colors.background.light,
+                        color: theme.custom.colors.neutral.default,
+                      }}
+                    />
+                  )}
+                </Flex>
+              </List.Item>
+            )}
+          />
         </Box>
       </Flex>
 

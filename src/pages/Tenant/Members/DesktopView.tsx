@@ -41,7 +41,7 @@ export const DrawerType = {
 
 export type DrawerType = (typeof DrawerType)[keyof typeof DrawerType];
 
-export const TenantMemberTableView: React.FC = () => {
+export const DesktopView: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -58,10 +58,28 @@ export const TenantMemberTableView: React.FC = () => {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
   const columns = [
-    { title: t('common.email'), dataIndex: 'user_email', width: 400 },
-    { title: t('common.phone'), dataIndex: 'user_phone', width: 200 },
-    { title: t('common.role'), dataIndex: 'user_role', width: 200, render: (text: string) => <DynamicTag value={text} /> },
-    { title: t('common.status'), dataIndex: 'user_status', width: 200, render: (text: string) => <DynamicTag value={text} /> },
+    {
+      title: t('common.email'),
+      dataIndex: 'user_email',
+      width: 256,
+    },
+    {
+      title: t('common.phone'),
+      dataIndex: 'user_phone',
+      width: 200,
+    },
+    {
+      title: t('common.role'),
+      dataIndex: 'user_role',
+      width: 200,
+      render: (text: string) => <DynamicTag value={text} type="text" />,
+    },
+    {
+      title: t('common.status'),
+      dataIndex: 'user_status',
+      width: 200,
+      render: (text: string) => <DynamicTag value={text} type="text" />,
+    },
     {
       title: t('common.actions'), dataIndex: 'actions', render: (_: string, record: any) => (
         <Flex gap={theme.custom.spacing.medium}>
@@ -136,11 +154,15 @@ export const TenantMemberTableView: React.FC = () => {
       <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
         <Flex justify="flex-end" wrap gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
           <Button
+            icon={<AddCircle />}
             onClick={() => {
               setIsDrawerOpen(true);
               setSelectedDrawerType(DrawerType.CREATE_NEW_MEMBER);
             }}
-            icon={<AddCircle />}
+            style={{
+              backgroundColor: theme.custom.colors.background.light,
+              color: theme.custom.colors.neutral.default,
+            }}
           >
             {t('common.createNewMember')}
           </Button>
@@ -159,10 +181,20 @@ export const TenantMemberTableView: React.FC = () => {
               pageSize,
               current: page,
               total: listTenantMemberData?.total,
+              showSizeChanger: false,
+              showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+              style: { color: theme.custom.colors.text.tertiary },
               onChange: (page, pageSize) => {
                 setPage(page);
                 setPageSize(pageSize);
               },
+            }}
+            onRow={() => {
+              return {
+                style: {
+                  backgroundColor: theme.custom.colors.background.light,
+                },
+              };
             }}
           />
         )}

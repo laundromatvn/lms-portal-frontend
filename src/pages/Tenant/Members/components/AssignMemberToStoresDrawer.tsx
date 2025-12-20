@@ -210,6 +210,9 @@ export const AssignMemberToStoresDrawer: React.FC<Props> = ({
             pageSize,
             current: page,
             total: listAssignedStoresData?.total,
+            showSizeChanger: false,
+            showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+            style: { color: theme.custom.colors.text.tertiary },
             onChange: (page, pageSize) => {
               setPage(page);
               setPageSize(pageSize);
@@ -230,25 +233,31 @@ export const AssignMemberToStoresDrawer: React.FC<Props> = ({
                 border: `1px solid ${theme.custom.colors.neutral[200]}`,
               }}
             >
-              <Flex justify="space-between" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
-                <Typography.Link
-                  onClick={() => navigate(`/stores/${item.id}/detail`)}
-                  strong
+              <Flex
+                vertical
+                gap={theme.custom.spacing.xsmall}
+                style={{ width: '100%' }}
+                onClick={() => navigate(`/stores/${item.id}/detail`)}
+              >
+                <Flex justify="space-between" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
+                  <Typography.Text>{item.name}</Typography.Text>
+                  <DynamicTag value={item.status} type="text" />
+                </Flex>
+
+                <Typography.Text
+                  type="secondary"
+                  ellipsis
+                  style={{
+                    width: '100%',
+                    fontSize: theme.custom.fontSize.small,
+                  }}
                 >
-                  {item.name}
-                </Typography.Link>
-
-                <DynamicTag value={item.status} />
-              </Flex>
-
-              <Flex justify="space-between" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
-                <Typography.Text type="secondary">{item.contact_phone_number}</Typography.Text>
-                <Typography.Text type="secondary">{item.address}</Typography.Text>
+                  {item.contact_phone_number} • {item.address}
+                </Typography.Text>
               </Flex>
 
               <Flex justify="end" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
                 <Button
-                  size="small"
                   onClick={() => deleteStoreMember({ user_id, store_id: item.id })}
                   loading={deleteStoreMemberLoading}
                   style={{

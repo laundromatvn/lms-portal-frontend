@@ -17,7 +17,6 @@ import type { MenuProps } from 'antd';
 import {
   AddCircle,
   MenuDots,
-  Refresh,
   TrashBinTrash,
   PauseCircle,
   PlayCircle,
@@ -42,16 +41,16 @@ import { usePausePromotionCampaignApi } from '@shared/hooks/promotion/usePausePr
 import { useResumePromotionCampaignApi } from '@shared/hooks/promotion/useResumePromotionCampaignApi';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
-import { Box } from '@shared/components/Box';
 import type { ColumnsType } from 'antd/es/table';
 import { DynamicTag } from '@shared/components/DynamicTag';
+import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 
 import { formatDateTime } from '@shared/utils/date';
 import { PromotionCampaignStatusEnum } from '@shared/enums/PromotionCampaignStatusEnum';
 
 import { FilterDrawer } from './FilterDrawer';
 
-export const TableView: React.FC = () => {
+export const DesktopView: React.FC = () => {
   const theme = useTheme();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -142,48 +141,40 @@ export const TableView: React.FC = () => {
       title: t('common.name'),
       dataIndex: 'name',
       key: 'name',
-      width: 256,
+      width: 156,
       sorter: true,
       sortOrder: orderBy === 'name' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
-      render: (_, record) => <Typography.Link onClick={() => navigate(`/promotion-campaigns/${record.id}/detail`)}>{record.name}</Typography.Link>,
+      render: (_, record) => (
+        <Typography.Link onClick={() => navigate(`/promotion-campaigns/${record.id}/detail`)}>
+          {record.name}
+        </Typography.Link>
+      ),
     },
     {
       title: t('common.description'),
       dataIndex: 'description',
       key: 'description',
-      width: 256,
+      width: 156,
       render: (_, record) => (
-        <div
-          style={{
-            width: '100%',
-            textAlign: 'left',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical' as const,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            wordBreak: 'break-word',
-            lineHeight: '1.5',
-          }}
-        >
-          {record.description || '-'}
-        </div>
+        <Typography.Text type="secondary" ellipsis>
+          {record.description}
+        </Typography.Text>
       ),
     },
     {
       title: t('common.status'),
       dataIndex: 'status',
       key: 'status',
-      width: 128,
+      width: 64,
       sorter: true,
       sortOrder: orderBy === 'status' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
-      render: (value) => <DynamicTag value={value} />,
+      render: (value) => <DynamicTag value={value} type="text" />,
     },
     {
       title: t('common.startTime'),
       dataIndex: 'start_time',
       key: 'start_time',
-      width: 128,
+      width: 156,
       sorter: true,
       sortOrder: orderBy === 'start_time' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (value) => formatDateTime(value),
@@ -192,10 +183,14 @@ export const TableView: React.FC = () => {
       title: t('common.endTime'),
       dataIndex: 'end_time',
       key: 'end_time',
-      width: 128,
+      width: 156,
       sorter: true,
       sortOrder: orderBy === 'end_time' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
-      render: (value) => value ? formatDateTime(value) : '-',
+      render: (value) => (
+        <Typography.Text>
+          {value ? formatDateTime(value) : t('common.unknown')}
+        </Typography.Text>
+      ),
     },
     {
       title: t('common.actions'),
@@ -337,8 +332,11 @@ export const TableView: React.FC = () => {
   }, [schedulePromotionCampaignError]);
 
   return (
-    <PortalLayoutV2 title={t('common.promotionCampaign')} onBack={() => navigate(-1)}>
-      <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+    <PortalLayoutV2
+      title={t('common.promotionCampaign')}
+      onBack={() => navigate(-1)}
+    >
+      <BaseDetailSection>
         {contextHolder}
 
         <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
@@ -365,37 +363,39 @@ export const TableView: React.FC = () => {
               setPage(1);
             }}
             status={searchError ? 'error' : undefined}
-            style={{ width: 384 }}
+            style={{
+              width: 384,
+              backgroundColor: theme.custom.colors.background.light,
+              color: theme.custom.colors.neutral.default,
+            }}
           />
 
           <Flex justify="flex-end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-            <Button
-              type="text"
-              shape="circle"
-              icon={<Refresh />}
-              onClick={() => handleListPromotionCampaign()}
-              loading={listPromotionCampaignLoading}
-            />
+            {can('promotion_campaign.create') && (
+              <Button
+                icon={<AddCircle />}
+                onClick={() => navigate('/promotion-campaigns/add')}
+                style={{
+                  backgroundColor: theme.custom.colors.background.light,
+                  color: theme.custom.colors.neutral.default,
+                }}
+              >
+                {t('common.addPromotionCampaign')}
+              </Button>
+            )}
 
             <Button
+              shape="circle"
               icon={<Filter />}
               onClick={() => setIsFilterDrawerOpen(true)}
-            >
-              {t('common.filters')}
-            </Button>
+              style={{
+                backgroundColor: theme.custom.colors.background.light,
+                color: theme.custom.colors.neutral.default,
+              }}
+            />
           </Flex>
         </Flex>
 
-        <Flex justify="end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-          {can('promotion_campaign.create') && (
-            <Button
-              icon={<AddCircle />}
-              onClick={() => navigate('/promotion-campaigns/add')}
-            >
-              {t('common.addPromotionCampaign')}
-            </Button>
-          )}
-        </Flex>
 
         <Table
           bordered
@@ -407,10 +407,20 @@ export const TableView: React.FC = () => {
             pageSize: 10,
             current: listPromotionCampaignData?.page,
             total: listPromotionCampaignData?.total,
+            showSizeChanger: false,
+            showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+            style: { color: theme.custom.colors.text.tertiary },
             onChange: (page, pageSize) => {
               setPage(page);
               setPageSize(pageSize);
             },
+          }}
+          onRow={() => {
+            return {
+              style: {
+                backgroundColor: theme.custom.colors.background.light,
+              },
+            };
           }}
           onChange={(pagination, _filters, sorter) => {
             if (sorter && 'field' in sorter && sorter.field) {
@@ -425,7 +435,7 @@ export const TableView: React.FC = () => {
             setPageSize(pagination.pageSize || 10);
           }}
         />
-      </Box>
+      </BaseDetailSection>
 
       <FilterDrawer
         open={isFilterDrawerOpen}

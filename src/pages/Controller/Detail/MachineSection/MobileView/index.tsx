@@ -212,6 +212,7 @@ export const MobileView: React.FC<Props> = ({ controller }) => {
                 <Button
                   icon={<Settings />}
                   onClick={() => {
+                    setIsStartMachineDrawerOpen(false);
                     setIsMachineSettingDrawerOpen(true);
                     setSelectedMachine(item);
                   }}
@@ -223,6 +224,7 @@ export const MobileView: React.FC<Props> = ({ controller }) => {
                 <Button
                   icon={<Play />}
                   onClick={() => {
+                    setIsMachineSettingDrawerOpen(false);
                     setIsStartMachineDrawerOpen(true);
                     setSelectedMachine(item);
                   }}
@@ -236,26 +238,28 @@ export const MobileView: React.FC<Props> = ({ controller }) => {
         )}
       />
 
-      {selectedMachine && (
+      {selectedMachine && isStartMachineDrawerOpen && (
         <StartMachineDrawer
           key={`start-${selectedMachine.id}`}
           machine={selectedMachine}
           isDrawerOpen={isStartMachineDrawerOpen}
           setIsDrawerOpen={setIsStartMachineDrawerOpen}
           onStartSuccess={() => {
+            setIsStartMachineDrawerOpen(false);
             setSelectedMachine(null);
             handleListMachine();
           }}
         />
       )}
 
-      {selectedMachine && (
+      {selectedMachine && isMachineSettingDrawerOpen && (
         <MachineSettingDrawer
           key={`config-${selectedMachine.id}`}
           machine={selectedMachine}
           isDrawerOpen={isMachineSettingDrawerOpen}
           setIsDrawerOpen={setIsMachineSettingDrawerOpen}
           onSave={() => {
+            setIsMachineSettingDrawerOpen(false);
             setSelectedMachine(null);
             handleListMachine();
           }}

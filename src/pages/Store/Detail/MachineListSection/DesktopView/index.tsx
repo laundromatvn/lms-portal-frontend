@@ -65,7 +65,6 @@ export const DesktopView: React.FC<Props> = ({ store }) => {
   const [isMachineSettingDrawerOpen, setIsMachineSettingDrawerOpen] = useState(false);
   const [isStartMachineDrawerOpen, setIsStartMachineDrawerOpen] = useState(false);
   const [selectedMachine, setSelectedMachine] = useState<any | null>(null);
-  const [selectedMachineForConfig, setSelectedMachineForConfig] = useState<any | null>(null);
   const [selectedControllerId, setSelectedControllerId] = useState<string | undefined>(undefined);
 
   const {
@@ -157,6 +156,7 @@ export const DesktopView: React.FC<Props> = ({ store }) => {
             <Button
               icon={<Settings />}
               onClick={() => {
+                setIsMachineSettingDrawerOpen(false);
                 setIsMachineSettingDrawerOpen(true);
                 setSelectedMachine(record);
               }}
@@ -168,6 +168,7 @@ export const DesktopView: React.FC<Props> = ({ store }) => {
             <Button
               icon={<Play />}
               onClick={() => {
+                setIsStartMachineDrawerOpen(false);
                 setIsStartMachineDrawerOpen(true);
                 setSelectedMachine(record);
               }}
@@ -293,14 +294,15 @@ export const DesktopView: React.FC<Props> = ({ store }) => {
         }}
       />
 
-      {selectedMachineForConfig && (
+      {selectedMachine && isMachineSettingDrawerOpen && (
         <MachineSettingDrawer
-          key={`config-${selectedMachineForConfig.id}`}
-          machine={selectedMachineForConfig}
+          key={`config-${selectedMachine.id}`}
+          machine={selectedMachine}
           isDrawerOpen={isMachineSettingDrawerOpen}
           setIsDrawerOpen={setIsMachineSettingDrawerOpen}
           onSave={() => {
-            setSelectedMachineForConfig(null);
+            setIsMachineSettingDrawerOpen(false);
+            setSelectedMachine(null);
             listMachine({
               controller_id: selectedControllerId as string,
               page,
@@ -310,13 +312,14 @@ export const DesktopView: React.FC<Props> = ({ store }) => {
         />
       )}
 
-      {selectedMachine && (
+      {selectedMachine && isStartMachineDrawerOpen && (
         <StartMachineDrawer
           key={`start-${selectedMachine.id}`}
           machine={selectedMachine}
           isDrawerOpen={isStartMachineDrawerOpen}
           setIsDrawerOpen={setIsStartMachineDrawerOpen}
           onStartSuccess={() => {
+            setIsStartMachineDrawerOpen(false);
             setSelectedMachine(null);
             listMachine({
               controller_id: selectedControllerId as string,

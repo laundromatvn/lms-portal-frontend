@@ -7,6 +7,8 @@ import { Button, Drawer, Flex, DatePicker } from 'antd';
 import { useTheme } from '@shared/theme/useTheme';
 import { useIsMobile } from '@shared/hooks/useIsMobile';
 
+import { Box } from '@shared/components/Box';
+
 import dayjs from '@shared/utils/dayjs';
 
 interface MoreFilterDrawerProps {
@@ -59,12 +61,16 @@ export const MoreFilterDrawer: React.FC<MoreFilterDrawerProps> = ({ open, onClos
         </Flex>
       }
     >
-      <Flex vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+      <Box
+        vertical
+        gap={theme.custom.spacing.medium}
+        style={{ width: '100%', height: '100%' }}
+      >
         <DatePicker
           size="large"
           placeholder={t('common.startTime')}
           format="YYYY-MM-DD"
-          style={{ width: '100%' }}
+          style={{ width: '100%', backgroundColor: theme.custom.colors.background.light }}
           value={startDatetime}
           onChange={(value: Dayjs | null) => setStartDatetime(value)}
           allowClear
@@ -74,12 +80,12 @@ export const MoreFilterDrawer: React.FC<MoreFilterDrawerProps> = ({ open, onClos
           size="large"
           placeholder={t('common.endTime')}
           format="YYYY-MM-DD"
-          style={{ width: '100%' }}
+          style={{ width: '100%', backgroundColor: theme.custom.colors.background.light }}
           value={endDatetime}
           onChange={(value: Dayjs | null) => setEndDatetime(value)}
           allowClear
         />
-      </Flex>
+      </Box>
     </Drawer>
   );
 };

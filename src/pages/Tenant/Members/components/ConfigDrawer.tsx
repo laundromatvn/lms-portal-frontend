@@ -17,6 +17,8 @@ import {
   type UpdateUserResponse,
 } from '@shared/hooks/useUpdateUserApi';
 
+import { Box } from '@shared/components/Box';
+
 interface Props {
   user_id: string;
   isDrawerOpen: boolean;
@@ -119,107 +121,93 @@ export const ConfigDrawer: React.FC<Props> = ({
           flexDirection: 'column',
         },
       }}
-    >
-      {contextHolder}
-
-      <Flex
-        vertical
-        gap={theme.custom.spacing.medium}
-        style={{ width: '100%', height: '100%' }}
-      >
-        <Flex
-          vertical
-          gap={theme.custom.spacing.medium}
-          style={{
-            width: '100%',
-            height: '100%',
-            overflowY: 'auto',
-          }}
-        >
-          {userLoading && <Skeleton active />}
-
-          {!userLoading && userData && (
-            <Form
-              style={{
-                width: '100%',
-              }}
-              form={form}
-              layout="vertical"
-            >
-              <Form.Item
-                label={t('common.email')}
-                name="email"
-                rules={[{ required: true, message: t('messages.emailIsRequired') }]}
-              >
-                <Input size="large" />
-              </Form.Item>
-
-              <Form.Item
-                label={t('common.phone')}
-                name="phone"
-                rules={[{ required: true, message: t('messages.phoneIsRequired') }]}
-              >
-                <Input size="large" />
-              </Form.Item>
-
-              <Form.Item
-                label={t('common.role')}
-                name="role"
-                rules={[{ required: true, message: t('messages.roleIsRequired') }]}
-              >
-                <Select
-                  size="large"
-                  style={{ width: '100%' }}
-                  options={[
-                    { label: t('common.admin'), value: UserRoleEnum.ADMIN },
-                    { label: t('common.tenant_admin'), value: UserRoleEnum.TENANT_ADMIN },
-                    { label: t('common.tenant_staff'), value: UserRoleEnum.TENANT_STAFF },
-                    { label: t('common.customer'), value: UserRoleEnum.CUSTOMER },
-                  ]}
-                />
-              </Form.Item>
-
-              <Form.Item
-                label={t('common.status')}
-                name="status"
-                rules={[{ required: true, message: t('messages.statusIsRequired') }]}
-              >
-                <Select
-                  size="large"
-                  style={{ width: '100%' }}
-                  options={[
-                    { label: t('common.active'), value: UserStatusEnum.ACTIVE },
-                    { label: t('common.inactive'), value: UserStatusEnum.INACTIVE },
-                  ]}
-                />
-              </Form.Item>
-            </Form>
-          )}
-        </Flex>
-
+      footer={(
         <Flex justify="flex-end" gap={theme.custom.spacing.medium} style={{ width: '100%', marginTop: 'auto' }}>
           <Button
             type="default"
             size="large"
             onClick={() => setIsDrawerOpen(false)}
             style={{ width: '100%' }}
-            disabled={userLoading}
           >
             {t('common.cancel')}
           </Button>
-
           <Button
             type="primary"
             size="large"
             onClick={handleUpdateUser}
             loading={updateUserLoading}
-            disabled={userLoading || !userData}
             style={{ width: '100%' }}
           >
             {t('common.update')}
           </Button>
         </Flex>
-      </Flex>
+      )}
+    >
+      {contextHolder}
+
+      <Box
+        vertical
+        gap={theme.custom.spacing.medium}
+        style={{ width: '100%', height: '100%' }}
+      >
+        {!userLoading && userData && (
+          <Form
+            style={{
+              width: '100%',
+            }}
+            form={form}
+            layout="vertical"
+          >
+            <Form.Item
+              label={t('common.email')}
+              name="email"
+              rules={[{ required: true, message: t('messages.emailIsRequired') }]}
+            >
+              <Input size="large" />
+            </Form.Item>
+
+            <Form.Item
+              label={t('common.phone')}
+              name="phone"
+              rules={[{ required: true, message: t('messages.phoneIsRequired') }]}
+            >
+              <Input size="large" />
+            </Form.Item>
+
+            <Form.Item
+              label={t('common.role')}
+              name="role"
+              rules={[{ required: true, message: t('messages.roleIsRequired') }]}
+            >
+              <Select
+                size="large"
+                style={{ width: '100%' }}
+                options={[
+                  { label: t('common.admin'), value: UserRoleEnum.ADMIN },
+                  { label: t('common.tenant_admin'), value: UserRoleEnum.TENANT_ADMIN },
+                  { label: t('common.tenant_staff'), value: UserRoleEnum.TENANT_STAFF },
+                  { label: t('common.customer'), value: UserRoleEnum.CUSTOMER },
+                ]}
+              />
+            </Form.Item>
+
+            <Form.Item
+              label={t('common.status')}
+              name="status"
+              rules={[{ required: true, message: t('messages.statusIsRequired') }]}
+            >
+              <Select
+                size="large"
+                style={{ width: '100%' }}
+                options={[
+                  { label: t('common.active'), value: UserStatusEnum.ACTIVE },
+                  { label: t('common.inactive'), value: UserStatusEnum.INACTIVE },
+                ]}
+              />
+            </Form.Item>
+          </Form>
+        )}
+      </Box>
     </Drawer>
   );
 };

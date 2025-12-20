@@ -10,11 +10,17 @@ import {
   notification,
   Flex,
   Input,
+  Dropdown,
 } from 'antd';
 
 import {
+  SearchOutlined,
+  PlusOutlined,
+  MoreOutlined,
+} from '@ant-design/icons';
+
+import {
   AddCircle,
-  Refresh,
   Filter,
 } from '@solar-icons/react';
 
@@ -39,8 +45,10 @@ import { DynamicTag } from '@shared/components/DynamicTag';
 import { PromotionCampaignStatusEnum } from '@shared/enums/PromotionCampaignStatusEnum';
 
 import { FilterDrawer } from './FilterDrawer';
+import { formatDateTime } from '@shared/utils/date';
 
-export const ListView: React.FC = () => {
+
+export const MobileView: React.FC = () => {
   const theme = useTheme();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -52,8 +60,6 @@ export const ListView: React.FC = () => {
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [orderBy, setOrderBy] = useState<string | undefined>(undefined);
-  const [orderDirection, setOrderDirection] = useState<'asc' | 'desc' | undefined>(undefined);
   const [search, setSearch] = useState<string>('');
   const [searchError, setSearchError] = useState<string | undefined>(undefined);
   const [statusFilter, setStatusFilter] = useState<string | undefined>(undefined);
@@ -106,8 +112,6 @@ export const ListView: React.FC = () => {
       tenant_id: tenant?.id,
       page,
       page_size: pageSize,
-      order_by: orderBy,
-      order_direction: orderDirection,
       query,
       status: statusFilter as PromotionCampaignStatusEnum,
       start_time,
@@ -115,37 +119,11 @@ export const ListView: React.FC = () => {
     });
   }
 
-  const handleSearch = (searchValue: string) => {
-    if (searchValue && !validateSearchText(searchValue)) {
-      setSearchError('Please enter at least 3 characters');
-      return;
-    }
-
-    setSearchError(undefined);
-    setSearch(searchValue);
-    setPage(1);
-  }
-
-  const handleStatusFilter = (status: PromotionCampaignStatusEnum | undefined) => {
-    setStatusFilter(status);
-    setPage(1);
-  }
-
-  const handleStartTimeChange = (date: Dayjs | null) => {
-    setStartTime(date);
-    setPage(1);
-  }
-
-  const handleEndTimeChange = (date: Dayjs | null) => {
-    setEndTime(date);
-    setPage(1);
-  }
-
   useEffect(() => {
     if (!search || search.length >= 3) {
       handleListPromotionCampaign();
     }
-  }, [page, pageSize, orderBy, orderDirection, search, statusFilter, startTime, endTime]);
+  }, [page, pageSize, search, statusFilter, startTime, endTime]);
 
   useEffect(() => {
     if (deletePromotionCampaignData) {
@@ -222,9 +200,11 @@ export const ListView: React.FC = () => {
         {contextHolder}
 
         <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-          <Input.Search
+          <Input
             placeholder={t('common.search')}
+            size="large"
             value={search}
+            prefix={<SearchOutlined />}
             onChange={(e) => {
               const value = e.target.value;
               setSearch(value);
@@ -234,7 +214,6 @@ export const ListView: React.FC = () => {
                 setSearchError(undefined);
               }
             }}
-            onSearch={handleSearch}
             allowClear
             onClear={() => {
               setSearch('');
@@ -245,31 +224,36 @@ export const ListView: React.FC = () => {
               setPage(1);
             }}
             status={searchError ? 'error' : undefined}
+            style={{
+              width: '100%',
+              backgroundColor: theme.custom.colors.background.light,
+              color: theme.custom.colors.neutral.default,
+            }}
           />
 
-          <Button
-            shape="circle"
-            icon={<Refresh />}
-            onClick={() => handleListPromotionCampaign()}
-            loading={listPromotionCampaignLoading}
-          />
-
-          <Button
-            shape="circle"
-            icon={<Filter />}
-            onClick={() => setIsFilterDrawerOpen(true)}
-          />
-        </Flex>
-
-        <Flex justify="end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
           {can('promotion_campaign.create') && (
             <Button
-              icon={<AddCircle color={theme.custom.colors.text.inverted} />}
+              shape="circle"
+              size="large"
+              icon={<PlusOutlined />}
               onClick={() => navigate('/promotion-campaigns/add')}
-            >
-              {t('common.addPromotionCampaign')}
-            </Button>
+              style={{
+                backgroundColor: theme.custom.colors.background.light,
+                color: theme.custom.colors.neutral.default,
+              }}
+            />
           )}
+
+          <Button
+            shape="circle"
+            size="large"
+            icon={<Filter />}
+            onClick={() => setIsFilterDrawerOpen(true)}
+            style={{
+              backgroundColor: theme.custom.colors.background.light,
+              color: theme.custom.colors.neutral.default,
+            }}
+          />
         </Flex>
 
         <List
@@ -280,6 +264,9 @@ export const ListView: React.FC = () => {
             pageSize: 10,
             current: listPromotionCampaignData?.page,
             total: listPromotionCampaignData?.total,
+            showSizeChanger: false,
+            showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+            style: { color: theme.custom.colors.text.tertiary },
             onChange: (page, pageSize) => {
               setPage(page);
               setPageSize(pageSize);
@@ -293,20 +280,31 @@ export const ListView: React.FC = () => {
                 alignItems: 'flex-start',
                 gap: theme.custom.spacing.small,
                 width: '100%',
-                padding: theme.custom.spacing.large,
+                padding: theme.custom.spacing.medium,
                 marginBottom: theme.custom.spacing.medium,
                 backgroundColor: theme.custom.colors.background.light,
                 borderRadius: theme.custom.radius.medium,
                 border: `1px solid ${theme.custom.colors.neutral[200]}`,
               }}
             >
-              <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-                <Typography.Link onClick={() => navigate(`/promotion-campaigns/${item.id}/detail`)}>{item.name}</Typography.Link>
-                <DynamicTag value={item.status} />
-              </Flex>
+              <Flex
+                vertical
+                gap={theme.custom.spacing.xsmall}
+                style={{ width: '100%' }}
+                onClick={() => navigate(`/promotion-campaigns/${item.id}/detail`)}
+              >
+                <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+                  <Typography.Text>{item.name}</Typography.Text>
+                  <DynamicTag value={item.status} type="text" />
+                </Flex>
 
-              <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-                <Typography.Text type="secondary">{item.description}</Typography.Text>
+                <Typography.Text type="secondary" style={{ fontSize: theme.custom.fontSize.xsmall }}>
+                  {t('common.startTime')}: {item.start_time ? formatDateTime(item.start_time) : t('common.unknown')}
+                </Typography.Text>
+
+                <Typography.Text type="secondary" style={{ fontSize: theme.custom.fontSize.xsmall }}>
+                  {t('common.endTime')}: {item.end_time ? formatDateTime(item.end_time) : t('common.unknown')}
+                </Typography.Text>
               </Flex>
             </List.Item>
           )}

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 
 import { Flex, Button } from 'antd';
 
-import { FilterOutlined } from '@ant-design/icons';
+import { Filter } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -183,7 +183,7 @@ export const ChipFilter: React.FC<ChipFilterComponentProps> = ({
           shape="circle"
           size="large"
           onClick={onFilterClick}
-          icon={<FilterOutlined />}
+          icon={<Filter />}
           style={{
             backgroundColor: theme.custom.colors.background.light,
             borderColor: theme.custom.colors.neutral[300],

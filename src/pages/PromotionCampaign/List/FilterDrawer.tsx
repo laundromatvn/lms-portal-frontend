@@ -114,7 +114,7 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
           value={status}
           onChange={(value) => setStatus(value)}
           options={Object.values(PromotionCampaignStatusEnum).map((status) => ({
-            label: <DynamicTag value={status} />,
+            label: <DynamicTag value={status} type="text" />,
             value: status,
           }))}
         />
