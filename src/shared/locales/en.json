@@ -286,7 +286,8 @@
     "userProfile": "User Profile",
     "promotionCampaign": "Promotion Campaign",
     "firmware": "Firmware",
-    "permissions": "Permissions"
+    "permissions": "Permissions",
+    "tenants": "Tenants"
   },
   "messages": {
     "incorrectCredentials": "Incorrect credentials",

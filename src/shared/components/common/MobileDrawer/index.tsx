@@ -25,7 +25,8 @@ import {
   User as UserIcon,
   Sale,
   ShieldCheck,
-  ZipFile
+  ZipFile,
+  Buildings2
 } from '@solar-icons/react'
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -51,9 +52,15 @@ interface MenuItemConfig {
   key?: string;
   icon?: React.ReactNode;
   label?: string;
-  children?: Array<{ key: string; label: string; permission?: string }>;
+  children?: Array<{
+    key: string;
+    label: string;
+    permission?: string;
+    visible?: boolean;
+  }>;
   type?: 'divider' | 'item';
   permission?: string; // Permission required to show this menu item
+  visible?: boolean;
 }
 
 interface Props {
@@ -111,10 +118,17 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
       type: 'divider',
     },
     {
+      key: 'tenants',
+      icon: <Buildings2 />,
+      label: t('navigation.tenants'),
+      permission: 'tenant.list',
+    },
+    {
       key: 'tenants/profile',
       icon: <Suitcase />,
       label: t('navigation.tenantProfile'),
       permission: 'tenant.get',
+      visible: user?.role !== UserRoleEnum.ADMIN,
     },
     {
       key: 'tenant-members',
@@ -146,7 +160,7 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
       label: t('navigation.userProfile'),
       // User profile is typically accessible to all authenticated users
     },
-  ], [t]);
+  ], [t, user]);
 
   useEffect(() => {
     const loadUserData = () => {
@@ -210,6 +224,15 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
         const hasVisibleBefore = filteredItems.length > 0;
         const hasVisibleAfter = allMenuItems.slice(i + 1).some((nextItem) => {
           if (nextItem.type === 'divider') return false;
+
+          // Check visible property
+          const isVisible = nextItem.visible === undefined
+            ? true
+            : typeof nextItem.visible === 'function'
+              ? (nextItem.visible as (user: any) => boolean)(user)
+              : nextItem.visible;
+
+          if (!isVisible) return false;
           if (!nextItem.permission) return true; // User profile doesn't need permission
           return can(nextItem.permission);
         });
@@ -223,11 +246,33 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
         continue;
       }
 
+      // Check visible property (can be boolean or function)
+      const isVisible = item.visible === undefined
+        ? true
+        : typeof item.visible === 'function'
+          ? (item.visible as (user: any) => boolean)(user)
+          : item.visible;
+
+      if (!isVisible) {
+        continue;
+      }
+
       // Handle items with children
       if (item.children && item.children.length > 0) {
-        // Filter children by their permissions
+        // Filter children by their permissions and visible property
         const filteredChildren = item.children.filter((child) => {
-          return !child.permission || can(child.permission);
+          // Check permission
+          const hasPermission = !child.permission || can(child.permission);
+          if (!hasPermission) return false;
+
+          // Check visible property
+          const childVisible = child.visible === undefined
+            ? true
+            : typeof child.visible === 'function'
+              ? (child.visible as (user: any) => boolean)(user)
+              : child.visible;
+
+          return childVisible;
         });
 
         // Only show parent if at least one child is visible
@@ -236,8 +281,6 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
         }
 
         // For items with children, show parent if any child is visible
-        // Parent permission acts as an additional gate if specified
-        // This allows showing a menu group if user has access to any sub-item
         const parentPermissionCheck = !item.permission || can(item.permission);
         if (parentPermissionCheck) {
           filteredItems.push({
@@ -256,7 +299,6 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
       }
     }
 
-    // Remove trailing dividers
     while (
       filteredItems.length > 0 &&
       filteredItems[filteredItems.length - 1].type === 'divider'
@@ -265,17 +307,6 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
     }
 
     return filteredItems
-      .filter((item) => {
-        // Filter out overview for ADMIN role (keeping existing logic)
-        if (user?.role === UserRoleEnum.ADMIN && item.key === 'overview') {
-          return false;
-        }
-        // Filter tenant-members for TENANT_STAFF role
-        if (user?.role === UserRoleEnum.TENANT_STAFF && item.key === 'tenant-members') {
-          return false;
-        }
-        return true;
-      })
       .map((item) => {
         if (item.type === 'divider') {
           return { type: 'divider' as const };
@@ -288,7 +319,7 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
           children: item.children,
         };
       }) as MenuItem[];
-  }, [allMenuItems, can, ready, user?.role]);
+  }, [allMenuItems, can, ready, user]);
 
   return (
     <Drawer

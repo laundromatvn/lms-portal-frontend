@@ -23,7 +23,8 @@ import {
   Suitcase,
   UsersGroupTwoRounded,
   User as UserIcon,
-  ZipFile
+  ZipFile,
+  Buildings2
 } from '@solar-icons/react'
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -37,6 +38,7 @@ import { tenantStorage } from '@core/storage/tenantStorage';
 import { tokenStorage } from '@core/storage/tokenStorage';
 
 import { type User } from '@shared/types/user';
+import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
 
 import { DynamicTag } from '@shared/components/DynamicTag';
 
@@ -49,9 +51,15 @@ interface MenuItemConfig {
   key?: string;
   icon?: React.ReactNode;
   label?: string;
-  children?: Array<{ key: string; label: string; permission?: string }>;
+  children?: Array<{
+    key: string;
+    label: string;
+    permission?: string;
+    visible?: boolean;
+  }>;
   type?: 'divider' | 'item';
-  permission?: string; // Permission required to show this menu item
+  permission?: string;
+  visible?: boolean;
 }
 
 interface Props {
@@ -109,10 +117,17 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       type: 'divider',
     },
     {
+      key: 'tenants',
+      icon: <Buildings2 />,
+      label: t('navigation.tenants'),
+      permission: 'tenant.list',
+    },
+    {
       key: 'tenants/profile',
       icon: <Suitcase />,
       label: t('navigation.tenantProfile'),
       permission: 'tenant.get',
+      visible: user?.role !== UserRoleEnum.ADMIN,
     },
     {
       key: 'tenant-members',
@@ -144,7 +159,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       label: t('navigation.userProfile'),
       // User profile is typically accessible to all authenticated users
     },
-  ], [t]);
+  ], [t, user]);
 
   const menuItems = React.useMemo(() => {
     if (!ready) {
@@ -163,6 +178,15 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
         const hasVisibleBefore = filteredItems.length > 0;
         const hasVisibleAfter = allMenuItems.slice(i + 1).some((nextItem) => {
           if (nextItem.type === 'divider') return false;
+
+          // Check visible property
+          const isVisible = nextItem.visible === undefined
+            ? true
+            : typeof nextItem.visible === 'function'
+              ? (nextItem.visible as (user: any) => boolean)(user)
+              : nextItem.visible as boolean;
+
+          if (!isVisible) return false;
           if (!nextItem.permission) return true; // User profile doesn't need permission
           return can(nextItem.permission);
         });
@@ -176,11 +200,33 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
         continue;
       }
 
+      // Check visible property (can be boolean or function)
+      const isVisible = item.visible === undefined
+        ? true
+        : typeof item.visible === 'function'
+          ? (item.visible as (user: any) => boolean)(user)
+          : item.visible;
+
+      if (!isVisible) {
+        continue;
+      }
+
       // Handle items with children
       if (item.children && item.children.length > 0) {
-        // Filter children by their permissions
+        // Filter children by their permissions and visible property
         const filteredChildren = item.children.filter((child) => {
-          return !child.permission || can(child.permission);
+          // Check permission
+          const hasPermission = !child.permission || can(child.permission);
+          if (!hasPermission) return false;
+
+          // Check visible property
+          const childVisible = child.visible === undefined
+            ? true
+            : typeof child.visible === 'function'
+              ? (child.visible as (user: any) => boolean)(user)
+              : child.visible as boolean;
+
+          return childVisible;
         });
 
         // Only show parent if at least one child is visible
@@ -230,7 +276,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
           children: item.children,
         };
       }) as MenuProps['items'];
-  }, [allMenuItems, can, ready]);
+  }, [allMenuItems, can, ready, user]);
 
   useEffect(() => {
     const loadUserData = () => {
@@ -264,17 +310,17 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
     const pathname = location.pathname;
     const pathSegments = pathname.split('/').filter(Boolean);
     const fullPath = pathSegments.join('/');
-    
+
     let matchingKey: string | null = null;
-    
+
     for (const item of allMenuItems) {
       if (item.type === 'divider') continue;
-      
+
       if (item.key === fullPath) {
         matchingKey = item.key as string;
         break;
       }
-      
+
       if (item.children) {
         const childMatch = item.children.find((child) => child && child.key === fullPath);
         if (childMatch) {

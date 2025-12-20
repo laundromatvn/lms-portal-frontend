@@ -32,6 +32,7 @@ import {
 } from '@pages/Order';
 
 import {
+  TenantListPage,
   TenantProfilePage,
   TenantMemberListPage,
   TenantEditPage,
@@ -170,6 +171,10 @@ export const routes: Route[] = [
     component: <OrderDetailPage />,
   },
   // Tenant
+  {
+    path: '/tenants',
+    component: <TenantListPage />,
+  },
   {
     path: '/tenants/profile',
     component: <TenantProfilePage />,
