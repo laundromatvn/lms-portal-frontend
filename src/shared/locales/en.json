@@ -263,7 +263,10 @@
     "selectStores": "Select Stores",
     "selectStoresIsRequired": "Select stores is required",
     "unknown": "Unknown",
-    "seen": "Seen"
+    "seen": "Seen",
+    "addTenant": "Add Tenant", 
+    "tenantList": "Tenant List",
+    "tenantAdd": "Add Tenant"
   },
   "navigation": {
     "overview": "Overview",
@@ -401,7 +404,8 @@
     "ipnv3SecretKeyIsRequired": "IPNV3 secret key is required",
     "isEnabledIsRequired": "Is enabled is required",
     "youDoNotHavePermissionToAccessThisPage": "You do not have permission to access this page",
-    "selectNotificationType": "Select Notification Type"
+    "selectNotificationType": "Select Notification Type",
+    "comingSoon": "This feature is coming soon"
   },
   "overview": {
     "keyMetrics": {

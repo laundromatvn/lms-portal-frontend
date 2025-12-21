@@ -7,7 +7,6 @@ import {
   Flex,
   Typography,
   Table,
-  Skeleton,
   notification,
   Popconfirm,
 } from 'antd';

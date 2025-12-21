@@ -124,7 +124,6 @@ export const DesktopView: React.FC = () => {
         <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
           <Flex align="center" justify="space-between" style={{ width: '100%' }}>
             <Input
-              size="large"
               placeholder={t('common.search')}
               prefix={<SearchOutlined />}
               value={search}

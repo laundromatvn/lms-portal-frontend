@@ -14,6 +14,8 @@ import {
 } from 'antd';
 import type { MenuProps } from 'antd';
 
+import { SearchOutlined } from '@ant-design/icons';
+
 import {
   AddCircle,
   MenuDots,
@@ -340,7 +342,7 @@ export const DesktopView: React.FC = () => {
         {contextHolder}
 
         <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-          <Input.Search
+          <Input
             placeholder={t('common.search')}
             value={search}
             onChange={(e) => {
@@ -352,8 +354,8 @@ export const DesktopView: React.FC = () => {
                 setSearchError(undefined);
               }
             }}
-            onSearch={handleSearch}
             allowClear
+            prefix={<SearchOutlined />}
             onClear={() => {
               setSearch('');
               setSearchError(undefined);

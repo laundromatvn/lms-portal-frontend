@@ -263,7 +263,10 @@
     "selectStores": "Chọn cửa hàng",
     "selectStoresIsRequired": "Chọn cửa hàng là bắt buộc",
     "unknown": "Không xác định",
-    "seen": "Đã đọc"
+    "seen": "Đã đọc",
+    "addTenant": "Thêm Tenant",
+    "tenantList": "Danh sách Tenant",
+    "tenantAdd": "Thêm Tenant"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -398,7 +401,8 @@
     "ipnv3SecretKeyIsRequired": "Mã IPNV3 là bắt buộc",
     "isEnabledIsRequired": "Trạng thái hoạt động là bắt buộc",
     "youDoNotHavePermissionToAccessThisPage": "Bạn không có quyền truy cập trang này",
-    "selectNotificationType": "Chọn loại thông báo"
+    "selectNotificationType": "Chọn loại thông báo",
+    "comingSoon": "Tính năng này sẽ được cập nhật sớm"
   },
   "overview": {
     "keyMetrics": {
