@@ -223,7 +223,6 @@ export const DesktopView: React.FC<Props> = ({ tenant }) => {
     }
   }, [isDrawerOpen]);
 
-  // Debounce search input
   useEffect(() => {
     const timer = setTimeout(() => {
       setFilters((prev) => ({ ...prev, search: search, page: 1 }));

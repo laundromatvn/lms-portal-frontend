@@ -17,6 +17,7 @@ import {
 } from '@shared/hooks/useCreateUserApi';
 
 import { Box } from '@shared/components/Box';
+import { DynamicTag } from '@shared/components/DynamicTag';
 
 interface Props {
   tenant_id: string;
@@ -168,7 +169,7 @@ export const CreateNewMemberDrawer: React.FC<Props> = ({
       <Box
         vertical
         gap={theme.custom.spacing.medium}
-        style={{ width: '100%', height: '100%' }}
+        style={{ width: '100%' }}
       >
         <Form
           style={{ width: '100%' }}
@@ -246,11 +247,14 @@ export const CreateNewMemberDrawer: React.FC<Props> = ({
             <Select
               size="large"
               placeholder={t('common.role')}
-              options={[
-                { label: t('common.tenant_admin'), value: UserRoleEnum.TENANT_ADMIN },
-                { label: t('common.tenant_staff'), value: UserRoleEnum.TENANT_STAFF },
-              ]}
-            />
+            >
+              <Select.Option value={UserRoleEnum.TENANT_ADMIN}>
+                <DynamicTag value={UserRoleEnum.TENANT_ADMIN} type="text" />
+              </Select.Option>
+              <Select.Option value={UserRoleEnum.TENANT_STAFF}>
+                <DynamicTag value={UserRoleEnum.TENANT_STAFF} type="text" />
+              </Select.Option>
+            </Select>
           </Form.Item>
         </Form>
       </Box>
