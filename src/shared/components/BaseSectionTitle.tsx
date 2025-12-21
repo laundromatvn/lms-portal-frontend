@@ -17,7 +17,7 @@ export const BaseSectionTitle: React.FC<Props> = ({ title, onRefresh, onClick, s
   const theme = useTheme();
 
   return (
-    <Flex gap={theme.custom.spacing.small}>
+    <Flex gap={theme.custom.spacing.xsmall}>
       {onClick ? (
         <Typography.Link
           strong

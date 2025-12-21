@@ -87,13 +87,13 @@ export const DesktopView: React.FC = () => {
       title: t('common.email'),
       dataIndex: 'contact_email',
       key: 'contact_email',
-      width: 128,
+      width: 256,
     },
     {
       title: t('common.phone'),
       dataIndex: 'contact_phone_number',
       key: 'contact_phone_number',
-      width: 128,
+      width: 256,
     },
     {
       title: t('common.actions'),

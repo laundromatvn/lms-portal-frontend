@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import { type Tenant } from '@shared/types/tenant';
 
@@ -12,9 +13,14 @@ interface Props {
 
 export const ContactInformationSection: React.FC<Props> = ({ tenant }: Props) => {
   const { t } = useTranslation();
-
+  const navigate = useNavigate();
+  
   return (
-    <BaseDetailSection title={t('tenant.contactInformation')} loading={tenant === undefined}>
+    <BaseDetailSection
+      title={t('tenant.contactInformation')}
+      loading={tenant === undefined}
+      onEdit={() => navigate(`/tenants/${tenant?.id}/edit`)}
+    >
       {tenant && (
         <>
           <DataWrapper title={t('common.contactEmail')} value={tenant.contact_email} />

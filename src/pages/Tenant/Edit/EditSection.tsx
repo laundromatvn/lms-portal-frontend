@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
-  Button,
   Form,
   Input,
   InputNumber,
@@ -10,12 +9,11 @@ import {
   type FormInstance,
 } from 'antd';
 
-import { useTheme } from '@shared/theme/useTheme';
-
 import { type Tenant } from '@shared/types/tenant';
 
 import { BaseEditSection } from '@shared/components/BaseEditSection';
 import { TenantStatusEnum } from '@shared/enums/TenantStatusEnum';
+import { DynamicTag } from '@shared/components/DynamicTag';
 
 interface Props {
   tenant: Tenant;
@@ -24,13 +22,11 @@ interface Props {
 
 export const EditSection: React.FC<Props> = ({ tenant, onSave }: Props) => {
   const { t } = useTranslation();
-  const theme = useTheme();
 
   const [form] = Form.useForm();
 
   useEffect(() => {
     form.setFieldsValue({
-      id: tenant.id,
       name: tenant.name,
       contact_email: tenant.contact_email,
       contact_phone_number: tenant.contact_phone_number,
@@ -44,14 +40,6 @@ export const EditSection: React.FC<Props> = ({ tenant, onSave }: Props) => {
     <BaseEditSection title={t('common.basicInformation')} onSave={() => onSave(form)}>
       <Form form={form} layout="vertical" style={{ width: '100%', maxWidth: 600 }}>
         <Form.Item
-          label={t('common.tenantId')}
-          name="id"
-          style={{ width: '100%' }}
-        >
-          <Input size="large" disabled />
-        </Form.Item>
-
-        <Form.Item
           label={t('common.status')}
           name="status"
           style={{ width: '100%' }}
@@ -60,11 +48,14 @@ export const EditSection: React.FC<Props> = ({ tenant, onSave }: Props) => {
           <Select
             size="large"
             style={{ width: '100%' }}
-            options={[
-              { label: t('common.active'), value: TenantStatusEnum.ACTIVE },
-              { label: t('common.inactive'), value: TenantStatusEnum.INACTIVE },
-            ]}
-          />
+          >
+            <Select.Option value={TenantStatusEnum.ACTIVE}>
+              <DynamicTag value={TenantStatusEnum.ACTIVE} type="text" />
+            </Select.Option>
+            <Select.Option value={TenantStatusEnum.INACTIVE}>
+              <DynamicTag value={TenantStatusEnum.INACTIVE} type="text" />
+            </Select.Option>
+          </Select>
         </Form.Item>
 
         <Form.Item

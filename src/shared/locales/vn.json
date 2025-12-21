@@ -268,7 +268,8 @@
     "tenantList": "Danh sách Tenant",
     "tenantAdd": "Thêm Tenant",
     "confirmPassword": "Xác nhận mật khẩu",
-    "continue": "Tiếp tục"
+    "continue": "Tiếp tục",
+    "more": "Xem thêm"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -578,7 +579,16 @@
     "newTenant": "Thêm Tenant",
     "ownerAccount": "Tài khoản chủ Tenant",
     "tenantInformation": "Thông tin Tenant",
+    "tenantMembers": "Thành viên Tenant",
+    "newUser": "Tạo mới",
+    "existingUser": "Chọn có sẵn",
+    "selectExistingUser": "Chọn người dùng có sẵn",
+    "detail": {
+      "information": "Thông tin",
+      "members": "Thành viên"
+    },
     "members": {
+      "addToStores": "Thêm vào cửa hàng",
       "assignMemberToStores": "Thêm thành viên",
       "assignMemberToStoresSuccess": "Thành viên đã được gán vào cửa hàng thành công",
       "assignMemberToStoresError": "Không thể gán thành viên vào cửa hàng",
@@ -587,11 +597,20 @@
     },
     "pleaseWaitABit": "Vui lòng chờ một chút ⏳",
     "weAreSettingUpYourAccount": "Chúng tôi đang thiết lập tài khoản của bạn 👨‍💻",
+    "finish": "Hoàn thành",
     "messages": {
       "createTenantMemberError": "Không thể tạo thành viên tenant",
+      "createOwnerAccountError": "Không thể tạo tài khoản chủ tenant",
+      "createOwnerAccountSuccess": "Tài khoản chủ tenant đã được tạo thành công",
+      "createTenantMemberSuccess": "Thành viên tenant đã được tạo thành công",
       "getTenantError": "Không thể lấy tenant",
-      "getTenantSuccess": "Tenant đã được lấy thành công"
-    },
-    "finish": "Hoàn thành"
+      "getTenantSuccess": "Tenant đã được lấy thành công",
+      "listTenantMemberError": "Không thể lấy danh sách thành viên tenant",
+      "deleteTenantMemberError": "Không thể xóa thành viên tenant",
+      "listTenantMemberSuccess": "Danh sách thành viên tenant đã được lấy thành công",
+      "deleteTenantMemberSuccess": "Thành viên tenant đã được xóa thành công",
+      "deleteTenantSuccess": "Tenant đã được xóa thành công",
+      "deleteTenantError": "Không thể xóa tenant"
+    }
   }
 }

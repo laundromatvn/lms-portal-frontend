@@ -267,7 +267,9 @@
     "addTenant": "Add Tenant",
     "tenantList": "Tenant List",
     "tenantAdd": "Add Tenant",
-    "confirmPassword": "Confirm Password"
+    "confirmPassword": "Confirm Password",
+    "continue": "Continue",
+    "more": "More"
   },
   "navigation": {
     "overview": "Overview",
@@ -603,7 +605,16 @@
     "newTenant": "New Tenant",
     "ownerAccount": "Owner Account",
     "tenantInformation": "Tenant Information",
+    "tenantMembers": "Tenant Members",
+    "newUser": "New",
+    "existingUser": "Select existing",
+    "selectExistingUser": "Select existing user",
+    "detail": {
+      "information": "Information",
+      "members": "Members"
+    },
     "members": {
+      "addToStores": "Add to Stores",
       "assignMemberToStores": "Assign Member to Stores",
       "assignMemberToStoresSuccess": "Member assigned to stores successfully",
       "assignMemberToStoresError": "Failed to assign member to stores",
@@ -612,11 +623,20 @@
     },
     "pleaseWaitABit": "Please wait a bit ⏳",
     "weAreSettingUpYourAccount": "We are setting up your account 👨‍💻",
+    "finish": "Finish",
     "messages": {
+      "createOwnerAccountError": "Failed to create owner account",
+      "createOwnerAccountSuccess": "Owner account created successfully",
       "createTenantMemberError": "Failed to create tenant member",
+      "createTenantMemberSuccess": "Tenant member created successfully",
       "getTenantError": "Failed to get tenant",
-      "getTenantSuccess": "Tenant fetched successfully"
-    },
-    "finish": "Finish"
+      "getTenantSuccess": "Tenant fetched successfully",
+      "listTenantMemberError": "Failed to list tenant members",
+      "deleteTenantMemberError": "Failed to delete tenant member",
+      "listTenantMemberSuccess": "Tenant members listed successfully",
+      "deleteTenantMemberSuccess": "Tenant member deleted successfully",
+      "deleteTenantSuccess": "Tenant deleted successfully",
+      "deleteTenantError": "Failed to delete tenant"
+    }
   }
 }

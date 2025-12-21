@@ -43,7 +43,6 @@ export const TenantEditPage: React.FC = () => {
   const {
     updateTenant,
     data: updateTenantData,
-    loading: updateTenantLoading,
     error: updateTenantError,
   } = useUpdateTenantApi<UpdateTenantResponse>();
 
@@ -83,7 +82,7 @@ export const TenantEditPage: React.FC = () => {
         message: t('messages.updateTenantSuccess'),
       });
 
-      navigate(`/tenants/profile`);
+      navigate(`/tenants/${tenantId}/detail`);
     }
   }, [updateTenantData]);
 
@@ -94,7 +93,7 @@ export const TenantEditPage: React.FC = () => {
   }, [tenantId]);
 
   return (
-    <PortalLayoutV2 title={tenantData?.name} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('tenant.tenantDetail')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>

@@ -3,38 +3,34 @@ import { useCallback, useState } from 'react'
 import { getBackendUrl } from '@shared/utils/env'
 
 import { type ApiState } from '@shared/hooks/types'
-import { type TenantMember } from '@shared/types/TenantMember';
+import { type User } from '@shared/types/user';
 
 import axiosClient from '@core/axiosClient'
 
-export type ListTenantMemberRequest = {
-  tenant_id?: string;
+export type ListUserTenantAdminRequest = {
   page: number;
   page_size: number;
-  search?: string;
-  order_by?: string;
-  order_direction?: string;
 }
 
-export type ListTenantMemberResponse = {
-  data: TenantMember[];
+export type ListUserTenantAdminResponse = {
+  data: User[];
   page: number;
   page_size: number;
   total: number;
   total_pages: number;
 }
 
-export const useListTenantMemberApi = <T = ListTenantMemberResponse>() => {
+export const useListUserTenantAdminApi = <T = ListUserTenantAdminResponse>() => {
   const [state, setState] = useState<ApiState<T>>({
     data: null,
     loading: false,
     error: null,
   });
 
-  const listTenantMember = useCallback(async (params: ListTenantMemberRequest) => {
+  const listUserTenantAdmin = useCallback(async (params: ListUserTenantAdminRequest) => {
     setState(prevState => ({ ...prevState, loading: true, error: null }));
 
-    const url = `${getBackendUrl()}/api/v1/tenant-member`
+    const url = `${getBackendUrl()}/api/v1/user/available-tenant-admins`
 
     try {
       const response = await axiosClient.get<T>(
@@ -50,5 +46,5 @@ export const useListTenantMemberApi = <T = ListTenantMemberResponse>() => {
     }
   }, [setState]);
 
-  return { ...state, listTenantMember };
+  return { ...state, listUserTenantAdmin };
 }
