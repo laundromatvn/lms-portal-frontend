@@ -33,7 +33,12 @@ export const DesktopView: React.FC = () => {
   } = useListStoreApi<ListStoreResponse>();
 
   const handleListStore = () => {
-    listStore({ page: 1, page_size: 100 });
+    listStore({
+      page: 1,
+      page_size: 100,
+      order_by: 'name',
+      order_direction: 'asc',
+    });
   }
 
   useEffect(() => {
