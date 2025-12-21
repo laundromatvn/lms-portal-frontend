@@ -54,7 +54,7 @@ export const DesktopView: React.FC = () => {
 
   const [permissions, setPermissions] = useState<Permission[]>([]);
   const [page, setPage] = useState(1);
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(6);
   const [search, setSearch] = useState('');
   const prevSearchRef = useRef<string>('');
 
@@ -78,9 +78,20 @@ export const DesktopView: React.FC = () => {
 
   const handleListPermission = () => {
     if (!search || search.length >= 3) {
-      listPermission({ page, page_size: pageSize, search });
+      listPermission({
+        page,
+        page_size: pageSize,
+        search,
+        order_by: 'id',
+        order_direction: 'desc',
+      });
     } else {
-      listPermission({ page, page_size: pageSize });
+      listPermission({
+        page,
+        page_size: pageSize,
+        order_by: 'id',
+        order_direction: 'desc',
+      });
     }
   }
 
@@ -209,10 +220,17 @@ export const DesktopView: React.FC = () => {
             current: page,
             total: listPermissionData?.total || 0,
             style: { color: theme.custom.colors.text.tertiary },
-            onChange: (page) => setPage(page),
-            showSizeChanger: false,
+            showSizeChanger: true,
             showQuickJumper: false,
             showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+            onShowSizeChange: (_page, newPageSize) => {
+              setPage(1);
+              setPageSize(newPageSize);
+            },
+            onChange: (page, pageSize) => {
+              setPage(page);
+              setPageSize(pageSize);
+            },
           }}
           renderItem={(item) => (
             <List.Item
