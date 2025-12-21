@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Flex, Typography } from 'antd';
+import { Flex, Progress, Typography } from 'antd';
 
 import { Liquid } from '@ant-design/plots';
 
@@ -54,13 +54,17 @@ export const LiquidItem: React.FC<Props> = ({ title, percent, description }) => 
         {title}
       </Typography.Text>
 
-      <Flex vertical align="center" justify="center" style={{
-        width: '100%',
-        minHeight: 128,
-        maxHeight: 256,
-        overflow: 'hidden',
-      }}>
-        <Liquid percent={percent} {...config} />
+      <Flex
+        align="center"
+        justify="center"
+        style={{width: '100%'}}
+      >
+        <Progress
+          percent={percent}
+          type="circle"
+          strokeColor={theme.custom.colors.info.default}
+          trailColor={theme.custom.colors.info.light}
+        />
       </Flex>
 
       <Typography.Text
