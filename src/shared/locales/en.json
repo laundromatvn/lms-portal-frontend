@@ -563,17 +563,16 @@
     }
   },
   "permission": {
-    "edit": "Edit",
+    "addNewPermission": "Add New Permission",
+    "editPermission": "Edit Permission",
     "name": "Name",
     "code": "Code",
     "description": "Description",
     "isEnabled": "Is Enabled",
-    "addNewPermission": "New Permission",
-    "createNewPermission": "Create New Permission",
     "create": "Create",
+    "cancel": "Cancel",
+    "save": "Save",
     "messages": {
-      "updatePermissionSuccess": "Permission updated successfully",
-      "updatePermissionError": "Failed to update permission",
       "nameIsRequired": "Name is required",
       "codeIsRequired": "Code is required",
       "isEnabledIsRequired": "Is enabled is required",
@@ -638,5 +637,16 @@
       "deleteTenantSuccess": "Tenant deleted successfully",
       "deleteTenantError": "Failed to delete tenant"
     }
+  },
+  "firmware": {
+    "information": "Information",
+    "controllers": "Controllers",
+    "deleteFirmwareConfirm": "Are you sure you want to delete this firmware?",
+    "deleteFirmwareSuccess": "Firmware deleted successfully",
+    "deleteFirmwareError": "Failed to delete firmware",
+    "releaseFirmwareSuccess": "Firmware released successfully",
+    "releaseFirmwareError": "Failed to release firmware",
+    "deprecateFirmwareSuccess": "Firmware deprecated successfully",
+    "deprecateFirmwareError": "Failed to deprecate firmware"
   }
 }

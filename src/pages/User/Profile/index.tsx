@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { notification } from 'antd';
+import { Flex, notification } from 'antd';
+
+import { useTheme } from '@shared/theme/useTheme';
 
 import { userStorage } from '@core/storage/userStorage';
 
@@ -19,6 +21,7 @@ import { UserProfilePasswordSection } from './PasswordSection';
 export const UserProfilePage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -49,12 +52,20 @@ export const UserProfilePage: React.FC = () => {
   }, [getUserData]);
 
   return (
-    <PortalLayoutV2 title={t('navigation.userProfile')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2
+      title={t('navigation.userProfile')}
+      onBack={() => navigate(-1)}
+    >
       {contextHolder}
 
-      <UserProfileDetailSection />
-
-      <UserProfilePasswordSection />
+      <Flex
+        vertical={true}
+        gap={theme.custom.spacing.medium}
+        style={{ height: '100%' }}
+      >
+        <UserProfileDetailSection />
+        <UserProfilePasswordSection />
+      </Flex>
     </PortalLayoutV2>
   );
 };

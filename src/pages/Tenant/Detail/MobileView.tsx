@@ -80,6 +80,7 @@ export const MobileView: React.FC = () => {
 
       <Flex justify="flex-end" style={{ width: '100%' }}>
         <Segmented
+          size="large"
           options={segmentedOptions}
           value={selectedTab}
           onChange={(value) => setSelectedTab(value)}

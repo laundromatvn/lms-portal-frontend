@@ -555,7 +555,22 @@
     }
   },
   "permission": {
-    "addNewPermission": "Tạo quyền mới"
+    "addNewPermission": "Tạo quyền mới",
+    "editPermission": "Sửa quyền",
+    "name": "Tên",
+    "code": "Mã",
+    "description": "Mô tả",
+    "isEnabled": "Trạng thái hoạt động",
+    "create": "Tạo",
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "messages": {
+      "nameIsRequired": "Tên là bắt buộc",
+      "codeIsRequired": "Mã là bắt buộc",
+      "isEnabledIsRequired": "Trạng thái hoạt động là bắt buộc",
+      "createPermissionSuccess": "Quyền đã được tạo thành công",
+      "createPermissionError": "Không thể tạo quyền"
+    }
   },
   "store": {
     "details": {
@@ -612,5 +627,17 @@
       "deleteTenantSuccess": "Tenant đã được xóa thành công",
       "deleteTenantError": "Không thể xóa tenant"
     }
+  },
+  "firmware": {
+    "information": "Thông tin",
+    "controllers": "Controllers",
+    "selected": "Đã chọn: {{count}}",
+    "deleteFirmwareConfirm": "Bạn có chắc chắn muốn xóa firmware này không?",
+    "deleteFirmwareSuccess": "Firmware đã được xóa thành công",
+    "deleteFirmwareError": "Không thể xóa firmware",
+    "releaseFirmwareSuccess": "Firmware đã được release thành công",
+    "releaseFirmwareError": "Không thể release firmware",
+    "deprecateFirmwareSuccess": "Firmware đã được deprecate thành công",
+    "deprecateFirmwareError": "Không thể deprecate firmware"
   }
 }

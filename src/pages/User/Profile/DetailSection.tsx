@@ -18,7 +18,7 @@ export const UserProfileDetailSection: React.FC = () => {
       <DataWrapper title={t('common.email')} value={user?.email || '-'} />
       <DataWrapper title={t('common.phone')} value={user?.phone || '-'} />
       <DataWrapper title={t('common.role')}>
-        <DynamicTag value={user?.role || '-'} />
+        <DynamicTag value={user?.role || '-'} type="text" />
       </DataWrapper>
     </BaseDetailSection>
   );

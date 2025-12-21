@@ -35,7 +35,7 @@ interface Props {
   onDeprecateFirmware: (firmwareId: string) => void;
 }
 
-export const FirmwareListTable: React.FC<Props> = ({
+export const TableView: React.FC<Props> = ({
   data,
   loading,
   onFiltersChange,
@@ -81,7 +81,7 @@ export const FirmwareListTable: React.FC<Props> = ({
       width: 128,
       sorter: true,
       sortOrder: orderBy === 'status' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
-      render: (_: string, record: any) => <DynamicTag value={record.status} />,
+      render: (_: string, record: any) => <DynamicTag value={record.status} type="text" />,
     },
     {
       title: t('common.actions'),
@@ -98,33 +98,25 @@ export const FirmwareListTable: React.FC<Props> = ({
                     key: 'release',
                     label: t('common.release'),
                     onClick: () => onReleaseFirmware(record.id),
-                    icon: <Rocket2 weight="Outline" color={theme.custom.colors.success.default} />,
-                    style: {
-                      color: theme.custom.colors.success.default,
-                    },
+                    icon: <Rocket2 />,
                   },
                   {
                     key: 'deprecate',
                     label: t('common.deprecate'),
                     onClick: () => onDeprecateFirmware(record.id),
-                    icon: <ArchiveDown weight="Outline" color={theme.custom.colors.warning.default} />,
-                    style: {
-                      color: theme.custom.colors.warning.default,
-                    },
+                    icon: <ArchiveDown />,
                   },
                   {
                     key: 'delete',
                     label: t('common.delete'),
                     onClick: () => onDeleteFirmware(record.id),
-                    icon: <TrashBinTrash size={18} />,
-                    style: {
-                      color: theme.custom.colors.danger.default,
-                    },
+                    icon: <TrashBinTrash />,
+                    style: { color: theme.custom.colors.danger.default },
                   },
                 ],
               }}
             >
-              <Button type="link" icon={<MenuDots size={18} />} />
+              <Button type="text" icon={<MenuDots weight="Bold" />} />
             </Dropdown>
           </Flex>
         );
@@ -144,6 +136,7 @@ export const FirmwareListTable: React.FC<Props> = ({
   return (
     <Flex style={{ width: '100%', height: '100%', overflow: 'auto' }}>
       <Table
+        bordered
         columns={columns as any}
         dataSource={data?.data || []}
         style={{ width: '100%' }}
@@ -152,6 +145,10 @@ export const FirmwareListTable: React.FC<Props> = ({
           pageSize: pageSize,
           current: page,
           total: data?.total || 0,
+          showSizeChanger: false,
+          showQuickJumper: false,
+          showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+          style: { color: theme.custom.colors.text.tertiary },
           onChange: (page, pageSize) => {
             setPage(page);
             setPageSize(pageSize);
@@ -168,6 +165,13 @@ export const FirmwareListTable: React.FC<Props> = ({
 
           setPage(pagination.current || 1);
           setPageSize(pagination.pageSize || 10);
+        }}
+        onRow={() => {
+          return {
+            style: {
+              backgroundColor: theme.custom.colors.background.light,
+            },
+          };
         }}
       />
     </Flex>

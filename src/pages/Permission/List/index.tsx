@@ -1,18 +1,16 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 
-import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
+import { useIsMobile } from '@shared/hooks/useIsMobile';
 
-import { PermissionListView } from './ListView';
+import { DesktopView } from './DesktopView';
+import { MobileView } from './MobileView';
 
 export const PermissionListPage: React.FC = () => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
-  return (
-    <PortalLayoutV2 title={t('navigation.permissions')} onBack={() => navigate(-1)}>
-      <PermissionListView />
-    </PortalLayoutV2>
+  return isMobile ? (
+    <MobileView />
+  ) : (
+    <DesktopView />
   );
 };

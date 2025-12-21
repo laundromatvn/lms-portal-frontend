@@ -1,35 +1,55 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
-import { Button, Flex, Input, List, notification, Spin, Typography, type FormInstance } from 'antd';
+import {
+  Button,
+  Flex,
+  Input,
+  List,
+  notification,
+  Typography,
+  type FormInstance,
+} from 'antd';
 
-import { AddCircle, Refresh } from '@solar-icons/react';
+import {
+  PlusOutlined,
+  SearchOutlined,
+} from '@ant-design/icons';
 
 import { useTheme } from '@shared/theme/useTheme';
-import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 import { type Permission } from '@shared/types/Permission';
 
-import { useListPermissionApi, type ListPermissionResponse } from '@shared/hooks/permission/useListPermissionApi';
-import { useUpdatePermissionApi, type UpdatePermissionResponse } from '@shared/hooks/permission/useUpdatePermissionApi';
-import { useCreatePermissionApi, type CreatePermissionResponse } from '@shared/hooks/permission/useCreatePermissionApi';
+import {
+  useListPermissionApi,
+  type ListPermissionResponse,
+} from '@shared/hooks/permission/useListPermissionApi';
+import {
+  useUpdatePermissionApi,
+  type UpdatePermissionResponse,
+} from '@shared/hooks/permission/useUpdatePermissionApi';
+import {
+  useCreatePermissionApi,
+  type CreatePermissionResponse,
+} from '@shared/hooks/permission/useCreatePermissionApi';
 
-import { Box } from '@shared/components/Box';
-import LeftRightSection from '@shared/components/LeftRightSection';
-
-import { CreateNewPermissionModal } from './CreateNewPermissionModal';
-import { EditNewPermissionModal } from './EditNewPermissionModal';
+import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { DynamicTag } from '@shared/components/DynamicTag';
+import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 
-export const PermissionListView: React.FC = () => {
+import { CreateNewPermissionDrawer } from './CreateNewPermissionDrawer';
+import { EditPermissionDrawer } from './EditPermissionDrawer';
+
+export const DesktopView: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   const [api, contextHolder] = notification.useNotification();
 
-  const [isCreateNewPermissionModalOpen, setIsCreateNewPermissionModalOpen] = useState(false);
-  const [isEditNewPermissionModalOpen, setIsEditNewPermissionModalOpen] = useState(false);
+  const [isCreateNewPermissionDrawerOpen, setIsCreateNewPermissionDrawerOpen] = useState(false);
+  const [isEditNewPermissionDrawerOpen, setIsEditNewPermissionDrawerOpen] = useState(false);
   const [selectedPermission, setSelectedPermission] = useState<Permission | null>(null);
 
   const [permissions, setPermissions] = useState<Permission[]>([]);
@@ -84,7 +104,7 @@ export const PermissionListView: React.FC = () => {
 
   useEffect(() => {
     if (updatePermissionData) {
-      setIsEditNewPermissionModalOpen(false);
+      setIsEditNewPermissionDrawerOpen(false);
       setPage(1);
       setPermissions([]);
       handleListPermission();
@@ -105,7 +125,7 @@ export const PermissionListView: React.FC = () => {
 
   useEffect(() => {
     if (createPermissionData) {
-      setIsCreateNewPermissionModalOpen(false);
+      setIsCreateNewPermissionDrawerOpen(false);
       setPage(1);
       setPermissions([]);
       handleListPermission();
@@ -143,89 +163,109 @@ export const PermissionListView: React.FC = () => {
   }, [page, search]);
 
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+    <PortalLayoutV2
+      title={t('navigation.permissions')}
+      onBack={() => navigate(-1)}
+    >
       {contextHolder}
 
-      <LeftRightSection
-        left={(
-          <Input.Search
+      <BaseDetailSection>
+        {contextHolder}
+
+        <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+          <Input
             placeholder={t('common.search')}
-            style={{ width: isMobile ? '100%' : 200 }}
             onChange={(e) => setSearch(e.target.value)}
             allowClear
+            prefix={<SearchOutlined />}
+            style={{
+              width: '100%',
+              maxWidth: 312,
+              backgroundColor: theme.custom.colors.background.light,
+              color: theme.custom.colors.neutral.default,
+            }}
           />
-        )}
-        right={(
+
           <Flex gap={theme.custom.spacing.small}>
             <Button
-              type="text"
-              icon={<Refresh size={18} />}
-              onClick={handleListPermission}
-              loading={listPermissionLoading}
-            />
-            
-            <Button
-              type="primary"
-              icon={<AddCircle color={theme.custom.colors.text.inverted} />}
-              onClick={() => setIsCreateNewPermissionModalOpen(true)}
+              icon={<PlusOutlined />}
+              onClick={() => setIsCreateNewPermissionDrawerOpen(true)}
+              style={{
+                backgroundColor: theme.custom.colors.background.light,
+                color: theme.custom.colors.neutral.default,
+              }}
             >
               {t('permission.addNewPermission')}
             </Button>
           </Flex>
-        )}
-      />
+        </Flex>
 
-      <Box
-        vertical
-        gap={theme.custom.spacing.medium}
-        style={{ width: '100%', overflow: 'auto' }}
-        loading={listPermissionLoading}
-      >
         <List
           dataSource={permissions}
-          renderItem={(item) => (
-            <List.Item>
-              <Flex justify="space-between" align="flex-start" gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-                <Typography.Link
-                  onClick={() => {
-                    setSelectedPermission(item);
-                    setIsEditNewPermissionModalOpen(true);
-                  }}
-                >
-                  {`${item.id}. ${item.name}`}
-                </Typography.Link>
-
-                <DynamicTag value={item.is_enabled ? 'enabled' : 'disabled'} />
-              </Flex>
-            </List.Item>
-          )}
+          loading={listPermissionLoading}
           style={{ width: '100%' }}
           pagination={{
             pageSize: pageSize,
             current: page,
             total: listPermissionData?.total || 0,
+            style: { color: theme.custom.colors.text.tertiary },
             onChange: (page) => setPage(page),
             showSizeChanger: false,
             showQuickJumper: false,
-            showTotal: (total) => t('common.total', { total }),
+            showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
           }}
-        />
-      </Box>
+          renderItem={(item) => (
+            <List.Item
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                gap: theme.custom.spacing.small,
+                width: '100%',
+                padding: theme.custom.spacing.small,
+                marginBottom: theme.custom.spacing.medium,
+                backgroundColor: theme.custom.colors.background.light,
+                borderRadius: theme.custom.radius.medium,
+                border: `1px solid ${theme.custom.colors.neutral[200]}`,
+              }}
+            >
+              <Flex justify="space-between" align="flex-start" gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+                <Typography.Link onClick={() => {
+                  setSelectedPermission(item);
+                  setIsEditNewPermissionDrawerOpen(true);
+                }}>
+                  {`${item.id}. ${item.name}`}
+                </Typography.Link>
 
-      <CreateNewPermissionModal
-        isModalOpen={isCreateNewPermissionModalOpen}
-        setIsModalOpen={setIsCreateNewPermissionModalOpen}
+                <DynamicTag value={item.is_enabled ? 'enabled' : 'disabled'} type="text" />
+              </Flex>
+
+              <Typography.Text
+                type="secondary"
+                style={{ fontSize: theme.custom.fontSize.xsmall }}
+                ellipsis
+              >
+                {item.description}
+              </Typography.Text>
+            </List.Item>
+          )}
+        />
+      </BaseDetailSection>
+
+      <CreateNewPermissionDrawer
+        open={isCreateNewPermissionDrawerOpen}
+        onClose={() => setIsCreateNewPermissionDrawerOpen(false)}
         onSave={onCreateNewPermission}
       />
 
       {selectedPermission && (
-        <EditNewPermissionModal
+        <EditPermissionDrawer
           permission={selectedPermission}
           onSave={onUpdatePermission}
-          isModalOpen={isEditNewPermissionModalOpen}
-          setIsModalOpen={setIsEditNewPermissionModalOpen}
+          open={isEditNewPermissionDrawerOpen}
+          onClose={() => setIsEditNewPermissionDrawerOpen(false)}
         />
       )}
-    </Box>
+    </PortalLayoutV2>
   );
 };

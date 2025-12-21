@@ -107,7 +107,7 @@ export const MobileView: React.FC = () => {
 
         {listControllerLoading && <Skeleton active />}
 
-        <Flex vertical style={{ width: '100%', height: '100%', overflowX: 'auto' }}>
+        <Flex vertical style={{ width: '100%', height: '100%' }}>
           <List
             dataSource={listControllerData?.data || []}
             loading={listControllerLoading}

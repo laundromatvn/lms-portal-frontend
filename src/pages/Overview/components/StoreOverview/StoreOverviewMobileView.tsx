@@ -83,6 +83,7 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
       />
 
       <Segmented
+        size="large"
         options={filteredTabOptions}
         value={selectedTab}
         onChange={(value) => {
@@ -92,8 +93,6 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
           backgroundColor: theme.custom.colors.background.light,
           padding: theme.custom.spacing.xxsmall,
         }}
-        size="large"
-        shape="round"
       />
 
       {selectedTab === 'notifications' && (

@@ -38,6 +38,7 @@ export const AddTenantOwnerInformation: React.FC<Props> = ({ onSave }: Props) =>
     >
       <Flex justify={isMobile ? 'flex-end' : 'flex-start'}>
         <Segmented
+          size="large"
           options={segmentedOptions}
           value={selectedTab}
           onChange={(value) => setSelectedTab(value)}

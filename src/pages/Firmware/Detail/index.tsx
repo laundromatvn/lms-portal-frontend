@@ -1,18 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Button, Dropdown, Flex, notification, Skeleton } from 'antd';
-
 import {
-  MenuDots,
-  Rocket2,
-  ArchiveDown,
-  TrashBinTrash,
-  Refresh,
-} from '@solar-icons/react';
+  Flex,
+  Segmented,
+  notification,
+} from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 import type { Firmware } from '@shared/types/Firmware';
 
@@ -31,19 +28,32 @@ import {
 } from '@shared/hooks/firmware/useDeleteFirmwareApi';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
-import { LeftRightSection } from '@shared/components/LeftRightSection';
 
 import { BasicInformationSection } from './BasicInformationSection';
-import { ControllerListSection } from './ControllerListSection';
+import { ControllersSection } from './ControllersSection';
 
 export const FirmwareDetailPage: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
-
+  const isMobile = useIsMobile();
+  
   const [api, contextHolder] = notification.useNotification();
 
   const firmwareId = useParams().id;
+
+  const segmentedOptions = [
+    {
+      label: t('firmware.information'),
+      value: 'basicInformation',
+    },
+    {
+      label: t('firmware.controllers'),
+      value: 'controllerList',
+    },
+  ];
+
+  const [selectedTab, setSelectedTab] = useState<string>(segmentedOptions[0].value);
 
   const {
     getFirmware,
@@ -139,76 +149,58 @@ export const FirmwareDetailPage: React.FC = () => {
       api.success({
         message: t('messages.deleteFirmwareSuccess'),
       });
-      
+
       navigate('/firmware');
     }
   }, [deleteFirmwareData]);
 
   return (
-    <PortalLayoutV2 title={firmwareData?.name} onBack={() => navigate(-1)}>
+    <PortalLayoutV2
+      title={firmwareData?.name}
+      onBack={() => navigate(-1)}
+    >
       {contextHolder}
 
-      <LeftRightSection
-        left={null}
-        right={(
-          <Flex gap={theme.custom.spacing.medium}>
-            <Button
-              type="default"
-              icon={<Refresh size={18} />}
-              onClick={handleGetFirmware}
-              loading={firmwareLoading}
-            />
+      <Flex 
+        justify={isMobile ? 'flex-end' : 'flex-start'}
+        align="center"
+        style={{ width: '100%' }}
+      >
+        <Segmented
+          size="large"
+          options={segmentedOptions}
+          value={selectedTab}
+          onChange={(value) => setSelectedTab(value)}
+          style={{
+            backgroundColor: theme.custom.colors.background.light,
+            padding: theme.custom.spacing.xxsmall,
+          }}
+        />
+      </Flex>
 
-            <Dropdown
-              menu={{
-                items: [
-                  {
-                    key: 'release',
-                    label: t('common.release'),
-                    onClick: () => releaseFirmware(firmwareId as string),
-                    icon: <Rocket2 weight="Outline" color={theme.custom.colors.success.default} />,
-                    style: {
-                      color: theme.custom.colors.success.default,
-                    },
-                  },
-                  {
-                    key: 'deprecate',
-                    label: t('common.deprecate'),
-                    onClick: () => deprecateFirmware(firmwareId as string),
-                    icon: <ArchiveDown weight="Outline" color={theme.custom.colors.warning.default} />,
-                    style: {
-                      color: theme.custom.colors.warning.default,
-                    },
-                  },
-                  {
-                    key: 'delete',
-                    label: t('common.delete'),
-                    onClick: () => deleteFirmware(firmwareId as string),
-                    icon: <TrashBinTrash weight="Outline" color={theme.custom.colors.danger.default} />,
-                    style: {
-                      color: theme.custom.colors.danger.default,
-                    },
-                  },
-                ],
-              }}
-            >
-              <Button
-                type="default"
-                icon={<MenuDots weight="Bold" />}
-                loading={firmwareLoading}
-              >
-                {t('common.actions')}
-              </Button>
-            </Dropdown>
-          </Flex>
+      <Flex
+        vertical
+        gap={theme.custom.spacing.small}
+        style={{
+          width: '100%',
+          height: '100%',
+          marginTop: theme.custom.spacing.medium,
+        }}
+      >
+        {selectedTab === 'basicInformation' && (
+          <BasicInformationSection
+            firmware={firmwareData as Firmware | null}
+            releaseFirmware={releaseFirmware}
+            deprecateFirmware={deprecateFirmware}
+            deleteFirmware={deleteFirmware}
+            firmwareLoading={firmwareLoading}
+          />
         )}
-      />
 
-      {firmwareLoading && <Skeleton active />}
-
-      <BasicInformationSection firmware={firmwareData as Firmware | null} />
-
-      <ControllerListSection firmware={firmwareData as Firmware | null} />
+        {selectedTab === 'controllerList' && (
+          <ControllersSection firmware={firmwareData as Firmware | null} />
+        )}
+      </Flex>
     </PortalLayoutV2>
   );
 };

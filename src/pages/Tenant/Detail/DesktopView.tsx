@@ -80,6 +80,7 @@ export const DesktopView: React.FC = () => {
 
       <Flex style={{ width: '100%' }}>
         <Segmented
+          size="large"
           options={segmentedOptions}
           value={selectedTab}
           onChange={(value) => setSelectedTab(value)}

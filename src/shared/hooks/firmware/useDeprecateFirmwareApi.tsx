@@ -20,14 +20,15 @@ export const useDeprecateFirmwareApi = () => {
   })
 
   const deprecateFirmware = useCallback(async (firmwareId: string) => {
-    setState((prev) => ({ ...prev, loading: true, error: null }))
+    setState({ data: false, loading: true, error: null })
+
     try {
       const response = await deprecateFirmwareApi(firmwareId)
       setState({ data: true, loading: false, error: null })
-      return response as DeprecateFirmwareResponse
+      return true
     } catch (error: any) {
       setState({ data: false, loading: false, error: new Error(error.message) })
-      throw error
+      return false
     }
   }, [])
 

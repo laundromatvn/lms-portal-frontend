@@ -181,6 +181,7 @@ export const DesktopView: React.FC = () => {
         </Flex>
 
         <Table
+          bordered
           dataSource={listTenantsData?.data}
           loading={listTenantsLoading}
           columns={columns}

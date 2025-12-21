@@ -20,14 +20,15 @@ export const useReleaseFirmwareApi = () => {
   })
 
   const releaseFirmware = useCallback(async (firmwareId: string) => {
-    setState((prev) => ({ ...prev, loading: true, error: null }))
+    setState({ data: false, loading: true, error: null })
+
     try {
       const response = await releaseFirmwareApi(firmwareId)
       setState({ data: true, loading: false, error: null })
-      return response as ReleaseFirmwareResponse
+      return true
     } catch (error: any) {
       setState({ data: false, loading: false, error: new Error(error.message) })
-      throw error
+      return false
     }
   }, [])
 

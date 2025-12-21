@@ -6,9 +6,10 @@ import {
   Form,
   Button,
   notification,
+  Flex,
 } from 'antd';
 
-import { AddCircle } from '@solar-icons/react';
+import { PlusOutlined } from '@ant-design/icons';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -19,7 +20,6 @@ import {
 } from '@shared/hooks/firmware/useAddFirmwareApi';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
-import { LeftRightSection } from '@shared/components/LeftRightSection';
 
 import { AddFirmwareBasicInformationSection } from './BasicInformationSection';
 import { UploadFirmwareSection } from './UploadFirmwareSection';
@@ -72,37 +72,57 @@ export const FirmwareAddPage: React.FC = () => {
   }, [addFirmwareData]);
 
   return (
-    <PortalLayoutV2 title={t('common.firmwareAdd')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2
+      title={t('navigation.firmware')}
+      onBack={() => navigate(-1)}
+    >
       {contextHolder}
 
-      <LeftRightSection
-        left={null}
-        right={(
-          <Button
-            type="primary"
-            icon={<AddCircle color={theme.custom.colors.text.inverted} />}
-            onClick={handleSave}
-            loading={addFirmwareLoading}
-          >
-            {t('common.add')}
-          </Button>
-        )}
-      />
+      <Flex
+        justify="end"
+        align="center"
+        gap={theme.custom.spacing.medium}
+        style={{ width: '100%' }}
+      >
+        <Button
+          size="large"
+          icon={<PlusOutlined />}
+          onClick={handleSave}
+          loading={addFirmwareLoading}
+          style={{
+            width: '100%',
+            backgroundColor: theme.custom.colors.background.light,
+            color: theme.custom.colors.neutral.default,
+          }}
+        >
+          {t('common.add')}
+        </Button>
+      </Flex>
 
-      <AddFirmwareBasicInformationSection 
-        form={form}
-        onChange={(values) => {
-          setFormValues({ ...formValues, ...values });
-        }} 
-      />
-
-      <UploadFirmwareSection
-        form={form}
-        onChange={(values) => {
-          console.log("upload firmware values", values);
-          setFormValues({ ...formValues, ...values });
+      <Flex
+        vertical={true}
+        gap={theme.custom.spacing.medium}
+        style={{
+          width: '100%',
+          height: '100%',
+          marginTop: theme.custom.spacing.medium,
         }}
-      />
+      >
+        <AddFirmwareBasicInformationSection
+          form={form}
+          onChange={(values) => {
+            setFormValues({ ...formValues, ...values });
+          }}
+        />
+
+        <UploadFirmwareSection
+          form={form}
+          onChange={(values) => {
+            console.log("upload firmware values", values);
+            setFormValues({ ...formValues, ...values });
+          }}
+        />
+      </Flex>
     </PortalLayoutV2 >
   );
 };

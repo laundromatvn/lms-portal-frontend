@@ -18,12 +18,11 @@ export const UserProfilePasswordSection: React.FC = () => {
   return (
     <BaseDetailSection title={t('common.userPassword')}>
       <Button
-        type="primary"
         icon={<Lock />}
         onClick={() => navigate(`/user/reset-password`)}
         style={{
-          color: theme.custom.colors.text.inverted, 
-          backgroundColor: theme.custom.colors.warning.default,
+          color: theme.custom.colors.neutral.default, 
+          backgroundColor: theme.custom.colors.background.light,
           fontWeight: theme.custom.fontWeight.large,
         }}
       >
