@@ -6,7 +6,6 @@ import { Drawer, Flex, Button, notification, Input, Form, Select } from 'antd';
 import { useTheme } from '@shared/theme/useTheme';
 
 import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
-import { UserStatusEnum } from '@shared/enums/UserStatusEnum';
 
 import {
   useCreateTenantMemberApi,
@@ -62,7 +61,6 @@ export const CreateNewMemberDrawer: React.FC<Props> = ({
         password: values.password,
         phone: values.phone,
         role: values.role || UserRoleEnum.TENANT_STAFF,
-        status: values.status || UserStatusEnum.ACTIVE,
       });
     } catch (error) {
       return;
@@ -123,7 +121,6 @@ export const CreateNewMemberDrawer: React.FC<Props> = ({
         passwordConfirm: '',
         phone: '',
         role: UserRoleEnum.TENANT_STAFF,
-        status: UserStatusEnum.ACTIVE,
       });
     }
   }, [isDrawerOpen]);
@@ -252,21 +249,6 @@ export const CreateNewMemberDrawer: React.FC<Props> = ({
               options={[
                 { label: t('common.tenant_admin'), value: UserRoleEnum.TENANT_ADMIN },
                 { label: t('common.tenant_staff'), value: UserRoleEnum.TENANT_STAFF },
-              ]}
-            />
-          </Form.Item>
-
-          <Form.Item
-            label={t('common.status')}
-            name="status"
-            rules={[{ required: true, message: t('messages.statusIsRequired') }]}
-          >
-            <Select
-              size="large"
-              placeholder={t('common.status')}
-              options={[
-                { label: t('common.active'), value: UserStatusEnum.ACTIVE },
-                { label: t('common.inactive'), value: UserStatusEnum.INACTIVE },
               ]}
             />
           </Form.Item>
