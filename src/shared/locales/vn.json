@@ -106,7 +106,7 @@
     "card": "Thẻ ngân hàng",
     "selectController": "Chọn Controller",
     "contactEmail": "Email liên hệ",
-    "contactFullName": "Tên liên hệ",
+    "contactFullName": "Tên người liên hệ",
     "contactAddress": "Địa chỉ liên hệ",
     "tenantId": "ID Tenant",
     "orderId": "ID Đơn hàng",
@@ -266,7 +266,9 @@
     "seen": "Đã đọc",
     "addTenant": "Thêm Tenant",
     "tenantList": "Danh sách Tenant",
-    "tenantAdd": "Thêm Tenant"
+    "tenantAdd": "Thêm Tenant",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "continue": "Tiếp tục"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -568,13 +570,28 @@
     }
   },
   "tenant": {
+    "basicInformation": "Thông tin cơ bản",
+    "contactInformation": "Thông tin liên hệ",
+    "tenantDetail": "Chi tiết Tenant",
+    "tenantList": "Danh sách Tenant",
     "deleteTenantConfirm": "Bạn có chắc chắn muốn xóa tenant này không?",
+    "newTenant": "Thêm Tenant",
+    "ownerAccount": "Tài khoản chủ Tenant",
+    "tenantInformation": "Thông tin Tenant",
     "members": {
       "assignMemberToStores": "Thêm thành viên",
       "assignMemberToStoresSuccess": "Thành viên đã được gán vào cửa hàng thành công",
       "assignMemberToStoresError": "Không thể gán thành viên vào cửa hàng",
       "selectStoresIsRequired": "Chọn cửa hàng là bắt buộc",
       "assignedStores": "Thành viên của cửa hàng"
-    }
+    },
+    "pleaseWaitABit": "Vui lòng chờ một chút ⏳",
+    "weAreSettingUpYourAccount": "Chúng tôi đang thiết lập tài khoản của bạn 👨‍💻",
+    "messages": {
+      "createTenantMemberError": "Không thể tạo thành viên tenant",
+      "getTenantError": "Không thể lấy tenant",
+      "getTenantSuccess": "Tenant đã được lấy thành công"
+    },
+    "finish": "Hoàn thành"
   }
 }

@@ -1,0 +1,14 @@
+/* force horizontal on mobile */
+@media (max-width: 576px) {
+  .ant-steps {
+    flex-direction: row !important;
+  }
+
+  .ant-steps-item {
+    flex: 1;
+  }
+
+  .ant-steps-item-content {
+    text-align: center;
+  }
+}

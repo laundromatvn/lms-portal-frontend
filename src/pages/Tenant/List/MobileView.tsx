@@ -69,14 +69,14 @@ export const MobileView: React.FC = () => {
     if (!deleteTenantData) return;
 
     api.success({
-      message: t('messages.deleteTenantSuccess'),
+      message: t('tenant.messages.deleteTenantSuccess'),
     });
 
     handleListTenants();
   }, [deleteTenantData]);
 
   return (
-    <PortalLayoutV2 title={t('common.tenantList')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('tenant.tenantList')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <BaseDetailSection>
@@ -141,8 +141,7 @@ export const MobileView: React.FC = () => {
                 border: `1px solid ${theme.custom.colors.neutral[200]}`,
               }}
             >
-              {/* TODO: Add onClick to navigate to tenant detail page */}
-              <Flex vertical style={{ width: '100%' }}>
+              <Flex vertical style={{ width: '100%' }} onClick={() => navigate(`/tenants/${item.id}/detail`)}>
                 <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
                   <Typography.Text>{item.name}</Typography.Text>
                   <DynamicTag value={item.status} type="text" />

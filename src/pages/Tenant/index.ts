@@ -3,3 +3,4 @@ export * from './Members';
 export * from './Edit';
 export * from './List';
 export * from './Add';
+export * from './Detail';

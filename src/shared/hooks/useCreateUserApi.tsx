@@ -6,13 +6,11 @@ import { type ApiState } from '@shared/hooks/types'
 
 import { type User } from '@shared/types/user';
 import { type UserRoleEnum } from '@shared/enums/UserRoleEnum';
-import { type UserStatusEnum } from '@shared/enums/UserStatusEnum';
 
 export type CreateUserRequest = {
   email: string;
   phone: string;
   role: UserRoleEnum;
-  status: UserStatusEnum;
   password: string;
 }
 
@@ -25,7 +23,6 @@ export async function createUserApi(payload: CreateUserRequest): Promise<CreateU
     phone: payload.phone,
     password: payload.password,
     role: payload.role,
-    status: payload.status,
   }
 
   const res = await axiosClient.post<CreateUserResponse>(url.replace(getBackendUrl(), ''), body)

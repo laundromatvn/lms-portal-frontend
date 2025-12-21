@@ -138,14 +138,14 @@ export const DesktopView: React.FC = () => {
     if (!deleteTenantData) return;
 
     api.success({
-      message: t('messages.deleteTenantSuccess'),
+      message: t('tenant.messages.deleteTenantSuccess'),
     });
 
     handleListTenants();
   }, [deleteTenantData]);
 
   return (
-    <PortalLayoutV2 title={t('common.tenantList')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('tenant.tenantList')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <BaseDetailSection>
@@ -175,7 +175,7 @@ export const DesktopView: React.FC = () => {
                 color: theme.custom.colors.neutral.default,
               }}
             >
-              {t('common.addTenant')}
+              {t('tenant.newTenant')}
             </Button>
           )}
         </Flex>
