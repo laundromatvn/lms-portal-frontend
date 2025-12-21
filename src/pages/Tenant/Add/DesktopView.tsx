@@ -5,7 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import {
   Steps,
   Flex,
+  Button,
 } from 'antd';
+
+import { AltArrowLeft } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -50,6 +53,7 @@ export const DesktopView: React.FC = () => {
         items={steps}
       />
 
+
       <Flex
         vertical
         gap={theme.custom.spacing.medium}
@@ -59,6 +63,16 @@ export const DesktopView: React.FC = () => {
           marginTop: theme.custom.spacing.medium,
         }}
       >
+        <Flex align="center" gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+          <Button
+            type="text"
+            onClick={() => setCurrentStep(currentStep - 1)}
+            icon={<AltArrowLeft />}
+          >
+            {t('common.back')}
+          </Button>
+        </Flex>
+
         {currentStep === 0 && (
           <AddTenantOwnerInformation onSave={(newTenantOwner: User) => {
             setNewTenantOwner(newTenantOwner);
@@ -79,7 +93,7 @@ export const DesktopView: React.FC = () => {
           <AddTenantMember
             newTenantMemberId={newTenantOwner.id}
             newTenantId={newTenant.id}
-            onSave={() => {}}
+            onSave={() => { }}
           />
         )}
       </Flex>
