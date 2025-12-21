@@ -9,6 +9,7 @@ import {
   notification,
   List,
   Typography,
+  Popconfirm,
 } from 'antd';
 
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
@@ -155,17 +156,25 @@ export const MobileView: React.FC = () => {
 
               <Flex justify="end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
                 {can('tenant.delete') && (
-                  <Button
-                    icon={<TrashBinTrash />}
-                    onClick={() => deleteTenant(item.id)}
-                    style={{
-                      color: theme.custom.colors.danger.default,
-                      backgroundColor: theme.custom.colors.danger.light,
-                      border: 'none',
-                    }}
+                  <Popconfirm
+                    title={t('tenant.deleteTenantConfirm')}
+                    onConfirm={() => deleteTenant(item.id)}
+                    onCancel={() => { }}
+                    okText={t('common.delete')}
+                    cancelText={t('common.cancel')}
+                    placement="topLeft"
                   >
-                    {t('common.delete')}
-                  </Button>
+                    <Button
+                      icon={<TrashBinTrash />}
+                      style={{
+                        color: theme.custom.colors.danger.default,
+                        backgroundColor: theme.custom.colors.danger.light,
+                        border: 'none',
+                      }}
+                    >
+                      {t('common.delete')}
+                    </Button>
+                  </Popconfirm>
                 )}
               </Flex>
             </List.Item>

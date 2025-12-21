@@ -568,6 +568,7 @@
     }
   },
   "tenant": {
+    "deleteTenantConfirm": "Bạn có chắc chắn muốn xóa tenant này không?",
     "members": {
       "assignMemberToStores": "Thêm thành viên",
       "assignMemberToStoresSuccess": "Thành viên đã được gán vào cửa hàng thành công",

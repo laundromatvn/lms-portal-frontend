@@ -264,7 +264,7 @@
     "selectStoresIsRequired": "Select stores is required",
     "unknown": "Unknown",
     "seen": "Seen",
-    "addTenant": "Add Tenant", 
+    "addTenant": "Add Tenant",
     "tenantList": "Tenant List",
     "tenantAdd": "Add Tenant"
   },
@@ -594,6 +594,7 @@
     }
   },
   "tenant": {
+    "deleteTenantConfirm": "Are you sure you want to delete this tenant?",
     "members": {
       "assignMemberToStores": "Assign Member to Stores",
       "assignMemberToStoresSuccess": "Member assigned to stores successfully",
