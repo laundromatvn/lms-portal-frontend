@@ -10,7 +10,6 @@ import {
 
 import {
   AltArrowLeft,
-  HamburgerMenu,
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';

@@ -2,8 +2,7 @@ import React from 'react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
-import { Flex, Layout, Button } from 'antd';
-import { MenuOutlined } from '@ant-design/icons';
+import { Flex, Layout } from 'antd';
 
 import { Logo } from '@shared/components/common/Logo';
 

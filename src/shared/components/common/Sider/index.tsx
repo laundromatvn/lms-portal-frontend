@@ -441,7 +441,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
                 >
                   {user?.email || 'admin@lms.com'}
                 </Text>
-                <DynamicTag value={user?.role || ''} />
+                <DynamicTag value={user?.role || ''} type="text" />
               </div>
             )}
           </div>

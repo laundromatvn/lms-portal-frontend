@@ -380,9 +380,7 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
                 marginBottom: theme.custom.spacing.large,
               }}
             >
-              <DynamicTag
-                value={user.role}
-              />
+              <DynamicTag value={user.role} type="text" />
             </Flex>
           )}
         </Flex>
