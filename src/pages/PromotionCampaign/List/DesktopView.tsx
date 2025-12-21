@@ -14,10 +14,12 @@ import {
 } from 'antd';
 import type { MenuProps } from 'antd';
 
-import { SearchOutlined } from '@ant-design/icons';
+import {
+  SearchOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
 
 import {
-  AddCircle,
   MenuDots,
   TrashBinTrash,
   PauseCircle,
@@ -375,7 +377,7 @@ export const DesktopView: React.FC = () => {
           <Flex justify="flex-end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
             {can('promotion_campaign.create') && (
               <Button
-                icon={<AddCircle />}
+                icon={<PlusOutlined />}
                 onClick={() => navigate('/promotion-campaigns/add')}
                 style={{
                   backgroundColor: theme.custom.colors.background.light,

@@ -88,7 +88,6 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
       key: 'overview',
       icon: <Widget />,
       label: t('navigation.overview'),
-      // Overview is accessible to all authenticated users
     },
     {
       key: 'stores',
@@ -114,15 +113,7 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
       label: t('navigation.promotionCampaign'),
       permission: 'promotion_campaign.list',
     },
-    {
-      type: 'divider',
-    },
-    {
-      key: 'tenants',
-      icon: <Buildings2 />,
-      label: t('navigation.tenants'),
-      permission: 'tenant.list',
-    },
+    { type: 'divider' },
     {
       key: 'tenants/profile',
       icon: <Suitcase />,
@@ -135,9 +126,14 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
       icon: <UsersGroupTwoRounded />,
       label: t('navigation.tenantMembers'),
       permission: 'tenant_member.list',
+      visible: user?.role !== UserRoleEnum.ADMIN,
     },
+    { type: 'divider' },
     {
-      type: 'divider',
+      key: 'tenants',
+      icon: <Buildings2 />,
+      label: t('navigation.tenants'),
+      permission: 'tenant.list',
     },
     {
       key: 'firmware',
@@ -158,7 +154,6 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
       key: 'user/profile',
       icon: <UserIcon />,
       label: t('navigation.userProfile'),
-      // User profile is typically accessible to all authenticated users
     },
   ], [t, user]);
 

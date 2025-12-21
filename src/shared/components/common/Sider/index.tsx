@@ -87,7 +87,6 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       key: 'overview',
       icon: <Widget />,
       label: t('navigation.overview'),
-      // Overview is accessible to all authenticated users
     },
     {
       key: 'stores',
@@ -113,15 +112,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       label: t('navigation.promotionCampaign'),
       permission: 'promotion_campaign.list',
     },
-    {
-      type: 'divider',
-    },
-    {
-      key: 'tenants',
-      icon: <Buildings2 />,
-      label: t('navigation.tenants'),
-      permission: 'tenant.list',
-    },
+    { type: 'divider' },
     {
       key: 'tenants/profile',
       icon: <Suitcase />,
@@ -134,9 +125,14 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       icon: <UsersGroupTwoRounded />,
       label: t('navigation.tenantMembers'),
       permission: 'tenant_member.list',
+      visible: user?.role !== UserRoleEnum.ADMIN,
     },
+    { type: 'divider' },
     {
-      type: 'divider',
+      key: 'tenants',
+      icon: <Buildings2 />,
+      label: t('navigation.tenants'),
+      permission: 'tenant.list',
     },
     {
       key: 'firmware',
@@ -150,22 +146,16 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
       label: t('navigation.permissions'),
       permission: 'permission.list',
     },
-    {
-      type: 'divider',
-    },
+    { type: 'divider' },
     {
       key: 'user/profile',
       icon: <UserIcon />,
       label: t('navigation.userProfile'),
-      // User profile is typically accessible to all authenticated users
     },
   ], [t, user]);
 
   const menuItems = React.useMemo(() => {
-    if (!ready) {
-      // Return empty array while permissions are loading
-      return [];
-    }
+    if (!ready) return [];
 
     const filteredItems: MenuItemConfig[] = [];
     let previousWasDivider = false;
