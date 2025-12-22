@@ -9,15 +9,18 @@ import {
   Table,
   Input,
   notification,
+  Dropdown,
 } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { MenuDots, TrashBinTrash } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 import { useCan } from '@shared/hooks/useCan';
 
 import { useListStoreApi, type ListStoreResponse } from '@shared/hooks/useListStoreApi';
+import { useDeleteStoreApi, type DeleteStoreResponse } from '@shared/hooks/store/useDeleteStoreApi';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { Box } from '@shared/components/Box';
@@ -80,6 +83,36 @@ export const DesktopView: React.FC = () => {
       sorter: true,
       sortOrder: orderBy === 'address' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
     },
+    {
+      title: t('common.actions'),
+      dataIndex: 'actions',
+      width: 128,
+      render: (_: string, record: any) => (
+        <Dropdown
+          menu={{
+            items: [
+              {
+                key: 'delete',
+                label: t('common.delete'),
+                onClick: () => deleteStore(record.id),
+                icon: <TrashBinTrash />,
+                disabled: !can('store.delete'),
+                style: {
+                  color: theme.custom.colors.danger.default,
+                },
+              },
+            ]
+          }}
+          trigger={['click']}
+        >
+          <Button
+            type="text"
+            icon={<MenuDots weight="Bold" />}
+            disabled={!can('store.delete')}
+          />
+        </Dropdown>
+      ),
+    },
   ];
 
   const {
@@ -88,6 +121,11 @@ export const DesktopView: React.FC = () => {
     error: listStoreError,
     listStore,
   } = useListStoreApi<ListStoreResponse>();
+  const {
+    deleteStore,
+    data: deleteStoreData,
+    error: deleteStoreError,
+  } = useDeleteStoreApi<DeleteStoreResponse>();
 
   const handleListStore = () => {
     const searchValue = search && search.length >= 3 ? search : undefined;
@@ -108,6 +146,24 @@ export const DesktopView: React.FC = () => {
       });
     }
   }, [listStoreError]);
+
+  useEffect(() => {
+    if (deleteStoreError) {
+      api.error({
+        message: t('store.deleteStoreError'),
+      });
+    }
+  }, [deleteStoreError]);
+
+  useEffect(() => {
+    if (deleteStoreData) {
+      api.success({
+        message: t('store.deleteStoreSuccess'),
+      });
+
+      handleListStore();
+    }
+  }, [deleteStoreData]);
 
   useEffect(() => {
     handleListStore();

@@ -50,7 +50,12 @@ export const MobileView: React.FC = () => {
   } = useDeleteControllerApi<void>();
 
   const handleListController = () => {
-    listController({ page, page_size: pageSize });
+    listController({
+      page,
+      page_size: pageSize,
+      order_by: 'store_name',
+      order_direction: 'asc',
+    });
   }
 
   useEffect(() => {

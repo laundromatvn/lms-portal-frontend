@@ -9,11 +9,12 @@ import {
   Table,
   notification,
   Popconfirm,
+  Dropdown,
 } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
 import { PlusOutlined } from '@ant-design/icons';
-import { TrashBinTrash } from '@solar-icons/react';
+import { TrashBinTrash, MenuDots } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 import { useCan } from '@shared/hooks/useCan';
@@ -110,28 +111,26 @@ export const DesktopView: React.FC = () => {
       dataIndex: 'actions',
       width: 128,
       render: (_: string, record: any) => (
-        <>
-          {can('controller.delete') && (
-            <Popconfirm
-              title={t('controller.deleteControllerConfirm')}
-              onConfirm={() => deleteController(record.id)}
-              okText={t('common.delete')}
-              cancelText={t('common.cancel')}
-            >
-              <Button
-                icon={<TrashBinTrash />}
-                loading={deleteControllerLoading}
-                style={{
-                  color: theme.custom.colors.danger.default,
-                  backgroundColor: theme.custom.colors.danger.light,
-                  border: 'none',
-                }}
-              >
-                {t('common.delete')}
-              </Button>
-            </Popconfirm>
-          )}
-        </>
+        <Dropdown
+          menu={{
+            items: [
+              {
+                key: 'delete',
+                label: t('common.delete'),
+                onClick: () => deleteController(record.id),
+                icon: <TrashBinTrash />,
+                style: { color: theme.custom.colors.danger.default },
+                disabled: !can('controller.delete'),
+              },
+            ],
+          }}
+          trigger={['click']}
+        >
+          <Button
+            type="text"
+            icon={<MenuDots weight="Bold" />}
+          />
+        </Dropdown>
       ),
     },
   ];

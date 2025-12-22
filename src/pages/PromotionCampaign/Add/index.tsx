@@ -10,7 +10,7 @@ import {
   type FormInstance,
 } from 'antd';
 
-import { AddCircle } from '@solar-icons/react';
+import { PlusOutlined } from '@ant-design/icons';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -22,7 +22,6 @@ import {
 import { PromotionCampaignStatusEnum } from '@shared/enums/PromotionCampaignStatusEnum';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
-import LeftRightSection from '@shared/components/LeftRightSection';
 import { AddSection } from './AddSection';
 import { PromotionDetailAddSection, type PromotionDetailAddSectionRef } from './PromotionDetailAddSection';
 
@@ -109,13 +108,12 @@ export const PromotionCampaignAddPage: React.FC = () => {
       <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
         <Flex justify="end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
           <Button
-            icon={<AddCircle />}
+            icon={<PlusOutlined />}
             onClick={handleSave}
             loading={createPromotionCampaignLoading}
             style={{
-              backgroundColor: theme.custom.colors.info.light,
-              color: theme.custom.colors.info.default,
-              border: 'none',
+              backgroundColor: theme.custom.colors.background.light,
+              color: theme.custom.colors.neutral.default,
             }}
           >
             {t('common.add')}

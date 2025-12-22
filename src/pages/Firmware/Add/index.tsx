@@ -3,15 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import {
-  Form,
   Button,
-  notification,
   Flex,
+  Form,
+  notification,
 } from 'antd';
 
 import { PlusOutlined } from '@ant-design/icons';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 import {
   useAddFirmwareApi,
@@ -29,6 +30,7 @@ export const FirmwareAddPage: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -85,12 +87,10 @@ export const FirmwareAddPage: React.FC = () => {
         style={{ width: '100%' }}
       >
         <Button
-          size="large"
           icon={<PlusOutlined />}
           onClick={handleSave}
           loading={addFirmwareLoading}
           style={{
-            width: '100%',
             backgroundColor: theme.custom.colors.background.light,
             color: theme.custom.colors.neutral.default,
           }}

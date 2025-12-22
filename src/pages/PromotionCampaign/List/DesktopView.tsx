@@ -207,34 +207,25 @@ export const DesktopView: React.FC = () => {
             key: 'schedule',
             label: t('common.schedule'),
             onClick: () => schedulePromotionCampaign(record.id),
-            icon: <Calendar weight="Outline" size={18} />,
-            style: {
-              color: theme.custom.colors.info.default,
-            },
+            icon: <Calendar />,
           },
           {
             key: 'pause',
             label: t('common.pause'),
             onClick: () => pausePromotionCampaign(record.id),
-            icon: <PauseCircle weight="Outline" size={18} />,
-            style: {
-              color: theme.custom.colors.warning.default,
-            },
+            icon: <PauseCircle />,
           },
           {
             key: 'resume',
             label: t('common.resume'),
             onClick: () => resumePromotionCampaign(record.id),
-            icon: <PlayCircle weight="Outline" size={18} />,
-            style: {
-              color: theme.custom.colors.success.default,
-            },
+            icon: <PlayCircle />,
           },
           {
             key: 'delete',
             label: t('common.delete'),
             onClick: () => deletePromotionCampaign(record.id),
-            icon: <TrashBinTrash weight="Outline" size={18} />,
+            icon: <TrashBinTrash />,
             style: {
               color: theme.custom.colors.danger.default,
             },
@@ -247,7 +238,7 @@ export const DesktopView: React.FC = () => {
             trigger={['click']}
           >
             <Button
-              type="link"
+              type="text"
               icon={<MenuDots weight="Bold" />}
               disabled={(
                 record.status === PromotionCampaignStatusEnum.FINISHED ||

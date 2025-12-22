@@ -573,6 +573,9 @@
     }
   },
   "store": {
+    "deleteStoreConfirm": "Bạn có chắc chắn muốn xóa cửa hàng này không?",
+    "deleteStoreSuccess": "Cửa hàng đã được xóa thành công",
+    "deleteStoreError": "Không thể xóa cửa hàng",
     "details": {
       "information": "Thông tin",
       "controllers": "Controllers",

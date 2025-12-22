@@ -581,6 +581,9 @@
     }
   },
   "store": {
+    "deleteStoreConfirm": "Are you sure you want to delete this store?",
+    "deleteStoreSuccess": "Store deleted successfully",
+    "deleteStoreError": "Failed to delete store",
     "details": {
       "information": "Information",
       "controllers": "Controllers",
