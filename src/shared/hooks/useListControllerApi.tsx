@@ -14,6 +14,7 @@ export type ListControllerRequest = {
   page_size?: number;
   order_by?: string;
   order_direction?: 'asc' | 'desc';
+  search?: string;
 }
 
 export type ListControllerResponse = {
@@ -51,6 +52,10 @@ export const useListControllerApi = <T = ListControllerResponse>() => {
 
     if (params.order_direction) {
       params.order_direction = params.order_direction;
+    }
+
+    if (params.search) {
+      params.search = params.search;
     }
 
     try {

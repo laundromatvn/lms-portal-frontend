@@ -10,9 +10,10 @@ import {
   Typography,
   notification,
   Popconfirm,
+  Input,
 } from 'antd';
 
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { TrashBinTrash } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -33,6 +34,8 @@ export const MobileView: React.FC = () => {
 
   const [api, contextHolder] = notification.useNotification();
 
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
@@ -55,6 +58,7 @@ export const MobileView: React.FC = () => {
       page_size: pageSize,
       order_by: 'store_name',
       order_direction: 'asc',
+      search: debouncedSearch,
     });
   }
 
@@ -84,8 +88,17 @@ export const MobileView: React.FC = () => {
   }, [listControllerError]);
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+      setPage(1);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  useEffect(() => {
     handleListController();
-  }, [page, pageSize]);
+  }, [page, pageSize, debouncedSearch]);
 
   return (
     <PortalLayoutV2
@@ -95,7 +108,21 @@ export const MobileView: React.FC = () => {
       {contextHolder}
 
       <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%', height: '100%', overflowX: 'hidden' }}>
-        <Flex align="center" justify="flex-end" wrap gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+        <Flex align="center" justify="flex-end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+          <Input
+            size="large"
+            placeholder={t('common.search')}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            allowClear
+            prefix={<SearchOutlined />}
+            style={{
+              width: '100%',
+              backgroundColor: theme.custom.colors.background.light,
+              color: theme.custom.colors.neutral.default,
+            }}
+          />
+
           {can('controller.create') && (
             <Button
               shape="circle"

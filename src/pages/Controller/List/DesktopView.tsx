@@ -8,12 +8,12 @@ import {
   Typography,
   Table,
   notification,
-  Popconfirm,
   Dropdown,
+  Input,
 } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { TrashBinTrash, MenuDots } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -38,6 +38,8 @@ export const DesktopView: React.FC = () => {
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [orderBy, setOrderBy] = useState('store_name');
   const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('desc');
 
@@ -154,6 +156,7 @@ export const DesktopView: React.FC = () => {
       page_size: pageSize,
       order_by: orderBy,
       order_direction: orderDirection,
+      search: debouncedSearch,
     });
   }
 
@@ -183,8 +186,17 @@ export const DesktopView: React.FC = () => {
   }, [listControllerError]);
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+      setPage(1);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  useEffect(() => {
     handleListController();
-  }, [page, pageSize, orderBy, orderDirection]);
+  }, [page, pageSize, orderBy, orderDirection, debouncedSearch]);
 
   return (
     <PortalLayoutV2
@@ -194,7 +206,21 @@ export const DesktopView: React.FC = () => {
       {contextHolder}
 
       <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%', overflowX: 'hidden' }}>
-        <Flex align="center" justify="flex-end" wrap gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+        <Flex align="center" justify="space-between" wrap gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+          <Input
+            placeholder={t('common.search')}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{
+              width: '100%',
+              maxWidth: 312,
+              backgroundColor: theme.custom.colors.background.light,
+              color: theme.custom.colors.neutral.default,
+            }}
+            allowClear
+            prefix={<SearchOutlined />}
+          />
+
           {can('controller.create') && (
             <Button
               icon={<PlusOutlined />}

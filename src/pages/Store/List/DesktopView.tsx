@@ -38,6 +38,7 @@ export const DesktopView: React.FC = () => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [orderBy, setOrderBy] = useState('');
   const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('asc');
 
@@ -128,12 +129,10 @@ export const DesktopView: React.FC = () => {
   } = useDeleteStoreApi<DeleteStoreResponse>();
 
   const handleListStore = () => {
-    const searchValue = search && search.length >= 3 ? search : undefined;
-
     listStore({
       page,
       page_size: pageSize,
-      search: searchValue,
+      search: debouncedSearch,
       order_by: orderBy,
       order_direction: orderDirection,
     });
@@ -166,8 +165,17 @@ export const DesktopView: React.FC = () => {
   }, [deleteStoreData]);
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+      setPage(1);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  useEffect(() => {
     handleListStore();
-  }, [page, pageSize, search, orderBy, orderDirection]);
+  }, [page, pageSize, orderBy, orderDirection, debouncedSearch]);
 
   return (
     <PortalLayoutV2
