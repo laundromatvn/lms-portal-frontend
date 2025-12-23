@@ -53,7 +53,6 @@ export const DesktopView: React.FC = () => {
         items={steps}
       />
 
-
       <Flex
         vertical
         gap={theme.custom.spacing.medium}

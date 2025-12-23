@@ -642,5 +642,8 @@
     "releaseFirmwareError": "Không thể release firmware",
     "deprecateFirmwareSuccess": "Firmware đã được deprecate thành công",
     "deprecateFirmwareError": "Không thể deprecate firmware"
+  },
+  "machine": {
+    "machineStatusTimeline": "Timeline Trạng thái Máy"
   }
 }

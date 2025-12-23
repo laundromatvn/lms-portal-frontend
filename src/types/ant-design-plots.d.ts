@@ -4,5 +4,3 @@ declare module '@ant-design/plots' {
   export const Line: React.FC<any>;
   export const Liquid: React.FC<any>;
 }
-
-

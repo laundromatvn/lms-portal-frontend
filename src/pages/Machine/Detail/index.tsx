@@ -11,10 +11,6 @@ import {
   type GetMachineResponse,
 } from '@shared/hooks/useGetMachineApi';
 import {
-  useStartMachineApi,
-  type StartMachineResponse,
-} from '@shared/hooks/useStartMachineApi';
-import {
   useActivateMachineApi,
   type ActivateMachineResponse,
 } from '@shared/hooks/useActivateMachineApi';
@@ -28,6 +24,7 @@ import { StartMachineDrawer } from '@shared/components/Drawer/StartMachineDrawer
 
 import { DetailSection } from './DetailSection';
 import { MachineConfigSection } from './ConfigSection';
+import { MachineStatusSection } from './MachineStatusSection';
 
 export const MachineDetailPage: React.FC = () => {
   const { t } = useTranslation();
@@ -125,6 +122,7 @@ export const MachineDetailPage: React.FC = () => {
           <>
             <DetailSection machine={machineData as Machine} />
             <MachineConfigSection machine={machineData as Machine} />
+            <MachineStatusSection machine={machineData as Machine} />
           </>
         )}
       </Flex>

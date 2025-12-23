@@ -2,8 +2,6 @@ import React from 'react';
 
 import { Flex, Progress, Typography } from 'antd';
 
-import { Liquid } from '@ant-design/plots';
-
 import { useTheme } from '@shared/theme/useTheme';
 
 import { Box } from '@shared/components/Box';

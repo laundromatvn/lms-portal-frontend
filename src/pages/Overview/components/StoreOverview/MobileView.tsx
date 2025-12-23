@@ -14,6 +14,7 @@ import { StoreKeyMetrics } from './StoreKeyMetrics';
 import { TopOrderOverview } from './TopOrderOverview';
 import { MachineOverview } from './MachineOverview';
 import { NotificationOverview } from './NotificationOverview';
+import { MachineStatusOverview } from './MachineStatusOverview';
 
 interface Props {
   store: Store;
@@ -27,7 +28,7 @@ interface Props {
   };
 }
 
-export const StoreOverviewMobileView: React.FC<Props> = ({
+export const MobileView: React.FC<Props> = ({
   store,
   quickFilterOptions,
   filters,
@@ -59,6 +60,11 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
       value: 'machines',
       permission: 'machine.list',
     },
+    // {
+    //   label: t('overviewV2.machineStatus'),
+    //   value: 'machine_status',
+    //   permission: 'machine.list',
+    // },
   ];
 
   const filteredTabOptions = tabOptions.filter((option) => !option.permission || can(option.permission));
@@ -110,6 +116,10 @@ export const StoreOverviewMobileView: React.FC<Props> = ({
       {selectedTab === 'machines' && can('machine.list') && (
         <MachineOverview store={store} />
       )}
+
+      {/* {selectedTab === 'machine_status' && can('machine.list') && (
+        <MachineStatusOverview store={store} filters={filters} />
+      )} */}
     </Flex>
   );
 };

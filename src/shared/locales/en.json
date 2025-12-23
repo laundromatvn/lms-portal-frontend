@@ -651,5 +651,8 @@
     "releaseFirmwareError": "Failed to release firmware",
     "deprecateFirmwareSuccess": "Firmware deprecated successfully",
     "deprecateFirmwareError": "Failed to deprecate firmware"
+  },
+  "machine": {
+    "machineStatusTimeline": "Machine Status Timeline"
   }
 }

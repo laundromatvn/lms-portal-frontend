@@ -13,6 +13,7 @@ import { StoreKeyMetrics } from './StoreKeyMetrics';
 import { TopOrderOverview } from './TopOrderOverview';
 import { MachineOverview } from './MachineOverview';
 import { NotificationOverview } from './NotificationOverview';
+import { MachineStatusOverview } from './MachineStatusOverview';
 
 interface Props {
   store: Store;
@@ -26,7 +27,7 @@ interface Props {
   };
 }
 
-export const StoreOverviewDesktopView: React.FC<Props> = ({
+export const DesktopView: React.FC<Props> = ({
   store,
   quickFilterOptions,
   filters,
@@ -73,6 +74,8 @@ export const StoreOverviewDesktopView: React.FC<Props> = ({
       )}
 
       {can('machine.list') && <MachineOverview store={store} />}
+
+      {/* {can('machine.list') && <MachineStatusOverview store={store} filters={filters} />} */}
     </Flex>
   );
 };

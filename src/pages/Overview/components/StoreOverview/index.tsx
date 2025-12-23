@@ -5,12 +5,12 @@ import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 import type { Store } from '@shared/types/store';
 
-import { ChipFilter, type QuickFilterOption } from '@shared/components/ChipFilterComponent';
+import { type QuickFilterOption } from '@shared/components/ChipFilterComponent';
 
 import dayjs from '@shared/utils/dayjs';
 
-import { StoreOverviewMobileView } from './StoreOverviewMobileView';
-import { StoreOverviewDesktopView } from './StoreOverviewDesktopView';
+import { MobileView } from './MobileView';
+import { DesktopView } from './DesktopView';
 
 interface Props {
   store: Store;
@@ -83,7 +83,7 @@ export const StoreOverview: React.FC<Props> = ({ store, onFilterClick, datetimeF
   };
 
   return isMobile ? (
-    <StoreOverviewMobileView
+    <MobileView
       store={store}
       quickFilterOptions={quickFilterOptions}
       filters={filters}
@@ -92,7 +92,7 @@ export const StoreOverview: React.FC<Props> = ({ store, onFilterClick, datetimeF
       datetimeFilters={effectiveFilters}
     />
   ) : (
-    <StoreOverviewDesktopView
+    <DesktopView
       store={store}
       quickFilterOptions={quickFilterOptions}
       filters={filters}
