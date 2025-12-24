@@ -10,27 +10,46 @@ import {
   type CardVNPAYPaymentMethodDetail,
 } from '@shared/types/PaymentMethod';
 
+import { Box } from '../Box';
+import { DataWrapper } from '../DataWrapper';
+import { DynamicTag } from '../DynamicTag';
+
 export interface Props {
   paymentMethod: PaymentMethod;
+  showSecret?: boolean;
 }
 
-export const CardVNPAYDetails: React.FC<Props> = ({ paymentMethod }) => {
+export const CardVNPAYDetails: React.FC<Props> = ({ paymentMethod, showSecret = false }) => {
   const theme = useTheme();
   const { t } = useTranslation();
 
   const details = paymentMethod.details as CardVNPAYPaymentMethodDetail;
 
   return (
-    <Flex
+    <Box
       vertical
+      border
       gap={theme.custom.spacing.xsmall}
       style={{ width: '100%' }}
     >
-      <Typography.Text type="secondary">{t('common.merchantCode')}: {details.merchant_code}</Typography.Text>
-      <Typography.Text type="secondary">{t('common.terminalCode')}: {details.terminal_code}</Typography.Text>
-      <Typography.Text type="secondary">{t('common.initSecretKey')}: {details.init_secret_key}</Typography.Text>
-      <Typography.Text type="secondary">{t('common.querySecretKey')}: {details.query_secret_key}</Typography.Text>
-      <Typography.Text type="secondary">{t('common.ipnv3SecretKey')}: {details.ipnv3_secret_key}</Typography.Text>
-    </Flex>
+      <Flex align="center" wrap="wrap" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
+        <Typography.Text strong>
+          {`${t(`common.${paymentMethod.payment_method.toLowerCase()}`)} (${t(`common.${paymentMethod.payment_provider.toLowerCase()}`)})`}
+        </Typography.Text>
+
+        <DynamicTag value={paymentMethod.is_enabled ? 'enabled' : 'disabled'} />
+      </Flex>
+
+      <DataWrapper title={t('common.merchantCode')} value={details.merchant_code} />
+      <DataWrapper title={t('common.terminalCode')} value={details.terminal_code} />
+
+      {showSecret && (
+        <>
+          <DataWrapper title={t('common.initSecretKey')} value={details.init_secret_key} />
+          <DataWrapper title={t('common.querySecretKey')} value={details.query_secret_key} />
+          <DataWrapper title={t('common.ipnv3SecretKey')} value={details.ipnv3_secret_key} />
+        </>
+      )}
+    </Box>
   );
 };

@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { Typography } from 'antd';
 
-import { useTheme } from '@shared/theme/useTheme';
-
 import { type Order } from '@shared/types/Order';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
@@ -19,7 +17,6 @@ interface Props {
 
 export const DetailSection: React.FC<Props> = ({ order }: Props) => {
   const { t } = useTranslation();
-  const theme = useTheme();
   const navigate = useNavigate();
 
   return (

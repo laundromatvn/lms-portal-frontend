@@ -11,7 +11,7 @@ import { type PaymentMethod } from '@shared/types/PaymentMethod';
 import { PaymentMethodEnum } from '@shared/enums/PaymentMethodEnum';
 import { PaymentProviderEnum } from '@shared/enums/PaymentProviderEnum';
 
-import { QRDetails } from '@shared/components/PaymentMethodDetails/QRDetails';
+import { QRVietQRDetails } from '@shared/components/PaymentMethodDetails/QRVietQRDetails';
 import { CardVNPAYDetails } from '@shared/components/PaymentMethodDetails/CardVNPAYDetails';
 import { QRVNPAYDetails } from '@shared/components/PaymentMethodDetails/QRVNPAYDetails';
 
@@ -51,20 +51,21 @@ export const PaymentMethodDetailItem: React.FC<Props> = ({
       </Space>}
       style={{ width: '100%' }}
       headStyle={{ backgroundColor: headerBackgroundCardColor() }}
+      bodyStyle={{ padding: 0 }}
       size="small"
     >
       <Flex vertical gap={theme.custom.spacing.medium}>
         {paymentMethod.payment_method === PaymentMethodEnum.QR
           && paymentMethod.payment_provider === PaymentProviderEnum.VIET_QR
-          && <QRDetails paymentMethod={paymentMethod} />}
+          && <QRVietQRDetails paymentMethod={paymentMethod} />}
 
         {(paymentMethod.payment_method === PaymentMethodEnum.CARD
           && paymentMethod.payment_provider === PaymentProviderEnum.VNPAY)
-          && <CardVNPAYDetails paymentMethod={paymentMethod} />}
+          && <CardVNPAYDetails paymentMethod={paymentMethod} showSecret />}
 
         {(paymentMethod.payment_method === PaymentMethodEnum.QR
           && paymentMethod.payment_provider === PaymentProviderEnum.VNPAY)
-          && <QRVNPAYDetails paymentMethod={paymentMethod} />}
+          && <QRVNPAYDetails paymentMethod={paymentMethod} showSecret />}
       </Flex>
     </Card>
   );

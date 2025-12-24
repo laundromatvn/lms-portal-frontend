@@ -20,7 +20,6 @@ export const DetailSection: React.FC<Props> = ({ machine }: Props) => {
 
   return (
     <BaseDetailSection title={t('common.basicInformation')} onEdit={() => navigate(`/machines/${machine.id}/edit`)}>
-      <DataWrapper title={t('common.machineId')} value={machine.id} />
       <DataWrapper title={t('common.name')} value={machine.name || '-'} />
       <DataWrapper title={t('common.status')} >
         <DynamicTag value={machine.status} />
@@ -30,9 +29,10 @@ export const DetailSection: React.FC<Props> = ({ machine }: Props) => {
           onClick={() => navigate(`/controllers/${machine.controller_id}/detail`)}
           style={{ cursor: 'pointer' }}
         >
-          {machine.controller_id}
+          {machine.controller_device_id || t('common.unknown')}
         </Typography.Link>
       </DataWrapper>
+      <DataWrapper title={t('common.relayNo')} value={machine.relay_no} />
       <DataWrapper title={t('common.store')}>
         <Typography.Link
           onClick={() => navigate(`/stores/${machine.store_id}/detail`)}

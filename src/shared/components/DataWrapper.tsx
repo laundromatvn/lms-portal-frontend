@@ -12,12 +12,36 @@ interface Props {
   style?: React.CSSProperties;
 }
 
-export const DataWrapper: React.FC<Props> = ({ title, compact = false, value, children, style }: Props) => {
+export const DataWrapper: React.FC<Props> = ({
+  title,
+  compact = true,
+  value,
+  children,
+  style,
+}: Props) => {
   const theme = useTheme();
 
-  return <Flex vertical={!compact} gap={theme.custom.spacing.xsmall} style={{ width: '100%', ...style }}>
-    <Typography.Text type="secondary">{title}:</Typography.Text>
-    {value && <Typography.Text>{value}</Typography.Text>}
-    {children}
-  </Flex>;
+  return (
+    <Flex
+      vertical={!compact}
+      gap={theme.custom.spacing.xsmall}
+      style={{
+        width: '100%',
+        ...style,
+      }}
+    >
+      <Flex
+        style={{
+          width: compact ? 128 : 'auto',
+          minWidth: compact ? 128 : 'auto',
+        }}
+      >
+        <Typography.Text type="secondary">
+          {title}:
+        </Typography.Text>
+      </Flex>
+
+      {value ? <Typography.Text>{value}</Typography.Text> : children}
+    </Flex>
+  );
 };

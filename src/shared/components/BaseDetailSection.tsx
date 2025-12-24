@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Button, Flex, Skeleton } from 'antd';
 
@@ -16,6 +17,7 @@ interface Props {
   onRefresh?: () => void;
   loading?: boolean;
   style?: React.CSSProperties;
+  type?: 'text' | 'icon';
 }
 
 export const BaseDetailSection: React.FC<Props> = ({
@@ -25,7 +27,9 @@ export const BaseDetailSection: React.FC<Props> = ({
   onRefresh,
   loading = false,
   style,
+  type = 'text',
 }) => {
+  const { t } = useTranslation();
   const theme = useTheme();
 
   return (
@@ -38,8 +42,10 @@ export const BaseDetailSection: React.FC<Props> = ({
             <Button
               type="link"
               onClick={onEdit}
-              icon={<PenNewSquare size={16} />}
-            />
+              icon={type === 'text' ? undefined : <PenNewSquare size={16} />}
+            >
+              {type === 'text' ? t('common.edit') : undefined}
+            </Button>
           )}
         </Flex>
       </Flex>

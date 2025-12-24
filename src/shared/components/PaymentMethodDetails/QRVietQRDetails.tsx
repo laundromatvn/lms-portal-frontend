@@ -7,7 +7,7 @@ import { useTheme } from '@shared/theme/useTheme';
 
 import {
   type PaymentMethod,
-  type QRVNPAYPaymentMethodDetail,
+  type QRPaymentMethodDetail,
 } from '@shared/types/PaymentMethod';
 
 import { Box } from '../Box';
@@ -16,14 +16,13 @@ import { DynamicTag } from '../DynamicTag';
 
 export interface Props {
   paymentMethod: PaymentMethod;
-  showSecret?: boolean;
 }
 
-export const QRVNPAYDetails: React.FC<Props> = ({ paymentMethod, showSecret = false }) => {
+export const QRVietQRDetails: React.FC<Props> = ({ paymentMethod }) => {
   const theme = useTheme();
   const { t } = useTranslation();
 
-  const details = paymentMethod.details as QRVNPAYPaymentMethodDetail;
+  const details = paymentMethod.details as QRPaymentMethodDetail;
 
   return (
     <Box
@@ -40,16 +39,9 @@ export const QRVNPAYDetails: React.FC<Props> = ({ paymentMethod, showSecret = fa
         <DynamicTag value={paymentMethod.is_enabled ? 'enabled' : 'disabled'} />
       </Flex>
 
-      <DataWrapper title={t('common.merchantCode')} value={details.merchant_code} />
-      <DataWrapper title={t('common.terminalCode')} value={details.terminal_code} />
-
-      {showSecret && (
-        <>
-          <DataWrapper title={t('common.initSecretKey')} value={details.init_secret_key} />
-          <DataWrapper title={t('common.querySecretKey')} value={details.query_secret_key} />
-          <DataWrapper title={t('common.ipnv3SecretKey')} value={details.ipnv3_secret_key} />
-        </>
-      )}
+      <DataWrapper title={t('common.bankName')} value={`(${details.bank_code}) ${details.bank_name}`} />
+      <DataWrapper title={t('common.bankAccountNumber')} value={details.bank_account_number} />
+      <DataWrapper title={t('common.bankAccountName')} value={details.bank_account_name} />
     </Box>
   );
 };

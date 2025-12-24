@@ -13,7 +13,7 @@ interface Props {
   style?: React.CSSProperties;
 }
 
-export const DynamicTag: React.FC<Props> = ({ value, type = 'default', color, style }) => {
+export const DynamicTag: React.FC<Props> = ({ value, type = 'text', color, style }) => {
   const theme = useTheme();
 
   const primaryColor = useMemo(() => {

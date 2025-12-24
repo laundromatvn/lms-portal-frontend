@@ -16,6 +16,7 @@ interface Props {
   onSave?: () => void;
   showSaveButton?: boolean;
   loading?: boolean;
+  type?: 'text' | 'icon';
 }
 
 export const BaseEditSection: React.FC<Props> = ({
@@ -25,6 +26,7 @@ export const BaseEditSection: React.FC<Props> = ({
   onSave,
   showSaveButton = true,
   loading = false,
+  type = 'text',
 }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -41,9 +43,9 @@ export const BaseEditSection: React.FC<Props> = ({
           <Button
             type="link"
             onClick={onSave}
-            icon={<CheckCircle size={18} />}
+            icon={type === 'text' ? undefined : <CheckCircle size={18} />}
           >
-            {saveButtonText || t('common.save')}
+            {type === 'text' ? t('common.save') : undefined}
           </Button>
         ) : null}
       </Flex>

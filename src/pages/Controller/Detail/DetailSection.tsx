@@ -20,29 +20,33 @@ export const DetailSection: React.FC<Props> = ({ controller }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const can = useCan();
-  
+
   return (
     <BaseDetailSection
       title={t('common.basicInformation')}
-      onEdit={can('controller.update') 
+      onEdit={can('controller.update')
         ? () => navigate(`/controllers/${controller.id}/edit`)
         : undefined}
     >
       <DataWrapper title={t('common.deviceId')} value={controller.device_id || '-'} />
-      <DataWrapper title={t('common.store')} value={controller.store_name || '-'} />
       <DataWrapper title={t('common.name')} value={controller.name || '-'} />
       <DataWrapper title={t('common.totalRelays')} value={controller.total_relays || '-'} />
       <DataWrapper title={t('common.status')} >
         <DynamicTag value={controller.status} />
       </DataWrapper>
       <DataWrapper title={t('common.firmware')}>
-        <Typography.Link
-          onClick={() => navigate(`/firmware/${controller.firmware_id}/detail`)}
-          style={{ cursor: 'pointer' }}
-        >
-          {`${controller.firmware_name} (${controller.firmware_version})` || '-'}
-        </Typography.Link>
+        {controller.firmware_id ? (
+          <Typography.Link
+            onClick={() => navigate(`/firmware/${controller.firmware_id}/detail`)}
+            style={{ cursor: 'pointer' }}
+          >
+            {controller.firmware_name} ({controller.firmware_version})
+          </Typography.Link>
+        ) : (
+          <Typography.Text type="secondary">{t('common.unknown')}</Typography.Text>
+        )}
       </DataWrapper>
+      <DataWrapper title={t('common.store')} value={controller.store_name || '-'} />
     </BaseDetailSection>
   );
 };

@@ -122,17 +122,6 @@ export const DesktopView: React.FC = () => {
       render: (_: string, record: any) => formatDateTime(record.created_at)
     },
     {
-      title: t('common.storeName'),
-      dataIndex: 'store_name',
-      key: 'store_name',
-      width: 192,
-      render: (_: string, record: any) => (
-        <Typography.Link onClick={() => navigate(`/stores/${record.store_id}/detail`)}>
-          {record.store_name || t('common.unknown')}
-        </Typography.Link>
-      ),
-    },
-    {
       title: t('common.transactionCode'),
       dataIndex: 'transaction_code',
       key: 'transaction_code',
@@ -140,6 +129,17 @@ export const DesktopView: React.FC = () => {
       render: (_: string, record: any) => (
         <Typography.Link onClick={() => navigate(`/orders/${record.id}/detail`)}>
           {record.transaction_code || t('common.unknown')}
+        </Typography.Link>
+      ),
+    },
+    {
+      title: t('common.storeName'),
+      dataIndex: 'store_name',
+      key: 'store_name',
+      width: 192,
+      render: (_: string, record: any) => (
+        <Typography.Link onClick={() => navigate(`/stores/${record.store_id}/detail`)}>
+          {record.store_name || t('common.unknown')}
         </Typography.Link>
       ),
     },

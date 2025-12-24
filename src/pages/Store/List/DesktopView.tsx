@@ -49,6 +49,11 @@ export const DesktopView: React.FC = () => {
       width: 128,
       sorter: true,
       sortOrder: orderBy === 'tenant_name' ? (orderDirection === 'asc' ? 'ascend' : 'descend') : undefined,
+      render: (_: string, record: any) => (
+        <Typography.Link onClick={() => navigate(`/tenants/${record.tenant_id}/detail`)}>
+          {record.tenant_name || '-'}
+        </Typography.Link>
+      ),
     },
     {
       title: t('common.name'),

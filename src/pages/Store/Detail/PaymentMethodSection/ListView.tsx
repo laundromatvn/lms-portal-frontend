@@ -12,9 +12,10 @@ import { PaymentProviderEnum } from '@shared/enums/PaymentProviderEnum';
 import { type Store } from '@shared/types/store';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
+import { DynamicTag } from '@shared/components/DynamicTag';
 import { QRVNPAYDetails } from '@shared/components/PaymentMethodDetails/QRVNPAYDetails';
 import { CardVNPAYDetails } from '@shared/components/PaymentMethodDetails/CardVNPAYDetails';
-import { DynamicTag } from '@shared/components/DynamicTag';
+import { QRVietQRDetails } from '@shared/components/PaymentMethodDetails/QRVietQRDetails';
 
 interface Props {
   store: Store;
@@ -31,27 +32,10 @@ export const ListView: React.FC<Props> = ({ store }: Props) => {
         dataSource={store.payment_methods}
         style={{ width: '100%' }}
         renderItem={(paymentMethod) => (
-          <List.Item
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-              gap: theme.custom.spacing.small,
-              width: '100%',
-              padding: theme.custom.spacing.medium,
-              marginBottom: theme.custom.spacing.medium,
-              backgroundColor: theme.custom.colors.background.light,
-              borderRadius: theme.custom.radius.medium,
-              border: `1px solid ${theme.custom.colors.neutral[200]}`,
-            }}
-          >
-            <Flex justify="space-between" align="center" wrap="wrap" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
-              <Typography.Text strong>
-                {`${t(`common.${paymentMethod.payment_method.toLowerCase()}`)} - ${t(`common.${paymentMethod.payment_provider.toLowerCase()}`)}`}
-              </Typography.Text>
-
-              <DynamicTag value={paymentMethod.is_enabled ? 'enabled' : 'disabled'} />
-            </Flex>
+          <List.Item style={{ width: '100%' }}>
+            {paymentMethod.payment_method === PaymentMethodEnum.QR
+              && paymentMethod.payment_provider === PaymentProviderEnum.VIET_QR
+              && <QRVietQRDetails paymentMethod={paymentMethod} />}
 
             {paymentMethod.payment_method === PaymentMethodEnum.QR
               && paymentMethod.payment_provider === PaymentProviderEnum.VNPAY

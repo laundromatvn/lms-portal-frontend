@@ -24,7 +24,7 @@ export const DetailSection: React.FC<Props> = ({ store }: Props) => {
     <BaseDetailSection title={t('common.basicInformation')} onEdit={can('store.update') ? () => navigate(`/stores/${store.id}/edit`) : undefined}>
       <DataWrapper title={t('common.name')} value={store.name || '-'} />
       <DataWrapper title={t('common.status')} >
-        <DynamicTag value={store.status} />
+        <DynamicTag value={store.status} type="text" />
       </DataWrapper>
       <DataWrapper title={t('common.address')} value={store.address || '-'} />
       <DataWrapper title={t('common.contactPhoneNumber')} value={store.contact_phone_number || '-'} />
