@@ -67,6 +67,8 @@ import {
 
 import {
   PermissionListPage,
+  PermissionGroupDetailPage,
+  PermissionGroupEditPage,
 } from '@pages/Permission';
 
 import { type Route } from './index';
@@ -235,5 +237,13 @@ export const routes: Route[] = [
   {
     path: '/permissions',
     component: <PermissionListPage />,
+  },
+  {
+    path: '/permission-groups/:id/detail',
+    component: <PermissionGroupDetailPage />,
+  },
+  {
+    path: '/permission-groups/:id/edit',
+    component: <PermissionGroupEditPage />,
   },
 ];

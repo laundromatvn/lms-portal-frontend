@@ -163,6 +163,7 @@
     "selectMachineType": "Select Machine Type",
     "machineList": "Machine List",
     "createdAt": "Created At",
+    "updatedAt": "Updated At",
     "transactionCode": "Transaction Code",
     "pay": "Pay",
     "cancelPayment": "Cancel Payment",
@@ -580,7 +581,9 @@
       "codeIsRequired": "Code is required",
       "isEnabledIsRequired": "Is enabled is required",
       "createPermissionSuccess": "Permission created successfully",
-      "createPermissionError": "Failed to create permission"
+      "createPermissionError": "Failed to create permission",
+      "updatePermissionGroupError": "Failed to update permission group",
+      "updatePermissionGroupSuccess": "Permission group updated successfully"
     }
   },
   "store": {

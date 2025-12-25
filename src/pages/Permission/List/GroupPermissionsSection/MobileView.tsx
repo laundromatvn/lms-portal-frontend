@@ -34,7 +34,6 @@ import {
 } from '@shared/hooks/permissionGroup/useDeletePermissionGroupApi';
 
 import { type PermissionGroup } from '@shared/types/PermissionGroup';
-
 import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
@@ -246,7 +245,7 @@ export const MobileView: React.FC = () => {
               vertical
               gap={theme.custom.spacing.xsmall}
               style={{ width: '100%' }}
-              onClick={() => navigate(`/permission/list/group-permissions/${item.id}/detail`)}
+              onClick={() => navigate(`/permission-groups/${item.id}/detail`)}
             >
               <Flex justify="space-between" align="center" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
                 <Typography.Text>{item.name}</Typography.Text>

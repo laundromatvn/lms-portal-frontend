@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button, Flex, Skeleton } from 'antd';
+import { Button, Flex, Spin } from 'antd';
 
 import { PenNewSquare } from '@solar-icons/react';
 
@@ -58,7 +58,7 @@ export const BaseDetailSection: React.FC<Props> = ({
         </Flex>
       </Flex>
 
-      {loading ? <Skeleton active /> : children}
+      {loading ? <Spin spinning={loading} size="small" /> : children}
     </Box>
   );
 };

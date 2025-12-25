@@ -86,7 +86,7 @@ export const DesktopView: React.FC = () => {
       sorter: true,
       sortOrder: filters.order_by === 'name' ? (filters.order_direction === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (_: string, record: any) => (
-        <Typography.Link onClick={() => navigate(`/permission/list/group-permissions/${record.id}/detail`)}>
+        <Typography.Link onClick={() => navigate(`/permission-groups/${record.id}/detail`)}>
           {record.name}
         </Typography.Link>
       ),
