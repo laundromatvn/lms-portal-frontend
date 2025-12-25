@@ -269,7 +269,9 @@
     "tenantAdd": "Thêm Tenant",
     "confirmPassword": "Xác nhận mật khẩu",
     "continue": "Tiếp tục",
-    "more": "Xem thêm"
+    "more": "Xem thêm",
+    "enable": "Kích hoạt",
+    "disable": "Tắt hoạt động"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -293,6 +295,7 @@
     "promotionCampaign": "Khuyến mãi",
     "firmware": "Firmware",
     "permissions": "Permissions",
+    "groupPermissions": "Group Permissions",
     "tenants": "Tenants"
   },
   "messages": {

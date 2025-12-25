@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 
 import {
   Button,
@@ -34,17 +33,15 @@ import {
   type CreatePermissionResponse,
 } from '@shared/hooks/permission/useCreatePermissionApi';
 
-import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 
-import { CreateNewPermissionDrawer } from './CreateNewPermissionDrawer';
-import { EditPermissionDrawer } from './EditPermissionDrawer';
+import { CreateNewPermissionDrawer } from './components/CreateNewPermissionDrawer';
+import { EditPermissionDrawer } from './components/EditPermissionDrawer';
 
 export const DesktopView: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const navigate = useNavigate();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -174,101 +171,94 @@ export const DesktopView: React.FC = () => {
   }, [page, search]);
 
   return (
-    <PortalLayoutV2
-      title={t('navigation.permissions')}
-      onBack={() => navigate(-1)}
-    >
+    <BaseDetailSection title={t('navigation.permissions')}>
       {contextHolder}
 
-      <BaseDetailSection>
-        {contextHolder}
+      <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+        <Input
+          placeholder={t('common.search')}
+          onChange={(e) => setSearch(e.target.value)}
+          allowClear
+          prefix={<SearchOutlined />}
+          style={{
+            width: '100%',
+            maxWidth: 312,
+            backgroundColor: theme.custom.colors.background.light,
+            color: theme.custom.colors.neutral.default,
+          }}
+        />
 
-        <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
-          <Input
-            placeholder={t('common.search')}
-            onChange={(e) => setSearch(e.target.value)}
-            allowClear
-            prefix={<SearchOutlined />}
+        <Flex gap={theme.custom.spacing.small}>
+          <Button
+            icon={<PlusOutlined />}
+            onClick={() => setIsCreateNewPermissionDrawerOpen(true)}
             style={{
-              width: '100%',
-              maxWidth: 312,
               backgroundColor: theme.custom.colors.background.light,
               color: theme.custom.colors.neutral.default,
             }}
-          />
-
-          <Flex gap={theme.custom.spacing.small}>
-            <Button
-              icon={<PlusOutlined />}
-              onClick={() => setIsCreateNewPermissionDrawerOpen(true)}
-              style={{
-                backgroundColor: theme.custom.colors.background.light,
-                color: theme.custom.colors.neutral.default,
-              }}
-            >
-              {t('permission.addNewPermission')}
-            </Button>
-          </Flex>
+          >
+            {t('permission.addNewPermission')}
+          </Button>
         </Flex>
+      </Flex>
 
-        <List
-          dataSource={permissions}
-          loading={listPermissionLoading}
-          style={{ width: '100%' }}
-          pagination={{
-            pageSize: pageSize,
-            current: page,
-            total: listPermissionData?.total || 0,
-            style: { color: theme.custom.colors.text.tertiary },
-            showSizeChanger: true,
-            showQuickJumper: false,
-            showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
-            onShowSizeChange: (_page, newPageSize) => {
-              setPage(1);
-              setPageSize(newPageSize);
-            },
-            onChange: (page, pageSize) => {
-              setPage(page);
-              setPageSize(pageSize);
-            },
-          }}
-          renderItem={(item) => (
-            <List.Item
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                gap: theme.custom.spacing.small,
-                width: '100%',
-                padding: theme.custom.spacing.small,
-                marginBottom: theme.custom.spacing.medium,
-                backgroundColor: theme.custom.colors.background.light,
-                borderRadius: theme.custom.radius.medium,
-                border: `1px solid ${theme.custom.colors.neutral[200]}`,
-              }}
+      <List
+        dataSource={permissions}
+        loading={listPermissionLoading}
+        style={{ width: '100%' }}
+        pagination={{
+          pageSize: pageSize,
+          current: page,
+          total: listPermissionData?.total || 0,
+          style: { color: theme.custom.colors.text.tertiary },
+          showSizeChanger: true,
+          showQuickJumper: false,
+          showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+          onShowSizeChange: (_page, newPageSize) => {
+            setPage(1);
+            setPageSize(newPageSize);
+          },
+          onChange: (page, pageSize) => {
+            setPage(page);
+            setPageSize(pageSize);
+          },
+        }}
+        renderItem={(item) => (
+          <List.Item
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              gap: theme.custom.spacing.small,
+              width: '100%',
+              padding: theme.custom.spacing.small,
+              marginBottom: theme.custom.spacing.medium,
+              backgroundColor: theme.custom.colors.background.light,
+              borderRadius: theme.custom.radius.medium,
+              border: `1px solid ${theme.custom.colors.neutral[200]}`,
+            }}
+          >
+            <Flex justify="space-between" align="flex-start" gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+              <Typography.Link onClick={() => {
+                setSelectedPermission(item);
+                setIsEditNewPermissionDrawerOpen(true);
+              }}>
+                {`${item.id}. ${item.name}`}
+              </Typography.Link>
+
+              <DynamicTag value={item.is_enabled ? 'enabled' : 'disabled'} type="text" />
+            </Flex>
+
+            <Typography.Text
+              type="secondary"
+              style={{ fontSize: theme.custom.fontSize.xsmall }}
+              ellipsis
             >
-              <Flex justify="space-between" align="flex-start" gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-                <Typography.Link onClick={() => {
-                  setSelectedPermission(item);
-                  setIsEditNewPermissionDrawerOpen(true);
-                }}>
-                  {`${item.id}. ${item.name}`}
-                </Typography.Link>
-
-                <DynamicTag value={item.is_enabled ? 'enabled' : 'disabled'} type="text" />
-              </Flex>
-
-              <Typography.Text
-                type="secondary"
-                style={{ fontSize: theme.custom.fontSize.xsmall }}
-                ellipsis
-              >
-                {item.description}
-              </Typography.Text>
-            </List.Item>
-          )}
-        />
-      </BaseDetailSection>
+              {item.description}
+            </Typography.Text>
+          </List.Item>
+        )}
+      />
 
       <CreateNewPermissionDrawer
         open={isCreateNewPermissionDrawerOpen}
@@ -284,6 +274,6 @@ export const DesktopView: React.FC = () => {
           onClose={() => setIsEditNewPermissionDrawerOpen(false)}
         />
       )}
-    </PortalLayoutV2>
+    </BaseDetailSection>
   );
 };

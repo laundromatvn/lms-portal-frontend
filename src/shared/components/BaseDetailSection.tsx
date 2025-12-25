@@ -33,7 +33,15 @@ export const BaseDetailSection: React.FC<Props> = ({
   const theme = useTheme();
 
   return (
-    <Box vertical gap={theme.custom.spacing.medium} style={{ width: '100%', ...style }} loading={loading}>
+    <Box
+      vertical
+      gap={theme.custom.spacing.medium}
+      style={{
+        width: '100%',
+        ...style,
+      }}
+      loading={loading}
+    >
       <Flex justify="space-between" align="center" style={{ width: '100%' }}>
         {title && <BaseSectionTitle title={title} onRefresh={onRefresh} />}
 

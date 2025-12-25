@@ -269,7 +269,9 @@
     "tenantAdd": "Add Tenant",
     "confirmPassword": "Confirm Password",
     "continue": "Continue",
-    "more": "More"
+    "more": "More",
+    "enable": "Enable",
+    "disable": "Disable"
   },
   "navigation": {
     "overview": "Overview",
@@ -293,6 +295,7 @@
     "promotionCampaign": "Promotion Campaign",
     "firmware": "Firmware",
     "permissions": "Permissions",
+    "groupPermissions": "Group Permissions",
     "tenants": "Tenants"
   },
   "messages": {
