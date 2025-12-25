@@ -272,7 +272,8 @@
     "continue": "Continue",
     "more": "More",
     "enable": "Enable",
-    "disable": "Disable"
+    "disable": "Disable",
+    "permissions": "Permissions"
   },
   "navigation": {
     "overview": "Overview",

@@ -15,6 +15,7 @@ import {
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useCan } from '@shared/hooks/useCan';
 import { userStorage } from '@core/storage/userStorage';
 
 import {
@@ -28,8 +29,9 @@ import { type PermissionGroup } from '@shared/types/PermissionGroup';
 import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
+
 import { BasicInformationSection } from './components/BasicInformationSection';
-import { useCan } from '@shared/hooks/useCan';
+import { PermissionSection } from './components/PermissionSection';
 
 export const DesktopView: React.FC = () => {
   const { t } = useTranslation();
@@ -138,6 +140,11 @@ export const DesktopView: React.FC = () => {
         style={{ width: '100%', marginTop: theme.custom.spacing.medium }}
       >
         <BasicInformationSection
+          permissionGroup={permissionGroup}
+          loading={permissionGroupLoading}
+        />
+
+        <PermissionSection
           permissionGroup={permissionGroup}
           loading={permissionGroupLoading}
         />

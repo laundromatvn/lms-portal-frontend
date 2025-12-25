@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -6,6 +6,7 @@ import {
   Flex,
   Button,
   Dropdown,
+  Segmented,
   notification,
 } from 'antd';
 
@@ -15,6 +16,7 @@ import {
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useCan } from '@shared/hooks/useCan';
 import { userStorage } from '@core/storage/userStorage';
 
 import {
@@ -28,8 +30,14 @@ import { type PermissionGroup } from '@shared/types/PermissionGroup';
 import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
+
 import { BasicInformationSection } from './components/BasicInformationSection';
-import { useCan } from '@shared/hooks/useCan';
+import { PermissionSection } from './components/PermissionSection';
+
+const TABS = {
+  BASIC_INFORMATION: 'basic_information',
+  PERMISSIONS: 'permissions',
+}
 
 export const MobileView: React.FC = () => {
   const { t } = useTranslation();
@@ -43,6 +51,19 @@ export const MobileView: React.FC = () => {
 
   const [api, contextHolder] = notification.useNotification();
 
+  const [selectedTab, setSelectedTab] = useState<string>(TABS.BASIC_INFORMATION);
+
+  const segmentedOptions = [
+    {
+      label: t('common.basicInformation'),
+      value: TABS.BASIC_INFORMATION,
+    },
+    {
+      label: t('common.permissions'),
+      value: TABS.PERMISSIONS,
+    },
+  ];
+
   const {
     getPermissionGroup,
     data: permissionGroup,
@@ -51,7 +72,6 @@ export const MobileView: React.FC = () => {
 
   const {
     deletePermissionGroup,
-    loading: deletePermissionGroupLoading,
     data: deletePermissionGroupData,
     error: deletePermissionGroupError,
   } = useDeletePermissionGroupApi<boolean>();
@@ -101,46 +121,70 @@ export const MobileView: React.FC = () => {
     >
       {contextHolder}
 
-      <Flex
-        justify="end"
-        gap={theme.custom.spacing.small}
-        style={{ width: '100%' }}
-      >
-        <Dropdown
-          menu={{
-            items: [
-              {
-                key: 'delete',
-                label: t('common.delete'),
-                onClick: () => deletePermissionGroup(permissionGroupId),
-                icon: <TrashBinTrash />,
-                style: { color: theme.custom.colors.danger.default },
-                disabled: !canDeletePermissionGroup(),
-              },
-            ],
+      <Flex justify="end" style={{ width: '100%' }}>
+        <Segmented
+          size="large"
+          options={segmentedOptions}
+          value={selectedTab}
+          onChange={(value) => setSelectedTab(value)}
+          style={{
+            backgroundColor: theme.custom.colors.background.light,
+            padding: theme.custom.spacing.xxsmall,
           }}
+        />
+      </Flex>
+
+      {selectedTab === TABS.BASIC_INFORMATION && (
+        <Flex
+          justify="end"
+          gap={theme.custom.spacing.small}
+          style={{ width: '100%', marginTop: theme.custom.spacing.medium }}
         >
-          <Button
-            icon={<AltArrowDown />}
-            style={{
-              color: theme.custom.colors.neutral.default,
-              backgroundColor: theme.custom.colors.background.light,
+          <Dropdown
+            menu={{
+              items: [
+                {
+                  key: 'delete',
+                  label: t('common.delete'),
+                  onClick: () => deletePermissionGroup(permissionGroupId),
+                  icon: <TrashBinTrash />,
+                  style: { color: theme.custom.colors.danger.default },
+                  disabled: !canDeletePermissionGroup(),
+                },
+              ],
             }}
           >
-            {t('common.actions')}
-          </Button>
-        </Dropdown>
-      </Flex>
+            <Button
+              icon={<AltArrowDown />}
+              style={{
+                color: theme.custom.colors.neutral.default,
+                backgroundColor: theme.custom.colors.background.light,
+              }}
+            >
+              {t('common.actions')}
+            </Button>
+          </Dropdown>
+        </Flex>
+      )}
 
       <Flex
         vertical
         gap={theme.custom.spacing.medium}
         style={{ width: '100%', marginTop: theme.custom.spacing.medium }}
       >
-        <BasicInformationSection
-          permissionGroup={permissionGroup}
-          loading={permissionGroupLoading}
-        />
+        {selectedTab === TABS.BASIC_INFORMATION && (
+          <BasicInformationSection
+            permissionGroup={permissionGroup}
+            loading={permissionGroupLoading}
+          />
+        )}
+
+        {selectedTab === TABS.PERMISSIONS && (
+          <PermissionSection
+            permissionGroup={permissionGroup}
+            loading={permissionGroupLoading}
+          />
+        )}
       </Flex>
     </PortalLayoutV2>
   );

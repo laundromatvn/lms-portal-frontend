@@ -188,7 +188,6 @@ export const MobileView: React.FC = () => {
           prefix={<SearchOutlined />}
           style={{
             width: '100%',
-            maxWidth: 312,
             backgroundColor: theme.custom.colors.background.light,
             color: theme.custom.colors.neutral.default,
           }}

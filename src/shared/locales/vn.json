@@ -272,7 +272,8 @@
     "continue": "Tiếp tục",
     "more": "Xem thêm",
     "enable": "Kích hoạt",
-    "disable": "Tắt hoạt động"
+    "disable": "Tắt hoạt động",
+    "permissions": "Quyền"
   },
   "navigation": {
     "overview": "Tổng quan",
