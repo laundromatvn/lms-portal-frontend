@@ -276,7 +276,7 @@ export const DesktopView: React.FC = () => {
 
         <Button
           icon={<PlusOutlined />}
-          onClick={() => { }}
+          onClick={() => navigate('/permission-groups/add')}
           style={{
             backgroundColor: theme.custom.colors.background.light,
             color: theme.custom.colors.neutral.default,

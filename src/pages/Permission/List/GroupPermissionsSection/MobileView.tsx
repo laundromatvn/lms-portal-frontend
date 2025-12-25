@@ -197,7 +197,7 @@ export const MobileView: React.FC = () => {
           shape="circle"
           size="large"
           icon={<PlusOutlined />}
-          onClick={() => { }}
+          onClick={() => navigate('/permission-groups/add')}
           style={{
             backgroundColor: theme.custom.colors.background.light,
             color: theme.custom.colors.neutral.default,

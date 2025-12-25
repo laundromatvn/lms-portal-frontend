@@ -574,6 +574,7 @@
     "availablePermissions": "Quyền có sẵn",
     "selectedPermissions": "Quyền đã chọn",
     "addGroupPermissions": "Thêm quyền vào nhóm",
+    "addPermissionGroup": "Thêm nhóm quyền",
     "messages": {
       "nameIsRequired": "Tên là bắt buộc",
       "codeIsRequired": "Mã là bắt buộc",
@@ -581,7 +582,9 @@
       "createPermissionSuccess": "Quyền đã được tạo thành công",
       "createPermissionError": "Không thể tạo quyền",
       "updatePermissionGroupError": "Không thể cập nhật nhóm quyền",
-      "updatePermissionGroupSuccess": "Nhóm quyền đã được cập nhật thành công"
+      "updatePermissionGroupSuccess": "Nhóm quyền đã được cập nhật thành công",
+      "addPermissionGroupSuccess": "Nhóm quyền đã được tạo thành công",
+      "addPermissionGroupError": "Không thể tạo nhóm quyền"
     }
   },
   "store": {

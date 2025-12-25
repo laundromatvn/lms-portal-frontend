@@ -582,6 +582,7 @@
     "availablePermissions": "Available Permissions",
     "selectedPermissions": "Selected Permissions",
     "addGroupPermissions": "Add Group Permissions",
+    "addPermissionGroup": "Add Permission Group",
     "messages": {
       "nameIsRequired": "Name is required",
       "codeIsRequired": "Code is required",
@@ -589,7 +590,9 @@
       "createPermissionSuccess": "Permission created successfully",
       "createPermissionError": "Failed to create permission",
       "updatePermissionGroupError": "Failed to update permission group",
-      "updatePermissionGroupSuccess": "Permission group updated successfully"
+      "updatePermissionGroupSuccess": "Permission group updated successfully",
+      "addPermissionGroupSuccess": "Permission group created successfully",
+      "addPermissionGroupError": "Failed to create permission group"
     }
   },
   "store": {
