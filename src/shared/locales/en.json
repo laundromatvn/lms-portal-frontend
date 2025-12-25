@@ -273,7 +273,10 @@
     "more": "More",
     "enable": "Enable",
     "disable": "Disable",
-    "permissions": "Permissions"
+    "permissions": "Permissions",
+    "isDefault": "Is Default",
+    "intervalCount": "Interval Count",
+    "interval": "Interval"
   },
   "navigation": {
     "overview": "Overview",
@@ -298,7 +301,8 @@
     "firmware": "Firmware",
     "permissions": "Permissions",
     "groupPermissions": "Group Permissions",
-    "tenants": "Tenants"
+    "tenants": "Tenants",
+    "subscriptionPlans": "Subscription Plans"
   },
   "messages": {
     "incorrectCredentials": "Incorrect credentials",
@@ -583,6 +587,9 @@
     "selectedPermissions": "Selected Permissions",
     "addGroupPermissions": "Add Group Permissions",
     "addPermissionGroup": "Add Permission Group",
+    "subscriptionPlan": {
+      "isDefault": "Is Default"
+    },
     "messages": {
       "nameIsRequired": "Name is required",
       "codeIsRequired": "Code is required",
@@ -669,5 +676,35 @@
   },
   "machine": {
     "machineStatusTimeline": "Machine Status Timeline"
+  },
+  "subscriptionPlan": {
+    "basicInformation": "Basic Information",
+    "pricingConfiguration": "Pricing Configuration",
+    "permissionGroup": "Permission Group",
+    "name": "Name",
+    "description": "Description",
+    "isEnabled": "Is Enabled",
+    "isDefault": "Is Default",
+    "price": "Price",
+    "type": "Type",
+    "interval": "Repeat Interval (period)",
+    "intervalCount": "Repeat Interval (period)",
+    "trialPeriodCount": "Trial Period (period)",
+    "permissionGroupId": "Permission Group ID",
+    "permissionGroupName": "Permission Group Name",
+    "recurring": "Recurring",
+    "oneTime": "One Time",
+    "month": "Month",
+    "year": "Year",
+    "priceIsRequired": "Price is required",
+    "typeIsRequired": "Type is required",
+    "intervalCountIsRequired": "Interval count is required",
+    "trialPeriodCountIsRequired": "Trial period is required",
+    "permissionGroupIdIsRequired": "Permission group id is required",
+    "permissionGroupNameIsRequired": "Permission group name is required",
+    "messages": {
+      "addSubscriptionPlanSuccess": "Subscription plan created successfully",
+      "addSubscriptionPlanError": "Failed to create subscription plan"
+    }
   }
 }

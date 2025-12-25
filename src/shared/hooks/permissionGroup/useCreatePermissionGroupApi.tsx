@@ -5,7 +5,6 @@ import { getBackendUrl } from '@shared/utils/env'
 import { type ApiState } from '@shared/hooks/types'
 
 import axiosClient from '@core/axiosClient'
-import { type PermissionGroup } from '@shared/types/PermissionGroup';
 
 export type CreatePermissionGroupPayload = {
   name?: string;

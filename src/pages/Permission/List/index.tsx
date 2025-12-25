@@ -14,10 +14,12 @@ import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 
 import { PermissionsSection } from './PermissionsSection';
 import { GroupPermissionsSection } from './GroupPermissionsSection';
+import { SubscriptionPlanSection } from './SubscriptionPlanSection';
 
 const TABS = {
   PERMISSIONS: 'permissions',
   GROUP_PERMISSIONS: 'group_permissions',
+  SUBSCRIPTION_PLANS: 'subscription_plans',
 }
 
 export const PermissionListPage: React.FC = () => {
@@ -28,6 +30,10 @@ export const PermissionListPage: React.FC = () => {
 
   const segmentedOptions = [
     {
+      label: t('navigation.subscriptionPlans'),
+      value: TABS.SUBSCRIPTION_PLANS,
+    },
+    {
       label: t('navigation.groupPermissions'),
       value: TABS.GROUP_PERMISSIONS,
     },
@@ -37,7 +43,7 @@ export const PermissionListPage: React.FC = () => {
     },
   ];
 
-  const [selectedTab, setSelectedTab] = useState<string>(TABS.GROUP_PERMISSIONS);
+  const [selectedTab, setSelectedTab] = useState<string>(TABS.SUBSCRIPTION_PLANS);
 
   return (
     <PortalLayoutV2
@@ -68,6 +74,10 @@ export const PermissionListPage: React.FC = () => {
 
         {selectedTab === TABS.PERMISSIONS && (
           <PermissionsSection />
+        )}
+
+        {selectedTab === TABS.SUBSCRIPTION_PLANS && (
+          <SubscriptionPlanSection />
         )}
       </Flex>
     </PortalLayoutV2>

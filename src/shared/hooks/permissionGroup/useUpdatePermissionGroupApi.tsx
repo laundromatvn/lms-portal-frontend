@@ -3,7 +3,6 @@ import { useCallback, useState } from 'react'
 import { getBackendUrl } from '@shared/utils/env'
 
 import { type ApiState } from '@shared/hooks/types'
-import { type PermissionGroup } from '@shared/types/PermissionGroup';
 
 import axiosClient from '@core/axiosClient'
 

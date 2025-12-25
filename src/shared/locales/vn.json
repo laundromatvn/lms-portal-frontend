@@ -273,7 +273,10 @@
     "more": "Xem thêm",
     "enable": "Kích hoạt",
     "disable": "Tắt hoạt động",
-    "permissions": "Quyền"
+    "permissions": "Quyền",
+    "isDefault": "Là mặc định",
+    "intervalCount": "Số khoảng",
+    "interval": "Khoảng"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -298,7 +301,8 @@
     "firmware": "Firmware",
     "permissions": "Permissions",
     "groupPermissions": "Group Permissions",
-    "tenants": "Tenants"
+    "tenants": "Tenants",
+    "subscriptionPlans": "Subscription Plans"
   },
   "messages": {
     "incorrectCredentials": "Thông tin đăng nhập không chính xác",
@@ -575,6 +579,9 @@
     "selectedPermissions": "Quyền đã chọn",
     "addGroupPermissions": "Thêm quyền vào nhóm",
     "addPermissionGroup": "Thêm nhóm quyền",
+    "subscriptionPlan": {
+      "isDefault": "Đặt làm mặc định"
+    },
     "messages": {
       "nameIsRequired": "Tên là bắt buộc",
       "codeIsRequired": "Mã là bắt buộc",
@@ -660,5 +667,35 @@
   },
   "machine": {
     "machineStatusTimeline": "Timeline Trạng thái Máy"
+  },
+  "subscriptionPlan": {
+    "basicInformation": "Thông tin cơ bản",
+    "pricingConfiguration": "Cấu hình giá",
+    "permissionGroup": "Nhóm quyền",
+    "name": "Tên",
+    "description": "Mô tả",
+    "isEnabled": "Trạng thái hoạt động",
+    "isDefault": "Đặt làm mặc định",
+    "price": "Giá",
+    "type": "Loại",
+    "interval": "Loại lặp lại (kỳ)",
+    "intervalCount": "Thời gian lặp lại (kỳ)",
+    "trialPeriodCount": "Thời gian thử (kỳ)",
+    "permissionGroupId": "ID nhóm quyền",
+    "permissionGroupName": "Tên nhóm quyền",
+    "recurring": "Lặp lại",
+    "oneTime": "Một lần",
+    "month": "Tháng",
+    "year": "Năm",
+    "priceIsRequired": "Giá là bắt buộc",
+    "typeIsRequired": "Loại là bắt buộc",
+    "intervalCountIsRequired": "Thời gian lặp lại (kỳ) là bắt buộc",
+    "trialPeriodCountIsRequired": "Thời gian thử (kỳ) là bắt buộc",
+    "permissionGroupIdIsRequired": "ID nhóm quyền là bắt buộc",
+    "permissionGroupNameIsRequired": "Tên nhóm quyền là bắt buộc",
+    "messages": {
+      "addSubscriptionPlanSuccess": "Kế hoạch đăng ký đã được tạo thành công",
+      "addSubscriptionPlanError": "Không thể tạo kế hoạch đăng ký"
+    }
   }
 }
