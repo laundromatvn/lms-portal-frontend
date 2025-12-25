@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import {
   Button,
@@ -8,20 +9,15 @@ import {
   Table,
   notification,
   Typography,
-  Dropdown,
 } from 'antd';
 import { type ColumnsType } from 'antd/es/table';
 
 import {
   SearchOutlined,
+  PlusOutlined,
 } from '@ant-design/icons';
-import {
-  MenuDots,
-  TrashBinTrash,
-} from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
-import { useCan } from '@shared/hooks/useCan';
 
 import {
   useListGroupPermissionsApi,
@@ -40,10 +36,10 @@ interface Props {
   loading?: boolean;
 }
 
-export const DesktopView: React.FC<Props> = ({ permissionGroup, loading }) => {
+export const DesktopView: React.FC<Props> = ({ permissionGroup }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const theme = useTheme();
-  const can = useCan();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -90,41 +86,8 @@ export const DesktopView: React.FC<Props> = ({ permissionGroup, loading }) => {
       render: (_: string, record: any) => (
         <DynamicTag value={record.is_enabled ? 'enabled' : 'disabled'} type="text" />
       ),
-    },
-    {
-      title: t('common.actions'),
-      dataIndex: 'actions',
-      key: 'actions',
-      render: (_: string, record: any) => (
-        <Dropdown
-          menu={{
-            items: [
-              {
-                key: 'delete',
-                label: t('common.delete'),
-                icon: <TrashBinTrash />,
-                style: { color: theme.custom.colors.danger.default },
-                disabled: !canDeleteGroupPermission(permissionGroup, record),
-              },
-            ],
-          }}
-        > 
-          <Button type="text" icon={<MenuDots weight="Bold" />} />
-        </Dropdown>
-      ),
-    },
+    }
   ];
-
-  const canDeleteGroupPermission = (
-    permissionGroup: PermissionGroup | null,
-    permission: Permission,
-  ) => {
-    if (!can('permission_group.delete')) return false;
-    if (!permissionGroup) return false;
-    if (!permission) return false;
-
-    return true;
-  }
 
   const handleListGroupPermissions = () => {
     if (!permissionGroup) return;
@@ -163,7 +126,10 @@ export const DesktopView: React.FC<Props> = ({ permissionGroup, loading }) => {
   }, [filters]);
 
   return (
-    <BaseDetailSection title={t('navigation.permissions')}>
+    <BaseDetailSection
+      title={t('navigation.permissions')}
+      onRefresh={handleListGroupPermissions}
+    >
       {contextHolder}
 
       <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
@@ -179,6 +145,17 @@ export const DesktopView: React.FC<Props> = ({ permissionGroup, loading }) => {
             color: theme.custom.colors.neutral.default,
           }}
         />
+
+        <Button
+          icon={<PlusOutlined />}
+          onClick={() => navigate(`/permission-groups/${permissionGroup?.id}/add-permissions`)}
+          style={{
+            backgroundColor: theme.custom.colors.background.light,
+            color: theme.custom.colors.neutral.default,
+          }}
+        >
+            {t('permission.addPermissions')}
+          </Button>
       </Flex>
 
       <Table
@@ -195,36 +172,32 @@ export const DesktopView: React.FC<Props> = ({ permissionGroup, loading }) => {
           pageSize: filters.page_size,
           current: filters.page,
           total: listGroupPermissionsData?.total,
-          style: { color: theme.custom.colors.text.tertiary },
           showSizeChanger: true,
-          showQuickJumper: false,
           showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+          style: { color: theme.custom.colors.text.tertiary },
           onChange: (page, pageSize) => {
-            setFilters({ ...filters, page, page_size: pageSize });
-          },
-          onShowSizeChange: (_page, newPageSize) => {
-            setFilters({ ...filters, page: 1, page_size: newPageSize });
+            setFilters({
+              ...filters,
+              page,
+              page_size: pageSize,
+            });
           },
         }}
         onChange={(pagination, _filters, sorter) => {
-          const newFilters: ListGroupPermissionsRequest = {
-            ...filters,
-            page: pagination.current || 1,
-            page_size: pagination.pageSize || 10,
-          };
-
           if (sorter && !Array.isArray(sorter)) {
             const field = ('field' in sorter && sorter.field) || ('columnKey' in sorter && sorter.columnKey);
             if (field && sorter.order) {
-              newFilters.order_by = field as string;
-              newFilters.order_direction = sorter.order === 'ascend' ? 'asc' : 'desc';
+              setFilters({ ...filters, order_by: field as string, order_direction: sorter.order === 'ascend' ? 'asc' : 'desc' });
             } else if (sorter.order === null || sorter.order === undefined) {
-              newFilters.order_by = undefined;
-              newFilters.order_direction = undefined;
+              setFilters({ ...filters, order_by: undefined, order_direction: undefined });
             }
           }
 
-          setFilters(newFilters);
+          setFilters({
+            ...filters,
+            page: pagination.current || 1,
+            page_size: pagination.pageSize || 5,
+          });
         }}
         onRow={() => {
           return {

@@ -413,7 +413,8 @@
     "isEnabledIsRequired": "Is enabled is required",
     "youDoNotHavePermissionToAccessThisPage": "You do not have permission to access this page",
     "selectNotificationType": "Select Notification Type",
-    "comingSoon": "This feature is coming soon"
+    "comingSoon": "This feature is coming soon",
+    "thisFeatureIsNotAvailableOnMobile": "This feature is not available on mobile"
   },
   "overview": {
     "keyMetrics": {
@@ -570,6 +571,7 @@
   "permission": {
     "addNewPermission": "Add New Permission",
     "editPermission": "Edit Permission",
+    "addPermissions": "Add Permissions",
     "name": "Name",
     "code": "Code",
     "description": "Description",
@@ -577,6 +579,9 @@
     "create": "Create",
     "cancel": "Cancel",
     "save": "Save",
+    "availablePermissions": "Available Permissions",
+    "selectedPermissions": "Selected Permissions",
+    "addGroupPermissions": "Add Group Permissions",
     "messages": {
       "nameIsRequired": "Name is required",
       "codeIsRequired": "Code is required",

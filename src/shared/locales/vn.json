@@ -410,7 +410,8 @@
     "isEnabledIsRequired": "Trạng thái hoạt động là bắt buộc",
     "youDoNotHavePermissionToAccessThisPage": "Bạn không có quyền truy cập trang này",
     "selectNotificationType": "Chọn loại thông báo",
-    "comingSoon": "Tính năng này sẽ được cập nhật sớm"
+    "comingSoon": "Tính năng này sẽ được cập nhật sớm",
+    "thisFeatureIsNotAvailableOnMobile": "Tính năng này không khả dụng trên thiết bị di động"
   },
   "overview": {
     "keyMetrics": {
@@ -562,6 +563,7 @@
   "permission": {
     "addNewPermission": "Tạo quyền mới",
     "editPermission": "Sửa quyền",
+    "addPermissions": "Thêm quyền",
     "name": "Tên",
     "code": "Mã",
     "description": "Mô tả",
@@ -569,6 +571,9 @@
     "create": "Tạo",
     "cancel": "Hủy",
     "save": "Lưu",
+    "availablePermissions": "Quyền có sẵn",
+    "selectedPermissions": "Quyền đã chọn",
+    "addGroupPermissions": "Thêm quyền vào nhóm",
     "messages": {
       "nameIsRequired": "Tên là bắt buộc",
       "codeIsRequired": "Mã là bắt buộc",

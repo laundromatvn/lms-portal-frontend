@@ -7,16 +7,13 @@ import {
   List,
   notification,
   Typography,
-  Button,
 } from 'antd';
 
 import {
   SearchOutlined,
 } from '@ant-design/icons';
-import { TrashBinTrash } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
-import { useCan } from '@shared/hooks/useCan';
 
 import {
   useListGroupPermissionsApi,
@@ -25,7 +22,6 @@ import {
 } from '@shared/hooks/permissionGroup/useListGroupPermissionsApi';
 
 import { type PermissionGroup } from '@shared/types/PermissionGroup';
-import { type Permission } from '@shared/types/Permission';
 
 import { DynamicTag } from '@shared/components/DynamicTag';
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
@@ -35,10 +31,9 @@ interface Props {
   loading?: boolean;
 }
 
-export const MobileView: React.FC<Props> = ({ permissionGroup, loading }) => {
+export const MobileView: React.FC<Props> = ({ permissionGroup }) => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const can = useCan();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -69,17 +64,6 @@ export const MobileView: React.FC<Props> = ({ permissionGroup, loading }) => {
       order_direction: filters.order_direction,
     });
   };
-
-  const canDeleteGroupPermission = (
-    permissionGroup: PermissionGroup | null,
-    permission: Permission,
-  ) => {
-    if (!can('permission_group.delete')) return false;
-    if (!permissionGroup) return false;
-    if (!permission) return false;
-
-    return true;
-  }
 
   useEffect(() => {
     if (listGroupPermissionsError) {
@@ -182,22 +166,6 @@ export const MobileView: React.FC<Props> = ({ permissionGroup, loading }) => {
             <Typography.Text type="secondary">
               {item.description}
             </Typography.Text>
-
-            <Flex justify="end" gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
-              {canDeleteGroupPermission(permissionGroup, item) && (
-                <Button
-                  type="text"
-                  icon={<TrashBinTrash />}
-                  style={{
-                    color: theme.custom.colors.danger.default,
-                    backgroundColor: theme.custom.colors.danger.light,
-                    border: 'none',
-                  }}
-                >
-                  {t('common.delete')}
-                </Button>
-              )}
-            </Flex>
           </List.Item>
         )}
 
