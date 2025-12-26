@@ -48,8 +48,6 @@ export const SubscriptionPlanAddPage: React.FC = () => {
     createSubscriptionPlan({
       name: form.getFieldValue('name'),
       description: form.getFieldValue('description'),
-      is_enabled: form.getFieldValue('is_enabled') || true,
-      is_default: form.getFieldValue('is_default') || false,
       price: form.getFieldValue('price'),
       type: form.getFieldValue('type'),
       interval: form.getFieldValue('interval'),
@@ -67,7 +65,7 @@ export const SubscriptionPlanAddPage: React.FC = () => {
 
       const timer = setTimeout(() => {
         navigate("/permissions");
-      }, 2000);
+      }, 1500);
 
       return () => clearTimeout(timer);
     }

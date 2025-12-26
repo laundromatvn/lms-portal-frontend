@@ -167,7 +167,6 @@ export const FirmwareDetailPage: React.FC = () => {
         style={{ width: '100%' }}
       >
         <Segmented
-          size="large"
           options={segmentedOptions}
           value={selectedTab}
           onChange={(value) => setSelectedTab(value)}

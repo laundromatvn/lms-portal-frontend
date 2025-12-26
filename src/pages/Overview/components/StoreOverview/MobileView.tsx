@@ -89,7 +89,6 @@ export const MobileView: React.FC<Props> = ({
       />
 
       <Segmented
-        size="large"
         options={filteredTabOptions}
         value={selectedTab}
         onChange={(value) => {

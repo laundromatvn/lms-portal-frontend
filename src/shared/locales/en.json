@@ -700,7 +700,9 @@
       "addSubscriptionPlanSuccess": "Subscription plan created successfully",
       "addSubscriptionPlanError": "Failed to create subscription plan",
       "updateSubscriptionPlanSuccess": "Subscription plan updated successfully",
-      "updateSubscriptionPlanError": "Failed to update subscription plan"
+      "updateSubscriptionPlanError": "Failed to update subscription plan",
+      "deleteSubscriptionPlanSuccess": "Subscription plan deleted successfully",
+      "deleteSubscriptionPlanError": "Failed to delete subscription plan"
     }
   }
 }

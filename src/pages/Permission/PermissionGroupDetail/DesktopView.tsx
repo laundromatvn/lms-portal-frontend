@@ -84,7 +84,7 @@ export const DesktopView: React.FC = () => {
 
       const timer = setTimeout(() => {
         navigate("/permissions");
-      }, 2000);
+      }, 1500);
 
       return () => clearTimeout(timer);
     }

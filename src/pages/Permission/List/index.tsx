@@ -50,15 +50,19 @@ export const PermissionListPage: React.FC = () => {
       title={t('navigation.permissionsAndSubscriptionPlans')}
       onBack={() => navigate(-1)}
     >
-      <Flex justify={isMobile ? 'flex-end' : 'flex-start'}>
+      <Flex style={{ 
+        width: '100%',
+        justifyContent: isMobile ? 'flex-end' : 'flex-start',
+      }}>
         <Segmented
-          size="large"
           options={segmentedOptions}
           value={selectedTab}
           onChange={(value) => setSelectedTab(value)}
           style={{
             backgroundColor: theme.custom.colors.background.light,
-            padding: theme.custom.spacing.xxsmall,
+            padding: theme.custom.spacing.xsmall,
+            paddingBottom: theme.custom.spacing.small,
+            overflowX: 'auto',
           }}
         />
       </Flex>

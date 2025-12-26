@@ -61,7 +61,7 @@ export const PermissionGroupEditPage: React.FC = () => {
 
       const timer = setTimeout(() => {
         navigate(`/permission-groups/${permissionGroupId}/detail`);
-      }, 2000);
+      }, 1500);
   
       return () => clearTimeout(timer);
     }

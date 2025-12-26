@@ -43,7 +43,7 @@ export const PermissionGroupAddPage: React.FC = () => {
 
       const timer = setTimeout(() => {
         navigate("/permissions");
-      }, 2000);
+      }, 1500);
   
       return () => clearTimeout(timer);
     }

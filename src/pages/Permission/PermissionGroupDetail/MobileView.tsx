@@ -102,7 +102,7 @@ export const MobileView: React.FC = () => {
 
       const timer = setTimeout(() => {
         navigate("/permissions");
-      }, 2000);
+      }, 1500);
 
       return () => clearTimeout(timer);
     }
@@ -123,7 +123,6 @@ export const MobileView: React.FC = () => {
 
       <Flex justify="end" style={{ width: '100%' }}>
         <Segmented
-          size="large"
           options={segmentedOptions}
           value={selectedTab}
           onChange={(value) => setSelectedTab(value)}

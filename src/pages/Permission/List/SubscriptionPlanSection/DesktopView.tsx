@@ -10,6 +10,7 @@ import {
   Input,
   Switch,
   Typography,
+  notification,
 } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
@@ -23,12 +24,18 @@ import {
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useCan } from '@shared/hooks/useCan';
 
 import {
   useListSubscriptionPlanApi,
   type ListSubscriptionPlanResponse,
   type ListSubscriptionPlanRequest,
 } from '@shared/hooks/subscription_plan/useListSubscriptionPlanApi';
+
+import {
+  useDeleteSubscriptionPlanApi,
+  type DeleteSubscriptionPlanResponse,
+} from '@shared/hooks/subscription_plan/useDeleteSubscriptionPlanApi';
 
 import { type SubscriptionPlan } from '@shared/types/SubscriptionPlan';
 
@@ -40,6 +47,9 @@ export const DesktopView: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
+  const can = useCan();
+
+  const [api, contextHolder] = notification.useNotification();
 
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<ListSubscriptionPlanRequest>({
@@ -55,6 +65,12 @@ export const DesktopView: React.FC = () => {
     data: listSubscriptionPlanData,
     loading: listSubscriptionPlanLoading,
   } = useListSubscriptionPlanApi<ListSubscriptionPlanResponse>();
+
+  const {
+    deleteSubscriptionPlan,
+    data: deleteSubscriptionPlanData,
+    error: deleteSubscriptionPlanError,
+  } = useDeleteSubscriptionPlanApi<DeleteSubscriptionPlanResponse>();
 
   const columns: ColumnsType<SubscriptionPlan> = [
     {
@@ -143,6 +159,8 @@ export const DesktopView: React.FC = () => {
                 key: 'delete',
                 label: t('common.delete'),
                 icon: <TrashBinTrash />,
+                onClick: () => deleteSubscriptionPlan(record.id),
+                disabled: !can('subscription_plan.delete'),
                 style: {
                   color: theme.custom.colors.danger.default,
                 },
@@ -159,6 +177,24 @@ export const DesktopView: React.FC = () => {
   const handleListSubscriptionPlan = () => {
     listSubscriptionPlan(filters);
   };
+
+  useEffect(() => {
+    if (deleteSubscriptionPlanError) {
+      api.error({
+        message: t('subscriptionPlan.messages.deleteSubscriptionPlanError'),
+      });
+    }
+  }, [deleteSubscriptionPlanError]);
+
+  useEffect(() => {
+    if (deleteSubscriptionPlanData) {
+      api.success({
+        message: t('subscriptionPlan.messages.deleteSubscriptionPlanSuccess'),
+      });
+
+      handleListSubscriptionPlan();
+    }
+  }, [deleteSubscriptionPlanData]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -180,6 +216,8 @@ export const DesktopView: React.FC = () => {
     <BaseDetailSection
       title={t('navigation.subscriptionPlans')}
     >
+      {contextHolder}
+
       <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
         <Input
           placeholder={t('common.search')}

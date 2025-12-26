@@ -75,6 +75,8 @@ import {
 
 import {
   SubscriptionPlanAddPage,
+  SubscriptionPlanEditPage,
+  SubscriptionPlanDetailPage,
 } from '@pages/SubscriptionPlan';
 
 import { type Route } from './index';
@@ -263,5 +265,13 @@ export const routes: Route[] = [
   {
     path: '/subscription-plans/add',
     component: <SubscriptionPlanAddPage />,
+  },
+  {
+    path: '/subscription-plans/:id/detail',
+    component: <SubscriptionPlanDetailPage />,
+  },
+  {
+    path: '/subscription-plans/:id/edit',
+    component: <SubscriptionPlanEditPage />,
   },
 ];

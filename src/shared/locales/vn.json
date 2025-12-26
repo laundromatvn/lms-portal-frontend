@@ -691,7 +691,9 @@
       "addSubscriptionPlanSuccess": "Gói đăng ký đã được tạo thành công",
       "addSubscriptionPlanError": "Không thể tạo gói đăng ký",
       "updateSubscriptionPlanSuccess": "Gói đăng ký đã được cập nhật thành công",
-      "updateSubscriptionPlanError": "Không thể cập nhật gói đăng ký"
+      "updateSubscriptionPlanError": "Không thể cập nhật gói đăng ký",
+      "deleteSubscriptionPlanSuccess": "Gói đăng ký đã được xóa thành công",
+      "deleteSubscriptionPlanError": "Không thể xóa gói đăng ký"
     }
   }
 }

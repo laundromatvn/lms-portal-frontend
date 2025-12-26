@@ -55,7 +55,6 @@ export const MobileView: React.FC<Props> = ({ store }) => {
     >
       <Flex vertical align="end" gap={theme.custom.spacing.medium}>
         <Segmented
-          size="large"
           options={filteredSegmentedOptions}
           value={selectedTab}
           onChange={(value) => {

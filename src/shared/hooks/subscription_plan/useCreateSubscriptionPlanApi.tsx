@@ -11,8 +11,6 @@ import axiosClient from '@core/axiosClient'
 export type CreateSubscriptionPlanPayload = {
   name: string;
   description: string | null;
-  is_enabled: boolean | null;
-  is_default: boolean | null;
   price: number;
   type: SubscriptionPlanTypeEnum;
   interval: SubscriptionPlanIntervalEnum | null;
