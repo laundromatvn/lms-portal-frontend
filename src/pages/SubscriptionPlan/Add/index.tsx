@@ -6,6 +6,7 @@ import {
   Flex,
   Button,
   Form,
+  Steps,
   type FormInstance,
   notification,
 } from 'antd';
@@ -86,8 +87,15 @@ export const SubscriptionPlanAddPage: React.FC = () => {
       onBack={() => navigate("/permissions")}
     >
       {contextHolder}
-      
-      <Flex justify="end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+
+      <Flex
+        justify="end"
+        gap={theme.custom.spacing.medium}
+        style={{
+          width: '100%',
+          marginTop: theme.custom.spacing.medium,
+        }}
+      >
         <Button
           icon={<PlusOutlined />}
           onClick={() => handleSave(form)}

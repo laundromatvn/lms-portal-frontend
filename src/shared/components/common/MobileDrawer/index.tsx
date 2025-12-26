@@ -24,7 +24,7 @@ import {
   Home,
   User as UserIcon,
   Sale,
-  ShieldCheck,
+  CheckSquare,
   ZipFile,
   Buildings2
 } from '@solar-icons/react'
@@ -143,7 +143,7 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
     },
     {
       key: 'permissions',
-      icon: <ShieldCheck />,
+      icon: <CheckSquare />,
       label: t('navigation.permissions'),
       permission: 'permission.list',
     },

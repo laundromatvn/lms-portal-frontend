@@ -47,7 +47,7 @@ export const PermissionListPage: React.FC = () => {
 
   return (
     <PortalLayoutV2
-      title={t('navigation.permissions')}
+      title={t('navigation.permissionsAndSubscriptionPlans')}
       onBack={() => navigate(-1)}
     >
       <Flex justify={isMobile ? 'flex-end' : 'flex-start'}>

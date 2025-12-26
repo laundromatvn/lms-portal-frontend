@@ -197,7 +197,7 @@ export const DesktopView: React.FC = () => {
               color: theme.custom.colors.neutral.default,
             }}
           >
-            {t('permission.addNewPermission')}
+            {t('common.add')}
           </Button>
         </Flex>
       </Flex>

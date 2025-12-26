@@ -302,7 +302,8 @@
     "permissions": "Permissions",
     "groupPermissions": "Group Permissions",
     "tenants": "Tenants",
-    "subscriptionPlans": "Subscription Plans"
+    "subscriptionPlans": "Subscription Plans",
+    "permissionsAndSubscriptionPlans": "Permissions & Subscriptions"
   },
   "messages": {
     "incorrectCredentials": "Incorrect credentials",
