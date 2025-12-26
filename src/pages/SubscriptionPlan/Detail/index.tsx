@@ -12,6 +12,7 @@ import {
 
 import {
   AltArrowDown,
+  CheckCircle,
   TrashBinTrash,
 } from '@solar-icons/react';
 
@@ -25,6 +26,10 @@ import {
   useDeleteSubscriptionPlanApi,
   type DeleteSubscriptionPlanResponse,
 } from '@shared/hooks/subscription_plan/useDeleteSubscriptionPlanApi';
+import {
+  useSetDefaultSubscriptionPlanApi,
+  type SetDefaultSubscriptionPlanResponse,
+} from '@shared/hooks/subscription_plan/useSetDefaultSubscriptionPlanApi';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 
@@ -70,6 +75,40 @@ export const SubscriptionPlanDetailPage: React.FC = () => {
     error: deleteSubscriptionPlanError,
   } = useDeleteSubscriptionPlanApi<DeleteSubscriptionPlanResponse>();
 
+  const {
+    setDefaultSubscriptionPlan,
+    data: setDefaultSubscriptionPlanData,
+    error: setDefaultSubscriptionPlanError,
+  } = useSetDefaultSubscriptionPlanApi<SetDefaultSubscriptionPlanResponse>();
+
+  const handleGetSubscriptionPlan = () => {
+    if (!subscriptionPlanId) return;
+
+    getSubscriptionPlan(subscriptionPlanId);
+  }
+
+  useEffect(() => {
+    if (setDefaultSubscriptionPlanError) {
+      api.error({
+        message: t('subscriptionPlan.messages.setDefaultSubscriptionPlanError'),
+      });
+    }
+  }, [setDefaultSubscriptionPlanError]);
+  
+  useEffect(() => {
+    if (setDefaultSubscriptionPlanData) {
+      api.success({
+        message: t('subscriptionPlan.messages.setDefaultSubscriptionPlanSuccess'),
+      });
+
+      const timer = setTimeout(() => {
+        handleGetSubscriptionPlan();
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [setDefaultSubscriptionPlanData]);
+
   useEffect(() => {
     if (deleteSubscriptionPlanError) {
       api.error({
@@ -93,9 +132,7 @@ export const SubscriptionPlanDetailPage: React.FC = () => {
   }, [deleteSubscriptionPlanData]);
 
   useEffect(() => {
-    if (subscriptionPlanId) {
-      getSubscriptionPlan(subscriptionPlanId);
-    }
+    handleGetSubscriptionPlan();
   }, [subscriptionPlanId]);
 
   return (
@@ -123,6 +160,12 @@ export const SubscriptionPlanDetailPage: React.FC = () => {
         <Dropdown
           menu={{
             items: [
+              {
+                label: t('subscriptionPlan.setDefault'),
+                key: 'setDefault',
+                icon: <CheckCircle />,
+                onClick: () => setDefaultSubscriptionPlan(subscriptionPlanId),
+              },
               {
                 label: t('common.delete'),
                 key: 'delete',

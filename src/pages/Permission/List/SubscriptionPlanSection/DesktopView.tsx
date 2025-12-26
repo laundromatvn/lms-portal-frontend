@@ -31,11 +31,18 @@ import {
   type ListSubscriptionPlanResponse,
   type ListSubscriptionPlanRequest,
 } from '@shared/hooks/subscription_plan/useListSubscriptionPlanApi';
-
 import {
   useDeleteSubscriptionPlanApi,
   type DeleteSubscriptionPlanResponse,
 } from '@shared/hooks/subscription_plan/useDeleteSubscriptionPlanApi';
+import {
+  useSetDefaultSubscriptionPlanApi,
+  type SetDefaultSubscriptionPlanResponse,
+} from '@shared/hooks/subscription_plan/useSetDefaultSubscriptionPlanApi';
+import {
+  useUpdateSubscriptionPlanApi,
+  type UpdateSubscriptionPlanResponse,
+} from '@shared/hooks/subscription_plan/useUpdateSubscriptionPlanApi';
 
 import { type SubscriptionPlan } from '@shared/types/SubscriptionPlan';
 
@@ -65,12 +72,21 @@ export const DesktopView: React.FC = () => {
     data: listSubscriptionPlanData,
     loading: listSubscriptionPlanLoading,
   } = useListSubscriptionPlanApi<ListSubscriptionPlanResponse>();
-
   const {
     deleteSubscriptionPlan,
     data: deleteSubscriptionPlanData,
     error: deleteSubscriptionPlanError,
   } = useDeleteSubscriptionPlanApi<DeleteSubscriptionPlanResponse>();
+  const {
+    setDefaultSubscriptionPlan,
+    data: setDefaultSubscriptionPlanData,
+    error: setDefaultSubscriptionPlanError,
+  } = useSetDefaultSubscriptionPlanApi<SetDefaultSubscriptionPlanResponse>();
+  const {
+    updateSubscriptionPlan,
+    data: updateSubscriptionPlanData,
+    error: updateSubscriptionPlanError,
+  } = useUpdateSubscriptionPlanApi<UpdateSubscriptionPlanResponse>();
 
   const columns: ColumnsType<SubscriptionPlan> = [
     {
@@ -92,7 +108,10 @@ export const DesktopView: React.FC = () => {
       key: 'is_enabled',
       width: 128,
       render: (_: string, record: any) => (
-        <Switch checked={record.is_enabled} disabled/>
+        <Switch
+          checked={record.is_enabled}
+          onChange={() => updateSubscriptionPlan(record.id, { is_enabled: !record.is_enabled })}
+        />
       ),
     },
     {
@@ -101,7 +120,10 @@ export const DesktopView: React.FC = () => {
       key: 'is_default',
       width: 128,
       render: (_: string, record: any) => (
-        <Switch checked={record.is_default} disabled/>
+        <Switch
+          checked={record.is_default}
+          onChange={() => setDefaultSubscriptionPlan(record.id)}
+        />
       ),
     },
     {
@@ -177,6 +199,42 @@ export const DesktopView: React.FC = () => {
   const handleListSubscriptionPlan = () => {
     listSubscriptionPlan(filters);
   };
+
+  useEffect(() => {
+    if (updateSubscriptionPlanError) {
+      api.error({
+        message: t('subscriptionPlan.messages.updateSubscriptionPlanError'),
+      });
+    }
+  }, [updateSubscriptionPlanError]);
+
+  useEffect(() => {
+    if (updateSubscriptionPlanData) {
+      api.success({
+        message: t('subscriptionPlan.messages.updateSubscriptionPlanSuccess'),
+      });
+
+      handleListSubscriptionPlan();
+    }
+  }, [updateSubscriptionPlanData]);
+
+  useEffect(() => {
+    if (setDefaultSubscriptionPlanError) {
+      api.error({
+        message: t('subscriptionPlan.messages.setDefaultSubscriptionPlanError'),
+      });
+    }
+  }, [setDefaultSubscriptionPlanError]);
+
+  useEffect(() => {
+    if (setDefaultSubscriptionPlanData) {
+      api.success({
+        message: t('subscriptionPlan.messages.setDefaultSubscriptionPlanSuccess'),
+      });
+
+      handleListSubscriptionPlan();
+    }
+  }, [setDefaultSubscriptionPlanData]);
 
   useEffect(() => {
     if (deleteSubscriptionPlanError) {

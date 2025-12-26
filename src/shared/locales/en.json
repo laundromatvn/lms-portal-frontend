@@ -685,6 +685,7 @@
     "basicInformation": "Basic Information",
     "pricingConfiguration": "Pricing Configuration",
     "permissionGroup": "Permission Group",
+    "setDefault": "Set as default",
     "name": "Name",
     "isEnabled": "Is Enabled",
     "isDefault": "Is Default",
@@ -702,7 +703,9 @@
       "updateSubscriptionPlanSuccess": "Subscription plan updated successfully",
       "updateSubscriptionPlanError": "Failed to update subscription plan",
       "deleteSubscriptionPlanSuccess": "Subscription plan deleted successfully",
-      "deleteSubscriptionPlanError": "Failed to delete subscription plan"
+      "deleteSubscriptionPlanError": "Failed to delete subscription plan",
+      "setDefaultSubscriptionPlanSuccess": "Subscription plan set as default successfully",
+      "setDefaultSubscriptionPlanError": "Failed to set subscription plan as default"
     }
   }
 }

@@ -675,6 +675,7 @@
   "subscriptionPlan": {
     "basicInformation": "Thông tin gói",
     "pricingConfiguration": "Cấu hình gói",
+    "setDefault": "Đặt làm mặc định",
     "permissionGroup": "Nhóm quyền",
     "name": "Tên",
     "isEnabled": "Đang hoạt động",
@@ -693,7 +694,9 @@
       "updateSubscriptionPlanSuccess": "Gói đăng ký đã được cập nhật thành công",
       "updateSubscriptionPlanError": "Không thể cập nhật gói đăng ký",
       "deleteSubscriptionPlanSuccess": "Gói đăng ký đã được xóa thành công",
-      "deleteSubscriptionPlanError": "Không thể xóa gói đăng ký"
+      "deleteSubscriptionPlanError": "Không thể xóa gói đăng ký",
+      "setDefaultSubscriptionPlanSuccess": "Gói đăng ký đã được đặt làm mặc định thành công",
+      "setDefaultSubscriptionPlanError": "Không thể đặt gói đăng ký làm mặc định"
     }
   }
 }

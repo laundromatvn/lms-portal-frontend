@@ -13,7 +13,6 @@ export type UpdateSubscriptionPlanPayload = {
   name?: string;
   description?: string;
   is_enabled? : boolean;
-  is_default? : boolean;
   price?: number;
   type?: SubscriptionPlanTypeEnum;
   interval?: SubscriptionPlanIntervalEnum;
