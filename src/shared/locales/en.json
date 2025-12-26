@@ -702,6 +702,23 @@
     "upgrade": "Upgrade",
     "upgradeYourSubscriptionPlan": "Upgrade Your Subscription Plan",
     "upgradeYourSubscriptionPlanDescription": "Please select the subscription plan you want to upgrade",
+    "pricePerInterval": "/{{count}} {{interval}}",
+    "getStarted": "Get Started",
+    "selectSubscriptionPlan": "Select Subscription Plan",
+    "selectSubscriptionPlanDescription": "Please select the subscription plan you want to upgrade",
+    "current": "current",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "trialEndDate": "Trial End Date",
+    "nextRenewalDate": "Next Renewal Date",
+    "status": "Status",
+    "statuses": {
+      "PENDING": "Pending",
+      "ACTIVE": "Active",
+      "CANCELLED": "Cancelled",
+      "PAST_DUE": "Past Due",
+      "EXPIRED": "Expired"
+    },
     "messages": {
       "addSubscriptionPlanSuccess": "Subscription plan created successfully",
       "addSubscriptionPlanError": "Failed to create subscription plan",
@@ -710,7 +727,10 @@
       "deleteSubscriptionPlanSuccess": "Subscription plan deleted successfully",
       "deleteSubscriptionPlanError": "Failed to delete subscription plan",
       "setDefaultSubscriptionPlanSuccess": "Subscription plan set as default successfully",
-      "setDefaultSubscriptionPlanError": "Failed to set subscription plan as default"
+      "setDefaultSubscriptionPlanError": "Failed to set subscription plan as default",
+      "youAreAlreadyUsingThisSubscriptionPlan": "You are already using this subscription plan",
+      "createTenantSubscriptionPlanSuccess": "Subscription plan created successfully",
+      "createTenantSubscriptionPlanError": "Failed to create subscription plan"
     }
   }
 }

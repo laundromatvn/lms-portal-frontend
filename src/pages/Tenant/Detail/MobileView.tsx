@@ -19,13 +19,21 @@ import { type Tenant } from '@shared/types/tenant';
 
 import {
   InfoCircle,
-  UsersGroupTwoRounded
+  UsersGroupTwoRounded,
+  CheckSquare,
 } from '@solar-icons/react';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 
 import { InformationTab } from './components/InformationTab';
 import { MemberTab } from './components/MemberTab';
+import { SubscriptionPlanTab } from './components/SubscriptionPlanTab';
+
+const TABS = {
+  INFORMATION: 'information',
+  MEMBERS: 'members',
+  SUBSCRIPTION_PLAN: 'subscriptionPlan',
+}
 
 export const MobileView: React.FC = () => {
   const { t } = useTranslation();
@@ -39,17 +47,22 @@ export const MobileView: React.FC = () => {
   const segmentedOptions = [
     {
       label: t('tenant.detail.information'),
-      value: 'information',
+      value: TABS.INFORMATION,
       icon: <InfoCircle />,
     },
     {
       label: t('tenant.detail.members'),
-      value: 'members',
+      value: TABS.MEMBERS,
       icon: <UsersGroupTwoRounded />,
+    },
+    {
+      label: t('tenant.detail.subscriptionPlan'),
+      value: TABS.SUBSCRIPTION_PLAN,
+      icon: <CheckSquare />,
     },
   ]
 
-  const [selectedTab, setSelectedTab] = useState<string>(segmentedOptions[0].value);
+  const [selectedTab, setSelectedTab] = useState<string>(TABS.INFORMATION);
 
   const {
     getTenant,
@@ -85,14 +98,16 @@ export const MobileView: React.FC = () => {
           onChange={(value) => setSelectedTab(value)}
           style={{
             backgroundColor: theme.custom.colors.background.light,
-            padding: theme.custom.spacing.xxsmall,
+            padding: theme.custom.spacing.xsmall,
+            overflowX: 'auto',
           }}
         />
       </Flex>
 
       <Flex vertical gap={theme.custom.spacing.medium} style={{ width: '100%', marginTop: theme.custom.spacing.small }}>
-        {selectedTab === 'information' && <InformationTab tenant={tenantData as Tenant} />}
-        {selectedTab === 'members' && <MemberTab tenant={tenantData as Tenant} />}
+        {selectedTab === TABS.INFORMATION && <InformationTab tenant={tenantData as Tenant} />}
+        {selectedTab === TABS.MEMBERS && <MemberTab tenant={tenantData as Tenant} />}
+        {selectedTab === TABS.SUBSCRIPTION_PLAN && <SubscriptionPlanTab tenant={tenantData as Tenant} />}
       </Flex>
     </PortalLayoutV2>
   );

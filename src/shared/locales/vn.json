@@ -693,6 +693,23 @@
     "upgrade": "Nâng cấp",
     "upgradeYourSubscriptionPlan": "Nâng cấp Gói Đăng Ký",
     "upgradeYourSubscriptionPlanDescription": "Vui lòng chọn gói đăng ký bạn muốn nâng cấp",
+    "pricePerInterval": "/{{count}} {{interval}}",
+    "getStarted": "Bắt đầu ngay",
+    "selectSubscriptionPlan": "Chọn gói đăng ký",
+    "selectSubscriptionPlanDescription": "Vui lòng chọn gói đăng ký bạn muốn nâng cấp",
+    "current": "Đang sử dụng",
+    "startDate": "Ngày bắt đầu",
+    "endDate": "Ngày kết thúc",
+    "trialEndDate": "Ngày kết thúc dùng thử",
+    "nextRenewalDate": "Ngày gia hạn",
+    "status": "Trạng thái",
+    "statuses": {
+      "PENDING": "Chờ xử lý",
+      "ACTIVE": "Đang sử dụng",
+      "CANCELLED": "Đã hủy",
+      "PAST_DUE": "Quá hạn",
+      "EXPIRED": "Hết hạn"
+    },
     "messages": {
       "addSubscriptionPlanSuccess": "Gói đăng ký đã được tạo thành công",
       "addSubscriptionPlanError": "Không thể tạo gói đăng ký",
@@ -701,7 +718,10 @@
       "deleteSubscriptionPlanSuccess": "Gói đăng ký đã được xóa thành công",
       "deleteSubscriptionPlanError": "Không thể xóa gói đăng ký",
       "setDefaultSubscriptionPlanSuccess": "Gói đăng ký đã được đặt làm mặc định thành công",
-      "setDefaultSubscriptionPlanError": "Không thể đặt gói đăng ký làm mặc định"
+      "setDefaultSubscriptionPlanError": "Không thể đặt gói đăng ký làm mặc định",
+      "youAreAlreadyUsingThisSubscriptionPlan": "Bạn đã đang sử dụng gói đăng ký này",
+      "createTenantSubscriptionPlanSuccess": "Gói đăng ký đã được tạo thành công",
+      "createTenantSubscriptionPlanError": "Không thể tạo gói đăng ký"
     }
   }
 }

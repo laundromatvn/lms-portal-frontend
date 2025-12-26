@@ -4,12 +4,12 @@ import { useCallback, useState } from 'react'
 import { getBackendUrl } from '@shared/utils/env'
 import { type ApiState } from '@shared/hooks/types'
 
-import { type SubscriptionPlan } from '@shared/types/SubscriptionPlan';
+import { type Subscription } from '@shared/types/Subscription';
 
-export type GetTenantActiveSubscriptionPlanResponse = SubscriptionPlan;
+export type GetTenantActiveSubscriptionPlanResponse = Subscription;
 
 export async function getTenantActiveSubscriptionPlanApi(tenantId: string): Promise<GetTenantActiveSubscriptionPlanResponse> {
-  const url = `${getBackendUrl()}/api/v1/tenant/${tenantId}/subscription-plan`
+  const url = `${getBackendUrl()}/api/v1/tenant/${tenantId}/subscription`
 
   const res = await axiosClient.get<GetTenantActiveSubscriptionPlanResponse>(
     url.replace(getBackendUrl(), ''),
