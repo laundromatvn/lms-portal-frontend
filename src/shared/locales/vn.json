@@ -690,6 +690,9 @@
     "oneTime": "Một lần",
     "month": "Tháng",
     "year": "Năm",
+    "upgrade": "Nâng cấp",
+    "upgradeYourSubscriptionPlan": "Nâng cấp Gói Đăng Ký",
+    "upgradeYourSubscriptionPlanDescription": "Vui lòng chọn gói đăng ký bạn muốn nâng cấp",
     "messages": {
       "addSubscriptionPlanSuccess": "Gói đăng ký đã được tạo thành công",
       "addSubscriptionPlanError": "Không thể tạo gói đăng ký",

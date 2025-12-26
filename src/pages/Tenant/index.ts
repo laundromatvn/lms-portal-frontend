@@ -4,3 +4,4 @@ export * from './Edit';
 export * from './List';
 export * from './Add';
 export * from './Detail';
+export * from './UpgradeSubscriptionPlan';

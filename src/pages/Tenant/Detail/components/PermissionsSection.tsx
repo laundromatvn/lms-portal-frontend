@@ -15,27 +15,26 @@ import {
 import { useTheme } from '@shared/theme/useTheme';
 
 import {
-  useListSubscriptionPlanPermissionsApi,
-  type ListSubscriptionPlanPermissionsRequest,
-  type ListSubscriptionPlanPermissionsResponse,
-} from '@shared/hooks/subscription_plan/useListSubscriptionPlanPermissionsApi';
+  useGetTenantPermissionsApi,
+  type GetTenantPermissionsRequest,
+  type GetTenantPermissionsResponse,
+} from '@shared/hooks/tenant/useGetTenantPermissionsApi';
 
-import { type SubscriptionPlan } from '@shared/types/SubscriptionPlan';
+import { type Tenant } from '@shared/types/tenant';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
 interface Props {
-  subscriptionPlan: SubscriptionPlan | null;
-  loading?: boolean;
+  tenant: Tenant;
 }
 
-export const PermissionsSection: React.FC<Props> = ({ subscriptionPlan, loading }) => {
+export const PermissionsSection: React.FC<Props> = ({ tenant }) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
   const [debouncedSearch, setDebouncedSearch] = useState('');
-  const [filters, setFilters] = useState<ListSubscriptionPlanPermissionsRequest>({
+  const [filters, setFilters] = useState<GetTenantPermissionsRequest>({
     page: 1,
     page_size: 5,
     search: '',
@@ -44,15 +43,15 @@ export const PermissionsSection: React.FC<Props> = ({ subscriptionPlan, loading 
   });
 
   const {
-    listSubscriptionPlanPermissions,
-    data: listSubscriptionPlanPermissionsData,
-    loading: listSubscriptionPlanPermissionsLoading,
-  } = useListSubscriptionPlanPermissionsApi<ListSubscriptionPlanPermissionsResponse>();
+    getTenantPermissions,
+    data: getTenantPermissionsData,
+    loading: getTenantPermissionsLoading,
+  } = useGetTenantPermissionsApi<GetTenantPermissionsResponse>();
 
-  const handleListSubscriptionPlanPermissions = () => {
-    if (!subscriptionPlan) return;
+  const handleGetTenantPermissions = () => {
+    if (!tenant.id) return;
 
-    listSubscriptionPlanPermissions(subscriptionPlan.id, filters);
+    getTenantPermissions(tenant.id, filters);
   };
 
   useEffect(() => {
@@ -64,14 +63,13 @@ export const PermissionsSection: React.FC<Props> = ({ subscriptionPlan, loading 
   }, [debouncedSearch]);
 
   useEffect(() => {
-    handleListSubscriptionPlanPermissions();
+    handleGetTenantPermissions();
   }, [filters]);
 
   return (
     <BaseDetailSection
       title={t('navigation.permissions')}
-      loading={loading}
-      onRefresh={handleListSubscriptionPlanPermissions}
+      onRefresh={handleGetTenantPermissions}
     >
       <Flex justify="flex-start" align="center" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
         <Input
@@ -89,13 +87,13 @@ export const PermissionsSection: React.FC<Props> = ({ subscriptionPlan, loading 
       </Flex>
 
       <List
-        dataSource={listSubscriptionPlanPermissionsData?.data}
-        loading={listSubscriptionPlanPermissionsLoading}
+        dataSource={getTenantPermissionsData?.data}
+        loading={getTenantPermissionsLoading}
         style={{ width: '100%' }}
         pagination={{
           pageSize: filters.page_size,
           current: filters.page,
-          total: listSubscriptionPlanPermissionsData?.total,
+          total: getTenantPermissionsData?.total,
           showSizeChanger: true,
           showQuickJumper: false,
           style: { color: theme.custom.colors.text.tertiary },

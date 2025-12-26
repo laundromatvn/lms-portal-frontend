@@ -38,6 +38,7 @@ import {
   TenantProfilePage,
   TenantMemberListPage,
   TenantEditPage,
+  UpgradeSubscriptionPlanPage,
 } from '@pages/Tenant';
 
 import {
@@ -206,6 +207,10 @@ export const routes: Route[] = [
   {
     path: '/tenants/:id/edit',
     component: <TenantEditPage />,
+  },
+  {
+    path: '/tenants/:id/subscription-plan',
+    component: <UpgradeSubscriptionPlanPage />,
   },
   // Promotion Campaign
   {

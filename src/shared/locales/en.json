@@ -699,6 +699,9 @@
     "oneTime": "One-time",
     "month": "Month",
     "year": "Year",
+    "upgrade": "Upgrade",
+    "upgradeYourSubscriptionPlan": "Upgrade Your Subscription Plan",
+    "upgradeYourSubscriptionPlanDescription": "Please select the subscription plan you want to upgrade",
     "messages": {
       "addSubscriptionPlanSuccess": "Subscription plan created successfully",
       "addSubscriptionPlanError": "Failed to create subscription plan",
