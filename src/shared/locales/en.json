@@ -639,7 +639,8 @@
     "selectExistingUser": "Select existing user",
     "detail": {
       "information": "Information",
-      "members": "Members"
+      "members": "Members",
+      "subscriptionPlan": "Subscription Plan"
     },
     "members": {
       "addToStores": "Add to Stores",
@@ -664,7 +665,8 @@
       "listTenantMemberSuccess": "Tenant members listed successfully",
       "deleteTenantMemberSuccess": "Tenant member deleted successfully",
       "deleteTenantSuccess": "Tenant deleted successfully",
-      "deleteTenantError": "Failed to delete tenant"
+      "deleteTenantError": "Failed to delete tenant",
+      "subscriptionPlanNotFound": "Subscription plan not found"
     }
   },
   "firmware": {

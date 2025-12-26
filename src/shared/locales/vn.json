@@ -629,7 +629,8 @@
     "selectExistingUser": "Chọn người dùng có sẵn",
     "detail": {
       "information": "Thông tin",
-      "members": "Thành viên"
+      "members": "Thành viên",
+      "subscriptionPlan": "Gói đăng ký"
     },
     "members": {
       "addToStores": "Thêm vào cửa hàng",
@@ -654,7 +655,8 @@
       "listTenantMemberSuccess": "Danh sách thành viên tenant đã được lấy thành công",
       "deleteTenantMemberSuccess": "Thành viên tenant đã được xóa thành công",
       "deleteTenantSuccess": "Tenant đã được xóa thành công",
-      "deleteTenantError": "Không thể xóa tenant"
+      "deleteTenantError": "Không thể xóa tenant",
+      "subscriptionPlanNotFound": "Gói đăng ký không được tìm thấy"
     }
   },
   "firmware": {
