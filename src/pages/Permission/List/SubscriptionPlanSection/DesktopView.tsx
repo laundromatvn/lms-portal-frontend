@@ -33,7 +33,6 @@ import {
 import { type SubscriptionPlan } from '@shared/types/SubscriptionPlan';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
-import { DynamicTag } from '@shared/components/DynamicTag';
 
 import { formatCurrencyCompact } from '@shared/utils/currency';
 
@@ -42,6 +41,7 @@ export const DesktopView: React.FC = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
+  const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<ListSubscriptionPlanRequest>({
     page: 1,
     page_size: 10,
@@ -58,7 +58,7 @@ export const DesktopView: React.FC = () => {
 
   const columns: ColumnsType<SubscriptionPlan> = [
     {
-      title: t('common.name'),
+      title: t('subscriptionPlan.name'),
       dataIndex: 'name',
       key: 'name',
       width: 256,
@@ -71,25 +71,25 @@ export const DesktopView: React.FC = () => {
       ),
     },
     {
-      title: t('common.isEnabled'),
+      title: t('subscriptionPlan.isEnabled'),
       dataIndex: 'is_enabled',
       key: 'is_enabled',
       width: 128,
       render: (_: string, record: any) => (
-        <Switch checked={record.is_enabled} />
+        <Switch checked={record.is_enabled} disabled/>
       ),
     },
     {
-      title: t('common.isDefault'),
+      title: t('subscriptionPlan.isDefault'),
       dataIndex: 'is_default',
       key: 'is_default',
       width: 128,
       render: (_: string, record: any) => (
-        <Switch checked={record.is_default} />
+        <Switch checked={record.is_default} disabled/>
       ),
     },
     {
-      title: t('common.type'),
+      title: t('subscriptionPlan.type'),
       dataIndex: 'type',
       key: 'type',
       width: 128,
@@ -100,18 +100,18 @@ export const DesktopView: React.FC = () => {
       )
     },
     {
-      title: t('common.intervalCount'),
+      title: t('subscriptionPlan.intervalCount'),
       dataIndex: 'interval_count',
       key: 'interval_count',
-      width: 96,
+      width: 128,
       sorter: true,
       sortOrder: filters.order_by === 'interval_count' ? (filters.order_direction === 'asc' ? 'ascend' : 'descend') : undefined,
     },
     {
-      title: t('common.interval'),
+      title: t('subscriptionPlan.interval'),
       dataIndex: 'interval',
       key: 'interval',
-      width: 96,
+      width: 128,
       sorter: true,
       sortOrder: filters.order_by === 'interval' ? (filters.order_direction === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (_: string, record: any) => (
@@ -122,7 +122,7 @@ export const DesktopView: React.FC = () => {
       title: t('common.price'),
       dataIndex: 'price',
       key: 'price',
-      width: 96,
+      width: 128,
       sorter: true,
       sortOrder: filters.order_by === 'price' ? (filters.order_direction === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (_: string, record: any) => (
@@ -143,6 +143,9 @@ export const DesktopView: React.FC = () => {
                 key: 'delete',
                 label: t('common.delete'),
                 icon: <TrashBinTrash />,
+                style: {
+                  color: theme.custom.colors.danger.default,
+                },
               },
             ],
           }}
@@ -158,6 +161,18 @@ export const DesktopView: React.FC = () => {
   };
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setFilters((prev) => ({
+        ...prev,
+        search: search,
+        page: 1,
+      }));
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  useEffect(() => {
     handleListSubscriptionPlan();
   }, [filters]);
 
@@ -168,11 +183,7 @@ export const DesktopView: React.FC = () => {
       <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
         <Input
           placeholder={t('common.search')}
-          onChange={(e) => setFilters({
-            ...filters,
-            search: e.target.value,
-            page: 1,
-          })}
+          onChange={(e) => setSearch(e.target.value)}
           allowClear
           prefix={<SearchOutlined />}
           style={{

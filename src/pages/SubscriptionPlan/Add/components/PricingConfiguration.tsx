@@ -44,10 +44,10 @@ export const PricingConfiguration: React.FC<Props> = ({ form, onChange }) => {
         onValuesChange={(_, values) => onChange(values)}
       >
         <Form.Item
-          label={t('subscriptionPlan.price')}
+          label={t('common.price')}
           name="price"
           style={{ width: '100%' }}
-          rules={[{ required: true, message: t('subscriptionPlan.priceIsRequired') }]}
+          rules={[{ required: true, message: t('common.priceIsRequired') }]}
         >
           <InputNumber
             size="large"
@@ -65,7 +65,7 @@ export const PricingConfiguration: React.FC<Props> = ({ form, onChange }) => {
         </Form.Item>
 
         <Form.Item
-          label={t('subscriptionPlan.type')}
+          label={t('common.type')}
           name="type"
           style={{ width: '100%' }}
         >

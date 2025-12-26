@@ -61,10 +61,10 @@ export const PermissionGroup: React.FC<Props> = ({ form, onChange }) => {
         onValuesChange={(_, values) => onChange(values)}
       >
         <Form.Item
-          label={t('subscriptionPlan.permissionGroupId')}
+          label={t('permission.permissionGroup')}
           name="permission_group_id"
           style={{ width: '100%' }}
-          rules={[{ required: true, message: t('subscriptionPlan.permissionGroupIdIsRequired') }]}
+          rules={[{ required: true, message: t('permission.messages.permissionGroupIsRequired') }]}
         >
           <Select
             size="large"

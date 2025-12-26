@@ -565,6 +565,8 @@
     }
   },
   "permission": {
+    "permission": "Phân quyền",
+    "permissionGroup": "Nhóm quyền",
     "addNewPermission": "Tạo quyền mới",
     "editPermission": "Sửa quyền",
     "addPermissions": "Thêm quyền",
@@ -591,7 +593,8 @@
       "updatePermissionGroupError": "Không thể cập nhật nhóm quyền",
       "updatePermissionGroupSuccess": "Nhóm quyền đã được cập nhật thành công",
       "addPermissionGroupSuccess": "Nhóm quyền đã được tạo thành công",
-      "addPermissionGroupError": "Không thể tạo nhóm quyền"
+      "addPermissionGroupError": "Không thể tạo nhóm quyền",
+      "permissionGroupIsRequired": "Nhóm quyền là bắt buộc"
     }
   },
   "store": {
@@ -669,33 +672,25 @@
     "machineStatusTimeline": "Timeline Trạng thái Máy"
   },
   "subscriptionPlan": {
-    "basicInformation": "Thông tin cơ bản",
-    "pricingConfiguration": "Cấu hình giá",
+    "basicInformation": "Thông tin gói",
+    "pricingConfiguration": "Cấu hình gói",
     "permissionGroup": "Nhóm quyền",
     "name": "Tên",
-    "description": "Mô tả",
-    "isEnabled": "Trạng thái hoạt động",
-    "isDefault": "Đặt làm mặc định",
-    "price": "Giá",
-    "type": "Loại",
-    "interval": "Loại lặp lại (kỳ)",
-    "intervalCount": "Thời gian lặp lại (kỳ)",
-    "trialPeriodCount": "Thời gian thử (kỳ)",
-    "permissionGroupId": "ID nhóm quyền",
-    "permissionGroupName": "Tên nhóm quyền",
-    "recurring": "Lặp lại",
+    "isEnabled": "Đang hoạt động",
+    "isDefault": "Gói mặc định",
+    "type": "Billing type",
+    "interval": "Chu kỳ",
+    "intervalCount": "Số chu kỳ",
+    "trialPeriodCount": "Số chu kỳ dùng thử",
+    "recurring": "Định kỳ",
     "oneTime": "Một lần",
     "month": "Tháng",
     "year": "Năm",
-    "priceIsRequired": "Giá là bắt buộc",
-    "typeIsRequired": "Loại là bắt buộc",
-    "intervalCountIsRequired": "Thời gian lặp lại (kỳ) là bắt buộc",
-    "trialPeriodCountIsRequired": "Thời gian thử (kỳ) là bắt buộc",
-    "permissionGroupIdIsRequired": "ID nhóm quyền là bắt buộc",
-    "permissionGroupNameIsRequired": "Tên nhóm quyền là bắt buộc",
     "messages": {
-      "addSubscriptionPlanSuccess": "Kế hoạch đăng ký đã được tạo thành công",
-      "addSubscriptionPlanError": "Không thể tạo kế hoạch đăng ký"
+      "addSubscriptionPlanSuccess": "Gói đăng ký đã được tạo thành công",
+      "addSubscriptionPlanError": "Không thể tạo gói đăng ký",
+      "updateSubscriptionPlanSuccess": "Gói đăng ký đã được cập nhật thành công",
+      "updateSubscriptionPlanError": "Không thể cập nhật gói đăng ký"
     }
   }
 }

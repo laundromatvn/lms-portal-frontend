@@ -32,7 +32,7 @@ export const BasicInformation: React.FC<Props> = ({ form, onChange }) => {
   }, []);
 
   return (
-    <BaseEditSection title={t('common.basicInformation')}>
+    <BaseEditSection title={t('subscriptionPlan.basicInformation')}>
       <Form
         form={form}
         layout="vertical"
@@ -40,7 +40,7 @@ export const BasicInformation: React.FC<Props> = ({ form, onChange }) => {
         onValuesChange={(_, values) => onChange(values)}
       >
         <Form.Item
-          label={t('common.name')}
+          label={t('subscriptionPlan.name')}
           name="name"
           style={{ width: '100%' }}
           rules={[{ required: true, message: t('common.nameIsRequired') }]}
@@ -50,7 +50,7 @@ export const BasicInformation: React.FC<Props> = ({ form, onChange }) => {
 
         <Flex gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
           <Form.Item
-            label={t('common.isEnabled')}
+            label={t('subscriptionPlan.isEnabled')}
             name="is_enabled"
             style={{ width: '100%' }}
           >
@@ -60,7 +60,7 @@ export const BasicInformation: React.FC<Props> = ({ form, onChange }) => {
           </Form.Item>
 
           <Form.Item
-            label={t('permission.subscriptionPlan.isDefault')}
+            label={t('subscriptionPlan.isDefault')}
             name="is_default"
             style={{ width: '100%' }}
           >

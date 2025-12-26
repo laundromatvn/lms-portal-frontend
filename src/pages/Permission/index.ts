@@ -4,5 +4,3 @@ export * from './PermissionGroupDetail';
 export * from './PermissionGroupEdit';
 export * from './PermissionGroupAdd';
 export * from './AddGroupPermissions';
-
-export * from './SubscriptionPlanAdd';

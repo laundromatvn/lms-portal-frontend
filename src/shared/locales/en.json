@@ -573,6 +573,8 @@
     }
   },
   "permission": {
+    "permission": "Permission",
+    "permissionGroup": "Permission Group",
     "addNewPermission": "Add New Permission",
     "editPermission": "Edit Permission",
     "addPermissions": "Add Permissions",
@@ -599,7 +601,8 @@
       "updatePermissionGroupError": "Failed to update permission group",
       "updatePermissionGroupSuccess": "Permission group updated successfully",
       "addPermissionGroupSuccess": "Permission group created successfully",
-      "addPermissionGroupError": "Failed to create permission group"
+      "addPermissionGroupError": "Failed to create permission group",
+      "permissionGroupIsRequired": "Permission group is required"
     }
   },
   "store": {
@@ -682,29 +685,21 @@
     "pricingConfiguration": "Pricing Configuration",
     "permissionGroup": "Permission Group",
     "name": "Name",
-    "description": "Description",
     "isEnabled": "Is Enabled",
     "isDefault": "Is Default",
-    "price": "Price",
-    "type": "Type",
-    "interval": "Repeat Interval (period)",
-    "intervalCount": "Repeat Interval (period)",
-    "trialPeriodCount": "Trial Period (period)",
-    "permissionGroupId": "Permission Group ID",
-    "permissionGroupName": "Permission Group Name",
+    "type": "Billing type",
+    "interval": "Interval",
+    "intervalCount": "Number of intervals",
+    "trialPeriodCount": "Number of trial periods",
     "recurring": "Recurring",
-    "oneTime": "One Time",
+    "oneTime": "One-time",
     "month": "Month",
     "year": "Year",
-    "priceIsRequired": "Price is required",
-    "typeIsRequired": "Type is required",
-    "intervalCountIsRequired": "Interval count is required",
-    "trialPeriodCountIsRequired": "Trial period is required",
-    "permissionGroupIdIsRequired": "Permission group id is required",
-    "permissionGroupNameIsRequired": "Permission group name is required",
     "messages": {
       "addSubscriptionPlanSuccess": "Subscription plan created successfully",
-      "addSubscriptionPlanError": "Failed to create subscription plan"
+      "addSubscriptionPlanError": "Failed to create subscription plan",
+      "updateSubscriptionPlanSuccess": "Subscription plan updated successfully",
+      "updateSubscriptionPlanError": "Failed to update subscription plan"
     }
   }
 }

@@ -71,8 +71,11 @@ import {
   PermissionGroupEditPage,
   PermissionGroupAddPage,
   AddGroupPermissionsPage,
-  SubscriptionPlanAddPage,
 } from '@pages/Permission';
+
+import {
+  SubscriptionPlanAddPage,
+} from '@pages/SubscriptionPlan';
 
 import { type Route } from './index';
 

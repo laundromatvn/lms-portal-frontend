@@ -96,7 +96,7 @@ export const PortalLayoutV2: React.FC<Props> & {
           flex: 1,
           overflow: 'hidden',
           marginLeft: isMobile ? 0 : sidebarWidth,
-          paddingBottom: isMobile ? 32 : 0,
+          paddingBottom: 32,
           transition: 'margin-left 0.2s ease',
           backgroundColor: theme.custom.colors.background.surface,
         }}

@@ -32,7 +32,7 @@ export const SubscriptionPlanAddPage: React.FC = () => {
   const [api, contextHolder] = notification.useNotification();
 
   const [form] = Form.useForm();
-  
+
   const {
     createSubscriptionPlan,
     data: createSubscriptionPlanData,
@@ -40,7 +40,6 @@ export const SubscriptionPlanAddPage: React.FC = () => {
   } = useCreateSubscriptionPlanApi<CreateSubscriptionPlanResponse>();
 
   const handleChange = (values: any) => {
-    console.log(values);
     form.setFieldsValue(values);
   };
 
@@ -48,8 +47,8 @@ export const SubscriptionPlanAddPage: React.FC = () => {
     createSubscriptionPlan({
       name: form.getFieldValue('name'),
       description: form.getFieldValue('description'),
-      is_enabled: form.getFieldValue('is_enabled'),
-      is_default: form.getFieldValue('is_default'),
+      is_enabled: form.getFieldValue('is_enabled') || true,
+      is_default: form.getFieldValue('is_default') || false,
       price: form.getFieldValue('price'),
       type: form.getFieldValue('type'),
       interval: form.getFieldValue('interval'),
@@ -90,15 +89,26 @@ export const SubscriptionPlanAddPage: React.FC = () => {
       
       <Flex justify="end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
         <Button
-          type="primary"
           icon={<PlusOutlined />}
           onClick={() => handleSave(form)}
+          style={{
+            backgroundColor: theme.custom.colors.background.light,
+            color: theme.custom.colors.neutral.default,
+          }}
         >
           {t('common.save')}
         </Button>
       </Flex>
 
-      <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
+      <Flex
+        vertical={true}
+        gap={theme.custom.spacing.medium}
+        style={{
+          width: '100%',
+          height: '100%',
+          marginTop: theme.custom.spacing.medium,
+        }}
+      >
         <BasicInformation form={form} onChange={handleChange} />
 
         <PricingConfiguration form={form} onChange={handleChange} />

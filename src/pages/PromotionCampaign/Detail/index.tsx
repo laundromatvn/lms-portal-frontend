@@ -12,10 +12,7 @@ import {
 } from 'antd';
 
 import {
-  CaretDownFilled,
-} from '@ant-design/icons';
-
-import {
+  AltArrowDown,
   Calendar,
   PauseCircle,
   PlayCircle,
@@ -164,89 +161,77 @@ export const PromotionCampaignDetailPage: React.FC = () => {
   return (
     <PortalLayoutV2 title={getPromotionCampaignData?.name} onBack={() => navigate(-1)}>
       {contextHolder}
-
-      <Flex vertical gap={theme.custom.spacing.medium} style={{ height: '100%' }}>
-        <LeftRightSection
-          left={null}
-          right={!getPromotionCampaignLoading && getPromotionCampaignData ? (
-            <Dropdown
-              trigger={['click']}
-              disabled={getPromotionCampaignData?.status === PromotionCampaignStatusEnum.FINISHED}
-              menu={{
-                items: [
-                  {
-                    key: 'schedule',
-                    label: t('common.schedule'),
-                    onClick: () => schedulePromotionCampaign(promotionCampaignId),
-                    icon: <Calendar weight="Outline" size={18} />,
-                    style: {
-                      color: theme.custom.colors.info.default,
-                    },
-                    disabled: schedulePromotionCampaignLoading,
-                  },
-                  {
-                    key: 'pause',
-                    label: t('common.pause'),
-                    onClick: () => pausePromotionCampaign(promotionCampaignId),
-                    icon: <PauseCircle weight="Outline" size={18} />,
-                    style: {
-                      color: theme.custom.colors.warning.default,
-                    },
-                    disabled: pausePromotionCampaignLoading,
-                  },
-                  {
-                    key: 'resume',
-                    label: t('common.resume'),
-                    onClick: () => resumePromotionCampaign(promotionCampaignId),
-                    icon: <PlayCircle weight="Outline" size={18} />,
-                    style: {
-                      color: theme.custom.colors.success.default,
-                    },
-                    disabled: resumePromotionCampaignLoading,
-                  },
-                  {
-                    key: 'delete',
-                    label: t('common.delete'),
-                    onClick: () => deletePromotionCampaign(promotionCampaignId),
-                    icon: <TrashBinTrash weight="Outline" size={18} />,
-                    style: {
-                      color: theme.custom.colors.danger.default,
-                    },
-                    disabled: deletePromotionCampaignLoading,
-                  },
-                ] as MenuProps['items'],
+      {!getPromotionCampaignLoading && getPromotionCampaignData && (
+        <Flex justify="end" style={{ width: '100%' }}>
+          <Dropdown
+            trigger={['click']}
+            disabled={getPromotionCampaignData?.status === PromotionCampaignStatusEnum.FINISHED}
+            menu={{
+              items: [
+                {
+                  key: 'schedule',
+                  label: t('common.schedule'),
+                  onClick: () => schedulePromotionCampaign(promotionCampaignId),
+                  icon: <Calendar weight="Outline" />,
+                  disabled: schedulePromotionCampaignLoading,
+                },
+                {
+                  key: 'pause',
+                  label: t('common.pause'),
+                  onClick: () => pausePromotionCampaign(promotionCampaignId),
+                  icon: <PauseCircle weight="Outline" />,
+                  disabled: pausePromotionCampaignLoading,
+                },
+                {
+                  key: 'resume',
+                  label: t('common.resume'),
+                  onClick: () => resumePromotionCampaign(promotionCampaignId),
+                  icon: <PlayCircle weight="Outline" />,
+                  disabled: resumePromotionCampaignLoading,
+                },
+                {
+                  key: 'delete',
+                  label: t('common.delete'),
+                  onClick: () => deletePromotionCampaign(promotionCampaignId),
+                  icon: <TrashBinTrash weight="Outline" />,
+                  style: { color: theme.custom.colors.danger.default },
+                  disabled: deletePromotionCampaignLoading,
+                },
+              ] as MenuProps['items'],
+            }}
+          >
+            <Button
+              icon={<AltArrowDown />}
+              loading={
+                schedulePromotionCampaignLoading ||
+                pausePromotionCampaignLoading ||
+                resumePromotionCampaignLoading ||
+                deletePromotionCampaignLoading
+              }
+              style={{
+                backgroundColor: theme.custom.colors.background.light,
+                color: theme.custom.colors.neutral.default,
               }}
             >
-              <Button
-                type="default"
-                icon={<CaretDownFilled />}
-                loading={
-                  schedulePromotionCampaignLoading ||
-                  pausePromotionCampaignLoading ||
-                  resumePromotionCampaignLoading ||
-                  deletePromotionCampaignLoading
-                }
-                style={{
-                  backgroundColor: theme.custom.colors.background.light,
-                  color: theme.custom.colors.info.default,
-                }}
-              >
-                {t('common.actions')}
-              </Button>
-            </Dropdown>
-          ) : null}
-        />
+              {t('common.actions')}
+            </Button>
+          </Dropdown>
+        </Flex>
+      )}
 
-        {getPromotionCampaignLoading && <Skeleton active />}
+      {getPromotionCampaignLoading && <Skeleton active />}
 
-        {!getPromotionCampaignLoading && getPromotionCampaignData && (
-          <>
-            <DetailSection promotionCampaign={getPromotionCampaignData as PromotionCampaign} />
+      {!getPromotionCampaignLoading && getPromotionCampaignData && (
+        <Flex
+          vertical={true}
+          gap={theme.custom.spacing.medium}
+          style={{ width: '100%', height: '100%', marginTop: theme.custom.spacing.medium }}
+        >
+          <DetailSection promotionCampaign={getPromotionCampaignData as PromotionCampaign} />
 
-            <PromotionDetailSection promotionCampaign={getPromotionCampaignData as PromotionCampaign} />
-          </>
-        )}
-      </Flex>
+          <PromotionDetailSection promotionCampaign={getPromotionCampaignData as PromotionCampaign} />
+        </Flex>
+      )}
     </PortalLayoutV2>
   );
 };
