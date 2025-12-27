@@ -78,6 +78,7 @@ import {
   SubscriptionPlanAddPage,
   SubscriptionPlanEditPage,
   SubscriptionPlanDetailPage,
+  SubscriptionPlanListPage,
 } from '@pages/SubscriptionPlan';
 
 import { type Route } from './index';
@@ -266,6 +267,10 @@ export const routes: Route[] = [
   {
     path: '/permission-groups/:id/add-permissions',
     component: <AddGroupPermissionsPage />,
+  },
+  {
+    path: '/subscription-plans',
+    component: <SubscriptionPlanListPage />,
   },
   {
     path: '/subscription-plans/add',

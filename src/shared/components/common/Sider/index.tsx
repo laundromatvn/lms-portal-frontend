@@ -24,7 +24,8 @@ import {
   UsersGroupTwoRounded,
   User as UserIcon,
   ZipFile,
-  Buildings2
+  Buildings2,
+  Star,
 } from '@solar-icons/react'
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -143,8 +144,14 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
     {
       key: 'permissions',
       icon: <CheckSquare />,
-      label: t('navigation.permissionsAndSubscriptionPlans'),
+      label: t('navigation.permissions'),
       permission: 'permission.list',
+    },
+    {
+      key: 'subscription-plans',
+      icon: <Star />,
+      label: t('navigation.subscriptionPlans'),
+      permission: 'subscription_plan.list',
     },
     { type: 'divider' },
     {

@@ -12,15 +12,13 @@ import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 
-import { PermissionsSection } from './PermissionsSection';
-import { GroupPermissionsSection } from './GroupPermissionsSection';
+import { SubscriptionPlanSection } from './SubscriptionPlanSection';
 
 const TABS = {
-  PERMISSIONS: 'permissions',
-  GROUP_PERMISSIONS: 'group_permissions',
+  PLANS: 'plans',
 }
 
-export const PermissionListPage: React.FC = () => {
+export const SubscriptionPlanListPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -28,20 +26,16 @@ export const PermissionListPage: React.FC = () => {
 
   const segmentedOptions = [
     {
-      label: t('navigation.groupPermissions'),
-      value: TABS.GROUP_PERMISSIONS,
-    },
-    {
-      label: t('navigation.permissions'),
-      value: TABS.PERMISSIONS,
+      label: t('navigation.subscriptionPlans'),
+      value: TABS.PLANS,
     },
   ];
 
-  const [selectedTab, setSelectedTab] = useState<string>(TABS.GROUP_PERMISSIONS);
+  const [selectedTab, setSelectedTab] = useState<string>(TABS.PLANS);
 
   return (
     <PortalLayoutV2
-      title={t('navigation.permissions')}
+      title={t('navigation.permissionsAndSubscriptionPlans')}
       onBack={() => navigate(-1)}
     >
       <Flex style={{ 
@@ -66,12 +60,8 @@ export const PermissionListPage: React.FC = () => {
         gap={theme.custom.spacing.medium}
         style={{ width: '100%', marginTop: theme.custom.spacing.medium }}
       >
-        {selectedTab === TABS.GROUP_PERMISSIONS && (
-          <GroupPermissionsSection />
-        )}
-
-        {selectedTab === TABS.PERMISSIONS && (
-          <PermissionsSection />
+        {selectedTab === TABS.PLANS && (
+          <SubscriptionPlanSection />
         )}
       </Flex>
     </PortalLayoutV2>

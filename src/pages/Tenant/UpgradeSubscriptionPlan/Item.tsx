@@ -48,7 +48,6 @@ export const UpgradeSubscriptionPlanItem: React.FC<Props> = ({
   return (
     <Box
       vertical
-      onClick={() => onSelect(subscriptionPlan)}
       justify="space-between"
       style={{
         width: '100%',

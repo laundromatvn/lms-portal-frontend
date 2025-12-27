@@ -684,6 +684,8 @@
     "machineStatusTimeline": "Machine Status Timeline"
   },
   "subscriptionPlan": {
+    "plans": "Plans",
+    "billingHistory": "Billing History",
     "basicInformation": "Basic Information",
     "pricingConfiguration": "Pricing Configuration",
     "permissionGroup": "Permission Group",

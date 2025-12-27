@@ -64,7 +64,7 @@ export const SubscriptionPlanAddPage: React.FC = () => {
       });
 
       const timer = setTimeout(() => {
-        navigate("/permissions");
+        navigate("/subscription-plans");
       }, 1500);
 
       return () => clearTimeout(timer);
@@ -82,7 +82,7 @@ export const SubscriptionPlanAddPage: React.FC = () => {
   return (
     <PortalLayoutV2
       title={t('navigation.subscriptionPlans')}
-      onBack={() => navigate("/permissions")}
+      onBack={() => navigate("/subscription-plans")}
     >
       {contextHolder}
 
