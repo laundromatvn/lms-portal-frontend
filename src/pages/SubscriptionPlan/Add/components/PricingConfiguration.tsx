@@ -36,7 +36,7 @@ export const PricingConfiguration: React.FC<Props> = ({ form, onChange }) => {
   }, []);
 
   return (
-    <BaseEditSection title={t('subscriptionPlan.pricingConfiguration')}>
+    <BaseEditSection title={t('subscription.pricingConfiguration')}>
       <Form
         form={form}
         layout="vertical"
@@ -77,13 +77,13 @@ export const PricingConfiguration: React.FC<Props> = ({ form, onChange }) => {
             }}
             defaultValue={SubscriptionPlanTypeEnum.RECURRING}
             options={[
-              { label: t('subscriptionPlan.recurring'), value: SubscriptionPlanTypeEnum.RECURRING },
-              // { label: t('subscriptionPlan.oneTime'), value: SubscriptionPlanTypeEnum.ONE_TIME },
+              { label: t('subscription.recurring'), value: SubscriptionPlanTypeEnum.RECURRING },
+              // { label: t('subscription.oneTime'), value: SubscriptionPlanTypeEnum.ONE_TIME },
             ]}
           >
             {Object.values(SubscriptionPlanTypeEnum).map((type) => (
               <Select.Option key={type} value={type}>
-                {t(`subscriptionPlan.${type.toLowerCase()}`)}
+                {t(`subscription.${type.toLowerCase()}`)}
               </Select.Option>
             ))}
           </Select>
@@ -92,7 +92,7 @@ export const PricingConfiguration: React.FC<Props> = ({ form, onChange }) => {
         <Flex gap={theme.custom.spacing.small} style={{ width: '100%' }}>
           <Flex vertical gap={theme.custom.spacing.xsmall} style={{ width: '100%' }}>
             <Form.Item
-              label={t('subscriptionPlan.intervalCount')}
+              label={t('subscription.intervalCount')}
               name="interval_count"
               style={{ width: '100%' }}
             >
@@ -107,7 +107,7 @@ export const PricingConfiguration: React.FC<Props> = ({ form, onChange }) => {
             </Form.Item>
 
             <Form.Item
-              label={t('subscriptionPlan.trialPeriodCount')}
+              label={t('subscription.trialPeriodCount')}
               name="trial_period_count"
               style={{ width: '100%' }}
             >
@@ -123,7 +123,7 @@ export const PricingConfiguration: React.FC<Props> = ({ form, onChange }) => {
           </Flex>
 
           <Form.Item
-            label={t('subscriptionPlan.interval')}
+            label={t('subscription.interval')}
             name="interval"
             style={{ width: '100%' }}
           >
@@ -131,8 +131,8 @@ export const PricingConfiguration: React.FC<Props> = ({ form, onChange }) => {
               size="large"
               defaultValue={SubscriptionPlanIntervalEnum.MONTH}
               options={[
-                { label: t('subscriptionPlan.month'), value: SubscriptionPlanIntervalEnum.MONTH },
-                { label: t('subscriptionPlan.year'), value: SubscriptionPlanIntervalEnum.YEAR },
+                { label: t('subscription.month'), value: SubscriptionPlanIntervalEnum.MONTH },
+                { label: t('subscription.year'), value: SubscriptionPlanIntervalEnum.YEAR },
               ]}
               style={{
                 width: '100%',
@@ -141,7 +141,7 @@ export const PricingConfiguration: React.FC<Props> = ({ form, onChange }) => {
             >
               {Object.values(SubscriptionPlanIntervalEnum).map((interval) => (
                 <Select.Option key={interval} value={interval}>
-                  {t(`subscriptionPlan.${interval.toLowerCase()}`)}
+                  {t(`subscription.${interval.toLowerCase()}`)}
                 </Select.Option>
               ))}
             </Select>

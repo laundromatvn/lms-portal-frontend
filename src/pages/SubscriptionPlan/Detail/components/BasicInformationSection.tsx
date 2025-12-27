@@ -23,7 +23,7 @@ export const BasicInformationSection: React.FC<Props> = ({ subscriptionPlan, loa
 
   return (
     <BaseDetailSection
-      title={t('subscriptionPlan.basicInformation')}
+      title={t('subscription.basicInformation')}
       loading={loading}
       onEdit={() => navigate(`/subscription-plans/${subscriptionPlan?.id}/edit`)}
     >
@@ -39,13 +39,13 @@ export const BasicInformationSection: React.FC<Props> = ({ subscriptionPlan, loa
         </Typography.Text>
       </DataWrapper>
 
-      <DataWrapper title={t('subscriptionPlan.name')} value={subscriptionPlan?.name} />
+      <DataWrapper title={t('common.name')} value={subscriptionPlan?.name} />
 
-      <DataWrapper title={t('subscriptionPlan.isEnabled')}>
+      <DataWrapper title={t('subscription.isEnabled')}>
         <DynamicTag value={subscriptionPlan?.is_enabled ? 'enabled' : 'disabled'} />
       </DataWrapper>
 
-      <DataWrapper title={t('subscriptionPlan.isDefault')}>
+      <DataWrapper title={t('subscription.isDefault')}>
         <DynamicTag value={subscriptionPlan?.is_default ? 'enabled' : 'disabled'} />
       </DataWrapper>
 

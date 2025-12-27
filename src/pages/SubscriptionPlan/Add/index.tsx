@@ -60,7 +60,7 @@ export const SubscriptionPlanAddPage: React.FC = () => {
   useEffect(() => {
     if (createSubscriptionPlanData) {
       api.success({
-        message: t('subscriptionPlan.messages.addSubscriptionPlanSuccess'),
+        message: t('subscription.messages.addSubscriptionPlanSuccess'),
       });
 
       const timer = setTimeout(() => {
@@ -74,14 +74,14 @@ export const SubscriptionPlanAddPage: React.FC = () => {
   useEffect(() => {
     if (createSubscriptionPlanError) {
       api.error({
-        message: t('subscriptionPlan.messages.addSubscriptionPlanError'),
+        message: t('subscription.messages.addSubscriptionPlanError'),
       });
     }
   }, [createSubscriptionPlanError]);
 
   return (
     <PortalLayoutV2
-      title={t('navigation.subscriptionPlans')}
+      title={t('subscription.plans')}
       onBack={() => navigate("/subscription-plans")}
     >
       {contextHolder}

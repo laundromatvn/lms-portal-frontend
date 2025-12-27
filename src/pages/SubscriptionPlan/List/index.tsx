@@ -26,7 +26,7 @@ export const SubscriptionPlanListPage: React.FC = () => {
 
   const segmentedOptions = [
     {
-      label: t('navigation.subscriptionPlans'),
+      label: t('subscription.plans'),
       value: TABS.PLANS,
     },
   ];
@@ -35,7 +35,7 @@ export const SubscriptionPlanListPage: React.FC = () => {
 
   return (
     <PortalLayoutV2
-      title={t('navigation.permissionsAndSubscriptionPlans')}
+      title={t('subscription.plans')}
       onBack={() => navigate(-1)}
     >
       <Flex style={{ 

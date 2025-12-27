@@ -38,7 +38,7 @@ export const SubscriptionPlanTab: React.FC<Props> = ({ tenant }: Props) => {
             borderColor: theme.custom.colors.success.default,
           }}
         >
-          {t('subscriptionPlan.upgrade')}
+          {t('subscription.upgrade')}
         </Button> 
       </Flex>
 

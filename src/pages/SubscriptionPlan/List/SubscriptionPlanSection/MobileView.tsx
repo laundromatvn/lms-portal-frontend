@@ -10,7 +10,7 @@ export const MobileView: React.FC = () => {
 
   return (
     <BaseDetailSection
-      title={t('navigation.subscriptionPlans')}
+      title={t('navigation.subscriptions')}
     >
       <Typography.Text type="secondary">
         {t('messages.thisFeatureIsNotAvailableOnMobile')}

@@ -20,7 +20,7 @@ export const PricingConfigurationSection: React.FC<Props> = ({ subscriptionPlan,
 
   return (
     <BaseDetailSection
-      title={t('subscriptionPlan.pricingConfiguration')}
+      title={t('subscription.pricingConfiguration')}
       loading={loading}
       onEdit={() => navigate(`/subscription-plans/${subscriptionPlan?.id}/edit`)}
     >
@@ -30,17 +30,17 @@ export const PricingConfigurationSection: React.FC<Props> = ({ subscriptionPlan,
       />
 
       <DataWrapper
-        title={t('subscriptionPlan.type')}
-        value={t(`subscriptionPlan.${subscriptionPlan?.type.toLowerCase()}`)}
+        title={t('subscription.type')}
+        value={t(`subscription.${subscriptionPlan?.type.toLowerCase()}`)}
       />
 
       <DataWrapper
-        title={t('subscriptionPlan.interval')}
+        title={t('subscription.interval')}
         value={`${subscriptionPlan?.interval_count} (${t(`subscriptionPlan.${subscriptionPlan?.interval?.toLowerCase()}`)})`}
       />
 
       <DataWrapper
-        title={t('subscriptionPlan.trialPeriodCount')}
+        title={t('subscription.trialPeriodCount')}
         value={`${subscriptionPlan?.trial_period_count} (${t(`subscriptionPlan.${subscriptionPlan?.interval?.toLowerCase()}`)})`}
       />
     </BaseDetailSection>

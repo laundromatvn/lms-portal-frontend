@@ -67,7 +67,7 @@ export const UpgradeSubscriptionPlanItem: React.FC<Props> = ({
           {isCurrent && (
             <DynamicTag
               type="default"
-              value={t('subscriptionPlan.current')}
+              value={t('subscription.current')}
               color={theme.custom.colors.accent_1[400]}
             />
           )}
@@ -87,7 +87,7 @@ export const UpgradeSubscriptionPlanItem: React.FC<Props> = ({
             style={{
               fontSize: theme.custom.fontSize.small,
             }}>
-            {t('subscriptionPlan.pricePerInterval', { count: subscriptionPlan.interval_count || 0, interval: t(`subscriptionPlan.${subscriptionPlan.interval?.toLowerCase()}`) })}
+            {t('subscription.pricePerInterval', { count: subscriptionPlan.interval_count || 0, interval: t(`subscription.${subscriptionPlan.interval?.toLowerCase()}`) })}
           </Typography.Text>
         </Flex>
 
@@ -127,7 +127,7 @@ export const UpgradeSubscriptionPlanItem: React.FC<Props> = ({
             padding: theme.custom.spacing.large,
           }}
         >
-          {t('subscriptionPlan.getStarted')}
+          {t('subscription.getStarted')}
         </Button>
       </Flex>
     </Box>

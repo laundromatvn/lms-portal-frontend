@@ -32,7 +32,7 @@ export const BasicInformation: React.FC<Props> = ({ form, onChange }) => {
   }, []);
 
   return (
-    <BaseEditSection title={t('subscriptionPlan.basicInformation')}>
+    <BaseEditSection title={t('subscription.basicInformation')}>
       <Form
         form={form}
         layout="vertical"
@@ -40,7 +40,7 @@ export const BasicInformation: React.FC<Props> = ({ form, onChange }) => {
         onValuesChange={(_, values) => onChange(values)}
       >
         <Form.Item
-          label={t('subscriptionPlan.name')}
+          label={t('common.name')}
           name="name"
           style={{ width: '100%' }}
           rules={[{ required: true, message: t('common.nameIsRequired') }]}

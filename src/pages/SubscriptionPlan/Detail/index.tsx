@@ -52,7 +52,7 @@ export const SubscriptionPlanDetailPage: React.FC = () => {
 
   const tabs = [
     {
-      label: t('subscriptionPlan.basicInformation'),
+      label: t('subscription.basicInformation'),
       value: TABS.BASIC_INFORMATION,
     },
     {
@@ -90,7 +90,7 @@ export const SubscriptionPlanDetailPage: React.FC = () => {
   useEffect(() => {
     if (setDefaultSubscriptionPlanError) {
       api.error({
-        message: t('subscriptionPlan.messages.setDefaultSubscriptionPlanError'),
+        message: t('subscription.messages.setDefaultSubscriptionPlanError'),
       });
     }
   }, [setDefaultSubscriptionPlanError]);
@@ -98,7 +98,7 @@ export const SubscriptionPlanDetailPage: React.FC = () => {
   useEffect(() => {
     if (setDefaultSubscriptionPlanData) {
       api.success({
-        message: t('subscriptionPlan.messages.setDefaultSubscriptionPlanSuccess'),
+        message: t('subscription.messages.setDefaultSubscriptionPlanSuccess'),
       });
 
       const timer = setTimeout(() => {
@@ -112,7 +112,7 @@ export const SubscriptionPlanDetailPage: React.FC = () => {
   useEffect(() => {
     if (deleteSubscriptionPlanError) {
       api.error({
-        message: t('subscriptionPlan.messages.deleteSubscriptionPlanError'),
+        message: t('subscription.messages.deleteSubscriptionPlanError'),
       });
     }
   }, [deleteSubscriptionPlanError]);
@@ -120,7 +120,7 @@ export const SubscriptionPlanDetailPage: React.FC = () => {
   useEffect(() => {
     if (deleteSubscriptionPlanData) {
       api.success({
-        message: t('subscriptionPlan.messages.deleteSubscriptionPlanSuccess'),
+        message: t('subscription.messages.deleteSubscriptionPlanSuccess'),
       });
 
       const timer = setTimeout(() => {
@@ -137,7 +137,7 @@ export const SubscriptionPlanDetailPage: React.FC = () => {
 
   return (
     <PortalLayoutV2
-      title={t('navigation.subscriptionPlans')}
+      title={t('navigation.subscriptions')}
       onBack={() => navigate(-1)}
     >
       {contextHolder}
@@ -161,7 +161,7 @@ export const SubscriptionPlanDetailPage: React.FC = () => {
           menu={{
             items: [
               {
-                label: t('subscriptionPlan.setDefault'),
+                label: t('subscription.setDefault'),
                 key: 'setDefault',
                 icon: <CheckCircle />,
                 onClick: () => setDefaultSubscriptionPlan(subscriptionPlanId),

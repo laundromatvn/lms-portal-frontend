@@ -18,12 +18,12 @@ export const PermissionGroupSection: React.FC<Props> = ({ subscriptionPlan, load
 
   return (
     <BaseDetailSection
-      title={t('subscriptionPlan.permissionGroup')}
+      title={t('subscription.permissionGroup')}
       loading={loading}
       onEdit={() => navigate(`/subscription-plans/${subscriptionPlan?.id}/edit`)}
     >
       <DataWrapper
-        title={t('subscriptionPlan.permissionGroup')}
+        title={t('subscription.permissionGroup')}
         value={subscriptionPlan?.permission_group_name}
       />
     </BaseDetailSection>

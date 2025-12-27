@@ -53,7 +53,7 @@ export const PermissionGroup: React.FC<Props> = ({ form, onChange }) => {
   }, []);
 
   return (
-    <BaseEditSection title={t('subscriptionPlan.permissionGroup')}>
+    <BaseEditSection title={t('subscription.permissionGroup')}>
       <Form
         form={form}
         layout="vertical"
@@ -64,7 +64,7 @@ export const PermissionGroup: React.FC<Props> = ({ form, onChange }) => {
           label={t('permission.permissionGroup')}
           name="permission_group_id"
           style={{ width: '100%' }}
-          rules={[{ required: true, message: t('permission.messages.permissionGroupIsRequired') }]}
+          rules={[{ required: true, message: t('subscription.messages.permissionGroupIsRequired') }]}
         >
           <Select
             size="large"

@@ -18,15 +18,16 @@ import {
   Logout,
   Shop2,
   BoxMinimalistic,
-  Bill,
+  DollarCircle,
   Suitcase,
   UsersGroupTwoRounded,
   Home,
   User as UserIcon,
-  Sale,
+  SaleSquare,
   CheckSquare,
-  ZipFile,
-  Buildings2
+  Buildings2,
+  Library,
+  DollarMinimalistic
 } from '@solar-icons/react'
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -103,13 +104,13 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
     },
     {
       key: 'orders',
-      icon: <Bill />,
+      icon: <DollarMinimalistic />,
       label: t('navigation.orders'),
       permission: 'order.list',
     },
     {
       key: 'promotion-campaigns',
-      icon: <Sale />,
+      icon: <SaleSquare />,
       label: t('navigation.promotionCampaign'),
       permission: 'promotion_campaign.list',
     },
@@ -137,7 +138,7 @@ export const MobileDrawer: React.FC<Props> = ({ open, onClose }) => {
     },
     {
       key: 'firmware',
-      icon: <ZipFile />,
+      icon: <Library />,
       label: t('navigation.firmware'),
       permission: 'firmware.list',
     },

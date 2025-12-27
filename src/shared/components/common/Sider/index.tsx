@@ -17,15 +17,15 @@ import {
   Logout,
   Shop2,
   BoxMinimalistic,
-  Bill,
-  Sale,
+  DollarMinimalistic,
+  SaleSquare,
   CheckSquare,
   Suitcase,
   UsersGroupTwoRounded,
   User as UserIcon,
-  ZipFile,
   Buildings2,
   Star,
+  Library
 } from '@solar-icons/react'
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -103,13 +103,13 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
     },
     {
       key: 'orders',
-      icon: <Bill />,
+      icon: <DollarMinimalistic />,
       label: t('navigation.orders'),
       permission: 'order.list',
     },
     {
       key: 'promotion-campaigns',
-      icon: <Sale />,
+      icon: <SaleSquare />,
       label: t('navigation.promotionCampaign'),
       permission: 'promotion_campaign.list',
     },
@@ -137,7 +137,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
     },
     {
       key: 'firmware',
-      icon: <ZipFile />,
+      icon: <Library />,
       label: t('navigation.firmware'),
       permission: 'firmware.list',
     },
@@ -150,7 +150,7 @@ export const Sider: React.FC<Props> = ({ style, onCollapseChange }) => {
     {
       key: 'subscription-plans',
       icon: <Star />,
-      label: t('navigation.subscriptionPlans'),
+      label: t('navigation.subscriptions'),
       permission: 'subscription_plan.list',
     },
     { type: 'divider' },

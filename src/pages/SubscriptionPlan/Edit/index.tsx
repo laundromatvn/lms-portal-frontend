@@ -85,7 +85,7 @@ export const SubscriptionPlanEditPage: React.FC = () => {
   useEffect(() => {
     if (updateSubscriptionPlanError) {
       api.error({
-        message: t('subscriptionPlan.messages.updateSubscriptionPlanError'),
+        message: t('subscription.messages.updateSubscriptionPlanError'),
       });
     }
   }, [updateSubscriptionPlanError]);
@@ -93,7 +93,7 @@ export const SubscriptionPlanEditPage: React.FC = () => {
   useEffect(() => {
     if (updateSubscriptionPlanData) {
       api.success({
-        message: t('subscriptionPlan.messages.updateSubscriptionPlanSuccess'),
+        message: t('subscription.messages.updateSubscriptionPlanSuccess'),
       });
 
       const timer = setTimeout(() => {
@@ -111,7 +111,7 @@ export const SubscriptionPlanEditPage: React.FC = () => {
   }, [subscriptionPlanId]);
 
   return (
-    <PortalLayoutV2 title={t('navigation.subscriptionPlans')} onBack={() => navigate(-1)}>
+    <PortalLayoutV2 title={t('subscription.plans')} onBack={() => navigate(-1)}>
       {contextHolder}
 
       <Flex

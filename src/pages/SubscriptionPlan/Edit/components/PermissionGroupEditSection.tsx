@@ -47,7 +47,7 @@ export const PermissionGroupEditSection: React.FC<Props> = ({ form, onChange }) 
   }, [filters]);
 
   return (
-    <BaseEditSection title={t('subscriptionPlan.permissionGroup')}>
+    <BaseEditSection title={t('subscription.permissionGroup')}>
       <Form
         form={form}
         layout="vertical"

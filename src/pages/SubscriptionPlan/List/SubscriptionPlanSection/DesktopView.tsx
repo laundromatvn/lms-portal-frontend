@@ -90,7 +90,7 @@ export const DesktopView: React.FC = () => {
 
   const columns: ColumnsType<SubscriptionPlan> = [
     {
-      title: t('subscriptionPlan.name'),
+      title: t('common.name'),
       dataIndex: 'name',
       key: 'name',
       width: 256,
@@ -103,7 +103,7 @@ export const DesktopView: React.FC = () => {
       ),
     },
     {
-      title: t('subscriptionPlan.isEnabled'),
+      title: t('subscription.isEnabled'),
       dataIndex: 'is_enabled',
       key: 'is_enabled',
       width: 128,
@@ -115,7 +115,7 @@ export const DesktopView: React.FC = () => {
       ),
     },
     {
-      title: t('subscriptionPlan.isDefault'),
+      title: t('subscription.isDefault'),
       dataIndex: 'is_default',
       key: 'is_default',
       width: 128,
@@ -127,18 +127,18 @@ export const DesktopView: React.FC = () => {
       ),
     },
     {
-      title: t('subscriptionPlan.type'),
+      title: t('subscription.type'),
       dataIndex: 'type',
       key: 'type',
       width: 128,
       sorter: true,
       sortOrder: filters.order_by === 'type' ? (filters.order_direction === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (_: string, record: any) => (
-        <Typography.Text>{t(`subscriptionPlan.${record.type.toLowerCase()}`)}</Typography.Text>
+        <Typography.Text>{t(`subscription.${record.type.toLowerCase()}`)}</Typography.Text>
       )
     },
     {
-      title: t('subscriptionPlan.intervalCount'),
+      title: t('subscription.intervalCount'),
       dataIndex: 'interval_count',
       key: 'interval_count',
       width: 128,
@@ -146,14 +146,14 @@ export const DesktopView: React.FC = () => {
       sortOrder: filters.order_by === 'interval_count' ? (filters.order_direction === 'asc' ? 'ascend' : 'descend') : undefined,
     },
     {
-      title: t('subscriptionPlan.interval'),
+      title: t('subscription.interval'),
       dataIndex: 'interval',
       key: 'interval',
       width: 128,
       sorter: true,
       sortOrder: filters.order_by === 'interval' ? (filters.order_direction === 'asc' ? 'ascend' : 'descend') : undefined,
       render: (_: string, record: any) => (
-        <Typography.Text>{t(`subscriptionPlan.${record.interval.toLowerCase()}`)}</Typography.Text>
+        <Typography.Text>{t(`subscription.${record.interval.toLowerCase()}`)}</Typography.Text>
       ),
     },
     {
@@ -203,7 +203,7 @@ export const DesktopView: React.FC = () => {
   useEffect(() => {
     if (updateSubscriptionPlanError) {
       api.error({
-        message: t('subscriptionPlan.messages.updateSubscriptionPlanError'),
+        message: t('subscription.messages.updateSubscriptionPlanError'),
       });
     }
   }, [updateSubscriptionPlanError]);
@@ -211,7 +211,7 @@ export const DesktopView: React.FC = () => {
   useEffect(() => {
     if (updateSubscriptionPlanData) {
       api.success({
-        message: t('subscriptionPlan.messages.updateSubscriptionPlanSuccess'),
+        message: t('subscription.messages.updateSubscriptionPlanSuccess'),
       });
 
       handleListSubscriptionPlan();
@@ -221,7 +221,7 @@ export const DesktopView: React.FC = () => {
   useEffect(() => {
     if (setDefaultSubscriptionPlanError) {
       api.error({
-        message: t('subscriptionPlan.messages.setDefaultSubscriptionPlanError'),
+        message: t('subscription.messages.setDefaultSubscriptionPlanError'),
       });
     }
   }, [setDefaultSubscriptionPlanError]);
@@ -229,7 +229,7 @@ export const DesktopView: React.FC = () => {
   useEffect(() => {
     if (setDefaultSubscriptionPlanData) {
       api.success({
-        message: t('subscriptionPlan.messages.setDefaultSubscriptionPlanSuccess'),
+        message: t('subscription.messages.setDefaultSubscriptionPlanSuccess'),
       });
 
       handleListSubscriptionPlan();
@@ -239,7 +239,7 @@ export const DesktopView: React.FC = () => {
   useEffect(() => {
     if (deleteSubscriptionPlanError) {
       api.error({
-        message: t('subscriptionPlan.messages.deleteSubscriptionPlanError'),
+        message: t('subscription.messages.deleteSubscriptionPlanError'),
       });
     }
   }, [deleteSubscriptionPlanError]);
@@ -247,7 +247,7 @@ export const DesktopView: React.FC = () => {
   useEffect(() => {
     if (deleteSubscriptionPlanData) {
       api.success({
-        message: t('subscriptionPlan.messages.deleteSubscriptionPlanSuccess'),
+        message: t('subscription.messages.deleteSubscriptionPlanSuccess'),
       });
 
       handleListSubscriptionPlan();
@@ -272,7 +272,7 @@ export const DesktopView: React.FC = () => {
 
   return (
     <BaseDetailSection
-      title={t('navigation.subscriptionPlans')}
+      title={t('subscription.plans')}
     >
       {contextHolder}
 

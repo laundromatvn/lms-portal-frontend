@@ -53,7 +53,7 @@ export const SubscriptionPlanSection: React.FC<Props> = ({ tenant }) => {
 
   return (
     <BaseDetailSection
-      title={t('tenant.detail.subscriptionPlan')}
+      title={t('subscription.subscriptions')}
       onRefresh={handleGetTenantActiveSubscriptionPlan}
     >
       {!tenantActiveSubscriptionPlan && (
@@ -76,31 +76,31 @@ export const SubscriptionPlanSection: React.FC<Props> = ({ tenant }) => {
           </DataWrapper>
 
           <DataWrapper
-            title={t('subscriptionPlan.interval')}
+            title={t('subscription.interval')}
             value={`${subscriptionPlan?.interval_count} (${t(`subscriptionPlan.${subscriptionPlan?.interval?.toLowerCase()}`)})`}
           />
           
-          <DataWrapper title={t('subscriptionPlan.status')}>
+          <DataWrapper title={t('subscription.status')}>
             <DynamicTag value={subscription?.status || ''} />
           </DataWrapper>
 
           <DataWrapper
-            title={t('subscriptionPlan.trialEndDate')}
+            title={t('subscription.trialEndDate')}
             value={subscription?.trial_end_date ? formatDateTime(subscription.trial_end_date) : t('common.unknown')}
           />
 
           <DataWrapper
-            title={t('subscriptionPlan.nextRenewalDate')}
+            title={t('subscription.nextRenewalDate')}
             value={subscription?.next_renewal_date ? formatDateTime(subscription.next_renewal_date) : t('common.unknown')}
           />
 
           <DataWrapper
-            title={t('subscriptionPlan.startDate')}
+            title={t('subscription.startDate')}
             value={subscription?.start_date ? formatDateTime(subscription.start_date) : t('common.unknown')}
           />
 
           <DataWrapper
-            title={t('subscriptionPlan.endDate')}
+            title={t('subscription.endDate')}
             value={subscription?.end_date ? formatDateTime(subscription.end_date) : t('common.unknown')}
           />
         </>

@@ -19,7 +19,7 @@ export const BasicInformationEditSection: React.FC<Props> = ({ form, onChange })
   const { t } = useTranslation();
 
   return (
-    <BaseEditSection title={t('subscriptionPlan.basicInformation')}>
+    <BaseEditSection title={t('subscription.basicInformation')}>
       <Form
         form={form}
         layout="vertical"
@@ -27,7 +27,7 @@ export const BasicInformationEditSection: React.FC<Props> = ({ form, onChange })
         onValuesChange={(_, values) => onChange(values)}
       >
         <Form.Item
-          label={t('subscriptionPlan.name')}
+          label={t('common.name')}
           name="name"
           style={{ width: '100%' }}
           rules={[{ required: true, message: t('common.nameIsRequired') }]}
@@ -36,7 +36,7 @@ export const BasicInformationEditSection: React.FC<Props> = ({ form, onChange })
         </Form.Item>
 
         <Form.Item
-          label={t('subscriptionPlan.isEnabled')}
+          label={t('subscription.isEnabled')}
           name="is_enabled"
           style={{ width: '100%' }}
         >

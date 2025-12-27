@@ -32,7 +32,7 @@ import { SubscriptionPlanTab } from './components/SubscriptionPlanTab';
 const TABS = {
   INFORMATION: 'information',
   MEMBERS: 'members',
-  SUBSCRIPTION_PLAN: 'subscriptionPlan',
+  SUBSCRIPTION: 'subscription',
 }
 
 export const DesktopView: React.FC = () => {
@@ -56,8 +56,8 @@ export const DesktopView: React.FC = () => {
       icon: <UsersGroupTwoRounded />,
     },
     {
-      label: t('tenant.detail.subscriptionPlan'),
-      value: TABS.SUBSCRIPTION_PLAN,
+      label: t('subscription.subscriptions'),
+      value: TABS.SUBSCRIPTION,
       icon: <CheckSquare />,
     },
   ]
@@ -110,7 +110,7 @@ export const DesktopView: React.FC = () => {
       >
         {selectedTab === TABS.INFORMATION && <InformationTab tenant={tenantData as Tenant} />}
         {selectedTab === TABS.MEMBERS && <MemberTab tenant={tenantData as Tenant} />}
-        {selectedTab === TABS.SUBSCRIPTION_PLAN && <SubscriptionPlanTab tenant={tenantData as Tenant} />}
+        {selectedTab === TABS.SUBSCRIPTION && <SubscriptionPlanTab tenant={tenantData as Tenant} />}
       </Flex>
     </PortalLayoutV2>
   );

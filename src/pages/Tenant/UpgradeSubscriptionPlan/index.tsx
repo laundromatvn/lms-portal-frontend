@@ -59,7 +59,7 @@ export const UpgradeSubscriptionPlanPage: React.FC = () => {
   const handleUpgradeSubscriptionPlan = (subscriptionPlan: SubscriptionPlan) => {
     if (tenantActiveSubscriptionPlan?.id === subscriptionPlan.id) {
       api.error({
-        message: t('subscriptionPlan.messages.youAreAlreadyUsingThisSubscriptionPlan'),
+        message: t('subscription.messages.youAreAlreadyUsingThisSubscriptionPlan'),
       });
 
       return;
@@ -73,7 +73,7 @@ export const UpgradeSubscriptionPlanPage: React.FC = () => {
   useEffect(() => {
     if (createTenantSubscriptionPlanData) {
       api.success({
-        message: t('subscriptionPlan.messages.createTenantSubscriptionPlanSuccess'),
+        message: t('subscription.messages.createTenantSubscriptionPlanSuccess'),
       });
 
       const timer = setTimeout(() => {
@@ -87,7 +87,7 @@ export const UpgradeSubscriptionPlanPage: React.FC = () => {
   useEffect(() => {
     if (createTenantSubscriptionPlanError) {
       api.error({
-        message: t('subscriptionPlan.messages.createTenantSubscriptionPlanError'),
+        message: t('subscription.messages.createTenantSubscriptionPlanError'),
       });
     }
   }, [createTenantSubscriptionPlanError]);
@@ -99,17 +99,17 @@ export const UpgradeSubscriptionPlanPage: React.FC = () => {
 
   return (
     <PortalLayoutV2
-      title={t('subscriptionPlan.upgradeYourSubscriptionPlan')}
+      title={t('subscription.upgradeYourSubscriptionPlan')}
       onBack={() => navigate(-1)}
     >
       {contextHolder}
 
       <BaseDetailSection
-        title={t('subscriptionPlan.selectSubscriptionPlan')}
+        title={t('subscription.selectSubscriptionPlan')}
         loading={createTenantSubscriptionPlanLoading}
       >
         <Typography.Text type="secondary">
-          {t('subscriptionPlan.upgradeYourSubscriptionPlanDescription')}
+          {t('subscription.upgradeYourSubscriptionPlanDescription')}
         </Typography.Text>
 
         <Flex

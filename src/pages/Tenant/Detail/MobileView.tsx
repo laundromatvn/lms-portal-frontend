@@ -32,7 +32,7 @@ import { SubscriptionPlanTab } from './components/SubscriptionPlanTab';
 const TABS = {
   INFORMATION: 'information',
   MEMBERS: 'members',
-  SUBSCRIPTION_PLAN: 'subscriptionPlan',
+  SUBSCRIPTION: 'subscription',
 }
 
 export const MobileView: React.FC = () => {
@@ -56,8 +56,8 @@ export const MobileView: React.FC = () => {
       icon: <UsersGroupTwoRounded />,
     },
     {
-      label: t('tenant.detail.subscriptionPlan'),
-      value: TABS.SUBSCRIPTION_PLAN,
+      label: t('tenant.detail.subscription'),
+      value: TABS.SUBSCRIPTION,
       icon: <CheckSquare />,
     },
   ]
@@ -107,7 +107,7 @@ export const MobileView: React.FC = () => {
       <Flex vertical gap={theme.custom.spacing.medium} style={{ width: '100%', marginTop: theme.custom.spacing.small }}>
         {selectedTab === TABS.INFORMATION && <InformationTab tenant={tenantData as Tenant} />}
         {selectedTab === TABS.MEMBERS && <MemberTab tenant={tenantData as Tenant} />}
-        {selectedTab === TABS.SUBSCRIPTION_PLAN && <SubscriptionPlanTab tenant={tenantData as Tenant} />}
+        {selectedTab === TABS.SUBSCRIPTION && <SubscriptionPlanTab tenant={tenantData as Tenant} />}
       </Flex>
     </PortalLayoutV2>
   );

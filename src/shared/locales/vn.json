@@ -302,8 +302,7 @@
     "permissions": "Permissions",
     "groupPermissions": "Group Permissions",
     "tenants": "Tenants",
-    "subscriptionPlans": "Subscription Plans",
-    "permissionsAndSubscriptionPlans": "Permissions & Subscriptions"
+    "subscriptions": "Subscriptions"
   },
   "messages": {
     "incorrectCredentials": "Thông tin đăng nhập không chính xác",
@@ -675,6 +674,8 @@
     "machineStatusTimeline": "Timeline Trạng thái Máy"
   },
   "subscriptionPlan": {
+    "plans": "Gói đăng ký",
+    "subscriptions": "Subscriptions",
     "basicInformation": "Thông tin gói",
     "pricingConfiguration": "Cấu hình gói",
     "setDefault": "Đặt làm mặc định",

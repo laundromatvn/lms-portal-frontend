@@ -302,8 +302,7 @@
     "permissions": "Permissions",
     "groupPermissions": "Group Permissions",
     "tenants": "Tenants",
-    "subscriptionPlans": "Subscription Plans",
-    "permissionsAndSubscriptionPlans": "Permissions & Subscriptions"
+    "subscriptions": "Subscriptions"
   },
   "messages": {
     "incorrectCredentials": "Incorrect credentials",
@@ -683,8 +682,9 @@
   "machine": {
     "machineStatusTimeline": "Machine Status Timeline"
   },
-  "subscriptionPlan": {
+  "subscription": {
     "plans": "Plans",
+    "subscriptions": "Subscriptions",
     "billingHistory": "Billing History",
     "basicInformation": "Basic Information",
     "pricingConfiguration": "Pricing Configuration",
