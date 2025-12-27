@@ -18,7 +18,6 @@ import {
   Logout,
   Shop2,
   BoxMinimalistic,
-  DollarCircle,
   Suitcase,
   UsersGroupTwoRounded,
   Home,
