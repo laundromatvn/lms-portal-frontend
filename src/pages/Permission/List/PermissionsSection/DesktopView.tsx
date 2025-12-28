@@ -17,6 +17,7 @@ import {
 } from '@ant-design/icons';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useCan } from '@shared/hooks/useCan';
 
 import { type Permission } from '@shared/types/Permission';
 
@@ -42,6 +43,7 @@ import { EditPermissionDrawer } from './components/EditPermissionDrawer';
 export const DesktopView: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const can = useCan();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -171,7 +173,10 @@ export const DesktopView: React.FC = () => {
   }, [page, search]);
 
   return (
-    <BaseDetailSection title={t('navigation.permissions')}>
+    <BaseDetailSection
+      title={t('navigation.permissions')}
+      onRefresh={handleListPermission}
+    >
       {contextHolder}
 
       <Flex justify="space-between" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
@@ -189,16 +194,18 @@ export const DesktopView: React.FC = () => {
         />
 
         <Flex gap={theme.custom.spacing.small}>
-          <Button
-            icon={<PlusOutlined />}
-            onClick={() => setIsCreateNewPermissionDrawerOpen(true)}
-            style={{
-              backgroundColor: theme.custom.colors.background.light,
-              color: theme.custom.colors.neutral.default,
-            }}
-          >
-            {t('common.add')}
-          </Button>
+          {can('permission.create') && (
+            <Button
+              icon={<PlusOutlined />}
+              onClick={() => setIsCreateNewPermissionDrawerOpen(true)}
+              style={{
+                backgroundColor: theme.custom.colors.background.light,
+                color: theme.custom.colors.neutral.default,
+              }}
+            >
+              {t('common.add')}
+            </Button>
+          )}
         </Flex>
       </Flex>
 

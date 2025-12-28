@@ -1,4 +1,4 @@
-export const formatDateTime = (date: string) => {
+export const formatDateTime = (date: string, mode: 'date' | 'dateTime' = 'dateTime') => {
   const dateString = new Date(date).toLocaleDateString('vi-VN', {
     year: 'numeric',
     month: '2-digit',
@@ -11,5 +11,9 @@ export const formatDateTime = (date: string) => {
     second: '2-digit',
   });
 
-  return dateString + ' ' + timeString;
+  if (mode === 'date') {
+    return dateString;
+  }
+
+  return `${dateString} ${timeString}`;
 };

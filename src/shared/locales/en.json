@@ -602,7 +602,11 @@
       "updatePermissionGroupSuccess": "Permission group updated successfully",
       "addPermissionGroupSuccess": "Permission group created successfully",
       "addPermissionGroupError": "Failed to create permission group",
-      "permissionGroupIsRequired": "Permission group is required"
+      "permissionGroupIsRequired": "Permission group is required",
+      "listPermissionError": "Failed to list permissions",
+      "deletePermissionGroupError": "Failed to delete permission group",
+      "listPermissionGroupError": "Failed to list permission groups",
+      "listGroupPermissionsError": "Failed to list group permissions"
     }
   },
   "store": {
@@ -684,6 +688,7 @@
   },
   "subscription": {
     "plans": "Plans",
+    "plan": "Plan",
     "subscriptions": "Subscriptions",
     "billingHistory": "Billing History",
     "basicInformation": "Basic Information",

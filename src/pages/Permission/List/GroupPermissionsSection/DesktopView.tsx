@@ -205,7 +205,7 @@ export const DesktopView: React.FC = () => {
   useEffect(() => {
     if (updatePermissionGroupError) {
       api.error({
-        message: t('permission.errors.updatePermissionGroupError'),
+        message: t('permission.messages.updatePermissionGroupError'),
       });
     }
   }, [updatePermissionGroupError]);
@@ -219,7 +219,7 @@ export const DesktopView: React.FC = () => {
   useEffect(() => {
     if (deletePermissionGroupError) {
       api.error({
-        message: t('permission.errors.deletePermissionGroupError'),
+        message: t('permission.messages.deletePermissionGroupError'),
       });
     }
   }, [deletePermissionGroupError]);
@@ -227,7 +227,7 @@ export const DesktopView: React.FC = () => {
   useEffect(() => {
     if (listPermissionGroupError) {
       api.error({
-        message: t('permission.errors.listPermissionGroupError'),
+        message: t('permission.messages.listPermissionGroupError'),
       });
     }
   }, [listPermissionGroupError]);
@@ -251,6 +251,7 @@ export const DesktopView: React.FC = () => {
   return (
     <BaseDetailSection
       title={t('navigation.groupPermissions')}
+      onRefresh={handleListPermissionGroup}
     >
       {contextHolder}
 

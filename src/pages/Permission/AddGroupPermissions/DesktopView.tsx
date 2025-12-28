@@ -132,7 +132,7 @@ export const DesktopView: React.FC = () => {
   useEffect(() => {
     if (listPermissionError) {
       api.error({
-        message: t('permission.errors.listPermissionError'),
+        message: t('permission.messages.listPermissionError'),
       });
     }
   }, [listPermissionError]);
@@ -155,7 +155,7 @@ export const DesktopView: React.FC = () => {
   return (
     <PortalLayoutV2
       title={t('permission.addGroupPermissions')}
-      onBack={() => navigate(`/permission-groups/${permissionGroupId}`)}
+      onBack={() => navigate(-1)}
     >
       {contextHolder}
 
@@ -181,9 +181,12 @@ export const DesktopView: React.FC = () => {
           />
 
           <Button
-            type="primary"
             icon={<PlusOutlined />}
             onClick={handleSave}
+            style={{
+              backgroundColor: theme.custom.colors.background.light,
+              color: theme.custom.colors.neutral.default,
+            }}
           >
             {t('common.save')}
           </Button>

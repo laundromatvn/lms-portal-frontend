@@ -13,9 +13,11 @@ import { useIsMobile } from '@shared/hooks/useIsMobile';
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 
 import { SubscriptionPlanSection } from './SubscriptionPlanSection';
+import { SubscriptionSection } from './SubscriptionSection';
 
 const TABS = {
   PLANS: 'plans',
+  SUBSCRIPTIONS: 'subscriptions',
 }
 
 export const SubscriptionPlanListPage: React.FC = () => {
@@ -28,6 +30,10 @@ export const SubscriptionPlanListPage: React.FC = () => {
     {
       label: t('subscription.plans'),
       value: TABS.PLANS,
+    },
+    {
+      label: t('subscription.subscriptions'),
+      value: TABS.SUBSCRIPTIONS,
     },
   ];
 
@@ -62,6 +68,9 @@ export const SubscriptionPlanListPage: React.FC = () => {
       >
         {selectedTab === TABS.PLANS && (
           <SubscriptionPlanSection />
+        )}
+        {selectedTab === TABS.SUBSCRIPTIONS && (
+          <SubscriptionSection />
         )}
       </Flex>
     </PortalLayoutV2>

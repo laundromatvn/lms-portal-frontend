@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Button, Flex } from 'antd';
 
-import { Rocket } from '@solar-icons/react';
+import { Star } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -30,12 +30,12 @@ export const SubscriptionPlanTab: React.FC<Props> = ({ tenant }: Props) => {
     >
       <Flex justify="flex-end" style={{ width: '100%' }}>
         <Button
-          icon={<Rocket />}
+          icon={<Star />}
           onClick={() => navigate(`/tenants/${tenant.id}/subscription-plan`)}
           style={{
-            backgroundColor: theme.custom.colors.success.default,
-            color: theme.custom.colors.success.light,
-            borderColor: theme.custom.colors.success.default,
+            backgroundColor: theme.custom.colors.background.dark,
+            color: theme.custom.colors.text.inverted,
+            borderColor: theme.custom.colors.background.dark,
           }}
         >
           {t('subscription.upgrade')}

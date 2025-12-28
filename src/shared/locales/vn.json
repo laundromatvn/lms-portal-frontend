@@ -594,7 +594,11 @@
       "updatePermissionGroupSuccess": "Nhóm quyền đã được cập nhật thành công",
       "addPermissionGroupSuccess": "Nhóm quyền đã được tạo thành công",
       "addPermissionGroupError": "Không thể tạo nhóm quyền",
-      "permissionGroupIsRequired": "Nhóm quyền là bắt buộc"
+      "permissionGroupIsRequired": "Nhóm quyền là bắt buộc",
+      "listPermissionError": "Không thể lấy danh sách quyền",
+      "deletePermissionGroupError": "Không thể xóa nhóm quyền",
+      "listPermissionGroupError": "Không thể lấy danh sách nhóm quyền",
+      "listGroupPermissionsError": "Không thể lấy danh sách quyền của nhóm"
     }
   },
   "store": {
@@ -675,6 +679,7 @@
   },
   "subscriptionPlan": {
     "plans": "Gói đăng ký",
+    "plan": "Gói đăng ký",
     "subscriptions": "Subscriptions",
     "basicInformation": "Thông tin gói",
     "pricingConfiguration": "Cấu hình gói",

@@ -273,6 +273,7 @@ export const DesktopView: React.FC = () => {
   return (
     <BaseDetailSection
       title={t('subscription.plans')}
+      onRefresh={handleListSubscriptionPlan}
     >
       {contextHolder}
 

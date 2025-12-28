@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,6 +18,12 @@ import {
 } from '@ant-design/icons';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useCan } from '@shared/hooks/useCan';
+
+import { userStorage } from '@core/storage/userStorage';
+import { tenantStorage } from '@core/storage/tenantStorage';
+
+import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
 
 import {
   useListGroupPermissionsApi,
@@ -40,6 +46,10 @@ export const DesktopView: React.FC<Props> = ({ permissionGroup }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const theme = useTheme();
+  const can = useCan();
+
+  const currentUser = userStorage.load();
+  const currentTenant = tenantStorage.load();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -89,6 +99,15 @@ export const DesktopView: React.FC<Props> = ({ permissionGroup }) => {
     }
   ];
 
+  const canAddPermissionsToGroup = useMemo(() => {
+    if (!can('permission_group.update')) return false;
+    if (!permissionGroup) return false;
+    
+    if (currentUser?.role === UserRoleEnum.ADMIN) return true;
+
+    return currentTenant?.id === permissionGroup.tenant_id;
+  }, [can, permissionGroup, currentUser, currentTenant]);
+
   const handleListGroupPermissions = () => {
     if (!permissionGroup) return;
 
@@ -104,14 +123,14 @@ export const DesktopView: React.FC<Props> = ({ permissionGroup }) => {
   useEffect(() => {
     if (listGroupPermissionsError) {
       api.error({
-        message: t('permission.errors.listGroupPermissionsError'),
+        message: t('permission.messages.listGroupPermissionsError'),
       });
     }
   }, [listGroupPermissionsError]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setFilters({ 
+      setFilters({
         ...filters,
         page: 1,
         search: debouncedSearch,
@@ -146,16 +165,18 @@ export const DesktopView: React.FC<Props> = ({ permissionGroup }) => {
           }}
         />
 
-        <Button
-          icon={<PlusOutlined />}
-          onClick={() => navigate(`/permission-groups/${permissionGroup?.id}/add-permissions`)}
-          style={{
-            backgroundColor: theme.custom.colors.background.light,
-            color: theme.custom.colors.neutral.default,
-          }}
-        >
+        {canAddPermissionsToGroup && (
+          <Button
+            icon={<PlusOutlined />}
+            onClick={() => navigate(`/permission-groups/${permissionGroup?.id}/add-permissions`)}
+            style={{
+              backgroundColor: theme.custom.colors.background.light,
+              color: theme.custom.colors.neutral.default,
+            }}
+          >
             {t('permission.addPermissions')}
           </Button>
+        )}
       </Flex>
 
       <Table

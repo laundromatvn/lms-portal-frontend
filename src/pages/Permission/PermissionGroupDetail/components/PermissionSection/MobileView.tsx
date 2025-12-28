@@ -68,7 +68,7 @@ export const MobileView: React.FC<Props> = ({ permissionGroup }) => {
   useEffect(() => {
     if (listGroupPermissionsError) {
       api.error({
-        message: t('permission.errors.listGroupPermissionsError'),
+        message: t('permission.messages.listGroupPermissionsError'),
       });
     }
   }, [listGroupPermissionsError]);
@@ -106,6 +106,8 @@ export const MobileView: React.FC<Props> = ({ permissionGroup }) => {
             color: theme.custom.colors.neutral.default,
           }}
         />
+
+        {/* No add permissions to group button for now */}
       </Flex>
 
       <List
