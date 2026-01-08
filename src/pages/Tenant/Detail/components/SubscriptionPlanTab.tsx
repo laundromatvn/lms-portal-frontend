@@ -31,7 +31,7 @@ export const SubscriptionPlanTab: React.FC<Props> = ({ tenant }: Props) => {
       <Flex justify="flex-end" style={{ width: '100%' }}>
         <Button
           icon={<Star />}
-          onClick={() => navigate(`/tenants/${tenant.id}/subscription-plan`)}
+          onClick={() => navigate(`/tenants/${tenant.id}/upgrade-subscription-plan`)}
           style={{
             backgroundColor: theme.custom.colors.background.dark,
             color: theme.custom.colors.text.inverted,

@@ -3,19 +3,12 @@ import { useCallback, useState } from 'react'
 import { getBackendUrl } from '@shared/utils/env'
 
 import { type ApiState } from '@shared/hooks/types'
-import { SubscriptionPlanTypeEnum } from '@shared/enums/SubscriptionPlanTypeEnum';
-import { SubscriptionPlanIntervalEnum } from '@shared/enums/SubscriptionPlanIntervalEnum';
 
 import axiosClient from '@core/axiosClient'
 
 export type CreateSubscriptionPlanPayload = {
   name: string;
   description: string | null;
-  price: number;
-  type: SubscriptionPlanTypeEnum;
-  interval: SubscriptionPlanIntervalEnum | null;
-  interval_count: number | null;
-  trial_period_count: number | null;
   permission_group_id: string;
 }
 

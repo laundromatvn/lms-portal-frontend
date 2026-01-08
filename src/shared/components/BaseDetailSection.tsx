@@ -40,7 +40,6 @@ export const BaseDetailSection: React.FC<Props> = ({
         width: '100%',
         ...style,
       }}
-      loading={loading}
     >
       <Flex justify="space-between" align="center" style={{ width: '100%' }}>
         {title && <BaseSectionTitle title={title} onRefresh={onRefresh} />}

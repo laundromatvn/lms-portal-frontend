@@ -6,7 +6,6 @@ import {
   Flex,
   Button,
   Form,
-  Steps,
   type FormInstance,
   notification,
 } from 'antd';
@@ -22,7 +21,6 @@ import {
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { BasicInformation } from './components/BasicInformation';
-import { PricingConfiguration } from './components/PricingConfiguration';
 import { PermissionGroup } from './components/PermissionGroup';
 
 export const SubscriptionPlanAddPage: React.FC = () => {
@@ -48,11 +46,6 @@ export const SubscriptionPlanAddPage: React.FC = () => {
     createSubscriptionPlan({
       name: form.getFieldValue('name'),
       description: form.getFieldValue('description'),
-      price: form.getFieldValue('price'),
-      type: form.getFieldValue('type'),
-      interval: form.getFieldValue('interval'),
-      interval_count: form.getFieldValue('interval_count'),
-      trial_period_count: form.getFieldValue('trial_period_count'),
       permission_group_id: form.getFieldValue('permission_group_id'),
     });
   };
@@ -116,8 +109,6 @@ export const SubscriptionPlanAddPage: React.FC = () => {
         }}
       >
         <BasicInformation form={form} onChange={handleChange} />
-
-        <PricingConfiguration form={form} onChange={handleChange} />
 
         <PermissionGroup form={form} onChange={handleChange} />
       </Flex>

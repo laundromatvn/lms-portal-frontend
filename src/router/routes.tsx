@@ -210,7 +210,7 @@ export const routes: Route[] = [
     component: <TenantEditPage />,
   },
   {
-    path: '/tenants/:id/subscription-plan',
+    path: '/tenants/:id/upgrade-subscription-plan',
     component: <UpgradeSubscriptionPlanPage />,
   },
   // Promotion Campaign

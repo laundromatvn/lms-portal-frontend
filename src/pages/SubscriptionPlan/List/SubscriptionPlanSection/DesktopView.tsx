@@ -127,49 +127,6 @@ export const DesktopView: React.FC = () => {
       ),
     },
     {
-      title: t('subscription.type'),
-      dataIndex: 'type',
-      key: 'type',
-      width: 128,
-      sorter: true,
-      sortOrder: filters.order_by === 'type' ? (filters.order_direction === 'asc' ? 'ascend' : 'descend') : undefined,
-      render: (_: string, record: any) => (
-        <Typography.Text>{t(`subscription.${record.type.toLowerCase()}`)}</Typography.Text>
-      )
-    },
-    {
-      title: t('subscription.intervalCount'),
-      dataIndex: 'interval_count',
-      key: 'interval_count',
-      width: 128,
-      sorter: true,
-      sortOrder: filters.order_by === 'interval_count' ? (filters.order_direction === 'asc' ? 'ascend' : 'descend') : undefined,
-    },
-    {
-      title: t('subscription.interval'),
-      dataIndex: 'interval',
-      key: 'interval',
-      width: 128,
-      sorter: true,
-      sortOrder: filters.order_by === 'interval' ? (filters.order_direction === 'asc' ? 'ascend' : 'descend') : undefined,
-      render: (_: string, record: any) => (
-        <Typography.Text>{t(`subscription.${record.interval.toLowerCase()}`)}</Typography.Text>
-      ),
-    },
-    {
-      title: t('common.price'),
-      dataIndex: 'price',
-      key: 'price',
-      width: 128,
-      sorter: true,
-      sortOrder: filters.order_by === 'price' ? (filters.order_direction === 'asc' ? 'ascend' : 'descend') : undefined,
-      render: (_: string, record: any) => (
-        <Typography.Text>
-          {formatCurrencyCompact(record.price)}
-        </Typography.Text>
-      ),
-    },
-    {
       title: t('common.actions'),
       dataIndex: 'actions',
       key: 'actions',

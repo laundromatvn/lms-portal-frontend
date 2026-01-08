@@ -15,7 +15,6 @@ import { type Subscription } from '@shared/types/Subscription';
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DataWrapper } from '@shared/components/DataWrapper';
 
-import formatCurrencyCompact from '@shared/utils/currency';
 import { formatDateTime } from '@shared/utils/date';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
@@ -67,18 +66,11 @@ export const SubscriptionPlanSection: React.FC<Props> = ({ tenant }) => {
         <>
           <DataWrapper title={t('common.name')} value={subscriptionPlan?.name} />
 
-          <DataWrapper title={t('common.price')} value={formatCurrencyCompact(subscriptionPlan?.price || 0)} />
-
           <DataWrapper title={t('common.description')}>
             <Typography.Text type="secondary">
               {subscriptionPlan?.description}
             </Typography.Text>
           </DataWrapper>
-
-          <DataWrapper
-            title={t('subscription.interval')}
-            value={`${subscriptionPlan?.interval_count} (${t(`subscriptionPlan.${subscriptionPlan?.interval?.toLowerCase()}`)})`}
-          />
           
           <DataWrapper title={t('subscription.status')}>
             <DynamicTag value={subscription?.status || ''} />

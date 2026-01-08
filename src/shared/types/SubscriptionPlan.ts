@@ -1,6 +1,3 @@
-import { SubscriptionPlanTypeEnum } from '../enums/SubscriptionPlanTypeEnum';
-import { SubscriptionPlanIntervalEnum } from '../enums/SubscriptionPlanIntervalEnum';
-
 export type SubscriptionPlan = {
     id: string
     created_at: string
@@ -13,11 +10,6 @@ export type SubscriptionPlan = {
     description: string | null
     is_enabled: boolean | null
     is_default: boolean | null
-    price: number
-    type: SubscriptionPlanTypeEnum
-    interval: SubscriptionPlanIntervalEnum | null
-    interval_count: number | null
-    trial_period_count: number | null
     permission_group_id: string | null
     permission_group_name: string | null
 }

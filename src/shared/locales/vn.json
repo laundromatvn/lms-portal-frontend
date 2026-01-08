@@ -677,9 +677,10 @@
   "machine": {
     "machineStatusTimeline": "Timeline Trạng thái Máy"
   },
-  "subscriptionPlan": {
+  "subscription": {
     "plans": "Gói đăng ký",
     "plan": "Gói đăng ký",
+    "confirmAndPay": "Xác nhận và thanh toán",
     "subscriptions": "Subscriptions",
     "basicInformation": "Thông tin gói",
     "pricingConfiguration": "Cấu hình gói",
@@ -697,8 +698,8 @@
     "month": "Tháng",
     "year": "Năm",
     "upgrade": "Nâng cấp",
-    "upgradeYourSubscriptionPlan": "Nâng cấp Gói Đăng Ký",
-    "upgradeYourSubscriptionPlanDescription": "Vui lòng chọn gói đăng ký bạn muốn nâng cấp",
+    "upgradeSubscriptionPlan": "Nâng cấp gói đăng ký",
+    "upgradeSubscriptionPlanDescription": "Vui lòng chọn gói đăng ký bạn muốn nâng cấp",
     "pricePerInterval": "/{{count}} {{interval}}",
     "getStarted": "Bắt đầu ngay",
     "selectSubscriptionPlan": "Chọn gói đăng ký",
@@ -709,6 +710,12 @@
     "trialEndDate": "Ngày kết thúc dùng thử",
     "nextRenewalDate": "Ngày gia hạn",
     "status": "Trạng thái",
+    "upgradeSubscription": "Nâng cấp gói đăng ký",
+    "reviewSubscription": "Chi tiết gói đăng ký",
+    "reviewSubscriptionDescription": "Vui lòng xem chi tiết gói đăng ký bạn muốn nâng cấp",
+    "pleaseConfirmAfterTransferSuccess": "Vui lòng xác nhận sau khi chuyển khoản thành công",
+    "confirmTransferSuccess": "Xác nhận chuyển khoản thành công",
+    "paymentInformation": "Thông tin thanh toán",
     "statuses": {
       "PENDING": "Chờ xử lý",
       "ACTIVE": "Đang sử dụng",
