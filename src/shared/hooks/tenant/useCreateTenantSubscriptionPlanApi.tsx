@@ -6,6 +6,7 @@ import { type ApiState } from '@shared/hooks/types'
 
 export type CreateTenantSubscriptionPlanPayload = {
   subscription_plan_id: string;
+  pricing_option_id: string;
 }
 
 export type CreateTenantSubscriptionPlanResponse = boolean;

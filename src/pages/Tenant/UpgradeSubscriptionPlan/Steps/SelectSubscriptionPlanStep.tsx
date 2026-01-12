@@ -26,7 +26,7 @@ import './styles.css';
 
 interface Props {
   tenantId: string;
-  onSelectPlan: (subscriptionPlanId: string, billingType: SubscriptionPricingBillingTypEnum) => void;
+  onSelectPlan: (subscriptionPlanId: string, pricingOptionId: string) => void;
 }
 
 export const SelectSubscriptionPlanStep: React.FC<Props> = ({
@@ -54,14 +54,17 @@ export const SelectSubscriptionPlanStep: React.FC<Props> = ({
   } = useGetTenantActiveSubscriptionPlanApi<GetTenantActiveSubscriptionPlanResponse>();
 
   const handleSelectPlan = (subscriptionPlan: SubscriptionPlan) => {
-    if (tenantActiveSubscriptionPlan?.subscription_plan?.id === subscriptionPlan.id) {
+    const pricingOptionId = subscriptionPlan.pricing_options.find((pricingOption) => pricingOption.billing_type === selectedBillingType)?.id || '';
+
+    if (tenantActiveSubscriptionPlan?.subscription_plan?.id === subscriptionPlan.id
+      && tenantActiveSubscriptionPlan?.subscription_plan?.pricing_options?.some((pricingOption) => pricingOption.id === pricingOptionId)) {
       api.error({
         message: t('subscription.messages.youAreAlreadyUsingThisSubscriptionPlan'),
       });
       return;
     }
 
-    onSelectPlan(subscriptionPlan.id, selectedBillingType);
+    onSelectPlan(subscriptionPlan.id, pricingOptionId);
   };
 
   useEffect(() => {

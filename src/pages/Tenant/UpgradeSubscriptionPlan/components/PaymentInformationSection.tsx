@@ -19,8 +19,11 @@ import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { Box } from '@shared/components/Box';
 import { DataWrapper } from '@shared/components/DataWrapper';
 
+interface Props {
+  onPaid: () => void;
+}
 
-export const PaymentInformationSection: React.FC = () => {
+export const PaymentInformationSection: React.FC<Props> = ({ onPaid }) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -55,7 +58,7 @@ export const PaymentInformationSection: React.FC = () => {
           {t('subscription.pleaseConfirmAfterTransferredSuccess')}
         </Typography.Text>
 
-        <Button type="primary" size="large" style={{ width: '100%' }}>
+        <Button type="primary" size="large" style={{ width: '100%' }} onClick={onPaid}>
           {t('subscription.confirmTransferredSuccess')}
         </Button>
       </Flex>

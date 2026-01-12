@@ -70,10 +70,10 @@ export const UpgradeSubscriptionPlanPage: React.FC = () => {
       {currentStep === STEPS.SELECT_SUBSCRIPTION_PLAN && (
         <SelectSubscriptionPlanStep
           tenantId={tenantId}
-          onSelectPlan={(subscriptionPlanId: string, billingType: SubscriptionPricingBillingTypEnum) =>
+          onSelectPlan={(subscriptionPlanId: string, pricingOptionId: string) =>
             goToStep(STEPS.CONFIRM_AND_PAY, {
               [QUERY_KEYS.SUBSCRIPTION_PLAN_ID]: subscriptionPlanId,
-              [QUERY_KEYS.BILLING_TYPE]: billingType,
+              [QUERY_KEYS.PRICING_OPTION_ID]: pricingOptionId,
             })}
         />
       )}

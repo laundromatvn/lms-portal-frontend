@@ -17,7 +17,7 @@ interface Props {
   selectedBillingType: SubscriptionPricingBillingTypEnum;
   isCurrent: boolean;
   subscriptionPlan: SubscriptionPlan;
-  onSelect: (value: SubscriptionPlan, primaryColor: string) => void;
+  onSelect: (value: SubscriptionPlan) => void;
 }
 
 export const SubscriptionPlanSelectItem: React.FC<Props> = ({
@@ -103,7 +103,7 @@ export const SubscriptionPlanSelectItem: React.FC<Props> = ({
       <Flex justify="flex-end" style={{ width: '100%' }}>
         <Button
           size="large"
-          onClick={() => onSelect(subscriptionPlan, backgroundColor)}
+          onClick={() => onSelect(subscriptionPlan)}
           disabled={isCurrent}
           style={{
             marginTop: theme.custom.spacing.large,
