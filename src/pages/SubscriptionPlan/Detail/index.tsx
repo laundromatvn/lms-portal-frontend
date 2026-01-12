@@ -200,6 +200,7 @@ export const SubscriptionPlanDetailPage: React.FC = () => {
           <BasicInformationTab
             subscriptionPlan={subscriptionPlan}
             loading={subscriptionPlanLoading}
+            onRefresh={handleGetSubscriptionPlan}
           />
         )}
 

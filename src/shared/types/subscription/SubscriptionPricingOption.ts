@@ -3,6 +3,7 @@ import { SubscriptionPricingUnitEnum } from '@shared/enums/SubscriptionPricingUn
 import { SubscriptionPricingIntervalEnum } from '@shared/enums/SubscriptionPricingIntervalEnum';
 
 export type SubscriptionPricingOption = {
+    id?: string | null;
     is_enabled: boolean;
     is_default: boolean;
     billing_type: SubscriptionPricingBillingTypEnum;

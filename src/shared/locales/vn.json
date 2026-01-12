@@ -716,8 +716,8 @@
     "pleaseConfirmAfterTransferSuccess": "Vui lòng xác nhận sau khi chuyển khoản thành công",
     "confirmTransferSuccess": "Xác nhận chuyển khoản thành công",
     "paymentInformation": "Thông tin thanh toán",
-    "pricingOptions": "Cấu hình gói",
-    "addPricingOption": "Thêm cấu hình gói",
+    "pricingOptions": "Cấu hình giá",
+    "addPricingOption": "Thêm giá",
     "isDefaultPricingOption": "Đặt làm mặc định",
     "isEnabledPricingOption": "Đang hoạt động",
     "billingType": "Loại thanh toán",
@@ -725,8 +725,11 @@
     "billingInterval": "Chu kỳ thanh toán",
     "baseUnitPrice": "Giá 1 đơn vị",
     "trialPeriodDays": "Thời gian dùng thử (ngày)",
-    "addOption": "Thêm cấu hình gói",
+    "addOption": "Thêm giá",
     "days": "ngày",
+    "default": "Mặc định",
+    "enabled": "Hoạt động",
+    "disabled": "Ngưng hoạt động",
     "billingTypes": {
       "RECURRING": "Định kỳ",
       "ONE_TIME": "Một lần"

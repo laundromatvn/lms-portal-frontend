@@ -736,6 +736,9 @@
     "trialPeriodDays": "Trial Period (days)",
     "addOption": "Add Option",
     "days": "days",
+    "default": "Default",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
     "billingTypes": {
       "RECURRING": "Recurring",
       "ONE_TIME": "One-time"

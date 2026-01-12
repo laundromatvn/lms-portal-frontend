@@ -12,7 +12,7 @@ export type CreateSubscriptionPlanPayload = {
   description: string | null;
   permission_group_id: string;
   pricing_options: SubscriptionPricingOption[];
-  }
+}
 
 export type CreateSubscriptionPlanResponse = boolean;
 

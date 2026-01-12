@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -8,7 +8,10 @@ import {
   Typography,
   Button,
   Dropdown,
+  notification,
 } from 'antd';
+
+import { PlusOutlined } from '@ant-design/icons';
 
 import {
   MenuDots,
@@ -18,6 +21,11 @@ import {
 
 import { useTheme } from '@shared/theme/useTheme';
 
+import {
+  useUpdateSubscriptionPlanApi,
+  type UpdateSubscriptionPlanResponse,
+} from '@shared/hooks/subscription_plan/useUpdateSubscriptionPlanApi';
+
 import { SubscriptionPricingBillingTypEnum } from '@shared/enums/SubscriptionPricingBillingTypEnum';
 import type { SubscriptionPricingOption } from '@shared/types/subscription/SubscriptionPricingOption';
 import { type SubscriptionPlan } from '@shared/types/subscription/SubscriptionPlan';
@@ -25,17 +33,31 @@ import { type SubscriptionPlan } from '@shared/types/subscription/SubscriptionPl
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
+import { OptionDrawer } from './OptionDrawer';
+
 import { formatCurrencyCompact } from '@shared/utils/currency';
 
 
 interface Props {
   subscriptionPlan: SubscriptionPlan | null;
   loading?: boolean;
+  onRefresh?: () => void;
 }
 
-export const PricingOptionsSection: React.FC<Props> = ({ subscriptionPlan, loading }) => {
+export const PricingOptionsSection: React.FC<Props> = ({ subscriptionPlan, loading, onRefresh }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+
+  const [api, contextHolder] = notification.useNotification();
+
+  const [selectedPricingOption, setSelectedPricingOption] = useState<SubscriptionPricingOption | undefined>(undefined);
+  const [openOptionDrawer, setOpenOptionDrawer] = useState(false);
+
+  const {
+    updateSubscriptionPlan,
+    data: updateSubscriptionPlanData,
+    error: updateSubscriptionPlanError,
+  } = useUpdateSubscriptionPlanApi<UpdateSubscriptionPlanResponse>();
 
   const columns = [
     {
@@ -45,9 +67,19 @@ export const PricingOptionsSection: React.FC<Props> = ({ subscriptionPlan, loadi
       width: 128,
       render: (_: any, record: SubscriptionPricingOption) => {
         return (
-          <Flex vertical style={{ whiteSpace: 'nowrap' }}>
-            <Typography.Text strong>{formatCurrencyCompact(record.base_unit_price)}</Typography.Text>
-            <Typography.Text type='secondary'> /{record.interval_count} {t(`subscription.billingIntervals.${record.billing_interval}`)}</Typography.Text>
+          <Flex vertical gap={theme.custom.spacing.small} style={{ whiteSpace: 'nowrap' }}>
+            {record.billing_type === SubscriptionPricingBillingTypEnum.RECURRING ? (
+              <Typography.Text strong>
+                {formatCurrencyCompact(record.base_unit_price)}
+                <Typography.Text type='secondary'> /{record.interval_count} {t(`subscription.billingIntervals.${record.billing_interval}`)}</Typography.Text>
+              </Typography.Text>
+            ) : (
+              <Typography.Text strong>{formatCurrencyCompact(record.base_unit_price)}</Typography.Text>
+            )}
+            <Flex gap={theme.custom.spacing.xsmall}>
+              {record.is_default && <Tag color="blue">{t('subscription.default')}</Tag>}
+              {record.is_enabled ? <Tag color="green">{t('subscription.enabled')}</Tag> : <Tag>{t('subscription.disabled')}</Tag>}
+            </Flex>
           </Flex>
         )
       }
@@ -59,7 +91,7 @@ export const PricingOptionsSection: React.FC<Props> = ({ subscriptionPlan, loadi
       width: 128,
       render: (_: any, record: SubscriptionPricingOption) => {
         return (
-          <Typography.Text type='secondary' style={{ whiteSpace: 'nowrap' }}>
+          <Typography.Text style={{ whiteSpace: 'nowrap' }}>
             {t(`subscription.pricingUnits.${record.pricing_unit}`)}
           </Typography.Text>
         );
@@ -73,10 +105,8 @@ export const PricingOptionsSection: React.FC<Props> = ({ subscriptionPlan, loadi
       render: (_: any, record: SubscriptionPricingOption) => {
         const color = record.billing_type === SubscriptionPricingBillingTypEnum.RECURRING ? 'blue' : 'green';
 
-        return record.billing_type === SubscriptionPricingBillingTypEnum.RECURRING ? (
+        return (
           <Tag color={color} style={{ whiteSpace: 'nowrap' }}>{t(`subscription.billingTypes.${record.billing_type}`)}</Tag>
-        ) : (
-          <Typography.Text type='secondary' style={{ whiteSpace: 'nowrap' }}>-</Typography.Text>
         );
       }
     },
@@ -87,39 +117,13 @@ export const PricingOptionsSection: React.FC<Props> = ({ subscriptionPlan, loadi
       width: 128,
       render: (_: any, record: SubscriptionPricingOption) => {
         return (
-          <Typography.Text type='secondary' style={{ whiteSpace: 'nowrap' }}>
+          <Typography.Text style={{ whiteSpace: 'nowrap' }}>
             {record.trial_period_days ? (
               `${record.trial_period_days} ${t('subscription.days')}`
             ) : (
               '-'
             )}
           </Typography.Text>
-        );
-      }
-    },
-    {
-      title: t('subscription.isDefaultPricingOption'),
-      dataIndex: 'is_default',
-      key: 'is_default',
-      width: 128,
-      render: (_: any, record: SubscriptionPricingOption) => {
-        return (
-          <div style={{ whiteSpace: 'nowrap' }}>
-            <DynamicTag value={record.is_default ? 'enabled' : 'disabled'} />
-          </div>
-        );
-      }
-    },
-    {
-      title: t('subscription.isEnabledPricingOption'),
-      dataIndex: 'is_enabled',
-      key: 'is_enabled',
-      width: 128,
-      render: (_: any, record: SubscriptionPricingOption) => {
-        return (
-          <div style={{ whiteSpace: 'nowrap' }}>
-            <DynamicTag value={record.is_enabled ? 'enabled' : 'disabled'} />
-          </div>
         );
       }
     },
@@ -137,12 +141,19 @@ export const PricingOptionsSection: React.FC<Props> = ({ subscriptionPlan, loadi
                   key: 'edit',
                   label: t('common.edit'),
                   icon: <PenNewSquare />,
+                  onClick: () => {
+                    setSelectedPricingOption(record);
+                    setOpenOptionDrawer(true);
+                  }
                 },
                 {
                   key: 'delete',
                   label: t('common.delete'),
                   icon: <TrashBinTrash />,
                   style: { color: theme.custom.colors.danger.default },
+                  onClick: () => {
+                    handleDeletePricingOption(record.id as string);
+                  }
                 },
               ],
             }}
@@ -154,11 +165,108 @@ export const PricingOptionsSection: React.FC<Props> = ({ subscriptionPlan, loadi
     },
   ];
 
+  const handleEditPricingOption = (newPricingOption: SubscriptionPricingOption) => {
+    setSelectedPricingOption(undefined);
+    setOpenOptionDrawer(false);
+
+    if (!newPricingOption.id) {
+      handleAddPricingOption(newPricingOption);
+      return;
+    }
+
+    // if newPricingOption is set default, set all other options to not default
+    updateSubscriptionPlan(subscriptionPlan?.id || '', {
+      pricing_options: (subscriptionPlan?.pricing_options || []).map((option) => {
+        if (option.id === newPricingOption.id) {
+          return newPricingOption;
+        }
+
+        if (newPricingOption.is_default) {
+          return { ...option, is_default: false };
+        }
+
+        return option;
+      }),
+    });
+  };
+
+  const handleAddPricingOption = (newPricingOption: SubscriptionPricingOption) => {
+    const isExistingOption = subscriptionPlan?.pricing_options?.some((option) => (
+      option.pricing_unit === newPricingOption.pricing_unit
+      && option.billing_type === newPricingOption.billing_type
+      && option.billing_interval === newPricingOption.billing_interval
+    ));
+
+    if (isExistingOption) {
+      api.error({
+        message: t('subscription.messages.pricingOptionAlreadyExists'),
+      });
+      return;
+    }
+
+    // if newPricingOption is set default, set all other options to not default
+    const newPricingOptions = [...(subscriptionPlan?.pricing_options || []), newPricingOption];
+
+    if (newPricingOption.is_default) {
+      newPricingOptions.forEach((option) => {
+        if (option.id !== newPricingOption.id) {
+          option.is_default = false;
+        }
+      });
+    }
+
+    updateSubscriptionPlan(subscriptionPlan?.id || '', {
+      pricing_options: newPricingOptions,
+    });
+  };
+
+  const handleDeletePricingOption = (id: string) => {
+    updateSubscriptionPlan(subscriptionPlan?.id || '', {
+      pricing_options: (subscriptionPlan?.pricing_options || []).filter((option) => option.id !== id),
+    });
+  };
+
+  useEffect(() => {
+    if (updateSubscriptionPlanData) {
+      api.success({
+        message: t('subscription.messages.updateSubscriptionPlanSuccess'),
+      });
+      onRefresh?.();
+    }
+  }, [updateSubscriptionPlanData]);
+
+  useEffect(() => {
+    if (updateSubscriptionPlanError) {
+      api.error({
+        message: t('subscription.messages.updateSubscriptionPlanError'),
+      });
+    }
+  }, [updateSubscriptionPlanError]);
+
   return (
     <BaseDetailSection
       title={t('subscription.pricingConfiguration')}
       loading={loading}
+      onRefresh={onRefresh}
     >
+      {contextHolder}
+
+      <Flex justify="end" gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
+        <Button
+          icon={<PlusOutlined />}
+          onClick={() => {
+            setSelectedPricingOption(undefined);
+            setOpenOptionDrawer(true);
+          }}
+          style={{
+            backgroundColor: theme.custom.colors.background.light,
+            color: theme.custom.colors.neutral.default,
+          }}
+        >
+          {t('subscription.addPricingOption')}
+        </Button>
+      </Flex>
+
       <Table
         dataSource={subscriptionPlan?.pricing_options || []}
         loading={loading}
@@ -176,6 +284,13 @@ export const PricingOptionsSection: React.FC<Props> = ({ subscriptionPlan, loadi
             },
           };
         }}
+      />
+
+      <OptionDrawer
+        pricingOption={selectedPricingOption}
+        open={openOptionDrawer}
+        onClose={() => setOpenOptionDrawer(false)}
+        onSave={handleEditPricingOption}
       />
     </BaseDetailSection>
   );

@@ -8,6 +8,7 @@ import { type ApiState } from '@shared/hooks/types'
 
 import { SubscriptionPlanTypeEnum } from '@shared/enums/SubscriptionPlanTypeEnum';
 import { SubscriptionPlanIntervalEnum } from '@shared/enums/SubscriptionPlanIntervalEnum';
+import type { SubscriptionPricingOption } from '@shared/types/subscription/SubscriptionPricingOption';
 
 export type UpdateSubscriptionPlanPayload = {
   name?: string;
@@ -19,6 +20,7 @@ export type UpdateSubscriptionPlanPayload = {
   interval_count?: number;
   trial_period_count?: number;
   permission_group_id?: string;
+  pricing_options?: SubscriptionPricingOption[];
 }
 
 export type UpdateSubscriptionPlanResponse = boolean;
