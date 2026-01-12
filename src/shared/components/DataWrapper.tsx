@@ -7,6 +7,7 @@ import { useTheme } from '@shared/theme/useTheme';
 interface Props {
   title: string;
   compact?: boolean;
+  compactWidth?: number;
   value?: any;
   children?: React.ReactNode;
   style?: React.CSSProperties;
@@ -15,6 +16,7 @@ interface Props {
 export const DataWrapper: React.FC<Props> = ({
   title,
   compact = true,
+  compactWidth = 128,
   value,
   children,
   style,
@@ -32,8 +34,8 @@ export const DataWrapper: React.FC<Props> = ({
     >
       <Flex
         style={{
-          width: compact ? 128 : 'auto',
-          minWidth: compact ? 128 : 'auto',
+          width: compact ? compactWidth : 'auto',
+          minWidth: compact ? compactWidth : 'auto',
         }}
       >
         <Typography.Text type="secondary">

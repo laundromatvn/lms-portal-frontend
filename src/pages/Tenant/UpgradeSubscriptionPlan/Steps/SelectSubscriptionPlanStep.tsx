@@ -26,7 +26,7 @@ import './styles.css';
 
 interface Props {
   tenantId: string;
-  onSelectPlan: (subscriptionPlanId: string) => void;
+  onSelectPlan: (subscriptionPlanId: string, billingType: SubscriptionPricingBillingTypEnum) => void;
 }
 
 export const SelectSubscriptionPlanStep: React.FC<Props> = ({
@@ -61,7 +61,7 @@ export const SelectSubscriptionPlanStep: React.FC<Props> = ({
       return;
     }
 
-    onSelectPlan(subscriptionPlan.id);
+    onSelectPlan(subscriptionPlan.id, selectedBillingType);
   };
 
   useEffect(() => {

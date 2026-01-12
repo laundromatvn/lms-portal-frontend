@@ -39,18 +39,24 @@ export const PaymentInformationSection: React.FC = () => {
   }
 
   return (
-    <BaseDetailSection title={t('subscription.paymentInformation')}>
-      <QRCode
-        value={internalPaymentInformation?.bank_account_qr_code || ''}
-      />
+    <BaseDetailSection>
+      <Flex
+        vertical
+        align="center"
+        gap={theme.custom.spacing.medium}
+        style={{ width: '100%' }}
+      >
+        <QRCode
+          size={256}
+          value={internalPaymentInformation?.bank_account_qr_code || ''}
+        />
 
-      <Flex vertical gap={theme.custom.spacing.medium} style={{ width: '100%' }}>
-        <Typography.Text>
-          {t('subscription.pleaseConfirmAfterTransferSuccess')}
+        <Typography.Text type="secondary">
+          {t('subscription.pleaseConfirmAfterTransferredSuccess')}
         </Typography.Text>
 
-        <Button type="primary">
-          {t('subscription.confirmTransferSuccess')}
+        <Button type="primary" size="large" style={{ width: '100%' }}>
+          {t('subscription.confirmTransferredSuccess')}
         </Button>
       </Flex>
 
@@ -62,9 +68,9 @@ export const PaymentInformationSection: React.FC = () => {
           backgroundColor: theme.custom.colors.neutral[100],
         }}
       >
-        <DataWrapper title={t('common.bankName')} value={`(${internalPaymentInformation?.bank_code}) ${internalPaymentInformation?.bank_name}`} />
-        <DataWrapper title={t('common.bankAccountNumber')} value={internalPaymentInformation?.bank_account} />
-        <DataWrapper title={t('common.bankAccountName')} value={internalPaymentInformation?.bank_account_name} />
+        <DataWrapper title={t('common.bankName')} compactWidth={156} value={`(${internalPaymentInformation?.bank_code}) ${internalPaymentInformation?.bank_name}`} />
+        <DataWrapper title={t('common.bankAccountNumber')} compactWidth={156} value={internalPaymentInformation?.bank_account} />
+        <DataWrapper title={t('common.bankAccountName')} compactWidth={156} value={internalPaymentInformation?.bank_account_name} />
       </Box>
     </BaseDetailSection>
   );

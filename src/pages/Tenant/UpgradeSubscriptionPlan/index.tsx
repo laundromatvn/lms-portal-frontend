@@ -4,10 +4,14 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 
+import { SubscriptionPricingBillingTypEnum } from '@shared/enums/SubscriptionPricingBillingTypEnum';
+
 import {
   SelectSubscriptionPlanStep,
   ConfirmAndPayStep,
 } from './Steps';
+
+import { QUERY_KEYS } from './constants';
 
 export const STEPS = {
   SELECT_SUBSCRIPTION_PLAN: 'select-subscription-plan',
@@ -18,11 +22,6 @@ export type SubscriptionUpgradeStep =
   typeof STEPS[keyof typeof STEPS];
 
 const DEFAULT_STEP = STEPS.SELECT_SUBSCRIPTION_PLAN;
-
-const QUERY_KEYS = {
-  STEP: 'step',
-  SUBSCRIPTION_PLAN_ID: 'subscription_plan_id',
-} as const;
 
 const isValidStep = (
   step: string | null
@@ -71,11 +70,11 @@ export const UpgradeSubscriptionPlanPage: React.FC = () => {
       {currentStep === STEPS.SELECT_SUBSCRIPTION_PLAN && (
         <SelectSubscriptionPlanStep
           tenantId={tenantId}
-          onSelectPlan={(subscriptionPlanId: string) =>
+          onSelectPlan={(subscriptionPlanId: string, billingType: SubscriptionPricingBillingTypEnum) =>
             goToStep(STEPS.CONFIRM_AND_PAY, {
               [QUERY_KEYS.SUBSCRIPTION_PLAN_ID]: subscriptionPlanId,
-            })
-          }
+              [QUERY_KEYS.BILLING_TYPE]: billingType,
+            })}
         />
       )}
 
