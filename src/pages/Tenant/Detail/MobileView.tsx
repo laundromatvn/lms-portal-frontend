@@ -56,7 +56,7 @@ export const MobileView: React.FC = () => {
       icon: <UsersGroupTwoRounded />,
     },
     {
-      label: t('tenant.detail.subscription'),
+      label: t('subscription.subscriptions'),
       value: TABS.SUBSCRIPTION,
       icon: <Star />,
     },

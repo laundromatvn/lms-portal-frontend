@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Flex, notification } from 'antd';
 
@@ -35,6 +35,7 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ tenantId, onBack }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -71,9 +72,8 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ tenantId, onBack }) => {
     }
   };
 
-  const handleOnPaid = () => {
-    // TODO: Implement payment logic
-    console.log('handleOnPaid');
+  const handleOnPaidSuccess = () => {
+    navigate(`/tenants/${tenantId}/detail`);
   }
 
   useEffect(() => {
@@ -106,17 +106,17 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ tenantId, onBack }) => {
     <BaseDetailSection title={t('subscription.confirmAndPay')}>
       {contextHolder}
 
-      <Flex
-        vertical={isMobile}
-        gap={theme.custom.spacing.medium}
-        style={{ width: '100%' }}
-      >
-        {isConfirmed ? (
-          <PaymentInformationSection
-            onPaid={handleOnPaid}
-            loading={createTenantSubscriptionPlanLoading}
-          />
-        ) : (
+      {isConfirmed ? (
+        <PaymentInformationSection
+          onPaidSuccess={handleOnPaidSuccess}
+          loading={createTenantSubscriptionPlanLoading}
+        />
+      ) : (
+        <Flex
+          vertical={isMobile}
+          gap={theme.custom.spacing.medium}
+          style={{ width: '100%' }}
+        >
           <ConfirmUpgradePlanSection
             subscriptionPlan={subscriptionPlan}
             onConfirmed={() => {
@@ -124,15 +124,15 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ tenantId, onBack }) => {
               handleConfirmUpgradePlan();
             }}
           />
-        )}
 
-        {subscriptionPlan && (
-          <SubscriptionPlanCard
-            subscriptionPlan={subscriptionPlan}
-            pricingOptionId={pricingOptionId || ''}
-          />
-        )}
-      </Flex>
+          {subscriptionPlan && (
+            <SubscriptionPlanCard
+              subscriptionPlan={subscriptionPlan}
+              pricingOptionId={pricingOptionId || ''}
+            />
+          )}
+        </Flex>
+      )}
     </BaseDetailSection>
   );
 };

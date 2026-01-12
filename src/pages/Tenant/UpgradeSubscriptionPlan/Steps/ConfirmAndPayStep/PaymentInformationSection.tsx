@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -18,15 +18,18 @@ import {
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { Box } from '@shared/components/Box';
 import { DataWrapper } from '@shared/components/DataWrapper';
+import { SubscriptionInvoiceProcessingModal } from './SubscriptionInvoiceProcessingModal';
 
 interface Props {
-  onPaid: () => void;
+  onPaidSuccess: () => void;
   loading: boolean;
 }
 
-export const PaymentInformationSection: React.FC<Props> = ({ onPaid, loading }) => {
+export const PaymentInformationSection: React.FC<Props> = ({ onPaidSuccess, loading }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
     getInternalPaymentInformation,
@@ -55,7 +58,13 @@ export const PaymentInformationSection: React.FC<Props> = ({ onPaid, loading }) 
           {t('subscription.pleaseConfirmAfterTransferredSuccess')}
         </Typography.Text>
 
-        <Button type="primary" size="large" style={{ width: '100%' }} onClick={onPaid}>
+        <Button
+          type="primary"
+          size="large"
+          style={{ width: '100%' }}
+          onClick={() => setIsModalOpen(true)}
+          loading={loading}
+        >
           {t('subscription.confirmTransferredSuccess')}
         </Button>
       </Flex>
@@ -72,6 +81,11 @@ export const PaymentInformationSection: React.FC<Props> = ({ onPaid, loading }) 
         <DataWrapper title={t('common.bankAccountNumber')} compactWidth={156} value={internalPaymentInformation?.bank_account} />
         <DataWrapper title={t('common.bankAccountName')} compactWidth={156} value={internalPaymentInformation?.bank_account_name} />
       </Box>
+
+      <SubscriptionInvoiceProcessingModal
+        isModalOpen={isModalOpen}
+        onPaidSuccess={onPaidSuccess}
+      />
     </BaseDetailSection>
   );
 };

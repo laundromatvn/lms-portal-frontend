@@ -741,6 +741,10 @@
     "disabled": "Disabled",
     "doYouWantToUpgradeYourSubscriptionPlan": "Do you want to upgrade your subscription plan <strong>{{subscriptionPlanName}}</strong>?",
     "upgradeNow": "Upgrade Now",
+    "weAreProcessingYourPayment": "We are processing your payment 💰",
+    "yourSubscriptionPlanIsBeingUpgraded": "Your subscription plan is being upgraded 🚀",
+    "youWillBeNotifiedWhenTheUpgradeIsComplete": "You will be notified when the upgrade is complete 🎉",
+    "thankYouForYourPurchase": "Thank you for your purchase ☺️",
     "billingTypes": {
       "RECURRING": "Recurring",
       "ONE_TIME": "One-time"

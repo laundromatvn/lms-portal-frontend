@@ -732,6 +732,10 @@
     "disabled": "Ngưng hoạt động",
     "doYouWantToUpgradeYourSubscriptionPlan": "Bạn có chắc chắn muốn nâng cấp gói đăng ký <strong>{{subscriptionPlanName}}</strong> không?",
     "upgradeNow": "Nâng cấp ngay",
+    "weAreProcessingYourPayment": "Chúng tôi đang xử lý thanh toán của bạn 💰",
+    "yourSubscriptionPlanIsBeingUpgraded": "Gói đăng ký của bạn đang được nâng cấp 🚀",
+    "youWillBeNotifiedWhenTheUpgradeIsComplete": "Chúng tôi sẽ thông báo khi nâng cấp hoàn tất 🎉",
+    "thankYouForYourPurchase": "Cảm ơn bạn đã mua hàng ☺️",
     "billingTypes": {
       "RECURRING": "Định kỳ",
       "ONE_TIME": "Một lần"
