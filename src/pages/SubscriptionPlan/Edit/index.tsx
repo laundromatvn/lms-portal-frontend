@@ -62,7 +62,7 @@ export const SubscriptionPlanEditPage: React.FC = () => {
       interval: form.getFieldValue('interval'),
       interval_count: form.getFieldValue('interval_count'),
       trial_period_count: form.getFieldValue('trial_period_count'),
-      permission_group_id: form.getFieldValue('permission_group_id'),
+      permission_group_id: form.getFieldValue('permission_group_id') || undefined,
     });
   };
 
@@ -73,7 +73,7 @@ export const SubscriptionPlanEditPage: React.FC = () => {
       name: subscriptionPlanData.name,
       description: subscriptionPlanData.description,
       is_enabled: subscriptionPlanData.is_enabled,
-      permission_group_id: subscriptionPlanData.permission_group_id,
+      permission_group_id: subscriptionPlanData.permission_group?.id,
     });
   }, [subscriptionPlanData]);
 
