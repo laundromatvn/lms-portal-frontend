@@ -30,7 +30,7 @@ import {
   type ListSubscriptionRequest,
 } from '@shared/hooks/subscription/useListSubscriptionApi';
 
-import { type Subscription } from '@shared/types/Subscription';
+import { type Subscription } from '@shared/types/subscription/Subscription';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 

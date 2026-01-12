@@ -44,7 +44,7 @@ import {
   type UpdateSubscriptionPlanResponse,
 } from '@shared/hooks/subscription_plan/useUpdateSubscriptionPlanApi';
 
-import { type SubscriptionPlan } from '@shared/types/SubscriptionPlan';
+import { type SubscriptionPlan } from '@shared/types/subscription/SubscriptionPlan';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 

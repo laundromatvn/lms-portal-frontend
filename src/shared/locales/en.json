@@ -725,6 +725,30 @@
     "pleaseConfirmAfterTransferSuccess": "Please confirm after transfer success",
     "confirmTransferSuccess": "Confirm Transfer Success",
     "paymentInformation": "Payment Information",
+    "pricingOptions": "Pricing Options",
+    "addPricingOption": "Add Pricing Option",
+    "isDefaultPricingOption": "Is Default Pricing Option",
+    "isEnabledPricingOption": "Is Enabled Pricing Option",
+    "billingType": "Billing Type",
+    "pricingUnit": "Pricing Unit",
+    "billingInterval": "Billing Interval",
+    "baseUnitPrice": "Base Unit Price",
+    "trialPeriodDays": "Trial Period (days)",
+    "addOption": "Add Option",
+    "days": "days",
+    "billingTypes": {
+      "RECURRING": "Recurring",
+      "ONE_TIME": "One-time"
+    },
+    "pricingUnits": {
+      "MACHINE": "Machine",
+      "STORE": "Store",
+      "PLAN": "Plan"
+    },
+    "billingIntervals": {
+      "MONTH": "Month",
+      "YEAR": "Year"
+    },
     "statuses": {
       "PENDING": "Pending",
       "ACTIVE": "Active",

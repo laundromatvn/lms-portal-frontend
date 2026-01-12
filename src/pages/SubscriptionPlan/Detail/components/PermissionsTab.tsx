@@ -4,7 +4,7 @@ import { Flex } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 
-import { type SubscriptionPlan } from '@shared/types/SubscriptionPlan';
+import { type SubscriptionPlan } from '@shared/types/subscription/SubscriptionPlan';
 
 import { PermissionGroupSection } from './PermissionGroupSection';
 import { PermissionsSection } from './PermissionsSection';

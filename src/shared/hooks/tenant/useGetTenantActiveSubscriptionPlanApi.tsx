@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react'
 import { getBackendUrl } from '@shared/utils/env'
 import { type ApiState } from '@shared/hooks/types'
 
-import { type Subscription } from '@shared/types/Subscription';
+import { type Subscription } from '@shared/types/subscription/Subscription';
 
 export type GetTenantActiveSubscriptionPlanResponse = Subscription;
 

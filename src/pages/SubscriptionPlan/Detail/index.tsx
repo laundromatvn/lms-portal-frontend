@@ -144,6 +144,7 @@ export const SubscriptionPlanDetailPage: React.FC = () => {
 
       <Flex
         justify="space-between"
+        align="center"
         gap={theme.custom.spacing.small}
         style={{ width: '100%' }}
       >

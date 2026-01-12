@@ -20,8 +20,10 @@ import {
 } from '@shared/hooks/subscription_plan/useCreateSubscriptionPlanApi';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
+
 import { BasicInformation } from './components/BasicInformation';
 import { PermissionGroup } from './components/PermissionGroup';
+import { PricingOptions } from './components/PricingOptions';
 
 export const SubscriptionPlanAddPage: React.FC = () => {
   const { t } = useTranslation();
@@ -47,6 +49,7 @@ export const SubscriptionPlanAddPage: React.FC = () => {
       name: form.getFieldValue('name'),
       description: form.getFieldValue('description'),
       permission_group_id: form.getFieldValue('permission_group_id'),
+      pricing_options: form.getFieldValue('pricing_options') || [],
     });
   };
 
@@ -111,6 +114,8 @@ export const SubscriptionPlanAddPage: React.FC = () => {
         <BasicInformation form={form} onChange={handleChange} />
 
         <PermissionGroup form={form} onChange={handleChange} />
+
+        <PricingOptions form={form} onChange={handleChange} />
       </Flex>
     </PortalLayoutV2>
   );

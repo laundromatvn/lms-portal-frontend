@@ -20,7 +20,7 @@ import {
   type ListSubscriptionPlanPermissionsResponse,
 } from '@shared/hooks/subscription_plan/useListSubscriptionPlanPermissionsApi';
 
-import { type SubscriptionPlan } from '@shared/types/SubscriptionPlan';
+import { type SubscriptionPlan } from '@shared/types/subscription/SubscriptionPlan';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DynamicTag } from '@shared/components/DynamicTag';

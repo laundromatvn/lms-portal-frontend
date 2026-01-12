@@ -15,7 +15,7 @@ import {
   type GetTenantActiveSubscriptionPlanResponse,
 } from '@shared/hooks/tenant/useGetTenantActiveSubscriptionPlanApi';
 
-import { type SubscriptionPlan } from '@shared/types/SubscriptionPlan';
+import { type SubscriptionPlan } from '@shared/types/subscription/SubscriptionPlan';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { SubscriptionPlanSelectItem } from '../components/SubscriptionPlanSelectItem';

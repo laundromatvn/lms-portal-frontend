@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Typography } from 'antd';
 
-import { type SubscriptionPlan } from '@shared/types/SubscriptionPlan';
+import { type SubscriptionPlan } from '@shared/types/subscription/SubscriptionPlan';
 
 import { DataWrapper } from '@shared/components/DataWrapper';
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';

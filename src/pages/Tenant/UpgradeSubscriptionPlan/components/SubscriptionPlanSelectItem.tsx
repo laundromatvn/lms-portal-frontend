@@ -5,7 +5,7 @@ import { Button, Divider, Flex, Typography } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 
-import { type SubscriptionPlan } from '@shared/types/SubscriptionPlan';
+import { type SubscriptionPlan } from '@shared/types/subscription/SubscriptionPlan';
 
 import { Box } from '@shared/components/Box';
 import { DynamicTag } from '@shared/components/DynamicTag';
@@ -73,24 +73,6 @@ export const SubscriptionPlanSelectItem: React.FC<Props> = ({
               color={theme.custom.colors.accent_1[400]}
             />
           )}
-        </Flex>
-
-        <Flex align="center" gap={theme.custom.spacing.xxsmall}>
-          <Typography.Text style={{
-            fontSize: theme.custom.fontSize.xxxxlarge,
-            fontWeight: theme.custom.fontWeight.xxlarge,
-            color: theme.custom.colors.text.primary,
-          }}>
-            {formatCurrencyCompact(subscriptionPlan.price)}
-          </Typography.Text>
-
-          <Typography.Text
-            type="secondary"
-            style={{
-              fontSize: theme.custom.fontSize.small,
-            }}>
-            {t('subscription.pricePerInterval', { count: subscriptionPlan.interval_count || 0, interval: t(`subscription.${subscriptionPlan.interval?.toLowerCase()}`) })}
-          </Typography.Text>
         </Flex>
 
         <Flex style={{ width: '50%' }}>

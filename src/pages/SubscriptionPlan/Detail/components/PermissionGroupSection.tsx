@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { type SubscriptionPlan } from '@shared/types/SubscriptionPlan';
+import { type SubscriptionPlan } from '@shared/types/subscription/SubscriptionPlan';
 
 import { DataWrapper } from '@shared/components/DataWrapper';
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
@@ -24,7 +24,7 @@ export const PermissionGroupSection: React.FC<Props> = ({ subscriptionPlan, load
     >
       <DataWrapper
         title={t('subscription.permissionGroup')}
-        value={subscriptionPlan?.permission_group_name}
+        value={subscriptionPlan?.permission_group?.name}
       />
     </BaseDetailSection>
   );

@@ -683,7 +683,7 @@
     "confirmAndPay": "Xác nhận và thanh toán",
     "subscriptions": "Subscriptions",
     "basicInformation": "Thông tin gói",
-    "pricingConfiguration": "Cấu hình gói",
+    "pricingConfiguration": "Cấu hình giá",
     "setDefault": "Đặt làm mặc định",
     "permissionGroup": "Nhóm quyền",
     "name": "Tên",
@@ -716,6 +716,30 @@
     "pleaseConfirmAfterTransferSuccess": "Vui lòng xác nhận sau khi chuyển khoản thành công",
     "confirmTransferSuccess": "Xác nhận chuyển khoản thành công",
     "paymentInformation": "Thông tin thanh toán",
+    "pricingOptions": "Cấu hình gói",
+    "addPricingOption": "Thêm cấu hình gói",
+    "isDefaultPricingOption": "Đặt làm mặc định",
+    "isEnabledPricingOption": "Đang hoạt động",
+    "billingType": "Loại thanh toán",
+    "pricingUnit": "Đơn vị thanh toán",
+    "billingInterval": "Chu kỳ thanh toán",
+    "baseUnitPrice": "Giá 1 đơn vị",
+    "trialPeriodDays": "Thời gian dùng thử (ngày)",
+    "addOption": "Thêm cấu hình gói",
+    "days": "ngày",
+    "billingTypes": {
+      "RECURRING": "Định kỳ",
+      "ONE_TIME": "Một lần"
+    },
+    "pricingUnits": {
+      "MACHINE": "Máy",
+      "STORE": "Cửa hàng",
+      "PLAN": "Gói"
+    },
+    "billingIntervals": {
+      "MONTH": "Tháng",
+      "YEAR": "Năm"
+    },
     "statuses": {
       "PENDING": "Chờ xử lý",
       "ACTIVE": "Đang sử dụng",

@@ -2,14 +2,10 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
-  Flex,
   Form,
   Input,
-  Switch,
   type FormInstance,
 } from 'antd';
-
-import { useTheme } from '@shared/theme/useTheme';
 
 import { BaseEditSection } from '@shared/components/BaseEditSection';
 
@@ -20,7 +16,6 @@ interface Props {
 
 export const BasicInformation: React.FC<Props> = ({ form, onChange }) => {
   const { t } = useTranslation();
-  const theme = useTheme();
 
   useEffect(() => {
     form.setFieldsValue({

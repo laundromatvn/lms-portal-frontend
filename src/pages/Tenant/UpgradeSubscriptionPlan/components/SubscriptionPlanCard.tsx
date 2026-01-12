@@ -5,11 +5,9 @@ import { Divider, Flex, Typography } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 
-import { type SubscriptionPlan } from '@shared/types/SubscriptionPlan';
+import { type SubscriptionPlan } from '@shared/types/subscription/SubscriptionPlan';
 
 import { Box } from '@shared/components/Box';
-
-import { formatCurrencyCompact } from '@shared/utils/currency';
 
 interface Props {
   subscriptionPlan: SubscriptionPlan;
@@ -41,24 +39,6 @@ export const SubscriptionPlanCard: React.FC<Props> = ({
         <Typography.Title level={3} style={{ marginBottom: 0 }}>
           {subscriptionPlan.name}
         </Typography.Title>
-
-        <Flex align="center" gap={theme.custom.spacing.xxsmall}>
-          <Typography.Text style={{
-            fontSize: theme.custom.fontSize.xxxxlarge,
-            fontWeight: theme.custom.fontWeight.xxlarge,
-            color: theme.custom.colors.text.primary,
-          }}>
-            {formatCurrencyCompact(subscriptionPlan.price)}
-          </Typography.Text>
-
-          <Typography.Text
-            type="secondary"
-            style={{
-              fontSize: theme.custom.fontSize.small,
-            }}>
-            {t('subscription.pricePerInterval', { count: subscriptionPlan.interval_count || 0, interval: t(`subscription.${subscriptionPlan.interval?.toLowerCase()}`) })}
-          </Typography.Text>
-        </Flex>
 
         <Flex style={{ width: '50%' }}>
           <Divider style={{

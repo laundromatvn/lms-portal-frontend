@@ -9,8 +9,8 @@ import {
 } from '@shared/hooks/tenant/useGetTenantActiveSubscriptionPlanApi';
 
 import { type Tenant } from '@shared/types/tenant';
-import { type SubscriptionPlan } from '@shared/types/SubscriptionPlan';
-import { type Subscription } from '@shared/types/Subscription';
+import { type SubscriptionPlan } from '@shared/types/subscription/SubscriptionPlan';
+import { type Subscription } from '@shared/types/subscription/Subscription';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DataWrapper } from '@shared/components/DataWrapper';

@@ -5,12 +5,14 @@ import { getBackendUrl } from '@shared/utils/env'
 import { type ApiState } from '@shared/hooks/types'
 
 import axiosClient from '@core/axiosClient'
+import type { SubscriptionPricingOption } from '@shared/types/subscription/SubscriptionPricingOption'
 
 export type CreateSubscriptionPlanPayload = {
   name: string;
   description: string | null;
   permission_group_id: string;
-}
+  pricing_options: SubscriptionPricingOption[];
+  }
 
 export type CreateSubscriptionPlanResponse = boolean;
 

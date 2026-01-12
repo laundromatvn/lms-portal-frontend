@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react'
 import { getBackendUrl } from '@shared/utils/env'
 
 import { type ApiState } from '@shared/hooks/types'
-import { type SubscriptionPlan } from '@shared/types/SubscriptionPlan';
+import { type SubscriptionPlan } from '@shared/types/subscription/SubscriptionPlan';
 
 import axiosClient from '@core/axiosClient'
 

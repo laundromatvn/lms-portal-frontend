@@ -1,4 +1,4 @@
-import { type SubscriptionPlan } from './SubscriptionPlan';
+import { type SubscriptionPlan } from '@shared/types/subscription/SubscriptionPlan';
 import { SubscriptionStatusEnum } from '@shared/enums/SubscriptionStatusEnum';
 
 export type Subscription = {

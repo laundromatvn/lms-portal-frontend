@@ -73,11 +73,6 @@ export const SubscriptionPlanEditPage: React.FC = () => {
       name: subscriptionPlanData.name,
       description: subscriptionPlanData.description,
       is_enabled: subscriptionPlanData.is_enabled,
-      price: subscriptionPlanData.price,
-      type: subscriptionPlanData.type,
-      interval: subscriptionPlanData.interval,
-      interval_count: subscriptionPlanData.interval_count || 1,
-      trial_period_count: subscriptionPlanData.trial_period_count || 1,
       permission_group_id: subscriptionPlanData.permission_group_id,
     });
   }, [subscriptionPlanData]);
