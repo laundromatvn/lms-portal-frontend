@@ -19,10 +19,10 @@ import {
   type CreateTenantSubscriptionPlanResponse,
 } from '@shared/hooks/tenant/useCreateTenantSubscriptionPlanApi';
 
-import { QUERY_KEYS } from '../constants';
+import { QUERY_KEYS } from '../../constants';
 
-import { SubscriptionPlanCard } from '../components/SubscriptionPlanCard';
-import { PaymentInformationSection } from '../components/PaymentInformationSection';
+import { SubscriptionPlanCard } from './SubscriptionPlanCard';
+import { PaymentInformationSection } from './PaymentInformationSection';
 
 
 interface Props {

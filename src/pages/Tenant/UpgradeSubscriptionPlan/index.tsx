@@ -4,8 +4,6 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 
-import { SubscriptionPricingBillingTypEnum } from '@shared/enums/SubscriptionPricingBillingTypEnum';
-
 import {
   SelectSubscriptionPlanStep,
   ConfirmAndPayStep,

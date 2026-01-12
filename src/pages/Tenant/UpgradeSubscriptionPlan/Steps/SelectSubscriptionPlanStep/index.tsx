@@ -20,7 +20,7 @@ import { SubscriptionPricingBillingTypEnum } from '@shared/enums/SubscriptionPri
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 
-import { SubscriptionPlanSelectItem } from '../components/SubscriptionPlanSelectItem';
+import { SubscriptionPlanSelectItem } from './SubscriptionPlanSelectItem';
 
 import './styles.css';
 
