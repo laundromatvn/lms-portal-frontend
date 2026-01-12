@@ -44,21 +44,23 @@ export const BaseDetailSection: React.FC<Props> = ({
         ...style,
       }}
     >
-      <Flex justify="space-between" align="center" style={{ width: '100%' }}>
-        {title && <BaseSectionTitle title={title} onRefresh={onRefresh} />}
+      {title || onEdit && (
+        <Flex justify="space-between" align="center" style={{ width: '100%' }}>
+          {title && <BaseSectionTitle title={title} onRefresh={onRefresh} />}
 
-        <Flex justify="end" gap={theme.custom.spacing.small}>
           {onEdit && (
-            <Button
-              type="link"
-              onClick={onEdit}
-              icon={type === 'text' ? undefined : <PenNewSquare size={16} />}
-            >
-              {type === 'text' ? t('common.edit') : undefined}
-            </Button>
+            <Flex justify="end" gap={theme.custom.spacing.small}>
+              <Button
+                type="link"
+                onClick={onEdit}
+                icon={type === 'text' ? undefined : <PenNewSquare size={16} />}
+              >
+                {type === 'text' ? t('common.edit') : undefined}
+              </Button>
+            </Flex>
           )}
         </Flex>
-      </Flex>
+      )}
 
       {loading ? <Spin spinning={loading} size="small" /> : children}
     </Box>

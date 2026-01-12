@@ -21,9 +21,10 @@ import { DataWrapper } from '@shared/components/DataWrapper';
 
 interface Props {
   onPaid: () => void;
+  loading: boolean;
 }
 
-export const PaymentInformationSection: React.FC<Props> = ({ onPaid }) => {
+export const PaymentInformationSection: React.FC<Props> = ({ onPaid, loading }) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -37,12 +38,8 @@ export const PaymentInformationSection: React.FC<Props> = ({ onPaid }) => {
     getInternalPaymentInformation();
   }, []);
 
-  if (internalPaymentInformationLoading) {
-    return <Skeleton active />;
-  }
-
   return (
-    <BaseDetailSection>
+    <BaseDetailSection loading={loading || internalPaymentInformationLoading}>
       <Flex
         vertical
         align="center"

@@ -739,6 +739,8 @@
     "default": "Default",
     "enabled": "Enabled",
     "disabled": "Disabled",
+    "doYouWantToUpgradeYourSubscriptionPlan": "Do you want to upgrade your subscription plan <strong>{{subscriptionPlanName}}</strong>?",
+    "upgradeNow": "Upgrade Now",
     "billingTypes": {
       "RECURRING": "Recurring",
       "ONE_TIME": "One-time"

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 
@@ -23,6 +23,7 @@ import { QUERY_KEYS } from '../../constants';
 
 import { SubscriptionPlanCard } from './SubscriptionPlanCard';
 import { PaymentInformationSection } from './PaymentInformationSection';
+import { ConfirmUpgradePlanSection } from './ConfirmUpgradePlanSection';
 
 
 interface Props {
@@ -47,6 +48,8 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ tenantId, onBack }) => {
     QUERY_KEYS.PRICING_OPTION_ID
   );
 
+  const [isConfirmed, setIsConfirmed] = useState(false);
+
   const {
     getSubscriptionPlan,
     data: subscriptionPlan,
@@ -59,7 +62,7 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ tenantId, onBack }) => {
     loading: createTenantSubscriptionPlanLoading,
   } = useCreateTenantSubscriptionPlanApi<CreateTenantSubscriptionPlanResponse>();
 
-  const handleOnPaid = () => {
+  const handleConfirmUpgradePlan = () => {
     if (subscriptionPlanId && pricingOptionId) {
       createTenantSubscriptionPlan(tenantId, {
         subscription_plan_id: subscriptionPlanId,
@@ -68,17 +71,16 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ tenantId, onBack }) => {
     }
   };
 
+  const handleOnPaid = () => {
+    // TODO: Implement payment logic
+    console.log('handleOnPaid');
+  }
+
   useEffect(() => {
     if (createTenantSubscriptionPlanData) {
       api.success({
         message: t('subscription.messages.createTenantSubscriptionPlanSuccess'),
       });
-
-      const timer = setTimeout(() => {
-        onBack();
-      }, 1500);
-
-      return () => clearTimeout(timer);
     }
   }, [createTenantSubscriptionPlanData, onBack]);
 
@@ -109,9 +111,20 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ tenantId, onBack }) => {
         gap={theme.custom.spacing.medium}
         style={{ width: '100%' }}
       >
-        <PaymentInformationSection
-          onPaid={handleOnPaid}
-        />
+        {isConfirmed ? (
+          <PaymentInformationSection
+            onPaid={handleOnPaid}
+            loading={createTenantSubscriptionPlanLoading}
+          />
+        ) : (
+          <ConfirmUpgradePlanSection
+            subscriptionPlan={subscriptionPlan}
+            onConfirmed={() => {
+              setIsConfirmed(true);
+              handleConfirmUpgradePlan();
+            }}
+          />
+        )}
 
         {subscriptionPlan && (
           <SubscriptionPlanCard

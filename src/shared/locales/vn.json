@@ -730,6 +730,8 @@
     "default": "Mặc định",
     "enabled": "Hoạt động",
     "disabled": "Ngưng hoạt động",
+    "doYouWantToUpgradeYourSubscriptionPlan": "Bạn có chắc chắn muốn nâng cấp gói đăng ký <strong>{{subscriptionPlanName}}</strong> không?",
+    "upgradeNow": "Nâng cấp ngay",
     "billingTypes": {
       "RECURRING": "Định kỳ",
       "ONE_TIME": "Một lần"
