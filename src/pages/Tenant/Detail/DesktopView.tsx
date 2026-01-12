@@ -11,7 +11,7 @@ import {
 import {
   InfoCircle,
   UsersGroupTwoRounded,
-  CheckSquare,
+  Star,
 } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -58,7 +58,7 @@ export const DesktopView: React.FC = () => {
     {
       label: t('subscription.subscriptions'),
       value: TABS.SUBSCRIPTION,
-      icon: <CheckSquare />,
+      icon: <Star />,
     },
   ]
 

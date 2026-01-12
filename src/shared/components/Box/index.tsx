@@ -5,6 +5,7 @@ import { useTheme } from '@shared/theme/useTheme';
 import { Flex, Skeleton } from 'antd';
 
 interface Props {
+  className?: string;
   children: React.ReactNode;
   vertical?: boolean;
   justify?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly';
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export const Box: React.FC<Props> = ({
+  className,
   children,
   vertical = false,
   align = 'flex-start',
@@ -36,6 +38,7 @@ export const Box: React.FC<Props> = ({
   const theme = useTheme();
 
   return <Flex
+    className={className}
     vertical={vertical}
     justify={justify}
     align={align}

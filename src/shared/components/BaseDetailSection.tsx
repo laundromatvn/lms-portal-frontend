@@ -12,6 +12,7 @@ import { BaseSectionTitle } from './BaseSectionTitle';
 
 interface Props {
   title?: string;
+  className?: string;
   children: React.ReactNode;
   onEdit?: () => void;
   onRefresh?: () => void;
@@ -22,6 +23,7 @@ interface Props {
 
 export const BaseDetailSection: React.FC<Props> = ({
   title,
+  className,
   children,
   onEdit,
   onRefresh,
@@ -35,6 +37,7 @@ export const BaseDetailSection: React.FC<Props> = ({
   return (
     <Box
       vertical
+      className={className}
       gap={theme.custom.spacing.medium}
       style={{
         width: '100%',

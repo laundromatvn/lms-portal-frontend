@@ -11,9 +11,11 @@ import { Box } from '@shared/components/Box';
 import { DynamicTag } from '@shared/components/DynamicTag';
 
 import { formatCurrencyCompact } from '@shared/utils/currency';
+import { SubscriptionPricingBillingTypEnum } from '@shared/enums/SubscriptionPricingBillingTypEnum';
 
 interface Props {
   index: number;
+  selectedBillingType: SubscriptionPricingBillingTypEnum;
   isCurrent: boolean;
   subscriptionPlan: SubscriptionPlan;
   onSelect: (value: SubscriptionPlan, primaryColor: string) => void;
@@ -21,6 +23,7 @@ interface Props {
 
 export const SubscriptionPlanSelectItem: React.FC<Props> = ({
   index,
+  selectedBillingType,
   isCurrent,
   subscriptionPlan,
   onSelect,
@@ -73,6 +76,27 @@ export const SubscriptionPlanSelectItem: React.FC<Props> = ({
               color={theme.custom.colors.accent_1[400]}
             />
           )}
+        </Flex>
+
+        <Flex vertical gap={theme.custom.spacing.small} style={{ whiteSpace: 'nowrap' }}>
+          {subscriptionPlan.pricing_options.filter((pricingOption) => pricingOption.billing_type === selectedBillingType).map((pricingOption) => {
+            if (selectedBillingType === SubscriptionPricingBillingTypEnum.RECURRING) {
+              return (
+                <Typography.Text strong style={{ whiteSpace: 'nowrap', fontSize: theme.custom.fontSize.xxxlarge }}>
+                  {formatCurrencyCompact(pricingOption.base_unit_price)}
+                  <Typography.Text type='secondary'>
+                    {' '}/{pricingOption.interval_count} {t(`subscription.billingIntervals.${pricingOption.billing_interval}`)}
+                  </Typography.Text>
+                </Typography.Text>
+              );
+            }
+
+            return (
+              <Typography.Text strong style={{ whiteSpace: 'nowrap', fontSize: theme.custom.fontSize.xxxlarge }}>
+                {formatCurrencyCompact(pricingOption.base_unit_price)}
+              </Typography.Text>
+            );
+          })}
         </Flex>
 
         <Flex style={{ width: '50%' }}>

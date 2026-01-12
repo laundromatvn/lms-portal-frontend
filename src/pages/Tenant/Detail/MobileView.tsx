@@ -20,7 +20,7 @@ import { type Tenant } from '@shared/types/tenant';
 import {
   InfoCircle,
   UsersGroupTwoRounded,
-  CheckSquare,
+  Star,
 } from '@solar-icons/react';
 
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
@@ -58,7 +58,7 @@ export const MobileView: React.FC = () => {
     {
       label: t('tenant.detail.subscription'),
       value: TABS.SUBSCRIPTION,
-      icon: <CheckSquare />,
+      icon: <Star />,
     },
   ]
 
