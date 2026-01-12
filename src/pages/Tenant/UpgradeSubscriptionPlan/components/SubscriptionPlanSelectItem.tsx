@@ -14,7 +14,6 @@ import { formatCurrencyCompact } from '@shared/utils/currency';
 import { SubscriptionPricingBillingTypEnum } from '@shared/enums/SubscriptionPricingBillingTypEnum';
 
 interface Props {
-  index: number;
   selectedBillingType: SubscriptionPricingBillingTypEnum;
   isCurrent: boolean;
   subscriptionPlan: SubscriptionPlan;
@@ -22,7 +21,6 @@ interface Props {
 }
 
 export const SubscriptionPlanSelectItem: React.FC<Props> = ({
-  index,
   selectedBillingType,
   isCurrent,
   subscriptionPlan,
@@ -31,24 +29,7 @@ export const SubscriptionPlanSelectItem: React.FC<Props> = ({
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const backgroundColor = useMemo(() => {
-    const remainder = index % 5;
-
-    switch (remainder) {
-      case 0:
-        return theme.custom.colors.info[300];
-      case 1:
-        return theme.custom.colors.success[300];
-      case 2:
-        return theme.custom.colors.warning[300];
-      case 3:
-        return theme.custom.colors.danger[300];
-      case 4:
-        return theme.custom.colors.accent_1[300];
-      default:
-        return theme.custom.colors.primary[300];
-    }
-  }, [index]);
+  const backgroundColor = theme.custom.colors.primary.light;
 
   return (
     <Box
@@ -65,7 +46,7 @@ export const SubscriptionPlanSelectItem: React.FC<Props> = ({
     >
       <Flex vertical gap={theme.custom.spacing.medium} style={{ width: '100%', height: '100%' }}>
         <Flex justify="space-between" align="center" gap={theme.custom.spacing.xsmall}>
-          <Typography.Title level={3} style={{ marginBottom: 0 }}>
+          <Typography.Title level={4} style={{ marginBottom: 0, color: theme.custom.colors.primary.dark }}>
             {subscriptionPlan.name}
           </Typography.Title>
 
@@ -108,13 +89,11 @@ export const SubscriptionPlanSelectItem: React.FC<Props> = ({
         </Flex>
 
         <Typography.Paragraph
+          type="secondary"
           ellipsis={{
             rows: 3,
             expandable: true,
             symbol: 'more',
-          }}
-          style={{
-            color: theme.custom.colors.text.primary,
           }}
         >
           {subscriptionPlan.description}

@@ -70,7 +70,11 @@ export const SelectSubscriptionPlanStep: React.FC<Props> = ({
         return subscriptionPlan.pricing_options.some((pricingOption) => pricingOption.billing_type === selectedBillingType);
       });
 
-      setFilteredSubscriptionPlans(filteredSubscriptionPlans);
+      const sortedSubscriptionPlans = filteredSubscriptionPlans.sort((a, b) => {
+        return a.pricing_options[0].base_unit_price - b.pricing_options[0].base_unit_price;
+      });
+
+      setFilteredSubscriptionPlans(sortedSubscriptionPlans);
     }
   }, [availableSubscriptionPlansData, selectedBillingType]);
 
@@ -113,10 +117,9 @@ export const SelectSubscriptionPlanStep: React.FC<Props> = ({
           gap={theme.custom.spacing.medium}
           style={{ width: '100%', overflowX: 'auto' }}
         >
-          {filteredSubscriptionPlans?.map((subscriptionPlan, index) => (
+          {filteredSubscriptionPlans?.map((subscriptionPlan) => (
             <SubscriptionPlanSelectItem
               key={subscriptionPlan.id}
-              index={index}
               selectedBillingType={selectedBillingType}
               isCurrent={
                 tenantActiveSubscriptionPlan?.subscription_plan?.id ===
