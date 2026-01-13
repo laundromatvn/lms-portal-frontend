@@ -163,7 +163,6 @@ export const OptionDrawer: React.FC<Props> = ({
             size="large"
             options={[
               { label: t('subscription.pricingUnits.MACHINE'), value: SubscriptionPricingUnitEnum.MACHINE },
-              { label: t('subscription.pricingUnits.STORE'), value: SubscriptionPricingUnitEnum.STORE },
               { label: t('subscription.pricingUnits.PLAN'), value: SubscriptionPricingUnitEnum.PLAN },
             ]}
           />
