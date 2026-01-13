@@ -44,7 +44,7 @@ export const BaseDetailSection: React.FC<Props> = ({
         ...style,
       }}
     >
-      {title || onEdit && (
+      {(title || onEdit) && (
         <Flex justify="space-between" align="center" style={{ width: '100%' }}>
           {title && <BaseSectionTitle title={title} onRefresh={onRefresh} />}
 

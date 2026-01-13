@@ -31,7 +31,6 @@ import type { SubscriptionPricingOption } from '@shared/types/subscription/Subsc
 import { type SubscriptionPlan } from '@shared/types/subscription/SubscriptionPlan';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
-import { DynamicTag } from '@shared/components/DynamicTag';
 
 import { OptionDrawer } from './OptionDrawer';
 

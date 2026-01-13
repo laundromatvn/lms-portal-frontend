@@ -26,7 +26,6 @@ import {
 import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 
 import { BasicInformationEditSection } from './components/BasicInformationEditSection';
-import { PricingConfigurationEditSection } from './components/PricingConfigurationEditSection';
 import { PermissionGroupEditSection } from './components/PermissionGroupEditSection';
 
 export const SubscriptionPlanEditPage: React.FC = () => {
@@ -57,11 +56,6 @@ export const SubscriptionPlanEditPage: React.FC = () => {
       name: form.getFieldValue('name'),
       description: form.getFieldValue('description'),
       is_enabled: form.getFieldValue('is_enabled'),
-      price: form.getFieldValue('price'),
-      type: form.getFieldValue('type'),
-      interval: form.getFieldValue('interval'),
-      interval_count: form.getFieldValue('interval_count'),
-      trial_period_count: form.getFieldValue('trial_period_count'),
       permission_group_id: form.getFieldValue('permission_group_id') || undefined,
     });
   };
@@ -73,7 +67,7 @@ export const SubscriptionPlanEditPage: React.FC = () => {
       name: subscriptionPlanData.name,
       description: subscriptionPlanData.description,
       is_enabled: subscriptionPlanData.is_enabled,
-      permission_group_id: subscriptionPlanData.permission_group?.id,
+      permission_group_id: subscriptionPlanData.permission_group?.id || undefined,
     });
   }, [subscriptionPlanData]);
 
@@ -139,11 +133,6 @@ export const SubscriptionPlanEditPage: React.FC = () => {
           }}
         >
           <BasicInformationEditSection
-            form={form}
-            onChange={handleSave}
-          />
-
-          <PricingConfigurationEditSection
             form={form}
             onChange={handleSave}
           />

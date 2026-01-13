@@ -1,6 +1,5 @@
 export const SubscriptionPricingUnitEnum = {
     PLAN: 'PLAN',
-    STORE: 'STORE',
     MACHINE: 'MACHINE',
 } as const;
 

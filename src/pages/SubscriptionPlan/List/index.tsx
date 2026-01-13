@@ -14,10 +14,12 @@ import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 
 import { SubscriptionPlanSection } from './SubscriptionPlanSection';
 import { SubscriptionSection } from './SubscriptionSection';
+import { SubscriptionInvoiceSection } from './SubscriptionInvoiceSection';
 
 const TABS = {
   PLANS: 'plans',
   SUBSCRIPTIONS: 'subscriptions',
+  INVOICES: 'invoices',
 }
 
 export const SubscriptionPlanListPage: React.FC = () => {
@@ -34,6 +36,10 @@ export const SubscriptionPlanListPage: React.FC = () => {
     {
       label: t('subscription.subscriptions'),
       value: TABS.SUBSCRIPTIONS,
+    },
+    {
+      label: t('subscription.invoices'),
+      value: TABS.INVOICES,
     },
   ];
 
@@ -71,6 +77,9 @@ export const SubscriptionPlanListPage: React.FC = () => {
         )}
         {selectedTab === TABS.SUBSCRIPTIONS && (
           <SubscriptionSection />
+        )}
+        {selectedTab === TABS.INVOICES && (
+          <SubscriptionInvoiceSection />
         )}
       </Flex>
     </PortalLayoutV2>

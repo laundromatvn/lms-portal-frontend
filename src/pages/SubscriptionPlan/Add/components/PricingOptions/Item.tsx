@@ -111,8 +111,8 @@ export const PricingOptionItem: React.FC<Props> = ({ option, onChange, onDelete 
             <Select
               size="large"
               options={[
-                { label: t('subscription.billingTypes.recurring'), value: SubscriptionPricingBillingTypEnum.RECURRING },
-                { label: t('subscription.billingTypes.oneTime'), value: SubscriptionPricingBillingTypEnum.ONE_TIME },
+                { label: t('subscription.billingTypes.RECURRING'), value: SubscriptionPricingBillingTypEnum.RECURRING },
+                { label: t('subscription.billingTypes.ONE_TIME'), value: SubscriptionPricingBillingTypEnum.ONE_TIME },
               ]}
             />
           </Form.Item>
@@ -126,9 +126,8 @@ export const PricingOptionItem: React.FC<Props> = ({ option, onChange, onDelete 
             <Select
               size="large"
               options={[
-                { label: t('subscription.pricingUnits.machine'), value: SubscriptionPricingUnitEnum.MACHINE },
-                { label: t('subscription.pricingUnits.store'), value: SubscriptionPricingUnitEnum.STORE },
-                { label: t('subscription.pricingUnits.plan'), value: SubscriptionPricingUnitEnum.PLAN },
+                { label: t('subscription.pricingUnits.MACHINE'), value: SubscriptionPricingUnitEnum.MACHINE },
+                { label: t('subscription.pricingUnits.PLAN'), value: SubscriptionPricingUnitEnum.PLAN },
               ]}
             />
           </Form.Item>
@@ -195,8 +194,8 @@ export const PricingOptionItem: React.FC<Props> = ({ option, onChange, onDelete 
                 <Select
                   size="large"
                   options={[
-                    { label: t('subscription.billingIntervals.month'), value: SubscriptionPricingIntervalEnum.MONTH },
-                    { label: t('subscription.billingIntervals.year'), value: SubscriptionPricingIntervalEnum.YEAR },
+                    { label: t('subscription.billingIntervals.MONTH'), value: SubscriptionPricingIntervalEnum.MONTH },
+                    { label: t('subscription.billingIntervals.YEAR'), value: SubscriptionPricingIntervalEnum.YEAR },
                   ]}
                 />
               </Form.Item>
