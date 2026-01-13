@@ -30,6 +30,14 @@ import {
   type ListSubscriptionInvoiceResponse,
   type ListSubscriptionInvoiceRequest,
 } from '@shared/hooks/subscription_plan/useListSubscriptionInvoiceApi';
+import {
+  useConfirmPurchaseSubscriptionInvoiceApi,
+  type ConfirmPurchaseSubscriptionInvoiceResponse,
+} from '@shared/hooks/subscription_plan/useConfirmPurchaseSubscriptionInvoiceApi';
+import {
+  useRejectPurchaseSubscriptionInvoiceApi,
+  type RejectPurchaseSubscriptionInvoiceResponse,
+} from '@shared/hooks/subscription_plan/useRejectPurchaseSubscriptionInvoiceApi';
 
 import { type SubscriptionInvoice } from '@shared/types/subscription/SubscriptionInvoice';
 
@@ -66,6 +74,16 @@ export const DesktopView: React.FC = () => {
     data: listSubscriptionInvoiceData,
     loading: listSubscriptionInvoiceLoading,
   } = useListSubscriptionInvoiceApi<ListSubscriptionInvoiceResponse>();
+  const {
+    confirmPurchaseSubscriptionInvoice,
+    data: confirmPurchaseSubscriptionInvoiceData,
+    error: confirmPurchaseSubscriptionInvoiceError,
+  } = useConfirmPurchaseSubscriptionInvoiceApi<ConfirmPurchaseSubscriptionInvoiceResponse>();
+  const {
+    rejectPurchaseSubscriptionInvoice,
+    data: rejectPurchaseSubscriptionInvoiceData,
+    error: rejectPurchaseSubscriptionInvoiceError,
+  } = useRejectPurchaseSubscriptionInvoiceApi<RejectPurchaseSubscriptionInvoiceResponse>();
 
   const columns: ColumnsType<SubscriptionInvoice> = [
     {
@@ -171,12 +189,46 @@ export const DesktopView: React.FC = () => {
   };
 
   const handleConfirmPayment = (invoice: SubscriptionInvoice) => {
-    console.log('confirm payment', invoice);
+    confirmPurchaseSubscriptionInvoice(invoice.id);
   };
 
   const handleRejectPayment = (invoice: SubscriptionInvoice) => {
-    console.log('reject payment', invoice);
+    rejectPurchaseSubscriptionInvoice(invoice.id);
   };
+
+  useEffect(() => {
+    if (confirmPurchaseSubscriptionInvoiceData) {
+      api.success({
+        message: t('subscription.messages.confirmPurchaseSubscriptionInvoiceSuccess'),
+      });
+      handleListSubscriptionInvoice();
+    }
+  }, [confirmPurchaseSubscriptionInvoiceData]);
+
+  useEffect(() => {
+    if (rejectPurchaseSubscriptionInvoiceData) {
+      api.success({
+        message: t('subscription.messages.rejectPurchaseSubscriptionInvoiceSuccess'),
+      });
+      handleListSubscriptionInvoice();
+    }
+  }, [rejectPurchaseSubscriptionInvoiceData]);
+
+  useEffect(() => {
+    if (confirmPurchaseSubscriptionInvoiceError) {
+      api.error({
+        message: t('subscription.messages.confirmPurchaseSubscriptionInvoiceError'),
+      });
+    }
+  }, [confirmPurchaseSubscriptionInvoiceError]);
+
+  useEffect(() => {
+    if (rejectPurchaseSubscriptionInvoiceError) {
+      api.error({
+        message: t('subscription.messages.rejectPurchaseSubscriptionInvoiceError'),
+      });
+    }
+  }, [rejectPurchaseSubscriptionInvoiceError]);
 
   useEffect(() => {
     const timer = setTimeout(() => {

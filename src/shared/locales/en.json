@@ -789,7 +789,11 @@
       "setDefaultSubscriptionPlanError": "Failed to set subscription plan as default",
       "youAreAlreadyUsingThisSubscriptionPlan": "You are already using this subscription plan",
       "createTenantSubscriptionPlanSuccess": "Subscription plan created successfully",
-      "createTenantSubscriptionPlanError": "Failed to create subscription plan"
+      "createTenantSubscriptionPlanError": "Failed to create subscription plan",
+      "confirmPurchaseSubscriptionInvoiceSuccess": "Purchase subscription invoice confirmed successfully",
+      "confirmPurchaseSubscriptionInvoiceError": "Failed to confirm purchase subscription invoice",
+      "rejectPurchaseSubscriptionInvoiceSuccess": "Purchase subscription invoice rejected successfully",
+      "rejectPurchaseSubscriptionInvoiceError": "Failed to reject purchase subscription invoice"
     }
   }
 }

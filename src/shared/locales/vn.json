@@ -780,7 +780,11 @@
       "setDefaultSubscriptionPlanError": "Không thể đặt gói đăng ký làm mặc định",
       "youAreAlreadyUsingThisSubscriptionPlan": "Bạn đã đang sử dụng gói đăng ký này",
       "createTenantSubscriptionPlanSuccess": "Gói đăng ký đã được tạo thành công",
-      "createTenantSubscriptionPlanError": "Không thể tạo gói đăng ký"
+      "createTenantSubscriptionPlanError": "Không thể tạo gói đăng ký",
+      "confirmPurchaseSubscriptionInvoiceSuccess": "Hóa đơn đăng ký đã được xác nhận thành công",
+      "confirmPurchaseSubscriptionInvoiceError": "Không thể xác nhận hóa đơn đăng ký",
+      "rejectPurchaseSubscriptionInvoiceSuccess": "Hóa đơn đăng ký đã được từ chối thành công",
+      "rejectPurchaseSubscriptionInvoiceError": "Không thể từ chối hóa đơn đăng ký"
     }
   }
 }

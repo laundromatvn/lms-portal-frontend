@@ -49,6 +49,7 @@ export const DynamicTag: React.FC<Props> = ({ value, type = 'text', color, style
       case 'released':
       case 'patch':
       case 'enabled':
+      case 'paid':
         return theme.custom.colors.success.default;
       case 'waiting_for_payment':
       case 'washer':
