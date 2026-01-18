@@ -758,6 +758,22 @@
     "billingUnitCount": "Billing Unit Count",
     "confirmPayment": "Confirm Payment",
     "rejectPayment": "Reject Payment",
+    "renewSubscription": "Renew Subscription",
+    "renew": "Renew",
+    "yourSubscriptionPlan": "Your Subscription Plan",
+    "subscriptionPlan": "Subscription Plan",
+    "pleaseSelectAPricingOption": "Please select a pricing option",
+    "pricePerUnit": "Price per Unit",
+    "selectPricingOption": "Select Pricing Option",
+    "selectPricingOptionDescription": "Please select the pricing option you want to renew",
+    "reviewSubscriptionPlan": "Review Subscription Plan",
+    "reviewSubscriptionPlanDescription": "Please review the subscription plan you want to renew",
+    "doYouWantToRenewYourSubscriptionPlan": "Do you want to renew your subscription plan <strong>{{subscriptionPlanName}}</strong>?",
+    "renewSubscriptionPlan": "Renew Subscription Plan",
+    "renewSubscriptionPlanDescription": "Please renew the subscription plan you want to renew",
+    "yourSubscriptionPlanIsBeingRenewed": "Your subscription plan is being renewed 🚀",
+    "youWillBeNotifiedWhenTheRenewalIsComplete": "You will be notified when the renewal is complete 🎉",
+    "renewNow": "Renew Now",
     "billingTypes": {
       "RECURRING": "Recurring",
       "ONE_TIME": "One-time"
@@ -793,7 +809,9 @@
       "confirmPurchaseSubscriptionInvoiceSuccess": "Purchase subscription invoice confirmed successfully",
       "confirmPurchaseSubscriptionInvoiceError": "Failed to confirm purchase subscription invoice",
       "rejectPurchaseSubscriptionInvoiceSuccess": "Purchase subscription invoice rejected successfully",
-      "rejectPurchaseSubscriptionInvoiceError": "Failed to reject purchase subscription invoice"
+      "rejectPurchaseSubscriptionInvoiceError": "Failed to reject purchase subscription invoice",
+      "renewSubscriptionSuccess": "Subscription renewed successfully",
+      "renewSubscriptionError": "Failed to renew subscription"
     }
   }
 }

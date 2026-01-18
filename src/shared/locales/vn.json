@@ -749,6 +749,21 @@
     "billingUnitCount": "Số lượng thanh toán",
     "confirmPayment": "Xác nhận thanh toán",
     "rejectPayment": "Từ chối thanh toán",
+    "renewSubscription": "Gia hạn Gói đăng ký",
+    "renew": "Gia hạn",
+    "yourSubscriptionPlan": "Gói đăng ký của bạn",
+    "subscriptionPlan": "Gói đăng ký",
+    "pleaseSelectAPricingOption": "Vui lòng chọn một cấu hình giá",
+    "pricePerUnit": "Giá 1 đơn vị",
+    "selectPricingOption": "Chọn cấu hình giá",
+    "selectPricingOptionDescription": "Vui lòng chọn cấu hình giá bạn muốn gia hạn",
+    "reviewSubscriptionPlan": "Xem chi tiết gói đăng ký",
+    "reviewSubscriptionPlanDescription": "Vui lòng xem chi tiết gói đăng ký bạn muốn gia hạn",
+    "doYouWantToRenewYourSubscriptionPlan": "Bạn có chắc chắn muốn gia hạn gói đăng ký <strong>{{subscriptionPlanName}}</strong> không?",
+    "renewSubscriptionPlan": "Gia hạn ngay",
+    "yourSubscriptionPlanIsBeingRenewed": "Gói đăng ký của bạn đang được gia hạn 🚀",
+    "youWillBeNotifiedWhenTheRenewalIsComplete": "Chúng tôi sẽ thông báo khi gia hạn hoàn tất 🎉",
+    "renewNow": "Gia hạn ngay",
     "billingTypes": {
       "RECURRING": "Định kỳ",
       "ONE_TIME": "Một lần"
@@ -784,7 +799,9 @@
       "confirmPurchaseSubscriptionInvoiceSuccess": "Hóa đơn đăng ký đã được xác nhận thành công",
       "confirmPurchaseSubscriptionInvoiceError": "Không thể xác nhận hóa đơn đăng ký",
       "rejectPurchaseSubscriptionInvoiceSuccess": "Hóa đơn đăng ký đã được từ chối thành công",
-      "rejectPurchaseSubscriptionInvoiceError": "Không thể từ chối hóa đơn đăng ký"
+      "rejectPurchaseSubscriptionInvoiceError": "Không thể từ chối hóa đơn đăng ký",
+      "renewSubscriptionSuccess": "Gói đăng ký đã được gia hạn thành công",
+      "renewSubscriptionError": "Không thể gia hạn gói đăng ký"
     }
   }
 }

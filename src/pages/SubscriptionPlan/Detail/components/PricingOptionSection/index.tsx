@@ -191,9 +191,9 @@ export const PricingOptionsSection: React.FC<Props> = ({ subscriptionPlan, loadi
 
   const handleAddPricingOption = (newPricingOption: SubscriptionPricingOption) => {
     const isExistingOption = subscriptionPlan?.pricing_options?.some((option) => (
-      option.pricing_unit === newPricingOption.pricing_unit
-      && option.billing_type === newPricingOption.billing_type
+      option.billing_type === newPricingOption.billing_type
       && option.billing_interval === newPricingOption.billing_interval
+      && option.interval_count === newPricingOption.interval_count
     ));
 
     if (isExistingOption) {

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Button, Flex } from 'antd';
 
-import { Star } from '@solar-icons/react';
+import { Star, Refresh } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
@@ -28,7 +28,18 @@ export const SubscriptionPlanTab: React.FC<Props> = ({ tenant }: Props) => {
       gap={theme.custom.spacing.medium}
       style={{ width: '100%' }}
     >
-      <Flex justify="flex-end" style={{ width: '100%' }}>
+      <Flex justify="flex-end" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+        <Button
+          icon={<Refresh />}
+          onClick={() => navigate(`/tenants/${tenant.id}/renew-subscription`)}
+          style={{
+            backgroundColor: theme.custom.colors.info.light,
+            borderColor: theme.custom.colors.info.light,
+          }}
+        >
+          {t('subscription.renew')}
+        </Button>
+
         <Button
           icon={<Star />}
           onClick={() => navigate(`/tenants/${tenant.id}/upgrade-subscription-plan`)}
