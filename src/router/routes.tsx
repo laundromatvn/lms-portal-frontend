@@ -82,6 +82,12 @@ import {
   SubscriptionPlanListPage,
 } from '@pages/SubscriptionPlan';
 
+import {
+  ExpiredPage,
+  TrialEndedPage,
+  RenewPage,
+} from '@pages/Subscription';
+
 import { type Route } from './index';
 
 export const routes: Route[] = [
@@ -288,5 +294,18 @@ export const routes: Route[] = [
   {
     path: '/subscription-plans/:id/edit',
     component: <SubscriptionPlanEditPage />,
+  },
+  // Subscription
+  {
+    path: '/subscription/expired',
+    component: <ExpiredPage />,
+  },
+  {
+    path: '/subscription/trial-ended',
+    component: <TrialEndedPage />,
+  },
+  {
+    path: '/subscription/renew',
+    component: <RenewPage />,
   },
 ];

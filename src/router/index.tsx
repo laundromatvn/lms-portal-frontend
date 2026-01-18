@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route as ReactRoute } from 'react-router-dom';
+import { SubscriptionGuard } from '@shared/components/SubscriptionGuard';
 
 export interface Route {
   path: string;
@@ -12,11 +13,13 @@ interface AppRouterProps {
 
 const AppRouter: React.FC<AppRouterProps> = ({ routes }) => {
   return (
-    <Routes>
-      {routes.map((route, index) => (
-        <ReactRoute key={index} path={route.path} element={route.component} />
-      ))}
-    </Routes>
+    <SubscriptionGuard>
+      <Routes>
+        {routes.map((route, index) => (
+          <ReactRoute key={index} path={route.path} element={route.component} />
+        ))}
+      </Routes>
+    </SubscriptionGuard>
   );
 };
 

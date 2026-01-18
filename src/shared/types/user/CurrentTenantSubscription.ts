@@ -6,4 +6,6 @@ export type CurrentTenantSubscription = {
     subscription_plan: SubscriptionPlan
     subscription: Subscription
     pricing_options: SubscriptionPricingOption[]
+    should_block_access?: boolean
+    is_trial?: boolean
 }
