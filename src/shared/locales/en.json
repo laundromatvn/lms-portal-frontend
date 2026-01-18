@@ -813,5 +813,12 @@
       "renewSubscriptionSuccess": "Subscription renewed successfully",
       "renewSubscriptionError": "Failed to renew subscription"
     }
+  },
+  "subscriptionGuard": {
+    "subscriptionExpired": "Subscription Expired",
+    "subscriptionExpiredDescription": "Your subscription has expired. Please renew your subscription to continue using the portal.",
+    "renewSubscription": "Renew Subscription",
+    "trialEnded": "Trial Ended",
+    "trialEndedDescription": "Your trial has ended. Please renew your subscription to continue using the portal."
   }
 }

@@ -803,5 +803,12 @@
       "renewSubscriptionSuccess": "Gói đăng ký đã được gia hạn thành công",
       "renewSubscriptionError": "Không thể gia hạn gói đăng ký"
     }
+  },
+  "subscriptionGuard": {
+    "subscriptionExpired": "Gói đăng ký đã hết hạn",
+    "subscriptionExpiredDescription": "Gói đăng ký của bạn đã hết hạn. Vui lòng gia hạn gói đăng ký để tiếp tục sử dụng.",
+    "renewSubscription": "Gia hạn gói đăng ký",
+    "trialEnded": "Dùng thử đã hết hạn",
+    "trialEndedDescription": "Dùng thử của bạn đã hết hạn. Vui lòng gia hạn gói đăng ký để tiếp tục sử dụng."
   }
 }
