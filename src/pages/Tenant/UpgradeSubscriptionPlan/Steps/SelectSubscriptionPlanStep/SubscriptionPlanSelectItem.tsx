@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, Divider, Flex, Typography } from 'antd';
@@ -6,6 +6,7 @@ import { Button, Divider, Flex, Typography } from 'antd';
 import { useTheme } from '@shared/theme/useTheme';
 
 import { type SubscriptionPlan } from '@shared/types/subscription/SubscriptionPlan';
+import { type SubscriptionPricingOption } from '@shared/types/subscription/SubscriptionPricingOption';
 
 import { Box } from '@shared/components/Box';
 import { DynamicTag } from '@shared/components/DynamicTag';
@@ -29,7 +30,19 @@ export const SubscriptionPlanSelectItem: React.FC<Props> = ({
   const { t } = useTranslation();
   const theme = useTheme();
 
+
+  const [primaryPricingOption, setPrimaryPricingOption] = useState<SubscriptionPricingOption | undefined>(undefined);
   const backgroundColor = theme.custom.colors.primary.light;
+
+  useEffect(() => {
+    if (subscriptionPlan.pricing_options.length === 0) return;
+
+    const sortedPricingOptions = subscriptionPlan.pricing_options.filter((pricingOption) => pricingOption.billing_type === selectedBillingType).sort((a, b) => {
+      return a.base_unit_price - b.base_unit_price;
+    });
+
+    setPrimaryPricingOption(sortedPricingOptions[0]);
+  }, [subscriptionPlan]);
 
   return (
     <Box
@@ -60,24 +73,20 @@ export const SubscriptionPlanSelectItem: React.FC<Props> = ({
         </Flex>
 
         <Flex vertical gap={theme.custom.spacing.small} style={{ whiteSpace: 'nowrap' }}>
-          {subscriptionPlan.pricing_options.filter((pricingOption) => pricingOption.billing_type === selectedBillingType).map((pricingOption) => {
-            if (selectedBillingType === SubscriptionPricingBillingTypEnum.RECURRING) {
-              return (
-                <Typography.Text strong style={{ whiteSpace: 'nowrap', fontSize: theme.custom.fontSize.xxxlarge }}>
-                  {formatCurrencyCompact(pricingOption.base_unit_price)}
-                  <Typography.Text type='secondary'>
-                    {' '}/{pricingOption.interval_count} {t(`subscription.billingIntervals.${pricingOption.billing_interval}`)}
-                  </Typography.Text>
-                </Typography.Text>
-              );
-            }
-
-            return (
-              <Typography.Text strong style={{ whiteSpace: 'nowrap', fontSize: theme.custom.fontSize.xxxlarge }}>
-                {formatCurrencyCompact(pricingOption.base_unit_price)}
+          {selectedBillingType === SubscriptionPricingBillingTypEnum.RECURRING && (
+            <Typography.Text strong style={{ whiteSpace: 'nowrap', fontSize: theme.custom.fontSize.xxxlarge }}>
+              {formatCurrencyCompact(primaryPricingOption?.base_unit_price || 0)}
+              <Typography.Text type='secondary'>
+                {' '}/{primaryPricingOption?.interval_count} {t(`subscription.billingIntervals.${primaryPricingOption?.billing_interval}`)}
               </Typography.Text>
-            );
-          })}
+            </Typography.Text>
+          )}
+
+          {selectedBillingType === SubscriptionPricingBillingTypEnum.ONE_TIME && (
+            <Typography.Text strong style={{ whiteSpace: 'nowrap', fontSize: theme.custom.fontSize.xxxlarge }}>
+              {formatCurrencyCompact(primaryPricingOption?.base_unit_price || 0)}
+            </Typography.Text>
+          )}
         </Flex>
 
         <Flex style={{ width: '50%' }}>
