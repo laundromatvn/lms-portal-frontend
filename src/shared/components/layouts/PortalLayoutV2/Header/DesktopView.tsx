@@ -5,10 +5,9 @@ import { Button, Flex, Typography } from 'antd';
 import { AltArrowLeft, HamburgerMenu } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
-import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 
-interface HeaderProps {
+interface DesktopViewProps {
   title?: string;
   showLogo?: boolean;
   onTitleClick?: () => void;
@@ -16,8 +15,7 @@ interface HeaderProps {
   style?: React.CSSProperties;
 }
 
-export const MainHeader: React.FC<HeaderProps> = ({ title, showLogo, onTitleClick, onBack, style }) => {
-  const isMobile = useIsMobile();
+export const DesktopView: React.FC<DesktopViewProps> = ({ title, showLogo, onTitleClick, onBack, style }) => {
   const theme = useTheme();
 
   return (
@@ -33,7 +31,7 @@ export const MainHeader: React.FC<HeaderProps> = ({ title, showLogo, onTitleClic
       }}
     >
       <Flex align="center" gap={theme.custom.spacing.xxsmall} style={{ width: '100%' }}>
-        {isMobile && showLogo && (
+        {showLogo && (
           <Button
             type="text"
             onClick={onTitleClick}

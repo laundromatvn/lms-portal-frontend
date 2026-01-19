@@ -53,13 +53,12 @@ export const MainHeader: React.FC<Props> = ({
         <Button
           type="text"
           onClick={onBack}
+          icon={<AltArrowLeft size={18} />}
           style={{
             padding: 0,
             paddingRight: theme.custom.spacing.xsmall,
           }}
-        >
-          <AltArrowLeft size={18} />
-        </Button>
+        />
       )}
 
       {title && onTitleClick === undefined && (

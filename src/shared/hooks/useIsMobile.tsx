@@ -7,15 +7,18 @@ import { useEffect, useState } from 'react';
  * @returns {boolean} true if screen width is less than 768px, false otherwise
  */
 export const useIsMobile = (): boolean => {
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+  // Initialize with correct value synchronously to prevent flash on first render
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    if (typeof window === 'undefined') {
+      return false; // Default to desktop for SSR
+    }
+    return window.innerWidth < 768;
+  });
 
   useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
-    // Check on mount
-    checkIsMobile();
 
     // Add event listener for window resize
     window.addEventListener('resize', checkIsMobile);
