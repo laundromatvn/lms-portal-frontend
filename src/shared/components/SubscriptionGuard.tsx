@@ -2,14 +2,15 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { tokenManager } from '@core/auth/tokenManager';
+import { tenantStorage } from '@core/storage/tenantStorage';
 import { userStorage } from '@core/storage/userStorage';
 
 import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
 
 import {
-  useGetCurrentTenantSubscriptionApi,
-  type GetCurrentTenantSubscriptionResponse,
-} from '@shared/hooks/user/useGetCurrentTenantSubscriptionApi';
+  useGetTenantSubscriptionExpiryStatus,
+  type GetTenantSubscriptionExpiryStatusResponse,
+} from '@shared/hooks/tenant/useGetTenantSubscriptionExpiryStatus';
 
 const ALLOWED_ROUTES = [
   '/auth/sign-in',
@@ -42,17 +43,34 @@ export const SubscriptionGuard: React.FC<SubscriptionGuardProps> = ({ children }
   const [hasInitiallyChecked, setHasInitiallyChecked] = useState(false);
   const previousChildrenRef = useRef<React.ReactNode>(children);
 
+  const tenantId = tenantStorage.load()?.id;
+
   const {
-    getCurrentTenantSubscription,
-    loading: currentTenantSubscriptionLoading,
-    data: currentTenantSubscriptionData,
-    error: currentTenantSubscriptionError,
-  } = useGetCurrentTenantSubscriptionApi<GetCurrentTenantSubscriptionResponse>();
+    getTenantSubscriptionExpiryStatus,
+    loading: tenantSubscriptionExpiryStatusLoading,
+    data: tenantSubscriptionExpiryStatusData,
+    error: tenantSubscriptionExpiryStatusError,
+  } = useGetTenantSubscriptionExpiryStatus<GetTenantSubscriptionExpiryStatusResponse>();
 
   // Routes that should never be blocked by subscription guard
   const isAllowedRoute = (pathname: string): boolean => {
     return ALLOWED_ROUTES.some(route => pathname === route || pathname.startsWith(route));
   };
+
+  // Reset state when user logs out
+  useEffect(() => {
+    const unsubscribe = tokenManager.subscribeAuth((authenticated) => {
+      if (!authenticated) {
+        setIsChecking(true);
+        setHasInitiallyChecked(false);
+        previousChildrenRef.current = null;
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     const checkSubscription = async () => {
@@ -78,15 +96,15 @@ export const SubscriptionGuard: React.FC<SubscriptionGuardProps> = ({ children }
       }
 
       // Fetch current subscription status
-      getCurrentTenantSubscription();
+      getTenantSubscriptionExpiryStatus(tenantId!);
     };
 
     checkSubscription();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
+  }, [location.pathname, tenantId]);
 
   useEffect(() => {
-    if (!currentTenantSubscriptionData || currentTenantSubscriptionLoading || currentTenantSubscriptionError) {
+    if (!tenantSubscriptionExpiryStatusData) {
       return;
     }
 
@@ -97,21 +115,17 @@ export const SubscriptionGuard: React.FC<SubscriptionGuardProps> = ({ children }
       return;
     }
 
-    if (currentTenantSubscriptionData.should_block_access === true) {
-      if (currentTenantSubscriptionData.is_trial === true) {
-        navigate('/subscription/trial-ended', { replace: true });
-      } else {
-        navigate('/subscription/expired', { replace: true });
-      }
+    if (tenantSubscriptionExpiryStatusData.should_block_access === true) {
+      navigate('/subscription/expired', { replace: true });
     }
 
     setIsChecking(false);
     setHasInitiallyChecked(true);
-  }, [currentTenantSubscriptionData, currentTenantSubscriptionLoading, currentTenantSubscriptionError, navigate, location.pathname]);
+  }, [tenantSubscriptionExpiryStatusData, navigate, location.pathname]);
 
   // Keep previous children rendered during checks to prevent layout flash
   // Only return null on initial mount before first check completes
-  if (!hasInitiallyChecked && (isChecking || currentTenantSubscriptionLoading)) {
+  if (!hasInitiallyChecked && (isChecking || tenantSubscriptionExpiryStatusLoading)) {
     return null;
   }
 
@@ -122,7 +136,7 @@ export const SubscriptionGuard: React.FC<SubscriptionGuardProps> = ({ children }
     return <>{children}</>;
   }
 
-  if (currentTenantSubscriptionError) {
+  if (tenantSubscriptionExpiryStatusError) {
     navigate('/error');
     return null;
   }

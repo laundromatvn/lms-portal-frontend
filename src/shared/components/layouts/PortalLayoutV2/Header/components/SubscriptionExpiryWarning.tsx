@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import {
   Tag,
-  Typography,
-  Spin
+  Spin,
 } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
@@ -32,6 +32,8 @@ const cacheRef: {
 
 export const SubscriptionExpiryWarning: React.FC = () => {
   const theme = useTheme();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const tenantId = tenantStorage.load()?.id;
   const [cachedData, setCachedData] = useState<GetTenantSubscriptionExpiryStatusResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -87,7 +89,13 @@ export const SubscriptionExpiryWarning: React.FC = () => {
   }
 
   return (
-    <Tag color={displayData?.days_until_expiration > 0 ? 'warning' : 'error'}>
+    <Tag
+      color={displayData?.days_until_expiration > 0 ? 'warning' : 'error'}
+      onClick={() => navigate(`/tenants/${tenantId}/detail#subscription`)}
+      style={{
+        cursor: 'pointer',
+      }}
+    >
       <Trans
         i18nKey={displayData?.days_until_expiration > 0
           ? 'subscription.subscriptionWillExpireIn'
@@ -106,5 +114,5 @@ export const SubscriptionExpiryWarning: React.FC = () => {
 
       />
     </Tag>
-  );
+  )
 };

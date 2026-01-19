@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 import {
   Flex,
@@ -39,6 +39,7 @@ export const DesktopView: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -83,6 +84,21 @@ export const DesktopView: React.FC = () => {
       });
     }
   }, [tenantError]);
+
+  useEffect(() => {
+    if (location.hash) {
+      const tab = location.hash.split('#')[1];
+      setSelectedTab(tab);
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (!selectedTab) return;
+
+    navigate(`#${selectedTab}`);
+  }, [selectedTab]);
+
+  if (!tenantData) return null;
 
   return (
     <PortalLayoutV2

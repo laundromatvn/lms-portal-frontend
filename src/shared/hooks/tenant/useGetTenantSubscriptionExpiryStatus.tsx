@@ -7,6 +7,7 @@ import { type ApiState } from '@shared/hooks/types'
 export type GetTenantSubscriptionExpiryStatusResponse = {
   subscription_plan_name: string;
   days_until_expiration: number;
+  should_block_access: boolean;
 }
 
 export const useGetTenantSubscriptionExpiryStatus = <T = GetTenantSubscriptionExpiryStatusResponse>() => {
