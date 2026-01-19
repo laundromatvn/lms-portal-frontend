@@ -45,6 +45,7 @@
     "start": "Bắt đầu",
     "reset": "Reset",
     "signIn": "Đăng nhập",
+    "logout": "Đăng xuất",
     "password": "Mật khẩu",
     "email": "Email",
     "add": "Thêm",
@@ -807,8 +808,9 @@
   "subscriptionGuard": {
     "subscriptionExpired": "Gói đăng ký đã hết hạn",
     "subscriptionExpiredDescription": "Gói đăng ký của bạn đã hết hạn. Vui lòng gia hạn gói đăng ký để tiếp tục sử dụng.",
-    "renewSubscription": "Gia hạn gói đăng ký",
-    "trialEnded": "Dùng thử đã hết hạn",
-    "trialEndedDescription": "Dùng thử của bạn đã hết hạn. Vui lòng gia hạn gói đăng ký để tiếp tục sử dụng."
+    "renewSubscription": "Gia hạn gói đăng ký ngay",
+    "trialEnded": "Gói dùng thử đã hết hạn",
+    "trialEndedDescription": "Gói dùng thử của bạn đã hết hạn. Vui lòng gia hạn gói đăng ký để tiếp tục sử dụng.",
+    "goToHomePage": "Đến trang chủ"
   }
 }

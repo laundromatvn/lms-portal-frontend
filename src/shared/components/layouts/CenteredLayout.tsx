@@ -11,9 +11,10 @@ const MAX_WIDTH = 1200;
 interface Props {
   children: React.ReactNode;
   style?: React.CSSProperties;
+  layoutStyle?: React.CSSProperties;
 }
 
-export const CenteredLayout: React.FC<Props> = ({ children, style }) => {
+export const CenteredLayout: React.FC<Props> = ({ children, style, layoutStyle }) => {
   const theme = useTheme();
 
   return (
@@ -22,6 +23,7 @@ export const CenteredLayout: React.FC<Props> = ({ children, style }) => {
         minHeight: '100vh', 
         width: '100vw',
         backgroundColor: theme.custom.colors.background.light,
+        ...layoutStyle,
       }}
     >
       <Content

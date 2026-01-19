@@ -45,6 +45,7 @@
     "reset": "Reset",
     "loadMore": "Load More",
     "signIn": "Sign In",
+    "logout": "Logout",
     "password": "Password",
     "email": "Email",
     "add": "Add",
@@ -817,8 +818,9 @@
   "subscriptionGuard": {
     "subscriptionExpired": "Subscription Expired",
     "subscriptionExpiredDescription": "Your subscription has expired. Please renew your subscription to continue using the portal.",
-    "renewSubscription": "Renew Subscription",
+    "renewSubscription": "Renew Subscription Now",
     "trialEnded": "Trial Ended",
-    "trialEndedDescription": "Your trial has ended. Please renew your subscription to continue using the portal."
+    "trialEndedDescription": "Your trial has ended. Please renew your subscription to continue using the portal.",
+    "goToHomePage": "Go to Home Page"
   }
 }

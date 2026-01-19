@@ -11,7 +11,7 @@ import {
 
 import { QUERY_KEYS } from './constants';
 
-export const STEPS = {
+const STEPS = {
   SELECT_SUBSCRIPTION_PLAN: 'select-subscription-plan',
   CONFIRM_AND_PAY: 'confirm-and-pay',
 } as const;
