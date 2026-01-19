@@ -765,6 +765,8 @@
     "yourSubscriptionPlanIsBeingRenewed": "Gói đăng ký của bạn đang được gia hạn 🚀",
     "youWillBeNotifiedWhenTheRenewalIsComplete": "Chúng tôi sẽ thông báo khi gia hạn hoàn tất 🎉",
     "renewNow": "Gia hạn ngay",
+    "subscriptionWillExpireIn": "<strong>{{planName}}</strong> sẽ hết hạn sau <strong>{{days}}</strong> ngày",
+    "subscriptionHasExpired": "<strong>{{planName}}</strong> đã quá hạn <strong>{{days}}</strong> ngày",
     "billingTypes": {
       "RECURRING": "Định kỳ",
       "ONE_TIME": "Một lần"

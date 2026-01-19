@@ -775,6 +775,8 @@
     "yourSubscriptionPlanIsBeingRenewed": "Your subscription plan is being renewed 🚀",
     "youWillBeNotifiedWhenTheRenewalIsComplete": "You will be notified when the renewal is complete 🎉",
     "renewNow": "Renew Now",
+    "subscriptionWillExpireIn": "<strong>{{planName}}</strong> will expire in <strong>{{days}}</strong> days",
+    "subscriptionHasExpired": "<strong>{{planName}}</strong> has expired <strong>{{days}}</strong> days",
     "billingTypes": {
       "RECURRING": "Recurring",
       "ONE_TIME": "One-time"

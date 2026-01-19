@@ -6,6 +6,12 @@ import { AltArrowLeft, HamburgerMenu } from '@solar-icons/react';
 
 import { useTheme } from '@shared/theme/useTheme';
 
+import { userStorage } from '@core/storage/userStorage';
+
+import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
+
+import { SubscriptionExpiryWarning } from './components/SubscriptionExpiryWarning';
+
 
 interface DesktopViewProps {
   title?: string;
@@ -17,6 +23,8 @@ interface DesktopViewProps {
 
 export const DesktopView: React.FC<DesktopViewProps> = ({ title, showLogo, onTitleClick, onBack, style }) => {
   const theme = useTheme();
+
+  const user = userStorage.load();
 
   return (
     <Flex
@@ -59,6 +67,10 @@ export const DesktopView: React.FC<DesktopViewProps> = ({ title, showLogo, onTit
             {title}
           </Typography.Link>
         )}
+      </Flex>
+
+      <Flex justify="end" align="center" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
+        {user?.role !== UserRoleEnum.ADMIN && <SubscriptionExpiryWarning />}
       </Flex>
     </Flex>
   );
