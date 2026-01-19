@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { tokenManager } from '@core/auth/tokenManager';
@@ -32,12 +32,15 @@ interface SubscriptionGuardProps {
  * - Uses useGetCurrentTenantSubscriptionApi as the single source of truth
  * - Redirects to appropriate pages when should_block_access is true
  * - Does NOT block access to login or subscription-related pages
+ * - Keeps children rendered during checks to prevent layout flashing
  */
 export const SubscriptionGuard: React.FC<SubscriptionGuardProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const [isChecking, setIsChecking] = useState(true);
+  const [hasInitiallyChecked, setHasInitiallyChecked] = useState(false);
+  const previousChildrenRef = useRef<React.ReactNode>(children);
 
   const {
     getCurrentTenantSubscription,
@@ -56,18 +59,21 @@ export const SubscriptionGuard: React.FC<SubscriptionGuardProps> = ({ children }
       // Skip check if user is not authenticated
       if (!tokenManager.isAuthenticated()) {
         setIsChecking(false);
+        setHasInitiallyChecked(true);
         return;
       }
 
       // SKip if current user is admin
       if (userStorage.load()?.role === UserRoleEnum.ADMIN) {
         setIsChecking(false);
+        setHasInitiallyChecked(true);
         return;
       }
 
       // Skip check for allowed routes to prevent redirect loops
       if (isAllowedRoute(location.pathname)) {
         setIsChecking(false);
+        setHasInitiallyChecked(true);
         return;
       }
 
@@ -84,6 +90,13 @@ export const SubscriptionGuard: React.FC<SubscriptionGuardProps> = ({ children }
       return;
     }
 
+    // Don't redirect if we're on an allowed route (like renew page)
+    if (isAllowedRoute(location.pathname)) {
+      setIsChecking(false);
+      setHasInitiallyChecked(true);
+      return;
+    }
+
     if (currentTenantSubscriptionData.should_block_access === true) {
       if (currentTenantSubscriptionData.is_trial === true) {
         navigate('/subscription/trial-ended', { replace: true });
@@ -93,10 +106,20 @@ export const SubscriptionGuard: React.FC<SubscriptionGuardProps> = ({ children }
     }
 
     setIsChecking(false);
-  }, [currentTenantSubscriptionData]);
+    setHasInitiallyChecked(true);
+  }, [currentTenantSubscriptionData, currentTenantSubscriptionLoading, currentTenantSubscriptionError, navigate, location.pathname]);
 
-  if (isChecking || currentTenantSubscriptionLoading) {
+  // Keep previous children rendered during checks to prevent layout flash
+  // Only return null on initial mount before first check completes
+  if (!hasInitiallyChecked && (isChecking || currentTenantSubscriptionLoading)) {
     return null;
+  }
+
+  // After initial check, always render children to prevent flashing on navigation
+  // The navigation will handle redirecting if subscription is expired
+  if (hasInitiallyChecked) {
+    previousChildrenRef.current = children;
+    return <>{children}</>;
   }
 
   if (currentTenantSubscriptionError) {
@@ -104,5 +127,5 @@ export const SubscriptionGuard: React.FC<SubscriptionGuardProps> = ({ children }
     return null;
   }
 
-  return <>{children}</>;
+  return <>{previousChildrenRef.current || children}</>;
 };
