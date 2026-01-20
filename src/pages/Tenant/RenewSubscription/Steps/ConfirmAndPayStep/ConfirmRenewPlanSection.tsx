@@ -45,12 +45,6 @@ export const ConfirmRenewPlanSection: React.FC<Props> = ({ subscriptionPlan, pre
             </Typography.Text>
           </DataWrapper>
 
-          <DataWrapper title={t('subscription.billingUnitCount')}>
-            <Typography.Text>
-              {previewSubscriptionInvoiceResult.unit_count}
-            </Typography.Text>
-          </DataWrapper>
-
           <DataWrapper title={t('subscription.discountAmount')}>
             <Typography.Text>
               {formatCurrencyCompact(previewSubscriptionInvoiceResult.discount_amount)}

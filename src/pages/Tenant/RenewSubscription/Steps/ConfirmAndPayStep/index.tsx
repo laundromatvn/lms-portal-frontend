@@ -62,7 +62,6 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ onBack }) => {
   );
 
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [previewSubscriptionInvoiceResult, setPreviewSubscriptionInvoiceResult] = useState<PreviewSubscriptionInvoiceResponse | null>(null);
 
   const {
     getSubscriptionPlan,
@@ -76,7 +75,6 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ onBack }) => {
 
   const {
     renewSubscription,
-    data: renewSubscriptionData,
     error: renewSubscriptionError,
     loading: renewSubscriptionLoading,
   } = useRenewSubscriptionApi<RenewSubscriptionResponse>();
@@ -84,7 +82,6 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ onBack }) => {
   const {
     previewSubscriptionInvoice,
     data: previewSubscriptionInvoiceData,
-    loading: previewSubscriptionInvoiceLoading,
   } = usePreviewSubscriptionInvoiceApi<PreviewSubscriptionInvoiceResponse>();
 
   const handleConfirmRenewPlan = () => {
@@ -100,14 +97,6 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ onBack }) => {
       navigate(-1);
     }
   };
-
-  useEffect(() => {
-    if (renewSubscriptionData) {
-      api.success({
-        message: t('subscription.messages.renewSubscriptionSuccess'),
-      });
-    }
-  }, [renewSubscriptionData]);
 
   useEffect(() => {
     if (renewSubscriptionError) {

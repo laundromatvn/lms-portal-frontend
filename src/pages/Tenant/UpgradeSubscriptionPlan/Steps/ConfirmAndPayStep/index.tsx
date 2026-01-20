@@ -19,6 +19,11 @@ import {
   type CreateTenantSubscriptionPlanResponse,
 } from '@shared/hooks/tenant/useCreateTenantSubscriptionPlanApi';
 
+import {
+  usePreviewSubscriptionInvoiceApi,
+  type PreviewSubscriptionInvoiceResponse,
+} from '@shared/hooks/subscription/usePreviewSubscriptionInvoiceApi';
+
 import { QUERY_KEYS } from '../../constants';
 
 import { SubscriptionPlanCard } from './SubscriptionPlanCard';
@@ -63,6 +68,11 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ tenantId, onBack }) => {
     loading: createTenantSubscriptionPlanLoading,
   } = useCreateTenantSubscriptionPlanApi<CreateTenantSubscriptionPlanResponse>();
 
+  const {
+    previewSubscriptionInvoice,
+    data: previewSubscriptionInvoiceData,
+  } = usePreviewSubscriptionInvoiceApi<PreviewSubscriptionInvoiceResponse>();
+
   const handleConfirmUpgradePlan = () => {
     if (subscriptionPlanId && pricingOptionId) {
       createTenantSubscriptionPlan(tenantId, {
@@ -98,6 +108,16 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ tenantId, onBack }) => {
     }
   }, [subscriptionPlanId]);
 
+  useEffect(() => {
+    if (!tenantId || !pricingOptionId || !subscriptionPlanId) return;
+
+    previewSubscriptionInvoice({
+      subscription_plan_id: subscriptionPlanId,
+      pricing_option_id: pricingOptionId,
+      tenant_id: tenantId,
+    });
+  }, [tenantId, pricingOptionId, subscriptionPlanId]);
+
   if (!subscriptionPlanId || !subscriptionPlan) {
     return null;
   }
@@ -108,6 +128,7 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ tenantId, onBack }) => {
 
       {isConfirmed ? (
         <PaymentInformationSection
+          previewSubscriptionInvoiceResult={previewSubscriptionInvoiceData}
           onPaidSuccess={handleOnPaidSuccess}
           loading={createTenantSubscriptionPlanLoading}
         />
@@ -119,6 +140,7 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ tenantId, onBack }) => {
         >
           <ConfirmUpgradePlanSection
             subscriptionPlan={subscriptionPlan}
+            previewSubscriptionInvoiceResult={previewSubscriptionInvoiceData}
             onConfirmed={() => {
               setIsConfirmed(true);
               handleConfirmUpgradePlan();

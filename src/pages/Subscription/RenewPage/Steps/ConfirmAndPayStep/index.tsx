@@ -24,6 +24,11 @@ import {
   type RenewSubscriptionResponse,
 } from '@shared/hooks/subscription/useRenewSubscriptionApi';
 
+import {
+  usePreviewSubscriptionInvoiceApi,
+  type PreviewSubscriptionInvoiceResponse,
+} from '@shared/hooks/subscription/usePreviewSubscriptionInvoiceApi';
+
 import { QUERY_KEYS } from '../../constants';
 
 import { SubscriptionPlanCard } from './SubscriptionPlanCard';
@@ -66,10 +71,14 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ onBack }) => {
 
   const {
     renewSubscription,
-    data: renewSubscriptionData,
     error: renewSubscriptionError,
     loading: renewSubscriptionLoading,
   } = useRenewSubscriptionApi<RenewSubscriptionResponse>();
+
+  const {
+    previewSubscriptionInvoice,
+    data: previewSubscriptionInvoiceData,
+  } = usePreviewSubscriptionInvoiceApi<PreviewSubscriptionInvoiceResponse>();
 
   const handleConfirmRenewPlan = () => {
     if (!pricingOptionId || !currentTenantSubscription?.subscription.id) return;
@@ -80,14 +89,6 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ onBack }) => {
   const handleOnPaidSuccess = () => {
     navigate('/overview');
   };
-
-  useEffect(() => {
-    if (renewSubscriptionData) {
-      api.success({
-        message: t('subscription.messages.renewSubscriptionSuccess'),
-      });
-    }
-  }, [renewSubscriptionData]);
 
   useEffect(() => {
     if (renewSubscriptionError) {
@@ -101,9 +102,20 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ onBack }) => {
     if (subscriptionPlanId) {
       getSubscriptionPlan(subscriptionPlanId);
     }
+
     getCurrentTenantSubscription();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subscriptionPlanId]);
+
+  useEffect(() => {
+    const tenantId = currentTenantSubscription?.subscription.tenant_id;
+    if (!tenantId || !pricingOptionId || !subscriptionPlanId) return;
+
+    previewSubscriptionInvoice({
+      subscription_plan_id: subscriptionPlanId,
+      pricing_option_id: pricingOptionId,
+      tenant_id: tenantId,
+    });
+  }, [currentTenantSubscription?.subscription.tenant_id, pricingOptionId, subscriptionPlanId]);
 
   if (!subscriptionPlanId || !subscriptionPlan || !currentTenantSubscription) {
     return null;
@@ -115,6 +127,7 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ onBack }) => {
 
       {isConfirmed ? (
         <PaymentInformationSection
+          previewSubscriptionInvoiceResult={previewSubscriptionInvoiceData}
           onPaidSuccess={handleOnPaidSuccess}
           loading={renewSubscriptionLoading}
         />
@@ -126,6 +139,7 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ onBack }) => {
         >
           <ConfirmRenewPlanSection
             subscriptionPlan={subscriptionPlan}
+            previewSubscriptionInvoiceResult={previewSubscriptionInvoiceData}
             onConfirmed={() => {
               setIsConfirmed(true);
               handleConfirmRenewPlan();
