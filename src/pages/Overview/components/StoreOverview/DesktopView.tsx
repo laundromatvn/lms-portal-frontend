@@ -12,8 +12,6 @@ import { ChipFilter, type QuickFilterOption } from '@shared/components/ChipFilte
 import { StoreKeyMetrics } from './StoreKeyMetrics';
 import { TopOrderOverview } from './TopOrderOverview';
 import { MachineOverview } from './MachineOverview';
-import { NotificationOverview } from './NotificationOverview';
-import { MachineStatusOverview } from './MachineStatusOverview';
 
 interface Props {
   store: Store;
@@ -63,8 +61,6 @@ export const DesktopView: React.FC<Props> = ({
         />
       )}
 
-      <NotificationOverview />
-
       {can('order.list') && (
         <TopOrderOverview
           store={store}
@@ -74,8 +70,6 @@ export const DesktopView: React.FC<Props> = ({
       )}
 
       {can('machine.list') && <MachineOverview store={store} />}
-
-      {/* {can('machine.list') && <MachineStatusOverview store={store} filters={filters} />} */}
     </Flex>
   );
 };

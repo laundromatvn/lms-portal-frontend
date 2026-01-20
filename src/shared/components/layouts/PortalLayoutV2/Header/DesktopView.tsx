@@ -11,6 +11,7 @@ import { userStorage } from '@core/storage/userStorage';
 import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
 
 import { SubscriptionExpiryWarning } from './components/SubscriptionExpiryWarning';
+import { NotificationsButton } from './components/NotificationsButton';
 
 
 interface DesktopViewProps {
@@ -71,6 +72,8 @@ export const DesktopView: React.FC<DesktopViewProps> = ({ title, showLogo, onTit
 
       <Flex justify="end" align="center" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
         {user?.role !== UserRoleEnum.ADMIN && <SubscriptionExpiryWarning />}
+
+        <NotificationsButton />
       </Flex>
     </Flex>
   );

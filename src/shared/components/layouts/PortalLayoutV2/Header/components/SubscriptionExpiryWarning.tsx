@@ -8,6 +8,7 @@ import {
 } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
+import { useIsMobile } from '@shared/hooks/useIsMobile';
 
 import { tenantStorage } from '@core/storage/tenantStorage';
 
@@ -34,6 +35,8 @@ export const SubscriptionExpiryWarning: React.FC = () => {
   const theme = useTheme();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
+
   const tenantId = tenantStorage.load()?.id;
   const [cachedData, setCachedData] = useState<GetTenantSubscriptionExpiryStatusResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -94,6 +97,10 @@ export const SubscriptionExpiryWarning: React.FC = () => {
       onClick={() => navigate(`/tenants/${tenantId}/detail#subscription`)}
       style={{
         cursor: 'pointer',
+        fontSize: theme.custom.fontSize.xsmall,
+        maxWidth: isMobile ? 180 : 'none',
+        textOverflow: isMobile ? 'ellipsis' : 'none',
+        whiteSpace: isMobile ? 'wrap' : 'nowrap',
       }}
     >
       <Trans

@@ -13,8 +13,6 @@ import { ChipFilter, type QuickFilterOption } from '@shared/components/ChipFilte
 import { StoreKeyMetrics } from './StoreKeyMetrics';
 import { TopOrderOverview } from './TopOrderOverview';
 import { MachineOverview } from './MachineOverview';
-import { NotificationOverview } from './NotificationOverview';
-import { MachineStatusOverview } from './MachineStatusOverview';
 
 interface Props {
   store: Store;
@@ -47,10 +45,6 @@ export const MobileView: React.FC<Props> = ({
       permission: 'dashboard.overview.view',
     },
     {
-      label: t('overviewV2.notifications'),
-      value: 'notifications',
-    },
-    {
       label: t('overviewV2.order'),
       value: 'top_orders',
       permission: 'order.list',
@@ -60,11 +54,6 @@ export const MobileView: React.FC<Props> = ({
       value: 'machines',
       permission: 'machine.list',
     },
-    // {
-    //   label: t('overviewV2.machineStatus'),
-    //   value: 'machine_status',
-    //   permission: 'machine.list',
-    // },
   ];
 
   const filteredTabOptions = tabOptions.filter((option) => !option.permission || can(option.permission));
@@ -100,10 +89,6 @@ export const MobileView: React.FC<Props> = ({
         }}
       />
 
-      {selectedTab === 'notifications' && (
-        <NotificationOverview />
-      )}
-
       {selectedTab === 'key_metrics' && can('dashboard.overview.view') && (
         <StoreKeyMetrics store={store} filters={filters} datetimeFilters={datetimeFilters} />
       )}
@@ -115,10 +100,6 @@ export const MobileView: React.FC<Props> = ({
       {selectedTab === 'machines' && can('machine.list') && (
         <MachineOverview store={store} />
       )}
-
-      {/* {selectedTab === 'machine_status' && can('machine.list') && (
-        <MachineStatusOverview store={store} filters={filters} />
-      )} */}
     </Flex>
   );
 };

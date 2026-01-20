@@ -11,6 +11,7 @@ import { userStorage } from '@core/storage/userStorage';
 import { UserRoleEnum } from '@shared/enums/UserRoleEnum';
 
 import { SubscriptionExpiryWarning } from '../components/SubscriptionExpiryWarning';
+import { NotificationsButton } from '../components/NotificationsButton';
 
 interface HeaderProps {
   title?: string;
@@ -69,6 +70,8 @@ export const MainHeader: React.FC<HeaderProps> = ({ title, showLogo, onTitleClic
 
       <Flex justify="end" align="center" gap={theme.custom.spacing.small} style={{ width: '100%' }}>
         {user?.role !== UserRoleEnum.ADMIN && <SubscriptionExpiryWarning />}
+
+        <NotificationsButton />
       </Flex>
     </Flex>
   );
