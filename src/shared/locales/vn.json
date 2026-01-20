@@ -782,10 +782,10 @@
     },
     "statuses": {
       "PENDING": "Chờ xử lý",
-      "ACTIVE": "Đang sử dụng",
+      "ACTIVE": "Đang hoạt động",
       "CANCELLED": "Đã hủy",
-      "PAST_DUE": "Quá hạn",
-      "EXPIRED": "Hết hạn"
+      "PAST_DUE": "Đang quá hạn",
+      "EXPIRED": "Đã hết hạn"
     },
     "messages": {
       "addSubscriptionPlanSuccess": "Gói đăng ký đã được tạo thành công",

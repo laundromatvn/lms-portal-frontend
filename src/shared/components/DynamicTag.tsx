@@ -32,6 +32,7 @@ export const DynamicTag: React.FC<Props> = ({ value, type = 'text', color, style
       case 'waiting_for_purchase':
       case 'paused':
       case 'out_of_date':
+      case 'past_due':
         return theme.custom.colors.warning.default;
       case 'error':
         return theme.custom.colors.danger[800];
@@ -40,6 +41,7 @@ export const DynamicTag: React.FC<Props> = ({ value, type = 'text', color, style
       case 'cancelled':
       case 'out_of_service':
       case 'deprecated':
+      case 'expired':
         return theme.custom.colors.danger.default;
       case 'success':
       case 'payment_success':

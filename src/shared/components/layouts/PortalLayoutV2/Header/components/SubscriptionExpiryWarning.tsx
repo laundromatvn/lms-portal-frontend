@@ -94,7 +94,7 @@ export const SubscriptionExpiryWarning: React.FC = () => {
   return (
     <Tag
       color={displayData?.days_until_expiration > 0 ? 'warning' : 'error'}
-      onClick={() => navigate(`/tenants/${tenantId}/detail#subscription`)}
+      onClick={() => navigate(`/tenants/${tenantId}/renew-subscription`)}
       style={{
         cursor: 'pointer',
         fontSize: theme.custom.fontSize.xsmall,

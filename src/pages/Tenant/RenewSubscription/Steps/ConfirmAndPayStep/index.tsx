@@ -7,7 +7,7 @@ import { Flex, notification } from 'antd';
 import { useTheme } from '@shared/theme/useTheme';
 import { useIsMobile } from '@shared/hooks/useIsMobile';
 
-import { BaseDetailSection } from '@shared/components/BaseDetailSection';
+import { tenantStorage } from '@core/storage/tenantStorage';
 
 import {
   useGetSubscriptionPlanApi,
@@ -23,6 +23,13 @@ import {
   useRenewSubscriptionApi,
   type RenewSubscriptionResponse,
 } from '@shared/hooks/subscription/useRenewSubscriptionApi';
+
+import {
+  usePreviewSubscriptionInvoiceApi,
+  type PreviewSubscriptionInvoiceResponse,
+} from '@shared/hooks/subscription/usePreviewSubscriptionInvoiceApi';
+
+import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 
 import { QUERY_KEYS } from '../../constants';
 
@@ -40,6 +47,8 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ onBack }) => {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
 
+  const tenantId = tenantStorage.load()?.id;
+
   const [api, contextHolder] = notification.useNotification();
 
   const [searchParams] = useSearchParams();
@@ -53,6 +62,7 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ onBack }) => {
   );
 
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [previewSubscriptionInvoiceResult, setPreviewSubscriptionInvoiceResult] = useState<PreviewSubscriptionInvoiceResponse | null>(null);
 
   const {
     getSubscriptionPlan,
@@ -70,6 +80,12 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ onBack }) => {
     error: renewSubscriptionError,
     loading: renewSubscriptionLoading,
   } = useRenewSubscriptionApi<RenewSubscriptionResponse>();
+
+  const {
+    previewSubscriptionInvoice,
+    data: previewSubscriptionInvoiceData,
+    loading: previewSubscriptionInvoiceLoading,
+  } = usePreviewSubscriptionInvoiceApi<PreviewSubscriptionInvoiceResponse>();
 
   const handleConfirmRenewPlan = () => {
     if (!pricingOptionId || !currentTenantSubscription?.subscription.id) return;
@@ -108,6 +124,16 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ onBack }) => {
     getCurrentTenantSubscription();
   }, [subscriptionPlanId]);
 
+  useEffect(() => {
+    if (!tenantId || !pricingOptionId || !subscriptionPlanId) return;
+
+    previewSubscriptionInvoice({
+      subscription_plan_id: subscriptionPlanId,
+      pricing_option_id: pricingOptionId,
+      tenant_id: tenantId,
+    });
+  }, [tenantId, pricingOptionId, subscriptionPlanId]);
+
   if (!subscriptionPlanId || !subscriptionPlan || !currentTenantSubscription) {
     return null;
   }
@@ -118,6 +144,7 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ onBack }) => {
 
       {isConfirmed ? (
         <PaymentInformationSection
+          previewSubscriptionInvoiceResult={previewSubscriptionInvoiceData}
           onPaidSuccess={handleOnPaidSuccess}
           loading={renewSubscriptionLoading}
         />
@@ -129,6 +156,7 @@ export const ConfirmAndPayStep: React.FC<Props> = ({ onBack }) => {
         >
           <ConfirmRenewPlanSection
             subscriptionPlan={subscriptionPlan}
+            previewSubscriptionInvoiceResult={previewSubscriptionInvoiceData}
             onConfirmed={() => {
               setIsConfirmed(true);
               handleConfirmRenewPlan();

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Empty, Typography } from 'antd';
+import { Empty, Tag, Typography } from 'antd';
+
+import { useTheme } from '@shared/theme/useTheme';
 
 import {
   useGetTenantActiveSubscriptionPlanApi,
@@ -14,9 +16,11 @@ import { type Subscription } from '@shared/types/subscription/Subscription';
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DataWrapper } from '@shared/components/DataWrapper';
+import { DynamicTag } from '@shared/components/DynamicTag';
 
 import { formatDateTime } from '@shared/utils/date';
-import { DynamicTag } from '@shared/components/DynamicTag';
+
+import dayjs from 'dayjs';
 
 interface Props {
   tenant: Tenant;
@@ -24,6 +28,7 @@ interface Props {
 
 export const SubscriptionPlanSection: React.FC<Props> = ({ tenant }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [subscriptionPlan, setSubscriptionPlan] = useState<SubscriptionPlan | null>(null);
@@ -32,6 +37,90 @@ export const SubscriptionPlanSection: React.FC<Props> = ({ tenant }) => {
     getTenantActiveSubscriptionPlan,
     data: tenantActiveSubscriptionPlan,
   } = useGetTenantActiveSubscriptionPlanApi<GetTenantActiveSubscriptionPlanResponse>();
+
+  const renderEndDate = (subscription: Subscription) => {
+    if (!subscription.end_date) return (
+      <Typography.Text type="secondary">
+        {t('common.unknown')}
+      </Typography.Text>
+    )
+
+    const diffDays = dayjs(subscription.end_date).diff(dayjs(), 'day');
+    const color = () => {
+      if (diffDays < 0) return theme.custom.colors.danger.default;
+      if (diffDays <= 7) return theme.custom.colors.warning.default;
+
+      return theme.custom.colors.text.primary;
+    };
+
+    return (
+      <Typography.Text style={{ color: color() }}>
+        {formatDateTime(subscription.end_date)}
+      </Typography.Text>
+    )
+  };
+
+  const renderTrialEndDate = (subscription: Subscription) => {
+    if (!subscription.trial_end_date) return (
+      <Typography.Text type="secondary">
+        {t('common.unknown')}
+      </Typography.Text>
+    )
+
+    const diffDays = dayjs(subscription.trial_end_date).diff(dayjs(), 'day');
+    const color = () => {
+      if (diffDays < 0) return theme.custom.colors.text.primary;
+      if (diffDays <= 7) return theme.custom.colors.warning.default;
+
+      return theme.custom.colors.text.primary;
+    };
+
+    return (
+      <Typography.Text style={{ color: color() }}>
+        {formatDateTime(subscription.trial_end_date)}
+      </Typography.Text>
+    )
+  };
+
+  const renderNextRenewalDate = (subscription: Subscription) => {
+    if (!subscription.next_renewal_date) return (
+      <Typography.Text type="secondary">
+        {t('common.unknown')}
+      </Typography.Text>
+    )
+
+
+    const diffDays = dayjs(subscription.next_renewal_date).diff(dayjs(), 'day');
+    const color = () => {
+      if (diffDays < 0) return theme.custom.colors.danger.default;
+      if (diffDays <= 7) return theme.custom.colors.warning.default;
+
+      return theme.custom.colors.text.primary;
+    };
+
+    return (
+      <Typography.Text style={{ color: color() }}>
+        {formatDateTime(subscription.next_renewal_date)}
+      </Typography.Text>
+    )
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'PENDING':
+        return 'warning';
+      case 'ACTIVE':
+        return 'success';
+      case 'CANCELLED':
+        return 'danger';
+      case 'PAST_DUE':
+        return 'warning';
+      case 'EXPIRED':
+        return 'danger';
+      default:
+        return 'default';
+    }
+  };
 
   const handleGetTenantActiveSubscriptionPlan = () => {
     if (!tenant.id) return;
@@ -71,30 +160,29 @@ export const SubscriptionPlanSection: React.FC<Props> = ({ tenant }) => {
               {subscriptionPlan?.description}
             </Typography.Text>
           </DataWrapper>
-          
+
           <DataWrapper title={t('subscription.status')}>
-            <DynamicTag value={subscription?.status || ''} />
+            <Tag color={getStatusColor(subscription?.status || '')}>
+              {t(`subscription.statuses.${subscription?.status}`)}
+            </Tag>
           </DataWrapper>
-
-          <DataWrapper
-            title={t('subscription.trialEndDate')}
-            value={subscription?.trial_end_date ? formatDateTime(subscription.trial_end_date) : t('common.unknown')}
-          />
-
-          <DataWrapper
-            title={t('subscription.nextRenewalDate')}
-            value={subscription?.next_renewal_date ? formatDateTime(subscription.next_renewal_date) : t('common.unknown')}
-          />
 
           <DataWrapper
             title={t('subscription.startDate')}
             value={subscription?.start_date ? formatDateTime(subscription.start_date) : t('common.unknown')}
           />
 
-          <DataWrapper
-            title={t('subscription.endDate')}
-            value={subscription?.end_date ? formatDateTime(subscription.end_date) : t('common.unknown')}
-          />
+          <DataWrapper title={t('subscription.trialEndDate')}>
+            {subscription && renderTrialEndDate(subscription)}
+          </DataWrapper>
+
+          <DataWrapper title={t('subscription.endDate')}>
+            {subscription && renderEndDate(subscription)}
+          </DataWrapper>
+
+          <DataWrapper title={t('subscription.nextRenewalDate')}>
+            {subscription && renderNextRenewalDate(subscription)}
+          </DataWrapper>
         </>
       )}
     </BaseDetailSection>

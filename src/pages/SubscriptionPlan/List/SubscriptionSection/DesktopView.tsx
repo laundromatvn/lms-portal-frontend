@@ -8,6 +8,7 @@ import {
   Button,
   Flex,
   Input,
+  Tag,
   Typography,
   notification,
 } from 'antd';
@@ -36,6 +37,7 @@ import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 
 import { formatDateTime } from '@shared/utils/date';
 import { DynamicTag } from '@shared/components/DynamicTag';
+import dayjs from 'dayjs';
 
 export const DesktopView: React.FC = () => {
   const { t } = useTranslation();
@@ -102,21 +104,69 @@ export const DesktopView: React.FC = () => {
       dataIndex: 'end_date',
       key: 'end_date',
       width: 48,
-      render: (_: string, record: any) => record.end_date ? formatDateTime(record.end_date, 'date') : t('common.unknown'),
+      render: (_: string, record: any) => {
+        if (!record.end_date) return t('common.unknown');
+
+        const diffDays = dayjs(record.end_date).diff(dayjs(), 'day');
+        const color = () => {
+          if (diffDays < 0) return theme.custom.colors.danger.default;
+          if (diffDays <= 7) return theme.custom.colors.warning.default;
+
+          return theme.custom.colors.text.primary;
+        };
+
+        return (
+          <Typography.Text style={{ color: color(), whiteSpace: 'nowrap' }}>
+            {formatDateTime(record.end_date, 'date')}
+          </Typography.Text>
+        );
+      },
     },
     {
       title: t('subscription.trialEndDate'),
       dataIndex: 'trial_end_date',
       key: 'trial_end_date',
       width: 48,
-      render: (_: string, record: any) => record.trial_end_date ? formatDateTime(record.trial_end_date, 'date') : t('common.unknown'),
+      render: (_: string, record: any) => {
+        if (!record.trial_end_date) return t('common.unknown');
+
+        const diffDays = dayjs(record.trial_end_date).diff(dayjs(), 'day');
+        const color = () => {
+          if (diffDays < 0) return theme.custom.colors.text.primary;
+          if (diffDays <= 7) return theme.custom.colors.warning.default;
+
+          return theme.custom.colors.text.primary;
+        };
+
+        return (
+          <Typography.Text style={{ color: color(), whiteSpace: 'nowrap' }}>
+            {formatDateTime(record.trial_end_date, 'date')}
+          </Typography.Text>
+        );
+      },
     },
     {
       title: t('subscription.nextRenewalDate'),
       dataIndex: 'next_renewal_date',
       key: 'next_renewal_date',
       width: 48,
-      render: (_: string, record: any) => record.next_renewal_date ? formatDateTime(record.next_renewal_date, 'date') : t('common.unknown'),
+      render: (_: string, record: any) => {
+        if (!record.next_renewal_date) return t('common.unknown');
+
+        const diffDays = dayjs(record.next_renewal_date).diff(dayjs(), 'day');
+        const color = () => {
+          if (diffDays < 0) return theme.custom.colors.danger.default;
+          if (diffDays <= 7) return theme.custom.colors.warning.default;
+
+          return theme.custom.colors.text.primary;
+        };
+
+        return (
+          <Typography.Text style={{ color: color(), whiteSpace: 'nowrap' }}>
+            {formatDateTime(record.next_renewal_date, 'date')}
+          </Typography.Text>
+        );
+      },
     },
     {
       title: t('common.actions'),

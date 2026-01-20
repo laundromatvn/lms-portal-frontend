@@ -7,7 +7,6 @@ import { type CurrentTenantSubscription } from '@shared/types/user/CurrentTenant
 
 import { BaseDetailSection } from '@shared/components/BaseDetailSection';
 import { DataWrapper } from '@shared/components/DataWrapper';
-import { DynamicTag } from '@shared/components/DynamicTag';
 
 import { formatDateTime } from '@shared/utils/date';
 
