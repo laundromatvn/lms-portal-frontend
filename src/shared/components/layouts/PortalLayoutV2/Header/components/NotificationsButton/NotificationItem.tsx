@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 
-import { Typography } from 'antd';
+import { Flex, Typography } from 'antd';
 
 import { useTheme } from '@shared/theme/useTheme';
 import { useIsMobile } from '@shared/hooks/useIsMobile';
@@ -8,6 +8,8 @@ import { useIsMobile } from '@shared/hooks/useIsMobile';
 import { type Notification } from '@shared/types/Notification';
 
 import { Box } from '@shared/components/Box';
+import { formatDateTime } from '@shared/utils/date';
+import { DynamicTag } from '@shared/components/DynamicTag';
 
 interface Props {
   notification: Notification;
@@ -49,7 +51,10 @@ export const NotificationItem: React.FC<Props> = ({ notification, style, onMarkN
         }
       }}
     >
-      <Typography.Text>{notification.title}</Typography.Text>
+      <Flex justify="space-between" align="center" style={{ width: '100%' }}>
+        <Typography.Text>{notification.title}</Typography.Text>
+        <DynamicTag value={notification.type} type="text" />
+      </Flex>
 
       <Typography.Paragraph
         type="secondary"
