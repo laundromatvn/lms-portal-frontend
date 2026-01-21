@@ -277,7 +277,8 @@
     "permissions": "Quyền",
     "isDefault": "Là mặc định",
     "intervalCount": "Số khoảng",
-    "interval": "Khoảng"
+    "interval": "Khoảng",
+    "select": "Chọn"
   },
   "navigation": {
     "overview": "Tổng quan",
@@ -625,12 +626,15 @@
     "tenantList": "Danh sách Tenant",
     "deleteTenantConfirm": "Bạn có chắc chắn muốn xóa tenant này không?",
     "newTenant": "Thêm Tenant",
+    "selectSubscriptionPlan": "Chọn Gói đăng ký",
+    "selectPricingOption": "Chọn Cấu hình giá",
     "ownerAccount": "Tài khoản chủ Tenant",
     "tenantInformation": "Thông tin Tenant",
     "tenantMembers": "Thành viên",
     "newUser": "Tạo mới",
     "existingUser": "Chọn có sẵn",
     "selectExistingUser": "Chọn người dùng có sẵn",
+    "trialPeriodDays": "Thời gian dùng thử: <strong>{{trialPeriodDays}}</strong> (ngày)",
     "detail": {
       "information": "Thông tin",
       "members": "Thành viên",

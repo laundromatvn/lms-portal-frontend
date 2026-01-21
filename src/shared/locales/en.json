@@ -277,7 +277,8 @@
     "permissions": "Permissions",
     "isDefault": "Is Default",
     "intervalCount": "Interval Count",
-    "interval": "Interval"
+    "interval": "Interval",
+    "select": "Select"
   },
   "navigation": {
     "overview": "Overview",
@@ -635,12 +636,15 @@
     "tenantList": "Tenant List",
     "deleteTenantConfirm": "Are you sure you want to delete this tenant?",
     "newTenant": "New Tenant",
+    "selectSubscriptionPlan": "Select Subscription Plan",
+    "selectPricingOption": "Select Pricing Option",
     "ownerAccount": "Owner Account",
     "tenantInformation": "Tenant Information",
     "tenantMembers": "Tenant Members",
     "newUser": "New",
     "existingUser": "Select existing",
     "selectExistingUser": "Select existing user",
+    "trialPeriodDays": "Trial Period: <strong>{{trialPeriodDays}}</strong> (days)",
     "detail": {
       "information": "Information",
       "members": "Members",

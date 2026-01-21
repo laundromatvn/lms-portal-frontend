@@ -45,7 +45,7 @@ export const BaseEditSection: React.FC<Props> = ({
             onClick={onSave}
             icon={type === 'text' ? undefined : <CheckCircle size={18} />}
           >
-            {type === 'text' ? t('common.save') : undefined}
+            {type === 'text' ? saveButtonText || t('common.save') : undefined}
           </Button>
         ) : null}
       </Flex>

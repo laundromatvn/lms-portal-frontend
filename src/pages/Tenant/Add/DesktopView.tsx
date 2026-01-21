@@ -20,6 +20,7 @@ import { PortalLayoutV2 } from '@shared/components/layouts/PortalLayoutV2';
 import { AddTenantOwnerInformation } from './components/AddTenantOwnerInformation';
 import { AddTenantInformation } from './components/AddTenantInformation';
 import { AddTenantMember } from './components/AddTenantMember';
+import { SelectSubscriptionPlan } from './components/SelectSubscriptionPlan';
 
 export const DesktopView: React.FC = () => {
   const { t } = useTranslation();
@@ -36,6 +37,9 @@ export const DesktopView: React.FC = () => {
     },
     {
       title: t('tenant.tenantInformation'),
+    },
+    {
+      title: t('tenant.selectSubscriptionPlan'),
     },
     {
       title: t('tenant.finish'),
@@ -78,6 +82,7 @@ export const DesktopView: React.FC = () => {
             setCurrentStep(1);
           }} />
         )}
+
         {currentStep === 1 && newTenantOwner && (
           <AddTenantInformation
             newTenantOwner={newTenantOwner}
@@ -88,7 +93,14 @@ export const DesktopView: React.FC = () => {
           />
         )}
 
-        {currentStep === 2 && newTenantOwner && newTenant && (
+        {currentStep === 2 && newTenant && (
+          <SelectSubscriptionPlan
+            tenant={newTenant}
+            onSave={() => setCurrentStep(3)}
+          />
+        )}
+
+        {currentStep === 3 && newTenantOwner && newTenant && (
           <AddTenantMember
             newTenantMemberId={newTenantOwner.id}
             newTenantId={newTenant.id}
